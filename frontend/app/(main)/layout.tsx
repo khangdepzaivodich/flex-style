@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 import { CartProvider } from "@/contexts/cart-context";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { LiveChat } from "@/components/customer-support/live-chat";
+import { Analytics } from "@vercel/analytics/next";
 
 export default async function layout({
   children,
@@ -18,7 +20,8 @@ export default async function layout({
       <LanguageProvider initialLanguage={language as "vi" | "en"}>
         <CartProvider>
           <Header />
-          {children} <Footer />
+          {children} <Footer /> <Analytics />
+          <LiveChat />
         </CartProvider>
       </LanguageProvider>
     </>

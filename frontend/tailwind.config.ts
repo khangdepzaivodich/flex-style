@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { DEFAULT_CIPHERS } from "tls";
 
 export default {
   darkMode: ["class"],
@@ -13,6 +14,17 @@ export default {
       colors: {
         background: "rgb(var(--background) / <alpha-value>)",
         foreground: "var(--foreground)",
+        sidebar: {
+          DEFAULT: "var(--sidebar)",
+          accent: {
+            DEFAULT: "var(--sidebar-accent)",
+            foreground: "var(--sidebar-accent-foreground)",
+          },
+          primary: {
+            DEFAULT: "var(--sidebar-primary)",
+            foreground: "var(--sidebar-primary-foreground)",
+          },
+        },
         card: {
           DEFAULT: "var(--card)",
           foreground: "var(--card-foreground)",
