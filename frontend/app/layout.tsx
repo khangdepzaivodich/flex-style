@@ -1,8 +1,6 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/next";
 import { AuthProvider } from "@/contexts/auth-context";
-import { LiveChat } from "@/components/customer-support/live-chat";
 import { Suspense } from "react";
 import "./globals.css";
 
@@ -26,8 +24,6 @@ export default async function RootLayout({
             <main className="min-h-screen">{children}</main>
           </Suspense>
         </AuthProvider>
-        <Analytics />
-        <LiveChat />
       </body>
     </html>
   );

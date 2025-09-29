@@ -9,8 +9,8 @@ export function LogoutButton() {
   const { logout } = useAuth();
 
   const logOut = async () => {
-    await logout();
     router.push("/auth/login");
+    await logout();
   };
 
   return <Button onClick={logOut}>Logout</Button>;
