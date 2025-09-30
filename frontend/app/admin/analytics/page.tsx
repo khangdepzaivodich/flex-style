@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +11,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
 import {
   XAxis,
   YAxis,
@@ -31,6 +44,7 @@ import {
   ShoppingCart,
   DollarSign,
   Eye,
+  FileText,
 } from "lucide-react";
 
 const monthlyData = [
@@ -65,6 +79,9 @@ const trafficSources = [
 ];
 
 export default function AnalyticsPage() {
+  const [selectedPeriod, setSelectedPeriod] = useState("30days");
+  const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -76,27 +93,110 @@ export default function AnalyticsPage() {
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Select defaultValue="30days">
+          <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
             <SelectTrigger className="w-40">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white">
               <SelectItem value="7days">7 ngày qua</SelectItem>
               <SelectItem value="30days">30 ngày qua</SelectItem>
               <SelectItem value="90days">90 ngày qua</SelectItem>
               <SelectItem value="1year">1 năm qua</SelectItem>
             </SelectContent>
           </Select>
-          <Button>
-            <Download className="h-4 w-4 mr-2" />
-            Xuất báo cáo
-          </Button>
+          <Dialog
+            open={isExportDialogOpen}
+            onOpenChange={setIsExportDialogOpen}
+          >
+            <DialogTrigger asChild>
+              <Button>
+                <Download className="h-4 w-4 mr-2" />
+                Xuất báo cáo
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[500px]">
+              <DialogHeader>
+                <DialogTitle>Export Analytics Report</DialogTitle>
+                <DialogDescription>
+                  Choose the data and format for your analytics report
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="space-y-2">
+                  <Label>Report Type</Label>
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="revenue" defaultChecked />
+                      <Label htmlFor="revenue">Revenue Analytics</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="orders" defaultChecked />
+                      <Label htmlFor="orders">Order Statistics</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="customers" />
+                      <Label htmlFor="customers">Customer Analytics</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="products" />
+                      <Label htmlFor="products">Product Performance</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="traffic" />
+                      <Label htmlFor="traffic">Traffic Sources</Label>
+                    </div>
+                  </div>
+                </div>
+                <Separator />
+                <div className="space-y-2">
+                  <Label htmlFor="format">Export Format</Label>
+                  <Select defaultValue="pdf">
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white">
+                      <SelectItem value="pdf">PDF Report</SelectItem>
+                      <SelectItem value="excel">Excel Spreadsheet</SelectItem>
+                      <SelectItem value="csv">CSV Data</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="period">Time Period</Label>
+                  <Select defaultValue={selectedPeriod}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white">
+                      <SelectItem value="7days">Last 7 Days</SelectItem>
+                      <SelectItem value="30days">Last 30 Days</SelectItem>
+                      <SelectItem value="90days">Last 90 Days</SelectItem>
+                      <SelectItem value="1year">Last Year</SelectItem>
+                      <SelectItem value="custom">Custom Range</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsExportDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button onClick={() => setIsExportDialogOpen(false)}>
+                  <FileText className="mr-2 h-4 w-4" />
+                  Generate Report
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Tổng doanh thu
@@ -112,7 +212,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Tổng đơn hàng</CardTitle>
             <ShoppingCart className="h-4 w-4 text-muted-foreground" />
@@ -126,7 +226,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Khách hàng mới
@@ -142,7 +242,7 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Tỷ lệ chuyển đổi
@@ -180,8 +280,8 @@ export default function AnalyticsPage() {
                 <Area
                   type="monotone"
                   dataKey="revenue"
-                  stroke="hsl(var(--primary))"
-                  fill="hsl(var(--primary))"
+                  stroke="var(--primary)"
+                  fill="var(--primary)"
                   fillOpacity={0.3}
                 />
               </AreaChart>
@@ -202,7 +302,7 @@ export default function AnalyticsPage() {
                   cy="50%"
                   labelLine={false}
                   label={({ name, percent }) =>
-                    `${name} ${(percent * 100).toFixed(0)}%`
+                    `${name} ${((percent as number) * 100).toFixed(0)}%`
                   }
                   outerRadius={80}
                   fill="#8884d8"
@@ -230,7 +330,7 @@ export default function AnalyticsPage() {
               {categoryPerformance.map((category, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 bg-muted rounded-lg"
+                  className="flex items-center justify-between p-3 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
                 >
                   <div>
                     <p className="font-medium">{category.category}</p>
@@ -259,7 +359,7 @@ export default function AnalyticsPage() {
               {topProducts.map((product, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 bg-muted rounded-lg"
+                  className="flex items-center justify-between p-3 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
                 >
                   <div>
                     <p className="font-medium">{product.name}</p>
@@ -296,7 +396,7 @@ export default function AnalyticsPage() {
                 yAxisId="left"
                 type="monotone"
                 dataKey="orders"
-                stroke="hsl(var(--chart-1))"
+                stroke="var(--chart-1)"
                 strokeWidth={2}
                 name="Đơn hàng"
               />
@@ -304,7 +404,7 @@ export default function AnalyticsPage() {
                 yAxisId="right"
                 type="monotone"
                 dataKey="customers"
-                stroke="hsl(var(--chart-2))"
+                stroke="var(--chart-2)"
                 strokeWidth={2}
                 name="Khách hàng mới"
               />

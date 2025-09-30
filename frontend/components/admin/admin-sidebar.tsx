@@ -101,7 +101,7 @@ export function AdminSidebar() {
         </Button>
       </div>
 
-      <nav className="p-4 space-y-2">
+      <nav className="p-2 space-y-2">
         {sidebarItems.map((item) => {
           const isActive = pathname === item.href;
           return (
