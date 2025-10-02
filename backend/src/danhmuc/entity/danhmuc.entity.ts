@@ -6,7 +6,7 @@ export enum LoaiDanhMuc {
   PHUKIEN = 'Phụ kiện'
 }
 @Entity('danhmuc')
-export class Danhmuc {
+export class DanhMucEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
