@@ -13,8 +13,9 @@ model CHITIETGIOHANG {
   SoLuong        Int            @default(0)
   MaGH           String
   MaCTSP         String
-  CHITIETSANPHAM CHITIETSANPHAM @relation(fields: [MaCTSP], references: [MaCTSP])
+
   GIOHANG        GIOHANG        @relation(fields: [MaGH], references: [MaGH])
+  CHITIETSANPHAM CHITIETSANPHAM @relation(fields: [MaCTSP], references: [MaCTSP])
 }
 
 model CHITIETSANPHAM {
@@ -27,10 +28,11 @@ model CHITIETSANPHAM {
   MaSP           String
   SoLuong        Int              @default(0)
   TrangThai      TrangThai        @default(ACTIVE)
-  CHITIETGIOHANG CHITIETGIOHANG[]
+
   SANPHAM        SANPHAM          @relation(fields: [MaSP], references: [MaSP])
+  CHITIETGIOHANG CHITIETGIOHANG[]
   DONHANG        DONHANG[]
-  NHAPHANG       NHAPHANG[]
+  PHIEUNHAPHANG  PHIEUNHAPHANG[]
 }
 
 model DANHMUC {
@@ -39,8 +41,7 @@ model DANHMUC {
   updated_at  DateTime    @default(now())
   TenDM       String
   TrangThai   TrangThai   @default(ACTIVE)
-  MaLoai      String
-  LOAIDANHMUC LoaiDanhMuc
+  Loai        LoaiDanhMuc @map("LoaiDanhMuc") 
   SANPHAM     SANPHAM[]
 }
 
@@ -52,9 +53,9 @@ model DONHANG {
   MaVoucher        String?
   MaCTSP           String
   MaSK             String?
-  MaKH             String
+  MaTK_KH          String?             
   CHITIETSANPHAM   CHITIETSANPHAM     @relation(fields: [MaCTSP], references: [MaCTSP])
-  KHACHHANG        KHACHHANG          @relation(fields: [MaKH], references: [MaKH])
+  KHACHHANG_ACCOUNT TAIKHOAN?         @relation("DonHang_KhachAccount", fields: [MaTK_KH], references: [MaTK])
   SUKIENUUDAI      SUKIENUUDAI?       @relation(fields: [MaSK], references: [MaSK])
   VOUCHER          VOUCHER?           @relation(fields: [MaVoucher], references: [MaVoucher])
   TINHTRANGDONHANG TINHTRANGDONHANG[]
@@ -63,23 +64,20 @@ model DONHANG {
 model GIOHANG {
   MaGH           String           @id @default(uuid())
   created_at     DateTime         @default(now())
-  MaKH           String
+  MaTKKH         String?          
+  
+  TAIKHOAN      TAIKHOAN?       @relation(fields: [MaTKKH], references: [MaTK])
   CHITIETGIOHANG CHITIETGIOHANG[]
-  KHACHHANG      KHACHHANG        @relation(fields: [MaKH], references: [MaKH])
 }
 
 model KHACHHANG {
-  MaKH              String              @id @default(uuid())
+  MaKH              String        @id @default(uuid())
   TenKH             String
   SoDienThoai       String
   Email             String?
   DiaChi            String?
-  MaTK              String?
-  DONHANG           DONHANG[]
-  GIOHANG           GIOHANG[]
-  TAIKHOAN          TAIKHOAN?           @relation(fields: [MaTK], references: [MaTK])
-  PHANHOI           PHANHOI[]
-  VOUCHER_KHACHHANG VOUCHER_KHACHHANG[]
+  MaTK              String?   @unique          
+  TAIKHOAN          TAIKHOAN? @relation("KhachHang_TaiKhoan", fields: [MaTK], references: [MaTK])
 }
 
 model NHACUNGCAP {
@@ -89,47 +87,34 @@ model NHACUNGCAP {
   DienThoai  String?
   DiaChi     String?
   TenNCC     String
-  NHAPHANG   NHAPHANG[]
+  PHIEUNHAPHANG PHIEUNHAPHANG[] 
 }
 
 model NHANVIEN {
   MaNV        String    @id @default(uuid())
+  MaNVQL      String?          
   TenNV       String
   SoDienThoai String?
   Email       String?
   CCCD        String?
   MaTK        String?
   TAIKHOAN    TAIKHOAN? @relation(fields: [MaTK], references: [MaTK])
-}
-
-model NHAPHANG {
-  MaNH           String         @id @default(uuid())
-  created_at     DateTime       @default(now())
-  NgayNhap       DateTime       @default(now())
-  SoLuong        Int
-  MaCTSP         String
-  MaNCC          String
-  CHITIETSANPHAM CHITIETSANPHAM @relation(fields: [MaCTSP], references: [MaCTSP])
-  NHACUNGCAP     NHACUNGCAP     @relation(fields: [MaNCC], references: [MaNCC])
+  QuanLy      NHANVIEN?  @relation("QuanLy", fields: [MaNVQL], references: [MaNV])
+  NhanVienQL  NHANVIEN[] @relation("QuanLy")
 }
 
 model PHANHOI {
   MaPH           String    @id @default(uuid())
   created_at     DateTime  @default(now())
-  MaKH           String
+  MaTKKH         String
   MaSP           String
   DanhGia        String
   ChiTietDanhGia String?
-  KHACHHANG      KHACHHANG @relation(fields: [MaKH], references: [MaKH])
+
+  TAIKHOAN       TAIKHOAN  @relation(fields: [MaTKKH], references: [MaTK])
   SANPHAM        SANPHAM   @relation(fields: [MaSP], references: [MaSP])
 }
 
-model QUYENHAN {
-  MaQH            String            @id @default(uuid())
-  created_at      DateTime          @default(now())
-  TenQH           String?
-  VAITRO_QUYENHAN VAITRO_QUYENHAN[]
-}
 
 model SANPHAM {
   MaSP           String           @id @default(uuid())
@@ -141,9 +126,10 @@ model SANPHAM {
   GiaMua         Int
   TrangThai      TrangThai        @default(ACTIVE)
   MaDM           String
+
+  DANHMUC        DANHMUC          @relation(fields: [MaDM], references: [MaDM])
   CHITIETSANPHAM CHITIETSANPHAM[]
   PHANHOI        PHANHOI[]
-  DANHMUC        DANHMUC          @relation(fields: [MaDM], references: [MaDM])
 }
 
 model SUKIENUUDAI {
@@ -161,14 +147,20 @@ model TAIKHOAN {
   MaTK       String      @id @default(uuid())
   created_at DateTime    @default(now())
   updated_at DateTime    @default(now())
-  Username   String?
+  Username   String?     @unique
   MatKhau    String?
   Status     Boolean     @default(true)
   Avatar     String?
-  MaVT       String
-  KHACHHANG  KHACHHANG[]
   NHANVIEN   NHANVIEN[]
-  VAITRO     VAITRO      @relation(fields: [MaVT], references: [MaVT])
+  GIOHANG    GIOHANG[]
+  PHANHOI    PHANHOI[]
+  DONHANG    DONHANG[]    @relation("DonHang_KhachAccount")
+  KHACHHANG  KHACHHANG? @relation("KhachHang_TaiKhoan")
+  VOUCHER_KHACHHANG VOUCHER_KHACHHANG[]
+  PhieuNhapNVQL PHIEUNHAPHANG[] @relation("PhieuNhap_NVQL")
+  PhieuNhapNVXN PHIEUNHAPHANG[] @relation("PhieuNhap_NVXN")
+  VAITRO     VaiTro
+  
 }
 
 model TINHTRANGDONHANG {
@@ -179,32 +171,16 @@ model TINHTRANGDONHANG {
   DONHANG    DONHANG?         @relation(fields: [MaDH], references: [MaDH])
 }
 
-model VAITRO {
-  MaVT            String            @id @default(uuid())
-  created_at      DateTime          @default(now())
-  TenVT           String?
-  TAIKHOAN        TAIKHOAN[]
-  VAITRO_QUYENHAN VAITRO_QUYENHAN[]
-}
-
-model VAITRO_QUYENHAN {
-  MaVTQH     String   @id @default(uuid())
-  created_at DateTime @default(now())
-  MaVT       String
-  MaQH       String
-  QUYENHAN   QUYENHAN @relation(fields: [MaQH], references: [MaQH])
-  VAITRO     VAITRO   @relation(fields: [MaVT], references: [MaVT])
-}
-
 model VOUCHER {
   MaVoucher         String              @id @default(uuid())
   created_at        DateTime            @default(now())
   TenVoucher        String
   SoTien            Int                 @default(0)
   FreeShip          Boolean             @default(false)
-  NgayBatDau        String
-  NgayKetThuc       String
-  DIeuKien          Int                 @default(0)
+  NgayBatDau        DateTime
+  NgayKetThuc       DateTime
+  Dieukien          Int                 @default(0)
+
   DONHANG           DONHANG[]
   VOUCHER_KHACHHANG VOUCHER_KHACHHANG[]
 }
@@ -212,11 +188,29 @@ model VOUCHER {
 model VOUCHER_KHACHHANG {
   MaVCKH     String    @id @default(uuid())
   created_at DateTime  @default(now())
-  MaKH       String
+  MaTKKH       String
   MaVoucher  String
-  KHACHHANG  KHACHHANG @relation(fields: [MaKH], references: [MaKH])
+
+  TAIKHOAN  TAIKHOAN @relation(fields: [MaTKKH], references: [MaTK])
   VOUCHER    VOUCHER   @relation(fields: [MaVoucher], references: [MaVoucher])
 }
+
+model PHIEUNHAPHANG {
+  MaPNNH     String    @id @default(uuid())
+  timestamp  DateTime  @default(now())
+  SoLuong    Int
+  MaCTSP     String
+  MaNCC      String
+  TrangThai  TrangThaiPhieuNhapHang
+  MaTKNVQL   String?
+  MaTKNVXN   String?
+
+  CHITIETSANPHAM CHITIETSANPHAM? @relation(fields: [MaCTSP], references: [MaCTSP])
+  NHACUNGCAP     NHACUNGCAP?     @relation(fields: [MaNCC], references: [MaNCC])
+  TaiKhoanNVQL   TAIKHOAN?       @relation("PhieuNhap_NVQL", fields: [MaTKNVQL], references: [MaTK])
+  TaiKhoanNVXN   TAIKHOAN?       @relation("PhieuNhap_NVXN", fields: [MaTKNVXN], references: [MaTK])
+}
+
 
 enum KichCo {
   S
@@ -263,3 +257,115 @@ enum LoaiDanhMuc {
   NU
   PHU_KIEN
 }
+
+enum TrangThaiPhieuNhapHang {
+  DANG_CHO
+  NCC_XACNHAN
+  LOGISTIC_XACNHAN
+  TU_CHOI
+}
+
+enum VaiTro {
+  KH
+  NCC
+  QLDN
+  QLLOGISTIC
+  NVVH
+}
+
+
+// VIEW: vw_chi_tiet_san_pham
+model VWChiTietSanPham {
+  MaCTSP            String @id
+  MaSP              String
+  TenSP             String
+  GiaBan            Int
+  KichCo            String
+  MauSac            String
+  SoLuong           Int
+  TonKho            Int?   @map("ton_kho")
+  TongTienBan       Int?   @map("tong_tien_ban")
+  NgayNhapMoiNhat   DateTime? @map("ngay_nhap_moi_nhat")
+  MaDM              String
+  TenDM             String
+
+  @@map("vw_chi_tiet_san_pham")
+}
+
+// VIEW: vw_chi_tiet_don_hang
+model VWChiTietDonHang {
+  id               String   @id @default(uuid()) // tạo id giả định
+  MaDH             String
+  MaCTSP           String
+  CreatedAt        DateTime @map("created_at")
+  MaSP             String
+  TenSP            String
+  SoLuong          Int
+  TongTienDon      Int?      @map("tong_tien_don")
+  MaVoucher        String?
+  TenVoucher       String?
+  SoTienVoucher    Int?
+  MaSK             String?
+  TenSK            String?
+  PhanTramGiam     Int?
+  MaDM             String
+  TenDM            String
+  TrangThai        String?
+
+  @@map("vw_chi_tiet_don_hang")
+}
+
+// VIEW: vw_nhap_hang_chi_tiet
+model VWNhapHangChiTiet {
+  id           String   @id @default(uuid()) // tạo id giả định
+  MaPNNH       String
+  MaCTSP       String
+  CreatedAt    DateTime @map("created_at")
+  SoLuong      Int
+  MaNCC        String
+  TenNCC       String
+  MaSP         String
+  TenSP        String
+  TongDaNhap   Int? @map("tong_da_nhap")
+
+  @@map("vw_nhap_hang_chi_tiet")
+}
+
+// VIEW: vw_khach_hang_tai_khoan
+model VWKhachHangTaiKhoan {
+  id              String   @id @default(uuid()) // tạo id giả định
+  MaKH            String
+  MaDH            String?
+  MaCTSP          String?
+  TenKH           String
+  SoDienThoai     String
+  Email           String?
+  DiaChi          String?
+  MaTK            String?
+  Username        String?
+  Avatar          String?
+  Status          Boolean?
+  MaGH            String?
+  TongSoLuongGio  Int? @map("tong_so_luong_gio")
+  CreatedAtDon    DateTime? @map("created_at")
+  MaSP            String?
+  TenSPDon        String? @map("TenSP")
+  SoLuongDon      Int? @map("SoLuong")
+  TongTienDon     Int? @map("tong_tien_don")
+  TrangThai       String?
+  MaVoucher       String?
+  TenVoucher      String?
+
+  @@map("vw_khach_hang_tai_khoan")
+}
+
+// VIEW: vw_nhan_vien_tai_khoan
+model VWNhanVienTaiKhoan {
+  MaNV      String @id
+  TenNV     String
+  Username  String?
+  VaiTro    VaiTro
+
+  @@map("vw_nhan_vien_tai_khoan")
+}
+
