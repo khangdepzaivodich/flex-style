@@ -27,7 +27,7 @@ model CHITIETSANPHAM {
   HinhAnh        String?
   MaSP           String
   SoLuong        Int              @default(0)
-  TrangThai      TrangThai        @default(ACTIVE)
+  TrangThaiSP      TrangThaiSP    @default(CON_HANG)
 
   SANPHAM        SANPHAM          @relation(fields: [MaSP], references: [MaSP])
   CHITIETGIOHANG CHITIETGIOHANG[]
@@ -124,7 +124,7 @@ model SANPHAM {
   TenSP          String
   GiaBan         Int
   GiaMua         Int
-  TrangThai      TrangThai        @default(ACTIVE)
+  TrangThaiSP      TrangThaiSP        @default(CON_HANG)
   MaDM           String
 
   DANHMUC        DANHMUC          @relation(fields: [MaDM], references: [MaDM])
@@ -290,6 +290,7 @@ model VWChiTietSanPham {
   TenDM             String
 
   @@map("vw_chi_tiet_san_pham")
+  @@ignore
 }
 
 // VIEW: vw_chi_tiet_don_hang
@@ -313,6 +314,7 @@ model VWChiTietDonHang {
   TrangThai        String?
 
   @@map("vw_chi_tiet_don_hang")
+  @@ignore
 }
 
 // VIEW: vw_nhap_hang_chi_tiet
@@ -329,6 +331,7 @@ model VWNhapHangChiTiet {
   TongDaNhap   Int? @map("tong_da_nhap")
 
   @@map("vw_nhap_hang_chi_tiet")
+  @@ignore
 }
 
 // VIEW: vw_khach_hang_tai_khoan
@@ -357,6 +360,7 @@ model VWKhachHangTaiKhoan {
   TenVoucher      String?
 
   @@map("vw_khach_hang_tai_khoan")
+  @@ignore
 }
 
 // VIEW: vw_nhan_vien_tai_khoan
@@ -367,5 +371,6 @@ model VWNhanVienTaiKhoan {
   VaiTro    VaiTro
 
   @@map("vw_nhan_vien_tai_khoan")
+  @@ignore
 }
 
