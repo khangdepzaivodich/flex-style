@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 // import cookieParser from 'cookie-parser';
 import { ResponseInterceptor } from './core/response.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 // import { SupabaseAuthGuard } from './auth/supabase-auth.guard';
 
 async function bootstrap() {
@@ -23,6 +24,17 @@ async function bootstrap() {
     preflightContinue: false,
     credentials: true,
   });
+
+  // Cấu hình Swagger
+  const config = new DocumentBuilder()
+    .setTitle('Flex Style API')
+    .setDescription('API documentation for Flex Style e-commerce platform')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
+
   await app.listen(configService.get<any>('PORT') || 3000);
 }
 
