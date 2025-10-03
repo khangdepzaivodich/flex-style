@@ -124,7 +124,7 @@ model SANPHAM {
   TenSP          String
   GiaBan         Int
   GiaMua         Int
-  TrangThaiSP      TrangThaiSP        @default(CON_HANG)
+  TrangThai      TrangThai        @default(ACTIVE)
   MaDM           String
 
   DANHMUC        DANHMUC          @relation(fields: [MaDM], references: [MaDM])
