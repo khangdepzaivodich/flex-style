@@ -24,7 +24,6 @@ async function bootstrap() {
     preflightContinue: false,
     credentials: true,
   });
-
   // Cấu hình Swagger
   const config = new DocumentBuilder()
     .setTitle('Flex Style API')
@@ -34,8 +33,8 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
-
-  await app.listen(configService.get<any>('PORT') || 3000);
+  await app.listen(configService.get('PORT') ?? 8080);
+  console.log(`Server is running at http://localhost:${configService.get('PORT')}`);
 }
 
 bootstrap();
