@@ -70,15 +70,6 @@ model GIOHANG {
   CHITIETGIOHANG CHITIETGIOHANG[]
 }
 
-model KHACHHANG {
-  MaKH              String        @id @default(uuid())
-  TenKH             String
-  SoDienThoai       String
-  Email             String?
-  DiaChi            String?
-  MaTK              String?   @unique          
-  TAIKHOAN          TAIKHOAN? @relation("KhachHang_TaiKhoan", fields: [MaTK], references: [MaTK])
-}
 
 model NHACUNGCAP {
   MaNCC      String     @id @default(uuid())
@@ -88,19 +79,6 @@ model NHACUNGCAP {
   DiaChi     String?
   TenNCC     String
   PHIEUNHAPHANG PHIEUNHAPHANG[] 
-}
-
-model NHANVIEN {
-  MaNV        String    @id @default(uuid())
-  MaNVQL      String?          
-  TenNV       String
-  SoDienThoai String?
-  Email       String?
-  CCCD        String?
-  MaTK        String?
-  TAIKHOAN    TAIKHOAN? @relation(fields: [MaTK], references: [MaTK])
-  QuanLy      NHANVIEN?  @relation("QuanLy", fields: [MaNVQL], references: [MaNV])
-  NhanVienQL  NHANVIEN[] @relation("QuanLy")
 }
 
 model PHANHOI {
@@ -149,18 +127,15 @@ model TAIKHOAN {
   updated_at DateTime    @default(now())
   Username   String?     @unique
   MatKhau    String?
-  Status     Boolean     @default(true)
+  Status     TrangThai     @default(ACTIVE)
   Avatar     String?
-  NHANVIEN   NHANVIEN[]
   GIOHANG    GIOHANG[]
   PHANHOI    PHANHOI[]
   DONHANG    DONHANG[]    @relation("DonHang_KhachAccount")
-  KHACHHANG  KHACHHANG? @relation("KhachHang_TaiKhoan")
   VOUCHER_KHACHHANG VOUCHER_KHACHHANG[]
   PhieuNhapNVQL PHIEUNHAPHANG[] @relation("PhieuNhap_NVQL")
   PhieuNhapNVXN PHIEUNHAPHANG[] @relation("PhieuNhap_NVXN")
   VAITRO     VaiTro
-  
 }
 
 model TINHTRANGDONHANG {
@@ -274,103 +249,98 @@ enum VaiTro {
 }
 
 
-// VIEW: vw_chi_tiet_san_pham
+
 model VWChiTietSanPham {
-  MaCTSP            String @id
-  MaSP              String
-  TenSP             String
-  GiaBan            Int
-  KichCo            String
-  MauSac            String
-  SoLuong           Int
-  TonKho            Int?   @map("ton_kho")
-  TongTienBan       Int?   @map("tong_tien_ban")
-  NgayNhapMoiNhat   DateTime? @map("ngay_nhap_moi_nhat")
-  MaDM              String
-  TenDM             String
+  MaCTSP          String   @id
+  MaSP            String
+  TenSP           String
+  GiaBan          Int
+  KichCo          String
+  MauSac          String
+  SoLuong         Int
+  TonKho          Int?      @map("ton_kho")
+  TongDaBan       Int?      @map("tong_da_ban")
+  NgayNhapMoiNhat DateTime? @map("ngay_nhap_moi_nhat")
+  MaDM            String
+  TenDM           String
 
   @@map("vw_chi_tiet_san_pham")
   @@ignore
 }
 
-// VIEW: vw_chi_tiet_don_hang
 model VWChiTietDonHang {
-  id               String   @id @default(uuid()) // tạo id giả định
-  MaDH             String
-  MaCTSP           String
-  CreatedAt        DateTime @map("created_at")
-  MaSP             String
-  TenSP            String
-  SoLuong          Int
-  TongTienDon      Int?      @map("tong_tien_don")
-  MaVoucher        String?
-  TenVoucher       String?
-  SoTienVoucher    Int?
-  MaSK             String?
-  TenSK            String?
-  PhanTramGiam     Int?
-  MaDM             String
-  TenDM            String
-  TrangThai        String?
+  id            String   @id @default(uuid()) 
+  MaDH          String
+  CreatedAt     DateTime @map("created_at")
+  MaCTSP        String
+  MaSP          String
+  TenSP         String
+  SoLuong       Int
+  TongTienDon   Int?      @map("tong_tien_don")
+  MaVoucher     String?
+  TenVoucher    String?
+  SoTienVoucher Int?      @map("SoTien")
+  MaSK          String?
+  TenSK         String?
+  PhanTramGiam  Int?
+  MaDM          String
+  TenDM         String
+  TrangThai     String?
+  MaTK_KH       String?
 
   @@map("vw_chi_tiet_don_hang")
   @@ignore
 }
 
-// VIEW: vw_nhap_hang_chi_tiet
 model VWNhapHangChiTiet {
-  id           String   @id @default(uuid()) // tạo id giả định
-  MaPNNH       String
-  MaCTSP       String
-  CreatedAt    DateTime @map("created_at")
-  SoLuong      Int
-  MaNCC        String
-  TenNCC       String
-  MaSP         String
-  TenSP        String
-  TongDaNhap   Int? @map("tong_da_nhap")
+  id          String   @id @default(uuid()) 
+  MaPNNH      String
+  CreatedAt   DateTime @map("created_at")
+  SoLuong     Int
+  MaNCC       String
+  TenNCC      String
+  MaCTSP      String
+  MaSP        String
+  TenSP       String
+  TongDaNhap  Int?     @map("tong_da_nhap")
 
   @@map("vw_nhap_hang_chi_tiet")
   @@ignore
 }
 
-// VIEW: vw_khach_hang_tai_khoan
+
 model VWKhachHangTaiKhoan {
-  id              String   @id @default(uuid()) // tạo id giả định
-  MaKH            String
-  MaDH            String?
-  MaCTSP          String?
-  TenKH           String
-  SoDienThoai     String
-  Email           String?
-  DiaChi          String?
-  MaTK            String?
-  Username        String?
-  Avatar          String?
-  Status          Boolean?
-  MaGH            String?
-  TongSoLuongGio  Int? @map("tong_so_luong_gio")
-  CreatedAtDon    DateTime? @map("created_at")
-  MaSP            String?
-  TenSPDon        String? @map("TenSP")
-  SoLuongDon      Int? @map("SoLuong")
-  TongTienDon     Int? @map("tong_tien_don")
-  TrangThai       String?
-  MaVoucher       String?
-  TenVoucher      String?
+  id             String   @id @default(uuid()) 
+  MaTK           String
+  Username       String?
+  Avatar         String?
+  Status         Boolean?
+  VaiTro         VaiTro   @map("VAITRO")
+  MaGH           String?
+  TongSoLuongGio Int?     @map("tong_so_luong_gio")
+  MaDH           String?
+  NgayDat        DateTime? @map("ngay_dat")
+  MaCTSP         String?
+  MaSP           String?
+  TenSP          String?
+  SoLuong        Int?
+  TongTienDon    Int?     @map("tong_tien_don")
+  TrangThaiDon   String?  @map("trang_thai_don")
+  MaVoucher      String?
+  TenVoucher     String?
 
   @@map("vw_khach_hang_tai_khoan")
   @@ignore
 }
 
-// VIEW: vw_nhan_vien_tai_khoan
+
 model VWNhanVienTaiKhoan {
-  MaNV      String @id
-  TenNV     String
+  MaTK      String @id
   Username  String?
-  VaiTro    VaiTro
+  Avatar    String?
+  Status    Boolean?
+  VaiTro    VaiTro  @map("VAITRO")
 
   @@map("vw_nhan_vien_tai_khoan")
   @@ignore
 }
-

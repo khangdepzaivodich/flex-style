@@ -9,10 +9,10 @@ export class AppController {
 
   @Get()
   @ApiOperation({ summary: 'Get hello message' })
-  @ApiResponse({ 
-    status: 200, 
+  @ApiResponse({
+    status: 200,
     description: 'Returns a hello message',
-    type: String 
+    type: String,
   })
   getHello(): string {
     return this.appService.getHello();
