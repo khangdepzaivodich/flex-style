@@ -16,11 +16,11 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor(reflector));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   // app.use(cookieParser());
-  app.setGlobalPrefix("api");
+  app.setGlobalPrefix('api');
 
   app.enableCors({
-    origin: "http://localhost:3000",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    origin: 'http://localhost:3000',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     credentials: true,
   });
@@ -34,7 +34,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
   await app.listen(configService.get('PORT') ?? 8080);
-  console.log(`Server is running at http://localhost:${configService.get('PORT')}`);
+  console.log(
+    `Server is running at http://localhost:${configService.get('PORT')}`,
+  );
 }
 
 bootstrap();
