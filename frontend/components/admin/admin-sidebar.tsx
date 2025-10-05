@@ -16,29 +16,63 @@ import {
   Truck,
   ChevronLeft,
   ChevronRight,
+  BookUser,
+  NotebookTabs,
+  BookCopy,
+  PackageOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const sidebarItems = [
   {
-    title: "Dashboard",
+    title: "Tổng quan",
     href: "/admin",
     icon: LayoutDashboard,
   },
   {
-    title: "Analytics",
-    href: "/admin/analytics",
-    icon: BarChart3,
+    title: "Quản lý chức vụ",
+    href: "/admin/positions",
+    icon: NotebookTabs,
   },
   {
-    title: "Users",
-    href: "/admin/users",
-    icon: Users,
+    title: "Quản lý khách hàng",
+    href: "/admin/customers",
+    icon: BookUser,
   },
   {
-    title: "Products",
+    title: "Quản lý danh mục",
+    href: "/admin/categories",
+    icon: BookCopy,
+  },
+  {
+    title: "Quản lý sản phẩm",
     href: "/admin/products",
     icon: Package,
+  },
+  {
+    title: "Quản lý nhà cung cấp",
+    href: "/admin/suppliers",
+    icon: Truck,
+  },
+  {
+    title: "Phiếu nhập hàng",
+    href: "/admin/receipts",
+    icon: PackageOpen,
+  },
+  {
+    title: "Lịch sử nhập hàng",
+    href: "/admin/supplier-history",
+    icon: PackageOpen,
+  },
+  {
+    title: "Báo cáo chấp lượng hàng",
+    href: "/admin/quality-supplier",
+    icon: PackageOpen,
+  },
+  {
+    title: "Thống kê",
+    href: "/admin/analytics",
+    icon: BarChart3,
   },
   {
     title: "Orders",
@@ -49,11 +83,6 @@ const sidebarItems = [
     title: "Promotions",
     href: "/admin/promotions",
     icon: Gift,
-  },
-  {
-    title: "Suppliers",
-    href: "/admin/suppliers",
-    icon: Truck,
   },
   {
     title: "Support",
@@ -101,7 +130,10 @@ export function AdminSidebar() {
         </Button>
       </div>
 
-      <nav className="p-2 space-y-2">
+      <nav
+        className="p-2 space-y-2 overflow-y-auto"
+        style={{ maxHeight: "calc(100vh - 4rem)" }}
+      >
         {sidebarItems.map((item) => {
           const isActive = pathname === item.href;
           return (

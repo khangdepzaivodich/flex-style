@@ -19,6 +19,7 @@ const navigation = [
   { name: "Inventory Status", href: "/supplier/inventory", icon: AlertCircle },
   { name: "Analytics", href: "/supplier/analytics", icon: BarChart3 },
   { name: "Settings", href: "/supplier/settings", icon: Settings },
+  { name: "Settings", href: "/supplier/settings", icon: Settings },
 ];
 
 export function SupplierSidebar() {

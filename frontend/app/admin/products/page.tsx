@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { ProtectedRoute } from "@/components/protected-route";
 import {
   Card,
   CardContent,
@@ -13,22 +12,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   Select,
   SelectContent,
@@ -36,262 +26,218 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, MoreHorizontal, Plus, Filter } from "lucide-react";
-import productsData from "@/data/products.json";
-import Image from "next/image";
+import { Plus, Search, Edit, Trash2, Eye } from "lucide-react";
 
-export default function ProductsPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<any>(null);
+export default function AdminProductsPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterCategory, setFilterCategory] = useState("all");
 
-  const filteredProducts = productsData.products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const products = [
+    {
+      id: "P001",
+      name: "Áo thun trắng basic",
+      category: "Áo",
+      price: "₫199,000",
+      stock: 150,
+      sold: 234,
+      status: "active",
+      featured: true,
+    },
+    {
+      id: "P002",
+      name: "Quần jean xanh",
+      category: "Quần",
+      price: "₫499,000",
+      stock: 45,
+      sold: 156,
+      status: "active",
+      featured: false,
+    },
+    {
+      id: "P003",
+      name: "Váy hoa mùa hè",
+      category: "Váy",
+      price: "₫399,000",
+      stock: 5,
+      sold: 89,
+      status: "low_stock",
+      featured: true,
+    },
+    {
+      id: "P004",
+      name: "Áo khoác denim",
+      category: "Áo",
+      price: "₫699,000",
+      stock: 0,
+      sold: 67,
+      status: "out_of_stock",
+      featured: false,
+    },
+  ];
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "active":
+        return <Badge className="bg-green-600">Đang bán</Badge>;
+      case "low_stock":
+        return <Badge className="bg-yellow-600">Sắp hết</Badge>;
+      case "out_of_stock":
+        return <Badge className="bg-red-600">Hết hàng</Badge>;
+      case "inactive":
+        return <Badge className="bg-gray-600">Ngừng bán</Badge>;
+      default:
+        return <Badge>Không xác định</Badge>;
+    }
+  };
 
   return (
-    <ProtectedRoute requiredPermissions={["manage_products"]}>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              Product Management
-            </h1>
-            <p className="text-muted-foreground">Manage your product catalog</p>
-          </div>
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Product
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px]">
-              <DialogHeader>
-                <DialogTitle>Add New Product</DialogTitle>
-                <DialogDescription>
-                  Create a new product in your catalog
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Product Name</Label>
-                    <Input id="name" placeholder="Enter product name" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="category">Category</Label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="dresses">Dresses</SelectItem>
-                        <SelectItem value="tops">Tops</SelectItem>
-                        <SelectItem value="bottoms">Bottoms</SelectItem>
-                        <SelectItem value="accessories">Accessories</SelectItem>
-                        <SelectItem value="shoes">Shoes</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="price">Price (₫)</Label>
-                    <Input id="price" type="number" placeholder="Enter price" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="stock">Stock Quantity</Label>
-                    <Input
-                      id="stock"
-                      type="number"
-                      placeholder="Enter stock quantity"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    placeholder="Enter product description"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="images">Product Images</Label>
-                  <Input id="images" type="file" multiple accept="image/*" />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsAddDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button onClick={() => setIsAddDialogOpen(false)}>
-                  Add Product
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-balance">Quản lý sản phẩm</h1>
+          <p className="text-muted-foreground mt-2">
+            Quản lý danh mục và thông tin sản phẩm
+          </p>
         </div>
+        <Button>
+          <Plus className="h-4 w-4 mr-2" />
+          Thêm sản phẩm
+        </Button>
+      </div>
 
-        <div className="flex items-center space-x-4">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Search products..."
-              className="pl-10"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <Button variant="outline">
-            <Filter className="mr-2 h-4 w-4" />
-            Filter
-          </Button>
-        </div>
-
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
-          <CardHeader>
-            <CardTitle>All Products</CardTitle>
-            <CardDescription>Manage your product inventory</CardDescription>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Tổng sản phẩm
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {filteredProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="flex items-center justify-between p-4 border rounded-lg"
-                >
-                  <div className="flex items-center space-x-4">
-                    <div className="relative w-16 h-16 rounded-lg overflow-hidden">
-                      <Image
-                        src={product.images?.[0] || "/placeholder.svg"}
-                        alt={product.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div>
-                      <p className="font-medium">{product.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {product.category}
-                      </p>
-                      <p className="text-sm font-medium">
-                        {product.price.toLocaleString("vi-VN")}₫
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <Badge
-                      variant={product.inStock ? "default" : "destructive"}
-                    >
-                      {product.inStock ? "In Stock" : "Out of Stock"}
-                    </Badge>
-                    <div className="text-sm text-muted-foreground">
-                      Stock: {Math.floor(Math.random() * 100) + 1}
-                    </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="bg-white">
-                        <DropdownMenuItem
-                          onClick={() => setEditingProduct(product)}
-                        >
-                          Edit Product
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>Update Stock</DropdownMenuItem>
-                        <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
-                          Delete Product
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <div className="text-2xl font-bold">1,234</div>
+            <p className="text-xs text-muted-foreground mt-1">Đang quản lý</p>
           </CardContent>
         </Card>
-
-        <Dialog
-          open={!!editingProduct}
-          onOpenChange={() => setEditingProduct(null)}
-        >
-          <DialogContent className="sm:max-w-[600px]">
-            <DialogHeader>
-              <DialogTitle>Edit Product</DialogTitle>
-              <DialogDescription>
-                Update product information and settings
-              </DialogDescription>
-            </DialogHeader>
-            {editingProduct && (
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-name">Product Name</Label>
-                    <Input id="edit-name" defaultValue={editingProduct.name} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-category">Category</Label>
-                    <Select defaultValue={editingProduct.category}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="dresses">Dresses</SelectItem>
-                        <SelectItem value="tops">Tops</SelectItem>
-                        <SelectItem value="bottoms">Bottoms</SelectItem>
-                        <SelectItem value="accessories">Accessories</SelectItem>
-                        <SelectItem value="shoes">Shoes</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-price">Price (₫)</Label>
-                    <Input
-                      id="edit-price"
-                      type="number"
-                      defaultValue={editingProduct.price}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-stock">Stock Quantity</Label>
-                    <Input
-                      id="edit-stock"
-                      type="number"
-                      defaultValue={Math.floor(Math.random() * 100) + 1}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="edit-description">Description</Label>
-                  <Textarea
-                    id="edit-description"
-                    defaultValue={editingProduct.description}
-                  />
-                </div>
-              </div>
-            )}
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setEditingProduct(null)}>
-                Cancel
-              </Button>
-              <Button onClick={() => setEditingProduct(null)}>
-                Update Product
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Đang bán
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">1,089</div>
+            <p className="text-xs text-muted-foreground mt-1">Sản phẩm</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Hết hàng
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-red-600">23</div>
+            <p className="text-xs text-muted-foreground mt-1">Sản phẩm</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Nổi bật
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-blue-600">45</div>
+            <p className="text-xs text-muted-foreground mt-1">Sản phẩm</p>
+          </CardContent>
+        </Card>
       </div>
-    </ProtectedRoute>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Danh sách sản phẩm</CardTitle>
+          <CardDescription>
+            Quản lý thông tin và trạng thái sản phẩm
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Tìm kiếm sản phẩm..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <Select value={filterCategory} onValueChange={setFilterCategory}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Lọc danh mục" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tất cả</SelectItem>
+                <SelectItem value="ao">Áo</SelectItem>
+                <SelectItem value="quan">Quần</SelectItem>
+                <SelectItem value="vay">Váy</SelectItem>
+                <SelectItem value="phu-kien">Phụ kiện</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Mã SP</TableHead>
+                <TableHead>Tên sản phẩm</TableHead>
+                <TableHead>Danh mục</TableHead>
+                <TableHead>Giá bán</TableHead>
+                <TableHead>Tồn kho</TableHead>
+                <TableHead>Đã bán</TableHead>
+                <TableHead>Nổi bật</TableHead>
+                <TableHead>Trạng thái</TableHead>
+                <TableHead className="text-right">Thao tác</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {products.map((product) => (
+                <TableRow key={product.id}>
+                  <TableCell className="font-medium">{product.id}</TableCell>
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>
+                    <Badge variant="outline">{product.category}</Badge>
+                  </TableCell>
+                  <TableCell className="font-semibold">
+                    {product.price}
+                  </TableCell>
+                  <TableCell>{product.stock}</TableCell>
+                  <TableCell>{product.sold}</TableCell>
+                  <TableCell>
+                    {product.featured ? (
+                      <Badge className="bg-blue-600">Có</Badge>
+                    ) : (
+                      "—"
+                    )}
+                  </TableCell>
+                  <TableCell>{getStatusBadge(product.status)}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Button variant="ghost" size="icon">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon">
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon">
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

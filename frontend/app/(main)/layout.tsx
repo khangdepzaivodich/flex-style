@@ -6,6 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { LiveChat } from "@/components/customer-support/live-chat";
 import { Analytics } from "@vercel/analytics/next";
+import { ProtectedRoute } from "@/components/protected-route";
 
 export default async function layout({
   children,
@@ -17,6 +18,7 @@ export default async function layout({
   return (
     <>
       {" "}
+      {/* <ProtectedRoute requiredPermissions={["manage_inventory"]}> */}
       <LanguageProvider initialLanguage={language as "vi" | "en"}>
         <CartProvider>
           <Header />
@@ -24,6 +26,7 @@ export default async function layout({
           <LiveChat />
         </CartProvider>
       </LanguageProvider>
+      {/* </ProtectedRoute> */}
     </>
   );
 }
