@@ -1,15 +1,19 @@
 import { Body, Controller, Get, Post, Put, Delete, Param, Query, Patch, Res } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 import { DanhMucService } from './danhmuc.service';
 import { DanhMucDto } from './dto/danhmuc.dto';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 import { LoaiDanhMuc } from './entity/danhmuc.entity';
 import type { Response } from 'express';
+@ApiTags('Danh mục sản phẩm')
 @Controller('danhmuc')
 export class DanhMucController {
     constructor(private readonly danhmucService: DanhMucService) {}
 
     // Xem thông tin danh mục (tất cả hoặc theo id)
     @Get()
+    @ApiOperation({ summary: 'Lấy tất cả danh mục sản phẩm' })
+    @ApiResponse({ status: 200, description: 'Lấy danh mục thành công' })
     @ResponseMessage('Lấy danh mục thành công')
     getAllDanhMuc() {
         return this.danhmucService.getAllDanhMuc();
@@ -17,6 +21,9 @@ export class DanhMucController {
 
     // Thêm mới danh mục sản phẩm
     @Post()
+    @ApiOperation({ summary: 'Thêm mới danh mục sản phẩm' })
+    @ApiResponse({ status: 201, description: 'Thêm danh mục thành công' })
+    @ApiBody({ type: DanhMucDto })
     @ResponseMessage('Thêm danh mục thành công')
     addDanhMuc(@Body() data: DanhMucDto) {
         return this.danhmucService.addDanhMuc(data);
@@ -24,6 +31,10 @@ export class DanhMucController {
 
     // Cập nhật thông tin danh mục
     @Put(':id')
+    @ApiOperation({ summary: 'Cập nhật thông tin danh mục' })
+    @ApiParam({ name: 'id', description: 'ID của danh mục', type: 'number' })
+    @ApiResponse({ status: 200, description: 'Cập nhật danh mục thành công' })
+    @ApiBody({ type: DanhMucDto })
     @ResponseMessage('Cập nhật danh mục thành công')
     updateDanhMuc(@Param('id') id: number, @Body() data: DanhMucDto) {
         return this.danhmucService.updateDanhMuc(id, data);

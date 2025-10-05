@@ -1,5 +1,5 @@
 import { NestFactory, Reflector } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { RootAppModule } from './root-app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 // import cookieParser from 'cookie-parser';
@@ -8,7 +8,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 // import { SupabaseAuthGuard } from './auth/supabase-auth.guard';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(RootAppModule);
   const configService = app.get(ConfigService);
   const reflector = app.get(Reflector);
 
@@ -33,8 +33,13 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
-  await app.listen(configService.get('PORT') ?? 8080);
-  console.log(`Server is running at http://localhost:${configService.get('PORT')}`);
+  
+  const port = configService.get('PORT') ?? 8080;
+  await app.listen(port);
+  
+  console.log(`🚀 Server is running at http://localhost:${port}`);
+  console.log(`📚 Swagger UI is available at http://localhost:${port}/api/docs`);
+  console.log(`📋 API endpoints are available at http://localhost:${port}/api`);
 }
 
 bootstrap();

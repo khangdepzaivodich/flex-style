@@ -1,8 +1,10 @@
 "use client";
 
 import type React from "react";
-import { createContext, useContext, useReducer, useEffect } from "react";
+import { createContext, useContext, useReducer, useEffect, useState } from "react";
 import type { CartItem } from "@/lib/types";
+import { cartApi } from "@/lib/cartApi";
+import { useAuth } from "@/contexts/auth-context";
 
 interface CartState {
   items: CartItem[];
@@ -18,10 +20,12 @@ type CartAction =
   | { type: "LOAD_CART"; payload: CartItem[] };
 
 interface CartContextType extends CartState {
-  addItem: (item: Omit<CartItem, "id">) => void;
-  removeItem: (id: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
-  clearCart: () => void;
+  addItem: (item: Omit<CartItem, "id">) => void; // backend synced (fire & forget)
+  removeItem: (id: string) => void; // backend synced
+  updateQuantity: (id: string, quantity: number) => void; // backend synced
+  clearCart: () => void; // local only
+  syncing: boolean; // indicates active network sync
+  lastSyncError?: string | null;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -118,44 +122,146 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth();
   const [state, dispatch] = useReducer(cartReducer, {
     items: [],
     total: 0,
     itemCount: 0,
   });
+  const [syncing, setSyncing] = useState(false);
+  const [lastSyncError, setLastSyncError] = useState<string | null>(null);
 
-  // Load cart from localStorage on mount
+  // Map backend CHITIETGIOHANG -> CartItem[]
+  function mapBackendCart(raw: any): CartItem[] {
+    if (!raw || !Array.isArray(raw.CHITIETGIOHANG)) return [];
+    return raw.CHITIETGIOHANG.map((ct: any) => {
+      const detail = ct.CHITIETSANPHAM || {};
+      const sp = detail.SANPHAM || {};
+      return {
+        id: ct.MaCTGH, // use backend cart detail id for stable identity
+        productId: detail.MaCTSP || ct.MaCTSP, // treat product detail id as productId for now
+        name: sp.TenSP || "Sản phẩm",
+        price: sp.GiaBan || 0,
+        image: detail.HinhAnh || "/placeholder.svg",
+        size: detail.KichCo || "",
+        color: detail.MauSac || "",
+        quantity: ct.SoLuong || 0,
+      } as CartItem;
+    });
+  }
+
+  // Phase 1: Load cart from localStorage (fallback / offline) immediately
   useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      try {
+    try {
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) {
         const cartItems = JSON.parse(savedCart);
         dispatch({ type: "LOAD_CART", payload: cartItems });
-      } catch (error) {
-        console.error("Error loading cart from localStorage:", error);
       }
+    } catch (error) {
+      console.error("Error loading cart from localStorage:", error);
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Phase 2: If user logged in, fetch backend cart and override local
+  useEffect(() => {
+    if (!user) return; // keep local cart for guests
+    let cancelled = false;
+    (async () => {
+      setSyncing(true);
+      setLastSyncError(null);
+      try {
+        const raw = await cartApi.getCart(user.id);
+        if (!cancelled) {
+          const mapped = mapBackendCart(raw);
+          dispatch({ type: "LOAD_CART", payload: mapped });
+          // persist mapped to localStorage for offline cache
+          localStorage.setItem("cart", JSON.stringify(mapped));
+        }
+      } catch (e: any) {
+        if (!cancelled) {
+          setLastSyncError(e.message || "Không thể đồng bộ giỏ hàng");
+        }
+      } finally {
+        if (!cancelled) setSyncing(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.id]);
+
+  // Persist to localStorage whenever items change
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(state.items));
   }, [state.items]);
 
   const addItem = (item: Omit<CartItem, "id">) => {
+    // Optimistic local update first
     dispatch({ type: "ADD_ITEM", payload: item });
+    if (!user) return; // guest mode stays local only
+    (async () => {
+      try {
+        setSyncing(true);
+        setLastSyncError(null);
+        await cartApi.addItem({
+          MaTKKH: user.id,
+          MaCTSP: item.productId, // assumption: productId == MaCTSP
+          SoLuong: item.quantity,
+        });
+        // Re-fetch to ensure server canonical state (merging logic server-side)
+        const raw = await cartApi.getCart(user.id);
+        const mapped = mapBackendCart(raw);
+        dispatch({ type: "LOAD_CART", payload: mapped });
+      } catch (e: any) {
+        setLastSyncError(e.message || "Lỗi thêm sản phẩm vào giỏ hàng");
+      } finally {
+        setSyncing(false);
+      }
+    })();
   };
 
   const removeItem = (id: string) => {
     dispatch({ type: "REMOVE_ITEM", payload: id });
+    if (!user) return;
+    (async () => {
+      try {
+        setSyncing(true);
+        setLastSyncError(null);
+        await cartApi.removeItem(id); // id is MaCTGH in backend mapping
+      } catch (e: any) {
+        setLastSyncError(e.message || "Lỗi xóa sản phẩm");
+      } finally {
+        setSyncing(false);
+      }
+    })();
   };
 
   const updateQuantity = (id: string, quantity: number) => {
     dispatch({ type: "UPDATE_QUANTITY", payload: { id, quantity } });
+    if (!user) return;
+    (async () => {
+      try {
+        setSyncing(true);
+        setLastSyncError(null);
+        await cartApi.updateQuantity(id, quantity);
+      } catch (e: any) {
+        setLastSyncError(e.message || "Lỗi cập nhật số lượng");
+        // Optionally re-fetch to rollback to server state
+        try {
+          const raw = await cartApi.getCart(user.id);
+          const mapped = mapBackendCart(raw);
+          dispatch({ type: "LOAD_CART", payload: mapped });
+        } catch {}
+      } finally {
+        setSyncing(false);
+      }
+    })();
   };
 
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" });
+    // Not calling backend clear endpoint (chưa có). Items will stay until individually removed or future endpoint added.
   };
 
   return (
@@ -166,6 +272,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         removeItem,
         updateQuantity,
         clearCart,
+        syncing,
+        lastSyncError,
       }}
     >
       {children}
