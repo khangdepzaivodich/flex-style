@@ -1,406 +1,287 @@
 "use client";
 
 import { useState } from "react";
-import { ProtectedRoute } from "@/components/protected-route";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   Search,
-  MoreHorizontal,
   Plus,
-  Filter,
-  Building2,
-  Phone,
-  Mail,
-  MapPin,
+  Edit,
+  Trash2,
+  Truck,
+  Star,
+  TrendingUp,
 } from "lucide-react";
 
-const suppliersData = [
-  {
-    id: 1,
-    name: "Fashion Forward Co.",
-    email: "contact@fashionforward.com",
-    phone: "+84 901 234 567",
-    address: "123 Nguyen Hue, District 1, Ho Chi Minh City",
-    status: "active",
-    productsCount: 45,
-    totalOrders: 128,
-    rating: 4.8,
-    joinDate: "2023-01-15",
-    category: "Clothing",
-  },
-  {
-    id: 2,
-    name: "Accessory Masters Ltd.",
-    email: "info@accessorymasters.vn",
-    phone: "+84 902 345 678",
-    address: "456 Le Loi, District 3, Ho Chi Minh City",
-    status: "active",
-    productsCount: 32,
-    totalOrders: 89,
-    rating: 4.6,
-    joinDate: "2023-03-22",
-    category: "Accessories",
-  },
-  {
-    id: 3,
-    name: "Shoe Paradise Vietnam",
-    email: "sales@shoeparadise.vn",
-    phone: "+84 903 456 789",
-    address: "789 Dong Khoi, District 1, Ho Chi Minh City",
-    status: "pending",
-    productsCount: 28,
-    totalOrders: 56,
-    rating: 4.4,
-    joinDate: "2024-01-10",
-    category: "Footwear",
-  },
-  {
-    id: 4,
-    name: "Luxury Bags Co.",
-    email: "contact@luxurybags.com",
-    phone: "+84 904 567 890",
-    address: "321 Hai Ba Trung, District 1, Ho Chi Minh City",
-    status: "suspended",
-    productsCount: 15,
-    totalOrders: 23,
-    rating: 3.8,
-    joinDate: "2023-08-05",
-    category: "Bags",
-  },
-];
+export default function AdminSuppliersPage() {
+  const [searchQuery, setSearchQuery] = useState("");
 
-export default function SuppliersPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [editingSupplier, setEditingSupplier] = useState<any>(null);
+  const suppliers = [
+    {
+      id: "SUP-001",
+      name: "Công ty TNHH Vải Việt",
+      code: "VAIVIET",
+      category: "Vải",
+      contact: "Nguyễn Văn A",
+      phone: "0901234567",
+      email: "contact@vaiviet.com",
+      totalOrders: 156,
+      totalValue: "₫2,450,000,000",
+      rating: 4.8,
+      status: "active",
+      performance: "excellent",
+    },
+    {
+      id: "SUP-002",
+      name: "Nhà máy Dệt Nam Định",
+      code: "NAMDINH",
+      category: "Vải",
+      contact: "Trần Thị B",
+      phone: "0912345678",
+      email: "info@namdinh.com",
+      totalOrders: 98,
+      totalValue: "₫1,890,000,000",
+      rating: 4.5,
+      status: "active",
+      performance: "good",
+    },
+    {
+      id: "SUP-003",
+      name: "Công ty Phụ kiện Thời trang",
+      code: "PHUKIEN",
+      category: "Phụ kiện",
+      contact: "Lê Văn C",
+      phone: "0923456789",
+      email: "sales@phukien.com",
+      totalOrders: 234,
+      totalValue: "₫980,000,000",
+      rating: 4.2,
+      status: "active",
+      performance: "good",
+    },
+    {
+      id: "SUP-004",
+      name: "Xưởng May Hà Nội",
+      code: "MAYHN",
+      category: "May mặc",
+      contact: "Phạm Thị D",
+      phone: "0934567890",
+      email: "contact@mayhanoi.com",
+      totalOrders: 45,
+      totalValue: "₫650,000,000",
+      rating: 3.8,
+      status: "warning",
+      performance: "average",
+    },
+  ];
 
-  const filteredSuppliers = suppliersData.filter(
-    (supplier) =>
-      supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      supplier.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      supplier.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const getStatusColor = (status: string) => {
+  const getStatusBadge = (status: string) => {
     switch (status) {
       case "active":
-        return "default";
-      case "pending":
-        return "secondary";
-      case "suspended":
-        return "destructive";
+        return <Badge className="bg-green-600">Hoạt động</Badge>;
+      case "warning":
+        return <Badge className="bg-yellow-600">Cảnh báo</Badge>;
+      case "blocked":
+        return <Badge className="bg-red-600">Bị khóa</Badge>;
       default:
-        return "outline";
+        return <Badge>Không xác định</Badge>;
+    }
+  };
+
+  const getPerformanceBadge = (performance: string) => {
+    switch (performance) {
+      case "excellent":
+        return <Badge className="bg-green-600">Xuất sắc</Badge>;
+      case "good":
+        return <Badge className="bg-blue-600">Tốt</Badge>;
+      case "average":
+        return <Badge className="bg-yellow-600">Trung bình</Badge>;
+      case "poor":
+        return <Badge className="bg-red-600">Kém</Badge>;
+      default:
+        return <Badge>Chưa đánh giá</Badge>;
     }
   };
 
   return (
-    <ProtectedRoute requiredPermissions={["manage_suppliers"]}>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              Supplier Management
-            </h1>
-            <p className="text-muted-foreground">
-              Manage your supplier network and partnerships
-            </p>
-          </div>
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Supplier
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px]">
-              <DialogHeader>
-                <DialogTitle>Add New Supplier</DialogTitle>
-                <DialogDescription>
-                  Register a new supplier to your network
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Company Name</Label>
-                    <Input id="name" placeholder="Enter company name" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="category">Category</Label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="clothing">Clothing</SelectItem>
-                        <SelectItem value="accessories">Accessories</SelectItem>
-                        <SelectItem value="footwear">Footwear</SelectItem>
-                        <SelectItem value="bags">Bags</SelectItem>
-                        <SelectItem value="jewelry">Jewelry</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Enter email address"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" placeholder="Enter phone number" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="address">Address</Label>
-                  <Textarea id="address" placeholder="Enter full address" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    placeholder="Enter supplier description"
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsAddDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button onClick={() => setIsAddDialogOpen(false)}>
-                  Add Supplier
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-balance">
+            Quản trị nhà cung cấp
+          </h1>
+          <p className="text-muted-foreground mt-2">
+            Quản lý và đánh giá nhà cung cấp
+          </p>
         </div>
+        <Button>
+          <Plus className="h-4 w-4 mr-2" />
+          Thêm NCC
+        </Button>
+      </div>
 
-        <div className="flex items-center space-x-4">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Search suppliers..."
-              className="pl-10"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Tổng NCC
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">45</div>
+            <p className="text-xs text-muted-foreground mt-1">Đang hợp tác</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              NCC xuất sắc
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">12</div>
+            <p className="text-xs text-muted-foreground mt-1">Rating ≥ 4.5</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Tổng đơn hàng
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">1,234</div>
+            <p className="text-xs text-muted-foreground mt-1">Đơn nhập</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Tổng giá trị
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">₫8.5B</div>
+            <p className="text-xs text-muted-foreground mt-1">Tổng nhập</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Danh sách nhà cung cấp</CardTitle>
+          <CardDescription>Quản lý thông tin và đánh giá NCC</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="mb-6">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Tìm kiếm nhà cung cấp..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
           </div>
-          <Button variant="outline">
-            <Filter className="mr-2 h-4 w-4" />
-            Filter
-          </Button>
-        </div>
 
-        <div className="grid gap-4">
-          {filteredSuppliers.map((supplier) => (
-            <Card key={supplier.id}>
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start space-x-4">
-                    <div className="p-3 bg-primary/10 rounded-lg">
-                      <Building2 className="h-6 w-6" />
-                    </div>
-                    <div className="space-y-2">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Mã NCC</TableHead>
+                <TableHead>Thông tin NCC</TableHead>
+                <TableHead>Danh mục</TableHead>
+                <TableHead>Liên hệ</TableHead>
+                <TableHead>Đơn hàng</TableHead>
+                <TableHead>Tổng giá trị</TableHead>
+                <TableHead>Đánh giá</TableHead>
+                <TableHead>Hiệu suất</TableHead>
+                <TableHead>Trạng thái</TableHead>
+                <TableHead className="text-right">Thao tác</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {suppliers.map((supplier) => (
+                <TableRow key={supplier.id}>
+                  <TableCell className="font-medium">{supplier.id}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <Truck className="h-5 w-5 text-primary" />
+                      </div>
                       <div>
-                        <h3 className="font-semibold text-lg">
-                          {supplier.name}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {supplier.category}
+                        <p className="font-medium">{supplier.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          <code className="bg-muted px-1 rounded">
+                            {supplier.code}
+                          </code>
                         </p>
                       </div>
-                      <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div className="flex items-center space-x-2">
-                          <Mail className="h-4 w-4 text-muted-foreground" />
-                          <span>{supplier.email}</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Phone className="h-4 w-4 text-muted-foreground" />
-                          <span>{supplier.phone}</span>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-2 text-sm">
-                        <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
-                        <span className="text-muted-foreground">
-                          {supplier.address}
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-6 text-sm">
-                        <span>
-                          <strong>Products:</strong> {supplier.productsCount}
-                        </span>
-                        <span>
-                          <strong>Orders:</strong> {supplier.totalOrders}
-                        </span>
-                        <span>
-                          <strong>Rating:</strong> ⭐ {supplier.rating}
-                        </span>
-                        <span>
-                          <strong>Joined:</strong>{" "}
-                          {new Date(supplier.joinDate).toLocaleDateString(
-                            "vi-VN"
-                          )}
-                        </span>
-                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <Badge variant={getStatusColor(supplier.status)}>
-                      {supplier.status.charAt(0).toUpperCase() +
-                        supplier.status.slice(1)}
-                    </Badge>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="bg-white">
-                        <DropdownMenuItem
-                          onClick={() => setEditingSupplier(supplier)}
-                        >
-                          Edit Supplier
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>View Products</DropdownMenuItem>
-                        <DropdownMenuItem>View Orders</DropdownMenuItem>
-                        <DropdownMenuItem>Contact Supplier</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
-                          Suspend Supplier
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Edit Supplier Dialog */}
-        <Dialog
-          open={!!editingSupplier}
-          onOpenChange={() => setEditingSupplier(null)}
-        >
-          <DialogContent className="sm:max-w-[600px]">
-            <DialogHeader>
-              <DialogTitle>Edit Supplier</DialogTitle>
-              <DialogDescription>
-                Update supplier information and settings
-              </DialogDescription>
-            </DialogHeader>
-            {editingSupplier && (
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-name">Company Name</Label>
-                    <Input id="edit-name" defaultValue={editingSupplier.name} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-category">Category</Label>
-                    <Select
-                      defaultValue={editingSupplier.category.toLowerCase()}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="clothing">Clothing</SelectItem>
-                        <SelectItem value="accessories">Accessories</SelectItem>
-                        <SelectItem value="footwear">Footwear</SelectItem>
-                        <SelectItem value="bags">Bags</SelectItem>
-                        <SelectItem value="jewelry">Jewelry</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-email">Email</Label>
-                    <Input
-                      id="edit-email"
-                      type="email"
-                      defaultValue={editingSupplier.email}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-phone">Phone</Label>
-                    <Input
-                      id="edit-phone"
-                      defaultValue={editingSupplier.phone}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="edit-address">Address</Label>
-                  <Textarea
-                    id="edit-address"
-                    defaultValue={editingSupplier.address}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="edit-status">Status</Label>
-                  <Select defaultValue={editingSupplier.status}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="active">Active</SelectItem>
-                      <SelectItem value="pending">Pending</SelectItem>
-                      <SelectItem value="suspended">Suspended</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            )}
-            <DialogFooter>
-              <Button
-                variant="outline"
-                onClick={() => setEditingSupplier(null)}
-              >
-                Cancel
-              </Button>
-              <Button onClick={() => setEditingSupplier(null)}>
-                Update Supplier
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
-    </ProtectedRoute>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant="outline">{supplier.category}</Badge>
+                  </TableCell>
+                  <TableCell>
+                    <div className="space-y-1 text-xs">
+                      <p className="font-medium">{supplier.contact}</p>
+                      <p className="text-muted-foreground">{supplier.phone}</p>
+                      <p className="text-muted-foreground">{supplier.email}</p>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="h-4 w-4 text-blue-600" />
+                      <span className="font-semibold">
+                        {supplier.totalOrders}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="font-semibold">
+                    {supplier.totalValue}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
+                      <span className="font-semibold">{supplier.rating}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {getPerformanceBadge(supplier.performance)}
+                  </TableCell>
+                  <TableCell>{getStatusBadge(supplier.status)}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Button variant="ghost" size="icon">
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon">
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
