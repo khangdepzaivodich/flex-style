@@ -70,6 +70,16 @@ const sidebarItems = [
     icon: PackageOpen,
   },
   {
+    title: "Sản phẩm và tồn kho",
+    href: "/admin/product-inventory",
+    icon: PackageOpen,
+  },
+  {
+    title: "Trang thái và lịch sử kho",
+    href: "/admin/status-inventory",
+    icon: PackageOpen,
+  },
+  {
     title: "Thống kê",
     href: "/admin/analytics",
     icon: BarChart3,
@@ -131,7 +141,7 @@ export function AdminSidebar() {
       </div>
 
       <nav
-        className="p-2 space-y-2 overflow-y-auto"
+        className="p-2 space-y-2 overflow-y-auto transition-all ease-linear"
         style={{ maxHeight: "calc(100vh - 4rem)" }}
       >
         {sidebarItems.map((item) => {
