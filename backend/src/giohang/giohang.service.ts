@@ -1,28 +1,26 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
+import { GiohangRepository } from 'src/repositories/giohang.repository';
 import { AddToCartDto, UpdateQuantityDto, CartResponseDto } from './dto/giohang.dto';
 
 @Injectable()
 export class GiohangService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private giohangRepository: GiohangRepository,
+  ) {}
 
   // Lấy hoặc tạo giỏ hàng cho user
   private async getOrCreateCart(MaTKKH?: string) {
     if (!MaTKKH) {
       // Tạo giỏ hàng tạm thời cho guest user
-      return await this.prisma.gIOHANG.create({
-        data: {},
-      });
+      return await this.giohangRepository.createCart({});
     }
 
-    let cart = await this.prisma.gIOHANG.findFirst({
-      where: { MaTKKH }
-    });
+    let cart = await this.giohangRepository.findCartByUserId(MaTKKH);
 
     if (!cart) {
-      cart = await this.prisma.gIOHANG.create({
-        data: { MaTKKH },
-      });
+      cart = await this.giohangRepository.createCart({ MaTKKH });
     }
 
     return cart;
@@ -53,12 +51,10 @@ export class GiohangService {
     const cart = await this.getOrCreateCart(MaTKKH);
 
     // Kiểm tra sản phẩm đã có trong giỏ chưa
-    const existingItem = await this.prisma.cHITIETGIOHANG.findFirst({
-      where: {
-        MaGH: cart.MaGH,
-        MaCTSP
-      }
-    });
+    const existingItem = await this.giohangRepository.findCartItemByProductDetail(
+      cart.MaGH,
+      MaCTSP,
+    );
 
     if (existingItem) {
       // Cập nhật số lượng
@@ -68,32 +64,16 @@ export class GiohangService {
         throw new BadRequestException(`Không đủ hàng trong kho. Chỉ còn ${chiTietSanPham.SoLuong} sản phẩm`);
       }
 
-      return await this.prisma.cHITIETGIOHANG.update({
-        where: { MaCTGH: existingItem.MaCTGH },
-        data: { SoLuong: newQuantity },
-        include: {
-          CHITIETSANPHAM: {
-            include: {
-              SANPHAM: true
-            }
-          }
-        }
-      });
+      return await this.giohangRepository.updateCartItemQuantity(
+        existingItem.MaCTGH,
+        newQuantity,
+      );
     } else {
       // Thêm sản phẩm mới vào giỏ
-      return await this.prisma.cHITIETGIOHANG.create({
-        data: {
-          MaGH: cart.MaGH,
-          MaCTSP,
-          SoLuong
-        },
-        include: {
-          CHITIETSANPHAM: {
-            include: {
-              SANPHAM: true
-            }
-          }
-        }
+      return await this.giohangRepository.createCartItem({
+        MaGH: cart.MaGH,
+        MaCTSP,
+        SoLuong,
       });
     }
   }
@@ -102,28 +82,17 @@ export class GiohangService {
   async getCartItems(MaTKKH?: string): Promise<CartResponseDto> {
     const cart = await this.getOrCreateCart(MaTKKH);
 
-    const cartItems = await this.prisma.cHITIETGIOHANG.findMany({
-      where: { MaGH: cart.MaGH },
-      include: {
-        CHITIETSANPHAM: {
-          include: {
-            SANPHAM: true
-          }
-        }
-      }
-    });
+    const cartItems = await this.giohangRepository.findAllCartItems(cart.MaGH);
 
-    const totalQuantity = cartItems.reduce((sum, item) => sum + item.SoLuong, 0);
-    const totalValue = cartItems.reduce((sum, item) => 
-      sum + (item.SoLuong * item.CHITIETSANPHAM.SANPHAM.GiaBan), 0
-    );
+    const { totalQuantity, totalValue } =
+      await this.giohangRepository.calculateCartTotal(cart.MaGH);
 
     return {
       MaGH: cart.MaGH,
       created_at: cart.created_at,
       totalQuantity,
       totalValue,
-      items: cartItems
+      items: cartItems,
     };
   }
 
@@ -131,12 +100,7 @@ export class GiohangService {
   async updateQuantity(MaCTGH: string, updateQuantityDto: UpdateQuantityDto) {
     const { SoLuong } = updateQuantityDto;
 
-    const cartItem = await this.prisma.cHITIETGIOHANG.findUnique({
-      where: { MaCTGH },
-      include: {
-        CHITIETSANPHAM: true
-      }
-    });
+    const cartItem = await this.giohangRepository.findCartItemById(MaCTGH);
 
     if (!cartItem) {
       throw new NotFoundException('Không tìm thấy sản phẩm trong giỏ hàng');
@@ -144,35 +108,23 @@ export class GiohangService {
 
     // Kiểm tra số lượng tồn kho
     if (cartItem.CHITIETSANPHAM.SoLuong < SoLuong) {
-      throw new BadRequestException(`Không đủ hàng trong kho. Chỉ còn ${cartItem.CHITIETSANPHAM.SoLuong} sản phẩm`);
+      throw new BadRequestException(
+        `Không đủ hàng trong kho. Chỉ còn ${cartItem.CHITIETSANPHAM.SoLuong} sản phẩm`,
+      );
     }
 
-    return await this.prisma.cHITIETGIOHANG.update({
-      where: { MaCTGH },
-      data: { SoLuong },
-      include: {
-        CHITIETSANPHAM: {
-          include: {
-            SANPHAM: true
-          }
-        }
-      }
-    });
+    return await this.giohangRepository.updateCartItemQuantity(MaCTGH, SoLuong);
   }
 
   // Xóa sản phẩm khỏi giỏ hàng
   async removeFromCart(MaCTGH: string) {
-    const cartItem = await this.prisma.cHITIETGIOHANG.findUnique({
-      where: { MaCTGH }
-    });
+    const cartItem = await this.giohangRepository.findCartItemById(MaCTGH);
 
     if (!cartItem) {
       throw new NotFoundException('Không tìm thấy sản phẩm trong giỏ hàng');
     }
 
-    await this.prisma.cHITIETGIOHANG.delete({
-      where: { MaCTGH }
-    });
+    await this.giohangRepository.deleteCartItem(MaCTGH);
 
     return { message: 'Đã xóa sản phẩm khỏi giỏ hàng' };
   }
@@ -180,27 +132,29 @@ export class GiohangService {
   // Lấy sản phẩm để chuẩn bị mua (checkout)
   async getItemsForPurchase(MaTKKH?: string) {
     const cartData = await this.getCartItems(MaTKKH);
-    
+
     if (cartData.items.length === 0) {
       throw new BadRequestException('Giỏ hàng trống');
     }
 
     // Kiểm tra tồn kho cho tất cả sản phẩm
-    const outOfStockItems = cartData.items.filter(item => 
-      item.CHITIETSANPHAM.SoLuong < item.SoLuong
+    const validation = await this.giohangRepository.validateStockForCheckout(
+      cartData.MaGH,
     );
 
-    if (outOfStockItems.length > 0) {
-      const outOfStockNames = outOfStockItems.map(item => 
-        item.CHITIETSANPHAM.SANPHAM.TenSP
-      ).join(', ');
-      throw new BadRequestException(`Các sản phẩm sau không đủ hàng: ${outOfStockNames}`);
+    if (!validation.isValid) {
+      const outOfStockNames = validation.outOfStockItems
+        .map((item) => item.TenSP)
+        .join(', ');
+      throw new BadRequestException(
+        `Các sản phẩm sau không đủ hàng: ${outOfStockNames}`,
+      );
     }
 
     return {
       ...cartData,
       readyForPurchase: true,
-      message: 'Tất cả sản phẩm sẵn sàng để mua'
+      message: 'Tất cả sản phẩm sẵn sàng để mua',
     };
   }
 
@@ -208,9 +162,7 @@ export class GiohangService {
   async clearCart(MaTKKH?: string) {
     const cart = await this.getOrCreateCart(MaTKKH);
 
-    await this.prisma.cHITIETGIOHANG.deleteMany({
-      where: { MaGH: cart.MaGH }
-    });
+    await this.giohangRepository.deleteAllCartItems(cart.MaGH);
 
     return { message: 'Đã xóa toàn bộ giỏ hàng' };
   }
