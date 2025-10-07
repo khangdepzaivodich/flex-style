@@ -1,18 +1,19 @@
 import { DanhMucEntity } from './danhmuc.entity';
 import { DanhMucDto } from '../dto/danhmuc.dto';
 
-export class DanhmucMapper {
-  static toEntity(dto: DanhMucDto): DanhMucEntity {
-    const entity = new DanhMucEntity();
-    entity.TenDanhMuc = dto.TenDanhMuc;
-    entity.TrangThai = dto.TrangThai;
-    entity.Loai = dto.Loai;
-    return entity;
+export class DanhMucMapper {
+  static toEntity(prisma: any): DanhMucEntity {
+    return new DanhMucEntity(
+      prisma.id,
+      prisma.TenDM,
+      prisma.TrangThai,
+      prisma.Loai,
+    );
   }
 
   static toDto(entity: DanhMucEntity): DanhMucDto {
     return {
-      TenDanhMuc: entity.TenDanhMuc,
+      TenDM: entity.TenDM,
       TrangThai: entity.TrangThai,
       Loai: entity.Loai,
     };
