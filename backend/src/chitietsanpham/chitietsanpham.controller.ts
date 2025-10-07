@@ -9,14 +9,14 @@ import {
   Query,
 } from '@nestjs/common';
 import { ChitietsanphamService } from './chitietsanpham.service';
-import { Prisma } from '@prisma/client';
+import { ChiTietSanPhamDto } from './dto/chitietsanpham.dto';
 @Controller('chitietsanpham')
 export class ChitietsanphamController {
   constructor(private readonly chitietsanphamService: ChitietsanphamService) {}
 
   // Lay tat ca chi tiet san pham
   @Get()
-  async findAll(@Query() take?: string, @Query() skip?: string) {
+  async findAll(@Query('take') take?: string, @Query('skip') skip?: string) {
     return this.chitietsanphamService.chitietsanphams({
       take: take ? Number(take) : undefined,
       skip: skip ? Number(skip) : undefined,
@@ -31,7 +31,7 @@ export class ChitietsanphamController {
 
   // Tao chi tiet san pham
   @Post()
-  async create(@Body() data: Prisma.CHITIETSANPHAMCreateInput) {
+  async create(@Body() data: ChiTietSanPhamDto) {
     return this.chitietsanphamService.createChitietsanpham(data);
   }
 
@@ -43,10 +43,7 @@ export class ChitietsanphamController {
 
   // Cap nhat chi tiet san pham
   @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() data: Prisma.CHITIETSANPHAMUpdateInput,
-  ) {
+  async update(@Param('id') id: string, @Body() data: ChiTietSanPhamDto) {
     return this.chitietsanphamService.updateChitietsanpham({
       where: { MaCTSP: id },
       data,

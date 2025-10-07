@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { SanphamService } from './sanpham.service';
-import { Prisma } from '@prisma/client';
+import { SanPhamDto } from './dto/sanpham.dto';
 @Controller('sanpham')
 export class SanphamController {
   constructor(private readonly sanphamService: SanphamService) {}
@@ -17,7 +17,7 @@ export class SanphamController {
   // Lay tat ca san pham
   @Get()
   async findAll(@Query('skip') skip?: string, @Query('take') take?: string) {
-    return this.sanphamService.sanphams({
+    return await this.sanphamService.sanphams({
       skip: skip ? Number(skip) : undefined,
       take: take ? Number(take) : undefined,
     });
@@ -26,22 +26,19 @@ export class SanphamController {
   // Lay san pham theo ID
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.sanphamService.sanpham({ MaSP: id });
+    return await this.sanphamService.sanpham({ MaSP: id });
   }
 
   // Tao san pham moi
   @Post()
-  async create(@Body() data: Prisma.SANPHAMCreateInput) {
-    return this.sanphamService.createSanpham(data);
+  async create(@Body() data: SanPhamDto) {
+    return await this.sanphamService.createSanpham(data);
   }
 
   // Cap nhat san pham
   @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() data: Prisma.SANPHAMUpdateInput,
-  ) {
-    return this.sanphamService.updateSanPham({
+  async update(@Param('id') id: string, @Body() data: SanPhamDto) {
+    return await this.sanphamService.updateSanPham({
       where: { MaSP: id },
       data,
     });
@@ -50,6 +47,6 @@ export class SanphamController {
   // Xoa san pham
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    return this.sanphamService.deleteSanpham({ MaSP: id });
+    return await this.sanphamService.deleteSanpham({ MaSP: id });
   }
 }

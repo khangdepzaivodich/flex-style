@@ -118,6 +118,8 @@ model SUKIENUUDAI {
   TenSK        String
   NgayPH       DateTime
   PhanTramGiam Int
+  TrangThai    TrangThai @default(ACTIVE)
+  MoTa         String?
   DONHANG      DONHANG[]
 }
 

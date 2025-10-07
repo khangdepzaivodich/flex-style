@@ -1,12 +1,16 @@
-import { Body, Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma, CHITIETSANPHAM } from '@prisma/client';
+import { ChiTietSanPhamDto } from './dto/chitietsanpham.dto';
 
 @Injectable()
 export class ChitietsanphamService {
   constructor(private prisma: PrismaService) {}
 
-  // Lay tat ca chi tiet san pham
   async chitietsanphams(params: {
     take?: number;
     skip?: number;
@@ -25,7 +29,6 @@ export class ChitietsanphamService {
     });
   }
 
-  // Lay chi tiet san pham theo ID
   async chitietsanpham(
     id: Prisma.CHITIETSANPHAMWhereUniqueInput,
   ): Promise<CHITIETSANPHAM | null> {
@@ -35,34 +38,52 @@ export class ChitietsanphamService {
     });
   }
 
-  // Tao chi tiet san pham moi
-  async createChitietsanpham(
-    data: Prisma.CHITIETSANPHAMCreateInput,
-  ): Promise<CHITIETSANPHAM> {
-    return this.prisma.cHITIETSANPHAM.create({
-      data,
-    });
+  async createChitietsanpham(data: ChiTietSanPhamDto): Promise<CHITIETSANPHAM> {
+    try {
+      return await this.prisma.cHITIETSANPHAM.create({
+        data,
+      });
+    } catch (error) {
+      throw new BadRequestException('Tạo chi tiết sản phẩm thất bại: ' + error);
+    }
   }
 
-  // Xoa chi tiet san pham
   async deleteChitietsanpham(
     where: Prisma.CHITIETSANPHAMWhereUniqueInput,
   ): Promise<CHITIETSANPHAM> {
-    return this.prisma.cHITIETSANPHAM.delete({
-      where,
-    });
+    try {
+      return await this.prisma.cHITIETSANPHAM.delete({
+        where,
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException('Chi tiết sản phẩm không tồn tại');
+      }
+      throw error;
+    }
   }
 
-  // Cap nhat chi tiet san pham
   async updateChitietsanpham(params: {
     where: Prisma.CHITIETSANPHAMWhereUniqueInput;
-    data: Prisma.CHITIETSANPHAMUpdateInput;
+    data: ChiTietSanPhamDto;
   }): Promise<CHITIETSANPHAM> {
     const { where, data } = params;
-    return this.prisma.cHITIETSANPHAM.update({ where, data });
+    try {
+      return await this.prisma.cHITIETSANPHAM.update({ where, data });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException('Chi tiết sản phẩm không tồn tại');
+      }
+      throw new BadRequestException('Cập nhật thất bại: ' + error);
+    }
   }
 
-  // Tang so luong chi tiet san pham
   async tangSoLuongChitietsanpham(
     where: Prisma.CHITIETSANPHAMWhereUniqueInput,
     tangSoLuong: number,
@@ -70,22 +91,16 @@ export class ChitietsanphamService {
     const chitietsanpham = await this.prisma.cHITIETSANPHAM.findUnique({
       where,
     });
-    // Khong tim thay chi tiet san pham
     if (!chitietsanpham) {
-      throw new Error('Không tìm thấy chi tiết sản phẩm');
+      throw new NotFoundException('Không tìm thấy chi tiết sản phẩm');
     }
 
-    // Cap nhat so luong chi tiet san pham
-    const updated = await this.prisma.cHITIETSANPHAM.update({
+    return this.prisma.cHITIETSANPHAM.update({
       where,
-      data: {
-        SoLuong: chitietsanpham.SoLuong + tangSoLuong,
-      },
+      data: { SoLuong: chitietsanpham.SoLuong + tangSoLuong },
     });
-    return updated;
   }
 
-  // Giam so luong chi tiet san pham
   async giamSoLuongChitietsanpham(
     where: Prisma.CHITIETSANPHAMWhereUniqueInput,
     giamSoLuong: number,
@@ -93,15 +108,13 @@ export class ChitietsanphamService {
     const chitietsanpham = await this.prisma.cHITIETSANPHAM.findUnique({
       where,
     });
-    // Khong tim thay chi tiet san pham
     if (!chitietsanpham) {
-      throw new Error('Không tìm thấy chi tiết sản phẩm');
+      throw new NotFoundException('Không tìm thấy chi tiết sản phẩm');
     }
-    // Cap nhat so luong chi tiet san pham
-    const updated = await this.prisma.cHITIETSANPHAM.update({
+
+    return this.prisma.cHITIETSANPHAM.update({
       where,
       data: { SoLuong: chitietsanpham.SoLuong - giamSoLuong },
     });
-    return updated;
   }
 }

@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma, SANPHAM } from '@prisma/client';
+import { SanPhamDto } from './dto/sanpham.dto';
 
 @Injectable()
 export class SanphamService {
@@ -30,7 +31,7 @@ export class SanphamService {
   }
 
   // Tao san pham moi
-  async createSanpham(data: Prisma.SANPHAMCreateInput): Promise<SANPHAM> {
+  async createSanpham(data: SanPhamDto): Promise<SANPHAM> {
     return this.prisma.sANPHAM.create({
       data,
     });
@@ -39,19 +40,39 @@ export class SanphamService {
   // Cap nhat san pham
   async updateSanPham(params: {
     where: Prisma.SANPHAMWhereUniqueInput;
-    data: Prisma.SANPHAMUpdateInput;
+    data: SanPhamDto;
   }): Promise<SANPHAM> {
     const { where, data } = params;
-    return this.prisma.sANPHAM.update({
-      data,
-      where,
-    });
+    try {
+      return await this.prisma.sANPHAM.update({
+        data,
+        where,
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException('Sản phẩm không tồn tại');
+      }
+      throw error;
+    }
   }
 
   // Xoa san pham
   async deleteSanpham(where: Prisma.SANPHAMWhereUniqueInput): Promise<SANPHAM> {
-    return this.prisma.sANPHAM.delete({
-      where,
-    });
+    try {
+      return this.prisma.sANPHAM.delete({
+        where,
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException('Sản phẩm không tồn tại');
+      }
+      throw error;
+    }
   }
 }
