@@ -1,21 +1,26 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-
 export enum LoaiDanhMuc {
   NAM = 'Nam',
   NU = 'Nữ',
   PHUKIEN = 'Phụ kiện'
 }
-@Entity('danhmuc')
+export enum TrangThai {
+  ACTIVE = 'ACTIVE', 
+  INACTIVE = 'INACTIVE'
+}
 export class DanhMucEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ length: 255 })
-  TenDanhMuc: string;
-
-  @Column({ default: true })
-  TrangThai: boolean;
-
-  @Column({})
+  id: string;
+  TenDM: string;
+  TrangThai: TrangThai;
   Loai: LoaiDanhMuc;
+  constructor(
+    id: string,
+    TenDM: string,
+    TrangThai: TrangThai,
+    Loai: LoaiDanhMuc,
+  ){
+    this.id = id;
+    this.TenDM = TenDM;
+    this.TrangThai = TrangThai;
+    this.Loai = Loai;
+  }
 }

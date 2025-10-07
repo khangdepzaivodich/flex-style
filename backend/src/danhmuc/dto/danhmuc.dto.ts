@@ -1,17 +1,14 @@
 import { IsNotEmpty, IsString, IsInt, IsBoolean, IsEnum } from "class-validator";
 import { LoaiDanhMuc } from "../entity/danhmuc.entity";
-import { Unique } from "typeorm";
+import { TrangThai } from "../entity/danhmuc.entity";
 
 export class DanhMucDto {
     @IsString({ message: 'Tên danh mục phải là chuỗi' })
     @IsNotEmpty({ message: 'Tên danh mục không được để trống' })
-    TenDanhMuc: string;
+    TenDM: string;
 
-    //trạng thái mặc định là true (active)
-    @IsBoolean({ message: 'Trạng thái phải là boolean' })
-    @IsNotEmpty({ message: 'Trạng thái không được để trống' })
-    TrangThai: boolean;
-
+    @IsEnum(TrangThai, { message: 'Trạng thái phải là active hoặc inactive' })
+    TrangThai: TrangThai;
 
     @IsEnum(LoaiDanhMuc, { message: 'Loại danh mục không hợp lệ' })
     Loai: LoaiDanhMuc;

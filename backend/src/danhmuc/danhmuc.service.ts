@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { create } from 'domain';
 import { DanhMucDto } from './dto/danhmuc.dto';
-import { LoaiDanhMuc } from './entity/danhmuc.entity';
+import { LoaiDanhMuc, TrangThai } from './entity/danhmuc.entity';
 import { not } from 'rxjs/internal/util/not';
 import { DanhMucRepository } from 'src/repositories/danhmuc.repository';
 import { ExcelService } from './excel.service';
@@ -42,15 +42,15 @@ export class DanhMucService {
         }
         return this.danhMucRepository.update(id, { trangThai });
     }
-    async changeLoai(id: number, loai: LoaiDanhMuc) {
+    async changeLoai(id: string, TrangThai: string) {
         const existingDanhMuc = await this.danhMucRepository.findById(id);
         if (!existingDanhMuc) {
             throw new BadRequestException('Danh mục không tồn tại');
         }
-        if (!(loai in LoaiDanhMuc)) {
+        if (!(TrangThai in LoaiDanhMuc)) {
             throw new BadRequestException('Loại danh mục không hợp lệ');
         }
-        return this.danhMucRepository.update(id, { loai });
+        return this.danhMucRepository.changeTrangThai(existingDanhMuc.MaDM, TrangThai as TrangThai);
     }
     async exportDanhMucToExcel() : Promise<Buffer> {
         //lấy tên nhân viên đăng nhập từ token

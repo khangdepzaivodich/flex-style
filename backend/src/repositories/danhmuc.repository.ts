@@ -1,43 +1,34 @@
 import { Injectable } from "@nestjs/common";
+import { PrismaService } from "src/prisma.service";
+import { DanhMucMapper } from "src/danhmuc/entity/danhmuc.mapper";
+import { DanhMucDto } from "src/danhmuc/dto/danhmuc.dto";
+import { DanhMucEntity, TrangThai } from "src/danhmuc/entity/danhmuc.entity";
 
 @Injectable()
 export class DanhMucRepository {
-    // Các phương thức truy cập dữ liệu ở đây
-    constructor() {}
-    async findAll() {
-        // Truy vấn tất cả danh mục từ cơ sở dữ liệu
-        return [
-            { id: 1, TenDanhMuc: 'Áo Nam', TrangThai: true, Loai: 'Nam' },
-            { id: 2, TenDanhMuc: 'Áo Nữ', TrangThai: true, Loai: 'Nữ' },
-            { id: 3, TenDanhMuc: 'Phụ kiện', TrangThai: false, Loai: 'Phụ kiện' }
-        ];
+    constructor(private readonly prisma: PrismaService) {}
+    //tạo mới danh mục
+    async createDanhMuc(newdata: any){
+        const danhmuc = await this.prisma.dANHMUC.create({
+            data: newdata,
+        });
+        return danhmuc ? DanhMucMapper.toEntity(danhmuc) : null;
     }
-    async findById(id: number) {
-        // Truy vấn danh mục theo id từ cơ sở dữ liệu
-        if (id === 1) {
-            return { id: 1, TenDanhMuc: 'Áo Nam', TrangThai: true, Loai: 'Nam' };
-        }
-        return null;
-    }   
-    async findByName(name: string) {
-        // Truy vấn danh mục theo tên từ cơ sở dữ liệu
-        if (name === 'Áo Nam') {
-            return { id: 1, TenDanhMuc: 'Áo Nam', TrangThai: true, Loai: 'Nam' };
-        }
-        return null;
-    }
-    async create(data: any) {
-        // Thêm mới danh mục vào cơ sở dữ liệu
-        return { id: 4, ...data };
-    }
-    async update(id: number, data: any) {
-        // Cập nhật danh mục trong cơ sở dữ liệu
-        return { id, ...data };
-    }                   
+    //chỉnh sửa danh mục dựa trên id là chuỗi
+    async updateDanhMuc(updatedata: any){
+        const danhmuc = await this.prisma.dANHMUC.update({
+            where: { MaDM: updatedata.MaDM },
+            data: updatedata,
+        });
 
-    async delete(id: number) {
-        // Xoá danh mục khỏi cơ sở dữ liệu
-        return { success: true };
+        return danhmuc ? DanhMucMapper.toEntity(danhmuc) : null;
     }
-
+    //thay đổi trạng thái biết trạng thái là kiểu enum
+    async changeTrangThai(MaDM: string, TrangThai: TrangThai) {
+        const danhmuc = await this.prisma.dANHMUC.update({
+                where: { MaDM },
+                data: { TrangThai},
+            });
+        return DanhMucMapper.toEntity(danhmuc);
+    }
 }
