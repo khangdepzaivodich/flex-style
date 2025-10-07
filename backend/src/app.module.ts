@@ -1,26 +1,31 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
 import { DanhMucModule } from './danhmuc/danhmuc.module';
 import { SukienuudaiModule } from './sukienuudai/sukienuudai.module';
-import { SanphamService } from './sanpham/sanpham.service';
 import { SanphamModule } from './sanpham/sanpham.module';
-import { ChitietsanphamService } from './chitietsanpham/chitietsanpham.service';
-import { ChitietsanphamController } from './chitietsanpham/chitietsanpham.controller';
 import { ChitietsanphamModule } from './chitietsanpham/chitietsanpham.module';
+import { GiohangModule } from './giohang/giohang.module';
+import { PrismaModule } from './prisma.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // Để dùng ở mọi nơi
+      isGlobal: true,
     }),
+    PrismaModule,
     DanhMucModule,
     SukienuudaiModule,
     SanphamModule,
     ChitietsanphamModule,
+    GiohangModule,
   ],
-  controllers: [AppController, ChitietsanphamController],
-  providers: [AppService, SanphamService, ChitietsanphamService],
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log('[AppModule] Initialized with GiohangModule - V6');
+  }
+}
