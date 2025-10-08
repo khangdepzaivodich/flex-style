@@ -1,12 +1,4 @@
-export enum LoaiDanhMuc {
-  NAM = 'Nam',
-  NU = 'Nữ',
-  PHUKIEN = 'Phụ kiện'
-}
-export enum TrangThai {
-  ACTIVE = 'ACTIVE', 
-  INACTIVE = 'INACTIVE'
-}
+import { TrangThai, LoaiDanhMuc } from "src/constant";
 export class DanhMucEntity {
   id: string;
   TenDM: string;

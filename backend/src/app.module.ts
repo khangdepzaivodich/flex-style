@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DanhMucModule } from './danhmuc/danhmuc.module';
-import { SukienuudaiModule } from './sukienuudai/sukienuudai.module';
+import { SuKienUuDaiModule } from './sukienuudai/sukienuudai.module';
 import { SanphamModule } from './sanpham/sanpham.module';
 import { ChitietsanphamModule } from './chitietsanpham/chitietsanpham.module';
 import { GiohangModule } from './giohang/giohang.module';
@@ -16,7 +16,7 @@ import { PrismaModule } from './prisma.module';
     }),
     PrismaModule,
     DanhMucModule,
-    SukienuudaiModule,
+    SuKienUuDaiModule,
     SanphamModule,
     ChitietsanphamModule,
     GiohangModule,

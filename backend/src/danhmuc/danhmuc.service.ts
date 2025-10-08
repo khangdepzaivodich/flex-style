@@ -1,8 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { create } from 'domain';
+import { TrangThai, LoaiDanhMuc } from 'src/constant';
 import { DanhMucDto } from './dto/danhmuc.dto';
-import { LoaiDanhMuc, TrangThai } from './entity/danhmuc.entity';
-import { not } from 'rxjs/internal/util/not';
 import { DanhMucRepository } from 'src/repositories/danhmuc.repository';
 import { ExcelService } from './excel.service';
 @Injectable()
@@ -16,41 +14,48 @@ export class DanhMucService {
         return this.danhMucRepository.findAll();
     }
     async addDanhMuc(data: DanhMucDto) {
-        const existingDanhMuc = await this.danhMucRepository.findByName(data.TenDanhMuc);
+        const existingDanhMuc = await this.danhMucRepository.findByName(data.TenDM);
         if (existingDanhMuc) {
             throw new BadRequestException('Danh mục đã tồn tại');
         }
-        return this.danhMucRepository.create(data);
+        return this.danhMucRepository.createDanhMuc(data);
     }
-    async updateDanhMuc(id: number, data: DanhMucDto) {
+    async updateDanhMuc(id: string, data: DanhMucDto) {
         const existingDanhMuc = await this.danhMucRepository.findById(id);
         if (!existingDanhMuc) {
             throw new BadRequestException('Danh mục không tồn tại');
         }
-        if (data.TenDanhMuc && data.TenDanhMuc !== existingDanhMuc.TenDanhMuc) {
-            const danhMucWithSameName = await this.danhMucRepository.findByName(data.TenDanhMuc);
+        if (data.TenDM && data.TenDM !== existingDanhMuc.TenDM) {
+            const danhMucWithSameName = await this.danhMucRepository.findByName(data.TenDM);
             if (danhMucWithSameName) {
-                throw  new BadRequestException('Danh mục đã tồn tại');
+                throw new BadRequestException('Tên danh mục đã tồn tại');
             }
         }   
-        return this.danhMucRepository.update(id, data);
+        return this.danhMucRepository.updateDanhMuc(id, data);
     }
-    async changeTrangThai(id: number, trangThai: boolean) {
+    async changeTrangThai(id: string, trangThai: string) {
         const existingDanhMuc = await this.danhMucRepository.findById(id);
         if (!existingDanhMuc) {
             throw new BadRequestException('Danh mục không tồn tại');
         }
-        return this.danhMucRepository.update(id, { trangThai });
+        if (!(trangThai in TrangThai)) {
+            throw new BadRequestException('Trạng thái không hợp lệ');
+        }
+        return this.danhMucRepository.changeTrangThai(id, trangThai as TrangThai);
     }
-    async changeLoai(id: string, TrangThai: string) {
+    async changeLoai(id: string, Loai: string) {
         const existingDanhMuc = await this.danhMucRepository.findById(id);
         if (!existingDanhMuc) {
             throw new BadRequestException('Danh mục không tồn tại');
         }
-        if (!(TrangThai in LoaiDanhMuc)) {
+        if (!(Loai in LoaiDanhMuc)) {
             throw new BadRequestException('Loại danh mục không hợp lệ');
         }
-        return this.danhMucRepository.changeTrangThai(existingDanhMuc.MaDM, TrangThai as TrangThai);
+        const updatedDanhMuc = await this.danhMucRepository.changeLoai(id, Loai as LoaiDanhMuc);
+        if (!updatedDanhMuc) {
+            throw new BadRequestException('Cập nhật loại danh mục thất bại');
+        }
+        return updatedDanhMuc;
     }
     async exportDanhMucToExcel() : Promise<Buffer> {
         //lấy tên nhân viên đăng nhập từ token
