@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { DanhmucService } from './danhmuc.service';
-import { DanhmucController } from './danhmuc.controller';
+import { DanhMucService } from './danhmuc.service';
+import { DanhMucController } from './danhmuc.controller';
 
 @Module({
-  providers: [DanhmucService],
-  controllers: [DanhmucController]
+  providers: [DanhMucService],
+  controllers: [DanhMucController]
 })
-export class DanhmucModule {
+export class DanhMucModule {
 }
