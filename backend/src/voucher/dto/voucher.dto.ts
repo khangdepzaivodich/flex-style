@@ -6,7 +6,10 @@ export class VoucherDto {
     @IsString({ message: 'Tên voucher phải là chuỗi' })
     @IsNotEmpty({ message: 'Tên voucher không được để trống' })
     TenVoucher: string;
-
+    //mô tả voucher
+    @IsString({ message: 'Mô tả voucher phải là chuỗi' })
+    @IsNotEmpty({ message: 'Mô tả voucher không được để trống' })
+    MoTa: string;
     //Số tiền giảm
     @IsInt({ message: 'Số tiền giảm phải là số nguyên' })
     @IsNotEmpty({ message: 'Số tiền giảm không được để trống' })

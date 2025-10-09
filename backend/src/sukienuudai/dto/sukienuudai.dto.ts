@@ -10,6 +10,11 @@ export class SuKienUuDaiDto {
     @IsString({ message: 'Tên sự kiện ưu đãi phải là chuỗi' })
     @IsNotEmpty({ message: 'Tên sự kiện ưu đãi không được để trống' })
     TenSK: string;
+
+    //mô tả sự kiện
+    @IsString({ message: 'Mô tả sự kiện ưu đãi phải là chuỗi' })
+    @IsNotEmpty({ message: 'Mô tả sự kiện ưu đãi không được để trống' })
+    MoTa: string;
     // Ngày bắt đầu sự kiện
     @IsFutureOrToday({ message: 'Ngày bắt đầu phải là ngày hợp lệ' })
     @IsDate({ message: 'Ngày bắt đầu phải là ngày hợp lệ' })

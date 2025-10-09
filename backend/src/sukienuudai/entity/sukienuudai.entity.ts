@@ -2,6 +2,7 @@ import { TrangThai } from "src/constant";
 export class SuKienUuDai {
     MaSK: string;
     TenSK: string;
+    MoTa: string
     NgayPH: Date;
     NgayKT: Date;
     PhanTramGiam: number;
@@ -11,6 +12,7 @@ export class SuKienUuDai {
     constructor(
         MaSK: string,
         TenSK: string,
+        MoTa: string,
         NgayPH: Date,
         NgayKT: Date,
         PhanTramGiam: number,
@@ -20,6 +22,7 @@ export class SuKienUuDai {
     ){
         this.MaSK = MaSK;
         this.TenSK = TenSK;
+        this.MoTa = MoTa;
         this.NgayPH = NgayPH;
         this.NgayKT = NgayKT;
         this.PhanTramGiam = PhanTramGiam;

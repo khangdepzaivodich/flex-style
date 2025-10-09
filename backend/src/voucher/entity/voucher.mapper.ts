@@ -4,6 +4,7 @@ export class VoucherMapper {
         return new VoucherEntity(
             prisma.MaVoucher,
             prisma.TenVoucher,
+            prisma.MoTa,
             prisma.SoTien,
             prisma.FreeShip,
             prisma.NgayBatDau,
