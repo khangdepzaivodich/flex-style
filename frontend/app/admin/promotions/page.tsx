@@ -1,388 +1,259 @@
 "use client";
 
 import { useState } from "react";
-import { ProtectedRoute } from "@/components/protected-route";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Search,
-  MoreHorizontal,
-  Plus,
-  Filter,
-  Gift,
-  Percent,
-  Calendar,
-} from "lucide-react";
-
-const promotionsData = [
-  {
-    id: 1,
-    name: "Summer Sale 2024",
-    type: "percentage",
-    value: 30,
-    code: "SUMMER30",
-    startDate: "2024-06-01",
-    endDate: "2024-08-31",
-    status: "active",
-    usageCount: 245,
-    usageLimit: 1000,
-    description: "30% off on all summer collection items",
-  },
-  {
-    id: 2,
-    name: "New Customer Discount",
-    type: "fixed",
-    value: 100000,
-    code: "WELCOME100",
-    startDate: "2024-01-01",
-    endDate: "2024-12-31",
-    status: "active",
-    usageCount: 89,
-    usageLimit: 500,
-    description: "100,000₫ off for first-time customers",
-  },
-  {
-    id: 3,
-    name: "Black Friday Mega Sale",
-    type: "percentage",
-    value: 50,
-    code: "BLACKFRIDAY50",
-    startDate: "2024-11-29",
-    endDate: "2024-11-29",
-    status: "scheduled",
-    usageCount: 0,
-    usageLimit: 2000,
-    description: "50% off on selected items for Black Friday",
-  },
-  {
-    id: 4,
-    name: "Free Shipping Promo",
-    type: "shipping",
-    value: 0,
-    code: "FREESHIP",
-    startDate: "2024-03-01",
-    endDate: "2024-03-31",
-    status: "expired",
-    usageCount: 156,
-    usageLimit: 300,
-    description: "Free shipping on orders over 500,000₫",
-  },
-];
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Plus, Gift, Calendar, TrendingUp, Eye } from "lucide-react";
+import { PromotionModal } from "@/components/system/modals/promotion-modal";
 
 export default function PromotionsPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [editingPromotion, setEditingPromotion] = useState<any>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  const filteredPromotions = promotionsData.filter(
-    (promotion) =>
-      promotion.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      promotion.code.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const promotions = [
+    {
+      id: "PROMO-001",
+      name: "Flash Sale Cuối Tuần",
+      type: "flash_sale",
+      discount: "30%",
+      startDate: "2024-01-20",
+      endDate: "2024-01-22",
+      usage: 234,
+      revenue: "₫45M",
+      status: "scheduled",
+    },
+    {
+      id: "PROMO-002",
+      name: "Giảm giá Tết Nguyên Đán",
+      type: "seasonal",
+      discount: "50%",
+      startDate: "2024-02-01",
+      endDate: "2024-02-15",
+      usage: 0,
+      revenue: "₫0",
+      status: "scheduled",
+    },
+    {
+      id: "PROMO-003",
+      name: "Mua 2 Tặng 1",
+      type: "bundle",
+      discount: "33%",
+      startDate: "2024-01-10",
+      endDate: "2024-01-31",
+      usage: 567,
+      revenue: "₫89M",
+      status: "active",
+    },
+    {
+      id: "PROMO-004",
+      name: "Giảm 20% Toàn Bộ",
+      type: "site_wide",
+      discount: "20%",
+      startDate: "2024-01-01",
+      endDate: "2024-01-15",
+      usage: 1234,
+      revenue: "₫234M",
+      status: "ended",
+    },
+  ];
 
-  const getStatusColor = (status: string) => {
+  const getStatusBadge = (status: string) => {
     switch (status) {
       case "active":
-        return "default";
+        return <Badge className="bg-green-600">Đang diễn ra</Badge>;
       case "scheduled":
-        return "secondary";
-      case "expired":
-        return "destructive";
+        return <Badge className="bg-blue-600">Đã lên lịch</Badge>;
+      case "ended":
+        return <Badge className="bg-gray-600">Đã kết thúc</Badge>;
+      case "paused":
+        return <Badge className="bg-yellow-600">Tạm dừng</Badge>;
       default:
-        return "outline";
+        return <Badge>Không xác định</Badge>;
     }
   };
 
-  const getTypeIcon = (type: string) => {
+  const getTypeBadge = (type: string) => {
     switch (type) {
-      case "percentage":
-        return <Percent className="h-4 w-4" />;
-      case "fixed":
-        return <Gift className="h-4 w-4" />;
-      case "shipping":
-        return <Calendar className="h-4 w-4" />;
+      case "flash_sale":
+        return <Badge variant="outline">Flash Sale</Badge>;
+      case "seasonal":
+        return <Badge variant="outline">Theo mùa</Badge>;
+      case "bundle":
+        return <Badge variant="outline">Combo</Badge>;
+      case "site_wide":
+        return <Badge variant="outline">Toàn site</Badge>;
       default:
-        return <Gift className="h-4 w-4" />;
+        return <Badge variant="outline">Khác</Badge>;
     }
+  };
+
+  const handlePause = (promoId: string) => {
+    console.log("[v0] Pausing promotion:", promoId);
   };
 
   return (
-    <ProtectedRoute requiredPermissions={["manage_promotions"]}>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              Promotion Management
-            </h1>
-            <p className="text-muted-foreground">
-              Manage discount codes and promotional campaigns
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-balance">
+            Quản lý sự kiện ưu đãi
+          </h1>
+          <p className="text-muted-foreground mt-2">
+            Tạo và quản lý các chương trình khuyến mãi
+          </p>
+        </div>
+        <Button onClick={() => setIsCreateModalOpen(true)}>
+          <Plus className="h-4 w-4 mr-2" />
+          Tạo sự kiện mới
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Đang diễn ra
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">5</div>
+            <p className="text-xs text-muted-foreground mt-1">Sự kiện</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Đã lên lịch
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-blue-600">12</div>
+            <p className="text-xs text-muted-foreground mt-1">Sự kiện</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Doanh thu từ KM
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">₫368M</div>
+            <p className="text-xs text-muted-foreground mt-1">Tháng này</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Tỷ lệ chuyển đổi
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">45%</div>
+            <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+              <TrendingUp className="h-3 w-3" />
+              +8% so với tháng trước
             </p>
-          </div>
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Promotion
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px]">
-              <DialogHeader>
-                <DialogTitle>Create New Promotion</DialogTitle>
-                <DialogDescription>
-                  Set up a new promotional campaign with discount codes
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Promotion Name</Label>
-                    <Input id="name" placeholder="Enter promotion name" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="code">Promo Code</Label>
-                    <Input id="code" placeholder="Enter promo code" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="type">Discount Type</Label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="percentage">Percentage</SelectItem>
-                        <SelectItem value="fixed">Fixed Amount</SelectItem>
-                        <SelectItem value="shipping">Free Shipping</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="value">Discount Value</Label>
-                    <Input id="value" type="number" placeholder="Enter value" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="startDate">Start Date</Label>
-                    <Input id="startDate" type="date" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="endDate">End Date</Label>
-                    <Input id="endDate" type="date" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="usageLimit">Usage Limit</Label>
-                  <Input
-                    id="usageLimit"
-                    type="number"
-                    placeholder="Enter usage limit"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    placeholder="Enter promotion description"
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsAddDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button onClick={() => setIsAddDialogOpen(false)}>
-                  Create Promotion
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
+          </CardContent>
+        </Card>
+      </div>
 
-        <div className="flex items-center space-x-4">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Search promotions..."
-              className="pl-10"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <Button variant="outline">
-            <Filter className="mr-2 h-4 w-4" />
-            Filter
-          </Button>
-        </div>
-
-        <div className="grid gap-4">
-          {filteredPromotions.map((promotion) => (
-            <Card key={promotion.id}>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      {getTypeIcon(promotion.type)}
+      <Card>
+        <CardHeader>
+          <CardTitle>Danh sách sự kiện ưu đãi</CardTitle>
+          <CardDescription>
+            Quản lý các chương trình khuyến mãi và ưu đãi
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Mã sự kiện</TableHead>
+                <TableHead>Tên sự kiện</TableHead>
+                <TableHead>Loại</TableHead>
+                <TableHead>Giảm giá</TableHead>
+                <TableHead>Thời gian</TableHead>
+                <TableHead>Lượt sử dụng</TableHead>
+                <TableHead>Doanh thu</TableHead>
+                <TableHead>Trạng thái</TableHead>
+                <TableHead className="text-right">Thao tác</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {promotions.map((promo) => (
+                <TableRow key={promo.id}>
+                  <TableCell className="font-medium">{promo.id}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Gift className="h-4 w-4 text-primary" />
+                      <span className="font-medium">{promo.name}</span>
                     </div>
-                    <div>
-                      <h3 className="font-semibold">{promotion.name}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {promotion.description}
-                      </p>
-                      <div className="flex items-center space-x-4 mt-2">
-                        <span className="text-sm font-medium">
-                          Code: {promotion.code}
-                        </span>
-                        <span className="text-sm text-muted-foreground">
-                          {promotion.type === "percentage"
-                            ? `${promotion.value}%`
-                            : promotion.type === "fixed"
-                            ? `${promotion.value.toLocaleString("vi-VN")}₫`
-                            : "Free Shipping"}
-                        </span>
-                        <span className="text-sm text-muted-foreground">
-                          Used: {promotion.usageCount}/{promotion.usageLimit}
-                        </span>
+                  </TableCell>
+                  <TableCell>{getTypeBadge(promo.type)}</TableCell>
+                  <TableCell>
+                    <span className="font-semibold text-red-600">
+                      {promo.discount}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                      <div>
+                        <p>{promo.startDate}</p>
+                        <p className="text-muted-foreground">
+                          đến {promo.endDate}
+                        </p>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <Badge variant={getStatusColor(promotion.status)}>
-                      {promotion.status.charAt(0).toUpperCase() +
-                        promotion.status.slice(1)}
-                    </Badge>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="bg-white">
-                        <DropdownMenuItem
-                          onClick={() => setEditingPromotion(promotion)}
+                  </TableCell>
+                  <TableCell>{promo.usage}</TableCell>
+                  <TableCell className="font-semibold">
+                    {promo.revenue}
+                  </TableCell>
+                  <TableCell>{getStatusBadge(promo.status)}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Button variant="outline" size="sm">
+                        <Eye className="h-4 w-4 mr-1" />
+                        Chi tiết
+                      </Button>
+                      {promo.status === "active" && (
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => handlePause(promo.id)}
                         >
-                          Edit Promotion
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                        <DropdownMenuItem>View Analytics</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
-                          Delete Promotion
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                          Tạm dừng
+                        </Button>
+                      )}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
 
-        {/* Edit Promotion Dialog */}
-        <Dialog
-          open={!!editingPromotion}
-          onOpenChange={() => setEditingPromotion(null)}
-        >
-          <DialogContent className="sm:max-w-[600px]">
-            <DialogHeader>
-              <DialogTitle>Edit Promotion</DialogTitle>
-              <DialogDescription>
-                Update promotion details and settings
-              </DialogDescription>
-            </DialogHeader>
-            {editingPromotion && (
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-name">Promotion Name</Label>
-                    <Input
-                      id="edit-name"
-                      defaultValue={editingPromotion.name}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-code">Promo Code</Label>
-                    <Input
-                      id="edit-code"
-                      defaultValue={editingPromotion.code}
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-type">Discount Type</Label>
-                    <Select defaultValue={editingPromotion.type}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="percentage">Percentage</SelectItem>
-                        <SelectItem value="fixed">Fixed Amount</SelectItem>
-                        <SelectItem value="shipping">Free Shipping</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-value">Discount Value</Label>
-                    <Input
-                      id="edit-value"
-                      type="number"
-                      defaultValue={editingPromotion.value}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="edit-description">Description</Label>
-                  <Textarea
-                    id="edit-description"
-                    defaultValue={editingPromotion.description}
-                  />
-                </div>
-              </div>
-            )}
-            <DialogFooter>
-              <Button
-                variant="outline"
-                onClick={() => setEditingPromotion(null)}
-              >
-                Cancel
-              </Button>
-              <Button onClick={() => setEditingPromotion(null)}>
-                Update Promotion
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
-    </ProtectedRoute>
+      <PromotionModal
+        open={isCreateModalOpen}
+        onOpenChange={setIsCreateModalOpen}
+      />
+    </div>
   );
 }

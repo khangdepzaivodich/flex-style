@@ -91,66 +91,6 @@ export default function AccessoriesPage() {
         </p>
       </div>
 
-      {/* Stats Cards */}
-      {/* <div className="grid md:grid-cols-4 gap-6 mb-8">
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <Watch className="h-8 w-8 text-amber-500" />
-            </div>
-            <h3 className="text-2xl font-bold">{accessoriesProducts.length}</h3>
-            <p className="text-sm text-muted-foreground">Phụ kiện</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <TrendingUp className="h-8 w-8 text-green-500" />
-            </div>
-            <h3 className="text-2xl font-bold">
-              {
-                accessoriesProducts.filter(
-                  (p) => p.originalPrice && p.originalPrice > p.price
-                ).length
-              }
-            </h3>
-            <p className="text-sm text-muted-foreground">Đang sale</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <Star className="h-8 w-8 text-yellow-500" />
-            </div>
-            <h3 className="text-2xl font-bold">
-              {accessoriesProducts.length > 0
-                ? (
-                    accessoriesProducts.reduce((sum, p) => sum + p.rating, 0) /
-                    accessoriesProducts.length
-                  ).toFixed(1)
-                : "0"}
-            </h3>
-            <p className="text-sm text-muted-foreground">Đánh giá TB</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <Badge className="h-8 w-8 bg-amber-500 text-white rounded-full flex items-center justify-center">
-                NEW
-              </Badge>
-            </div>
-            <h3 className="text-2xl font-bold">
-              {
-                accessoriesProducts.filter((p) => p.tags?.includes("new"))
-                  .length
-              }
-            </h3>
-            <p className="text-sm text-muted-foreground">Sản phẩm mới</p>
-          </CardContent>
-        </Card>
-      </div> */}
-
       {/* Category Filter */}
       <div className="mb-8">
         <h3 className="text-lg font-semibold mb-4">Danh mục</h3>
