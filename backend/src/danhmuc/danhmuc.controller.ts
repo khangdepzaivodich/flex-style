@@ -8,11 +8,17 @@ import type { Response } from 'express';
 export class DanhMucController {
     constructor(private readonly danhmucService: DanhMucService) {}
 
-    // Xem thông tin danh mục (tất cả hoặc theo id)
+    // Xem thông tin danh mục (tất cả danh mục)
     @Get()
     @ResponseMessage('Lấy danh mục thành công')
     getAllDanhMuc() {
         return this.danhmucService.getAllDanhMuc();
+    }
+    // Xem thông tin danh mục theo id
+    @Get(':id')
+    @ResponseMessage('Lấy danh mục theo id thành công')
+    getDanhMucById(@Param('id') id: string) {
+        return this.danhmucService.getDanhMucById(id);
     }
 
     // Thêm mới danh mục sản phẩm
