@@ -222,6 +222,7 @@ enum TrangThaiDonHang {
   DANG_XU_LY
   DANG_GIAO_HANG
   HOAN_TAT
+  HUY
 }
 
 enum TrangThaiSP {
