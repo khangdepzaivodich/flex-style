@@ -8,6 +8,7 @@ import { SanphamModule } from './sanpham/sanpham.module';
 import { ChitietsanphamModule } from './chitietsanpham/chitietsanpham.module';
 import { GiohangModule } from './giohang/giohang.module';
 import { PrismaModule } from './prisma.module';
+import { VoucherModule } from './voucher/voucher.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PrismaModule } from './prisma.module';
     SanphamModule,
     ChitietsanphamModule,
     GiohangModule,
+    VoucherModule,
   ],
   controllers: [AppController],
   providers: [AppService],

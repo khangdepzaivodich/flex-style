@@ -13,6 +13,13 @@ export class DanhMucService {
     async getAllDanhMuc() {
         return this.danhMucRepository.findAll();
     }
+    async getDanhMucById(id: string) {
+        const existingDanhMuc = await this.danhMucRepository.findById(id);
+        if (!existingDanhMuc) {
+            throw new BadRequestException('Danh mục không tồn tại');
+        }
+        return existingDanhMuc;
+    }
     async addDanhMuc(data: DanhMucDto) {
         const existingDanhMuc = await this.danhMucRepository.findByName(data.TenDM);
         if (existingDanhMuc) {
