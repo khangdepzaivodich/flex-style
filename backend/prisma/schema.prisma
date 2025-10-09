@@ -157,7 +157,8 @@ model VOUCHER {
   NgayBatDau        DateTime
   NgayKetThuc       DateTime
   Dieukien          Int                 @default(0)
-
+  TrangThai    TrangThai @default(ACTIVE)
+  MoTa         String?
   DONHANG           DONHANG[]
   VOUCHER_KHACHHANG VOUCHER_KHACHHANG[]
 }
