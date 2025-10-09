@@ -80,23 +80,38 @@ const sidebarItems = [
     icon: PackageOpen,
   },
   {
+    title: "Phiếu nhập hàng của kho",
+    href: "/admin/receipts-inventory",
+    icon: PackageOpen,
+  },
+  {
+    title: "Báo cáo kho",
+    href: "/admin/report-inventory",
+    icon: PackageOpen,
+  },
+  {
+    title: "Quản lý đơn hàng",
+    href: "/admin/management-order",
+    icon: PackageOpen,
+  },
+  {
     title: "Thống kê",
     href: "/admin/analytics",
     icon: BarChart3,
   },
   {
-    title: "Orders",
-    href: "/admin/orders",
+    title: "Hoàn tiền vs Trả hàng",
+    href: "/admin/returns",
     icon: ShoppingCart,
   },
   {
-    title: "Promotions",
+    title: "Sự kiện ưu đãi",
     href: "/admin/promotions",
     icon: Gift,
   },
   {
-    title: "Support",
-    href: "/admin/support",
+    title: "Thông báo khách hàng",
+    href: "/admin/notifications",
     icon: Headphones,
   },
   {
