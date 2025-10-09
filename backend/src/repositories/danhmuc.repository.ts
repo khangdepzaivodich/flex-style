@@ -1,12 +1,30 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { DanhMucMapper } from "src/danhmuc/entity/danhmuc.mapper";
-import { DanhMucDto } from "src/danhmuc/dto/danhmuc.dto";
-import { DanhMucEntity, TrangThai } from "src/danhmuc/entity/danhmuc.entity";
+import { TrangThai } from "src/constant";
+import { LoaiDanhMuc } from "@prisma/client";
 
 @Injectable()
 export class DanhMucRepository {
     constructor(private readonly prisma: PrismaService) {}
+    //tìm tất cả danh mục
+    async findAll() {
+        const danhmucs = await this.prisma.dANHMUC.findMany();
+        return danhmucs ? DanhMucMapper.toEntityList(danhmucs) : [];
+    }
+    //tìm danh mục theo id
+    async findById(id: string) {
+        const danhmuc = await this.prisma.dANHMUC.findUnique({
+            where: { MaDM: id },
+        });
+        return danhmuc ? DanhMucMapper.toEntity(danhmuc) : null;
+    }
+    //tim danh mục theo tên
+    async findByName(name: string) {
+        return await this.prisma.dANHMUC.findFirst({
+            where: { TenDM: name },
+        });
+    }
     //tạo mới danh mục
     async createDanhMuc(newdata: any){
         const danhmuc = await this.prisma.dANHMUC.create({
@@ -15,9 +33,9 @@ export class DanhMucRepository {
         return danhmuc ? DanhMucMapper.toEntity(danhmuc) : null;
     }
     //chỉnh sửa danh mục dựa trên id là chuỗi
-    async updateDanhMuc(updatedata: any){
+    async updateDanhMuc(MaDM:string, updatedata: any){
         const danhmuc = await this.prisma.dANHMUC.update({
-            where: { MaDM: updatedata.MaDM },
+            where: { MaDM },
             data: updatedata,
         });
 
@@ -28,6 +46,14 @@ export class DanhMucRepository {
         const danhmuc = await this.prisma.dANHMUC.update({
                 where: { MaDM },
                 data: { TrangThai},
+            });
+        return DanhMucMapper.toEntity(danhmuc);
+    }
+    //thay đổi loại danh mục biết loại là kiểu enum
+    async changeLoai(MaDM: string, Loai: LoaiDanhMuc) {
+        const danhmuc = await this.prisma.dANHMUC.update({
+                where: { MaDM },
+                data: { Loai},
             });
         return DanhMucMapper.toEntity(danhmuc);
     }

@@ -1,24 +1,37 @@
-import { IsNotEmpty, IsString, IsInt, IsBoolean, IsEnum } from "class-validator";
+import { IsNotEmpty, IsString, IsInt, IsBoolean, IsEnum, IsDate } from "class-validator";
+import { IsEndDateAfterStartDate } from "src/decorators/is-end-date-after-start-date.decorator";
+import { IsFutureOrToday } from "src/decorators/is-future-or-today.decorator";
 
+enum TrangThai {
+    ACTIVE = 'ACTIVE',
+    INACTIVE = 'INACTIVE'
+}
 export class SuKienUuDaiDto {
     @IsString({ message: 'Tên sự kiện ưu đãi phải là chuỗi' })
     @IsNotEmpty({ message: 'Tên sự kiện ưu đãi không được để trống' })
     TenSK: string;
     // Ngày bắt đầu sự kiện
-    @IsString({ message: 'Ngày bắt đầu phải là chuỗi' })
+    @IsFutureOrToday({ message: 'Ngày bắt đầu phải là ngày hợp lệ' })
+    @IsDate({ message: 'Ngày bắt đầu phải là ngày hợp lệ' })
     @IsNotEmpty({ message: 'Ngày bắt đầu không được để trống' })
-    NgayPH: string;
+    NgayPH: Date;
     // Ngày kết thúc sự kiện
-    @IsString({ message: 'Ngày kết thúc phải là chuỗi' })
+    @IsEndDateAfterStartDate('NgayPH', { message: 'Ngày kết thúc phải sau ngày bắt đầu' })
+    @IsDate({ message: 'Ngày kết thúc phải là ngày hợp lệ' })
     @IsNotEmpty({ message: 'Ngày kết thúc không được để trống' })
-    NgayKT: string;
+    NgayKT: Date;
 
-    // Trạng thái mặc định là true (active)
-    @IsBoolean({ message: 'Trạng thái phải là boolean' })
+    //trạng thái enum
+    @IsEnum(TrangThai, { message: 'Trạng thái phải là  ACTIVE hoặc INACTIVE' })
     @IsNotEmpty({ message: 'Trạng thái không được để trống' })
-    TrangThai: boolean;
+    TrangThai: TrangThai;
     //phan trăm giảm giá
     @IsInt({ message: 'Phần trăm giảm giá phải là số nguyên' })
     @IsNotEmpty({ message: 'Phần trăm giảm giá không được để trống' })
-    PhanTramGiam: number;    
+    PhanTramGiam: number;
+
+    @IsDate({ message: 'Ngày tạo phải là ngày hợp lệ' })
+    Created_at: Date;
+    @IsDate({ message: 'Ngày cập nhật phải là ngày hợp lệ' })
+    Updated_at: Date;
 }

@@ -1,4 +1,53 @@
-import { Injectable } from '@nestjs/common';
-
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { SuKienUuDaiDto } from './dto/sukienuudai.dto';
+import { SuKienUuDaiRepository } from 'src/repositories/sukienuudai.repository';
+import { TrangThai } from 'src/constant';
 @Injectable()
-export class SukienuudaiService {}
+export class SuKienUuDaiService {
+    constructor(private readonly suKienUuDaiRepository: SuKienUuDaiRepository) {}
+
+    async getAll() {
+        return await this.suKienUuDaiRepository.findAll();
+    }
+
+    async getById(name: string) {
+        const existingSuKienUuDai = await this.suKienUuDaiRepository.findByName(name);
+        if (!existingSuKienUuDai) {
+            throw new BadRequestException('Sự kiện ưu đãi không tồn tại');
+        }
+        return existingSuKienUuDai;
+    }
+
+    async addSuKienUuDai(suKienUuDaiDto: SuKienUuDaiDto) {
+        const existingSuKienUuDai = await this.suKienUuDaiRepository.findByName(suKienUuDaiDto.TenSK);
+        if (existingSuKienUuDai) {
+            throw new BadRequestException('Sự kiện ưu đãi đã tồn tại');
+        }
+        return await this.suKienUuDaiRepository.add(suKienUuDaiDto);
+    }
+
+    async updateSuKienUuDai(id: string, data: SuKienUuDaiDto) {
+        const existingSuKienUuDai = await this.suKienUuDaiRepository.findById(id);
+        if (!existingSuKienUuDai) {
+            throw new BadRequestException('Sự kiện ưu đãi không tồn tại');
+        }
+        if (data.TenSK && data.TenSK !== existingSuKienUuDai.TenSK) {
+            const suKienUuDaiWithSameName = await this.suKienUuDaiRepository.findByName(data.TenSK);
+            if (suKienUuDaiWithSameName) {
+                throw new BadRequestException('Tên sự kiện ưu đãi đã tồn tại');
+            }
+        }
+        return await this.suKienUuDaiRepository.update(id, data);
+    }
+
+    async changeStatus(id: string, trangThai: string) {
+        const existingSuKienUuDai = await this.suKienUuDaiRepository.findById(id);
+        if (!existingSuKienUuDai) {
+            throw new BadRequestException('Sự kiện ưu đãi không tồn tại');
+        }
+        if (!(trangThai in TrangThai)) {
+            throw new BadRequestException('Trạng thái không hợp lệ');
+        }
+        return await this.suKienUuDaiRepository.changeTrangThai(id, trangThai as TrangThai);
+    }
+}

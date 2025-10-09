@@ -1,6 +1,5 @@
 import { IsNotEmpty, IsString, IsInt, IsBoolean, IsEnum } from "class-validator";
-import { LoaiDanhMuc } from "../entity/danhmuc.entity";
-import { TrangThai } from "../entity/danhmuc.entity";
+import { TrangThai, LoaiDanhMuc } from "src/constant";
 
 export class DanhMucDto {
     @IsString({ message: 'Tên danh mục phải là chuỗi' })

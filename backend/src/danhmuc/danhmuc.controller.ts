@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Put, Delete, Param, Query, Patch, Res } fr
 import { DanhMucService } from './danhmuc.service';
 import { DanhMucDto } from './dto/danhmuc.dto';
 import { ResponseMessage } from 'src/decorators/response.decorator';
-import { LoaiDanhMuc } from './entity/danhmuc.entity';
+import { LoaiDanhMuc } from 'src/constant';
 import type { Response } from 'express';
 @Controller('danhmuc')
 export class DanhMucController {
@@ -25,21 +25,21 @@ export class DanhMucController {
     // Cập nhật thông tin danh mục
     @Put(':id')
     @ResponseMessage('Cập nhật danh mục thành công')
-    updateDanhMuc(@Param('id') id: number, @Body() data: DanhMucDto) {
+    updateDanhMuc(@Param('id') id: string, @Body() data: DanhMucDto) {
         return this.danhmucService.updateDanhMuc(id, data);
     }
 
     // Thay đổi trạng thái danh mục
     @Put(':id/trangthai')
     @ResponseMessage('Thay đổi trạng thái danh mục thành công')
-    changeTrangThai(@Param('id') id: number, @Body('trangThai') trangThai: boolean) {
+    changeTrangThai(@Param('id') id: string, @Body('trangThai') trangThai: string) {
         return this.danhmucService.changeTrangThai(id, trangThai);
     }
 
     // Thay đổi loại danh mục
     @Put(':id/loai')
     @ResponseMessage('Thay đổi loại danh mục thành công')
-    changeLoai(@Param('id') id: number, @Body('loai') loai: LoaiDanhMuc) {
+    changeLoai(@Param('id') id: string, @Body('loai') loai: LoaiDanhMuc) {
         return this.danhmucService.changeLoai(id, loai);
     }
 

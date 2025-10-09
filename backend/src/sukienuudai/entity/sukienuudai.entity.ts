@@ -1,23 +1,30 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-
-export enum LoaiDanhMuc {
-    NAM = 'Nam',
-    NU = 'Nữ',
-    PHUKIEN = 'Phụ kiện'
-}
-@Entity('sukienuudai')
+import { TrangThai } from "src/constant";
 export class SuKienUuDai {
-    @PrimaryGeneratedColumn()
-    id: number;
-
-    @Column({ length: 255 })
-    TenSK: string
-    @Column({ type: 'date' })
-    NgayPH: string
-    @Column({ type : 'date' })
-    NgayKT: string
-    @Column({ default: true })
-    TrangThai: boolean;
-    @Column({ type: 'int' })
+    MaSK: string;
+    TenSK: string;
+    NgayPH: Date;
+    NgayKT: Date;
     PhanTramGiam: number;
+    TrangThai: TrangThai;
+    created_at: Date;
+    updated_at: Date;
+    constructor(
+        MaSK: string,
+        TenSK: string,
+        NgayPH: Date,
+        NgayKT: Date,
+        PhanTramGiam: number,
+        TrangThai: TrangThai,
+        created_at: Date,
+        updated_at: Date
+    ){
+        this.MaSK = MaSK;
+        this.TenSK = TenSK;
+        this.NgayPH = NgayPH;
+        this.NgayKT = NgayKT;
+        this.PhanTramGiam = PhanTramGiam;
+        this.TrangThai = TrangThai;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 }
