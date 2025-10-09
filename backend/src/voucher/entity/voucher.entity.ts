@@ -2,6 +2,7 @@ import { TrangThai } from "src/constant";
 export class VoucherEntity {
     MaVoucher: string;
     TenVoucher: string;
+    MoTa: string;
     SoTien: number;
     FreeShip: boolean;
     NgayBatDau: Date;
@@ -12,6 +13,7 @@ export class VoucherEntity {
     constructor(
         MaVoucher: string,
         TenVoucher: string,
+        MoTa: string,
         SoTien: number,
         FreeShip: boolean,
         NgayBatDau: Date,
@@ -22,6 +24,7 @@ export class VoucherEntity {
     ) {
         this.MaVoucher = MaVoucher;
         this.TenVoucher = TenVoucher;
+        this.MoTa = MoTa;
         this.SoTien = SoTien;
         this.FreeShip = FreeShip;
         this.NgayBatDau = NgayBatDau;

@@ -4,6 +4,7 @@ export class SuKienUuDaiMapper{
         return new SuKienUuDai(
             prisma.MaSK,
             prisma.TenSK,
+            prisma.MoTa,
             prisma.NgayPH,
             prisma.NgayKT,
             prisma.TrangThai,

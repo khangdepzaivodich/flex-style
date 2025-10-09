@@ -26,9 +26,9 @@ export class VoucherService {
 
     // thêm mới voucher
     async addVoucher(data: VoucherDto) {
-        const existingVoucher = await this.voucherRepository.getVoucherById();
+        const existingVoucher = await this.voucherRepository.getVoucherByName(data.TenVoucher);
         if (existingVoucher) {
-            throw new BadRequestException('Mã voucher đã tồn tại');
+            throw new BadRequestException('Tên voucher đã tồn tại');
         }
         return this.voucherRepository.addVoucher(data);
     }
@@ -39,10 +39,10 @@ export class VoucherService {
         if (!existingVoucher) {
             throw new NotFoundException('Không tìm thấy voucher');
         }
-        if (data.MaVoucher && data.MaVoucher !== existingVoucher.MaVoucher) {
+        if (data.TenVoucher && data.TenVoucher !== existingVoucher.TenVoucher) {
             const voucherWithSameName = await this.voucherRepository.getVoucherByName(data.TenVoucher);
             if (voucherWithSameName) {
-                throw new BadRequestException('Mã voucher đã tồn tại');
+                throw new BadRequestException('Tên voucher đã tồn tại');
             }
         }   
         return this.voucherRepository.updateVoucher(id, data);
