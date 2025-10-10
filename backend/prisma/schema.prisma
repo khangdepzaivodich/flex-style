@@ -23,8 +23,6 @@ model CHITIETSANPHAM {
   created_at     DateTime         @default(now())
   updated_at     DateTime         @default(now())
   KichCo         KichCo
-  MauSac         MauSac
-  HinhAnh        String?
   MaSP           String
   SoLuong        Int              @default(0)
   TrangThaiSP      TrangThaiSP    @default(CON_HANG)
@@ -100,11 +98,12 @@ model SANPHAM {
   updated_at     DateTime         @default(now())
   MoTa           String?
   TenSP          String
+  HinhAnh        String[]
   GiaBan         Int
   GiaMua         Int
   TrangThai      TrangThai        @default(ACTIVE)
   MaDM           String
-
+  MauSac         MauSac
   DANHMUC        DANHMUC          @relation(fields: [MaDM], references: [MaDM])
   CHITIETSANPHAM CHITIETSANPHAM[]
   PHANHOI        PHANHOI[]
@@ -166,6 +165,8 @@ model VOUCHER {
 model VOUCHER_KHACHHANG {
   MaVCKH     String    @id @default(uuid())
   created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  TrangThai  TrangThai @default(ACTIVE)
   MaTKKH       String
   MaVoucher  String
 
@@ -240,7 +241,7 @@ enum LoaiDanhMuc {
 enum TrangThaiPhieuNhapHang {
   DANG_CHO
   NCC_XACNHAN
-  LOGISTIC_XACNHAN
+  NV_XACNHAN
   TU_CHOI
 }
 
@@ -248,103 +249,9 @@ enum VaiTro {
   KH
   NCC
   QLDN
-  QLLOGISTIC
-  NVVH
+  NVVH  
 }
 
 
 
-model VWChiTietSanPham {
-  MaCTSP          String   @id
-  MaSP            String
-  TenSP           String
-  GiaBan          Int
-  KichCo          String
-  MauSac          String
-  SoLuong         Int
-  TonKho          Int?      @map("ton_kho")
-  TongDaBan       Int?      @map("tong_da_ban")
-  NgayNhapMoiNhat DateTime? @map("ngay_nhap_moi_nhat")
-  MaDM            String
-  TenDM           String
 
-  @@map("vw_chi_tiet_san_pham")
-  @@ignore
-}
-
-model VWChiTietDonHang {
-  id            String   @id @default(uuid()) 
-  MaDH          String
-  CreatedAt     DateTime @map("created_at")
-  MaCTSP        String
-  MaSP          String
-  TenSP         String
-  SoLuong       Int
-  TongTienDon   Int?      @map("tong_tien_don")
-  MaVoucher     String?
-  TenVoucher    String?
-  SoTienVoucher Int?      @map("SoTien")
-  MaSK          String?
-  TenSK         String?
-  PhanTramGiam  Int?
-  MaDM          String
-  TenDM         String
-  TrangThai     String?
-  MaTK_KH       String?
-
-  @@map("vw_chi_tiet_don_hang")
-  @@ignore
-}
-
-model VWNhapHangChiTiet {
-  id          String   @id @default(uuid()) 
-  MaPNNH      String
-  CreatedAt   DateTime @map("created_at")
-  SoLuong     Int
-  MaNCC       String
-  TenNCC      String
-  MaCTSP      String
-  MaSP        String
-  TenSP       String
-  TongDaNhap  Int?     @map("tong_da_nhap")
-
-  @@map("vw_nhap_hang_chi_tiet")
-  @@ignore
-}
-
-
-model VWKhachHangTaiKhoan {
-  id             String   @id @default(uuid()) 
-  MaTK           String
-  Username       String?
-  Avatar         String?
-  Status         Boolean?
-  VaiTro         VaiTro   @map("VAITRO")
-  MaGH           String?
-  TongSoLuongGio Int?     @map("tong_so_luong_gio")
-  MaDH           String?
-  NgayDat        DateTime? @map("ngay_dat")
-  MaCTSP         String?
-  MaSP           String?
-  TenSP          String?
-  SoLuong        Int?
-  TongTienDon    Int?     @map("tong_tien_don")
-  TrangThaiDon   String?  @map("trang_thai_don")
-  MaVoucher      String?
-  TenVoucher     String?
-
-  @@map("vw_khach_hang_tai_khoan")
-  @@ignore
-}
-
-
-model VWNhanVienTaiKhoan {
-  MaTK      String @id
-  Username  String?
-  Avatar    String?
-  Status    Boolean?
-  VaiTro    VaiTro  @map("VAITRO")
-
-  @@map("vw_nhan_vien_tai_khoan")
-  @@ignore
-}

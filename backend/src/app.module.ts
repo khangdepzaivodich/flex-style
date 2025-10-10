@@ -9,6 +9,9 @@ import { ChitietsanphamModule } from './chitietsanpham/chitietsanpham.module';
 import { GiohangModule } from './giohang/giohang.module';
 import { PrismaModule } from './prisma.module';
 import { VoucherModule } from './voucher/voucher.module';
+import { TaikhoanService } from './taikhoan/taikhoan.service';
+import { TaikhoanController } from './taikhoan/taikhoan.controller';
+import { TaikhoanModule } from './taikhoan/taikhoan.module';
 
 @Module({
   imports: [
@@ -22,9 +25,10 @@ import { VoucherModule } from './voucher/voucher.module';
     ChitietsanphamModule,
     GiohangModule,
     VoucherModule,
+    TaikhoanModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, TaikhoanController],
+  providers: [AppService, TaikhoanService],
 })
 export class AppModule {
   constructor() {
