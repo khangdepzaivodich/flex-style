@@ -6,7 +6,9 @@ export class VoucherKhachHangMapper {
             prisma.MaVCKH,
             prisma.MaTKKH,
             prisma.MaVoucher,
+            prisma.TrangThai,
             prisma.created_at,
+            prisma.updated_at
         );
     }
     static toEntityList(prismas: any[]): VoucherKhachHangEntity[] {

@@ -9,7 +9,7 @@ import { ChitietsanphamModule } from './chitietsanpham/chitietsanpham.module';
 import { GiohangModule } from './giohang/giohang.module';
 import { PrismaModule } from './prisma.module';
 import { VoucherModule } from './voucher/voucher.module';
-import { VoucherKhachhangModule } from './voucher_khachhang/voucher_khachhang.module';
+import { VoucherKhachHangModule } from './voucher_khachhang/voucher_khachhang.module';
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ import { VoucherKhachhangModule } from './voucher_khachhang/voucher_khachhang.mo
     ChitietsanphamModule,
     GiohangModule,
     VoucherModule,
-    VoucherKhachhangModule,
+    VoucherKhachHangModule,
   ],
   controllers: [AppController],
   providers: [AppService],
