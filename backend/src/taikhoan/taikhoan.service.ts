@@ -45,7 +45,7 @@ export class TaikhoanService {
   // Lay tat ca tai khoan cua quan ly
   async taikhoansQL(): Promise<TAIKHOAN[]> {
     return this.prisma.tAIKHOAN.findMany({
-      where: { VAITRO: { in: ['QLDN', 'QLLOGISTIC'] } },
+      where: { VAITRO: { in: ['QLDN'] } },
     });
   }
 
