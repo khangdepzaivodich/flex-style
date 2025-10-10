@@ -209,11 +209,7 @@ export class TaikhoanController {
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   async dangKyNV(@Body() data: TaiKhoanDto): Promise<TAIKHOAN> {
-    if (
-      data.VAITRO === 'NVVH' ||
-      data.VAITRO === 'NVCSKH' ||
-      data.VAITRO === 'NVHT'
-    ) {
+    if (data.VAITRO === 'NVVH' || data.VAITRO === 'NVCSKH') {
       return this.taikhoanService.dangKyNV(data);
     }
     throw new Error('Vai trò không hợp lệ cho nhân viên');
@@ -228,11 +224,7 @@ export class TaikhoanController {
     @Body('status') status: TrangThai,
   ): Promise<TAIKHOAN> {
     const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (
-      taikhoan?.VAITRO === 'NVVH' ||
-      taikhoan?.VAITRO === 'NVCSKH' ||
-      taikhoan?.VAITRO === 'NVHT'
-    ) {
+    if (taikhoan?.VAITRO === 'NVVH' || taikhoan?.VAITRO === 'NVCSKH') {
       return this.taikhoanService.updateTaiKhoan(maTK, { Status: status });
     }
     throw new Error('Yêu cầu không hợp lệ');
@@ -247,12 +239,8 @@ export class TaikhoanController {
     @Body('vaiTro') vaiTro: VaiTro,
   ): Promise<TAIKHOAN> {
     const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (
-      taikhoan?.VAITRO === 'NVVH' ||
-      taikhoan?.VAITRO === 'NVCSKH' ||
-      taikhoan?.VAITRO === 'NVHT'
-    ) {
-      if (vaiTro === 'NVVH' || vaiTro === 'NVCSKH' || vaiTro === 'NVHT') {
+    if (taikhoan?.VAITRO === 'NVVH' || taikhoan?.VAITRO === 'NVCSKH') {
+      if (vaiTro === 'NVVH' || vaiTro === 'NVCSKH') {
         return this.taikhoanService.updateVaiTro(maTK, vaiTro);
       }
       throw new Error('Vai trò không hợp lệ cho nhân viên');
@@ -274,11 +262,7 @@ export class TaikhoanController {
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   async getNV(@Param('id') maTK: string): Promise<TAIKHOAN> {
     const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (
-      taikhoan?.VAITRO === 'NVVH' ||
-      taikhoan?.VAITRO === 'NVCSKH' ||
-      taikhoan?.VAITRO === 'NVHT'
-    ) {
+    if (taikhoan?.VAITRO === 'NVVH' || taikhoan?.VAITRO === 'NVCSKH') {
       return taikhoan;
     }
     throw new Error('Không tìm thấy tài khoản nhân viên');

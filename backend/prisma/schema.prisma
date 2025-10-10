@@ -254,7 +254,6 @@ enum VaiTro {
   NCC
   QLDN
   NVVH  
-  NVHT
   NVCSKH
 }
 

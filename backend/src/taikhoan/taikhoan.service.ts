@@ -52,7 +52,7 @@ export class TaikhoanService {
   // Lay tat ca tai khoan cua nhan vien
   async taikhoansNV(): Promise<TAIKHOAN[]> {
     return this.prisma.tAIKHOAN.findMany({
-      where: { VAITRO: { in: ['NVVH', 'NVCSKH', 'NVHT'] } },
+      where: { VAITRO: { in: ['NVVH', 'NVCSKH'] } },
     });
   }
 

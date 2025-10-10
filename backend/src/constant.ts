@@ -1,9 +1,9 @@
 export enum LoaiDanhMuc {
-    NAM = 'NAM',
-    NU = 'NU',
-    PHU_KIEN = 'PHU_KIEN'
+  NAM = 'NAM',
+  NU = 'NU',
+  PHU_KIEN = 'PHU_KIEN',
 }
 export enum TrangThai {
-    ACTIVE = 'ACTIVE', 
-    INACTIVE = 'INACTIVE'
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
 }
