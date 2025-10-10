@@ -50,4 +50,18 @@ export class SuKienUuDaiService {
         }
         return await this.suKienUuDaiRepository.changeTrangThai(id, trangThai as TrangThai);
     }
+
+    //kiểm tra sự kiện ưu đãi có trong khoảng thời gian ưu đãi hay không
+    async isEventActive(eventId: string): Promise<boolean> {
+        const event = await this.suKienUuDaiRepository.findById(eventId);
+        if (!event) {
+            throw new BadRequestException('Sự kiện ưu đãi không tồn tại');
+        }
+        const currentDate = new Date();
+        //nếu nằm trong khoảng thời gian nhưng trang thái là INACTIVE thì cũng không được áp dụng
+        if (event.TrangThai === TrangThai.INACTIVE) {
+            return false;
+        }
+        return event.NgayPH <= currentDate && event.NgayKT >= currentDate;
+    }
 }
