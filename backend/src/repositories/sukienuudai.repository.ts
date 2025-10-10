@@ -43,7 +43,10 @@ export class SuKienUuDaiRepository {
     async changeTrangThai(MaSK: string, TrangThai: TrangThai) {
         const suKienUuDai = await this.prisma.sUKIENUUDAI.update({
             where: { MaSK },
-            data: { TrangThai },
+            data: {
+                TrangThai,
+                updated_at: new Date(),
+            },
         });
         return SuKienUuDaiMapper.toEntity(suKienUuDai);
     }

@@ -38,7 +38,9 @@ export class VoucherRepository {
     async changeStatus(MaVoucher: string, TrangThai: TrangThai) {
         return this.prismaService.vOUCHER.update({
                 where: { MaVoucher },
-                data: { TrangThai},
+                data: {
+                    TrangThai,
+                },
             });
     }
 }
