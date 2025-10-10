@@ -168,7 +168,7 @@ export function Footer() {
 
         <div className="border-t mt-8 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © 2024 FashionStore. Tất cả quyền được bảo lưu.
+            © 2024 FlexStyle. Tất cả quyền được bảo lưu.
           </p>
         </div>
       </div>

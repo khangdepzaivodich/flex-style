@@ -11,6 +11,7 @@ import {
   X,
   LogOut,
   Globe,
+  Gift,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -112,6 +113,11 @@ export function Header() {
             </DropdownMenu>
 
             {/* User Menu */}
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link href="/voucher">
+                <Gift className="h-5 w-5" />
+              </Link>
+            </Button>
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

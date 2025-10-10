@@ -92,7 +92,7 @@ export default function AboutPage() {
         <div className="relative">
           <img
             src="/modern-fashion-store.png"
-            alt="FashionStore Interior"
+            alt="FlexStyle Interior"
             className="rounded-lg shadow-lg w-full"
           />
         </div>

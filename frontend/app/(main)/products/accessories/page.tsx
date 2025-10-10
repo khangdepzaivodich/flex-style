@@ -4,10 +4,9 @@ import { useState, useMemo } from "react";
 import { products } from "@/data/products.json";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Watch, Gem, TrendingUp, Star } from "lucide-react";
+import { Gem } from "lucide-react";
 
 export default function AccessoriesPage() {
   const [sortBy, setSortBy] = useState<
@@ -16,14 +15,12 @@ export default function AccessoriesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   // Filter accessories products
-  const allAccessoriesProducts = products.filter(
-    (product) => product.category === "men" || product.tags?.includes("men")
-  );
+  const allAccessoriesProducts = useMemo(() => {
+    return products.filter((product) => product.category === "accessories");
+  }, []);
   const accessoriesProducts = useMemo(() => {
     let filtered = products.filter(
-      (product) =>
-        product.category === "accessories" ||
-        product.tags?.includes("accessories")
+      (product) => product.category === "accessories"
     );
 
     if (selectedCategory !== "all") {

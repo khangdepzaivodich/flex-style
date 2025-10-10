@@ -22,8 +22,8 @@ export default function CheckoutPage() {
 
   const [formData, setFormData] = useState({
     email: user?.email || "",
-    firstName: user?.name?.split(" ")[0] || "",
-    lastName: user?.name?.split(" ")[1] || "",
+    firstName: user?.user_metadata?.name?.split(" ")[0] || "",
+    lastName: user?.user_metadata?.name?.split(" ")[1] || "",
     phone: "",
     address: "",
     city: "",
@@ -275,10 +275,10 @@ export default function CheckoutPage() {
                   <RadioGroupItem value="momo" id="momo" />
                   <Label htmlFor="momo">Ví MoMo</Label>
                 </div>
-                <div className="flex items-center space-x-2 p-4 border rounded-lg bg-slate-200">
+                {/* <div className="flex items-center space-x-2 p-4 border rounded-lg bg-slate-200">
                   <RadioGroupItem value="cod" id="cod" disabled />
                   <Label htmlFor="cod">Thanh toán khi nhận hàng (COD)</Label>
-                </div>
+                </div> */}
               </RadioGroup>
 
               {formData.paymentMethod === "card" && (
