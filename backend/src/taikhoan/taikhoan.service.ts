@@ -8,6 +8,30 @@ export class TaikhoanService {
 
   // Dang ky tai khoan moi
   async dangKy(data: TaiKhoanDto): Promise<TAIKHOAN> {
+    if ('VaiTro' in data) {
+      throw new Error('Không thể thay đổi vai trò của khách hàng');
+    }
+    return this.prisma.tAIKHOAN.create({ data, VaiTro: 'KH' });
+  }
+
+  // Dang ky tai khoan nha cung cap
+  async dangKyNCC(data: TaiKhoanDto): Promise<TAIKHOAN> {
+    if ('VaiTro' in data) {
+      throw new Error('Không thể thay đổi vai trò của nhà cung cấp');
+    }
+    return this.prisma.tAIKHOAN.create({ data, VaiTro: 'NCC' });
+  }
+
+  // Dang ky tai khoan quan ly
+  async dangKyQL(data: TaiKhoanDto): Promise<TAIKHOAN> {
+    if ('VaiTro' in data) {
+      throw new Error('Không thể thay đổi vai trò của nhà cung cấp');
+    }
+    return this.prisma.tAIKHOAN.create({ data, VaiTro: 'QLDN' });
+  }
+
+  // Dang ky tai khoan nhan vien
+  async dangKyNV(data: TaiKhoanDto): Promise<TAIKHOAN> {
     return this.prisma.tAIKHOAN.create({ data });
   }
 
@@ -22,6 +46,13 @@ export class TaikhoanService {
   async taikhoansQL(): Promise<TAIKHOAN[]> {
     return this.prisma.tAIKHOAN.findMany({
       where: { VAITRO: { in: ['QLDN', 'QLLOGISTIC'] } },
+    });
+  }
+
+  // Lay tat ca tai khoan cua nhan vien
+  async taikhoansNV(): Promise<TAIKHOAN[]> {
+    return this.prisma.tAIKHOAN.findMany({
+      where: { VAITRO: { in: ['NVVH', 'NVCSKH', 'NVHT'] } },
     });
   }
 

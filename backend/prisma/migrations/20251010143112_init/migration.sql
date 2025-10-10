@@ -8,7 +8,7 @@ CREATE TYPE "public"."MauSac" AS ENUM ('Red', 'Orange', 'Yellow', 'Green', 'Blue
 CREATE TYPE "public"."TrangThai" AS ENUM ('ACTIVE', 'INACTIVE');
 
 -- CreateEnum
-CREATE TYPE "public"."TrangThaiDonHang" AS ENUM ('DANG_XU_LY', 'DANG_GIAO_HANG', 'HOAN_TAT');
+CREATE TYPE "public"."TrangThaiDonHang" AS ENUM ('DANG_XU_LY', 'DANG_GIAO_HANG', 'HOAN_TAT', 'HUY');
 
 -- CreateEnum
 CREATE TYPE "public"."TrangThaiSP" AS ENUM ('CON_HANG', 'HET_HANG', 'TAM_NGUNG');
@@ -17,10 +17,10 @@ CREATE TYPE "public"."TrangThaiSP" AS ENUM ('CON_HANG', 'HET_HANG', 'TAM_NGUNG')
 CREATE TYPE "public"."LoaiDanhMuc" AS ENUM ('NAM', 'NU', 'PHU_KIEN');
 
 -- CreateEnum
-CREATE TYPE "public"."TrangThaiPhieuNhapHang" AS ENUM ('DANG_CHO', 'NCC_XACNHAN', 'LOGISTIC_XACNHAN', 'TU_CHOI');
+CREATE TYPE "public"."TrangThaiPhieuNhapHang" AS ENUM ('DANG_CHO', 'NCC_XACNHAN', 'NV_XACNHAN', 'TU_CHOI');
 
 -- CreateEnum
-CREATE TYPE "public"."VaiTro" AS ENUM ('KH', 'NCC', 'QLDN', 'QLLOGISTIC', 'NVVH');
+CREATE TYPE "public"."VaiTro" AS ENUM ('KH', 'NCC', 'QLDN', 'NVVH');
 
 -- CreateTable
 CREATE TABLE "public"."CHITIETGIOHANG" (
@@ -39,11 +39,9 @@ CREATE TABLE "public"."CHITIETSANPHAM" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "KichCo" "public"."KichCo" NOT NULL,
-    "MauSac" "public"."MauSac" NOT NULL,
-    "HinhAnh" TEXT,
     "MaSP" TEXT NOT NULL,
     "SoLuong" INTEGER NOT NULL DEFAULT 0,
-    "TrangThai" "public"."TrangThai" NOT NULL DEFAULT 'ACTIVE',
+    "TrangThaiSP" "public"."TrangThaiSP" NOT NULL DEFAULT 'CON_HANG',
 
     CONSTRAINT "CHITIETSANPHAM_pkey" PRIMARY KEY ("MaCTSP")
 );
@@ -84,18 +82,6 @@ CREATE TABLE "public"."GIOHANG" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."KHACHHANG" (
-    "MaKH" TEXT NOT NULL,
-    "TenKH" TEXT NOT NULL,
-    "SoDienThoai" TEXT NOT NULL,
-    "Email" TEXT,
-    "DiaChi" TEXT,
-    "MaTK" TEXT,
-
-    CONSTRAINT "KHACHHANG_pkey" PRIMARY KEY ("MaKH")
-);
-
--- CreateTable
 CREATE TABLE "public"."NHACUNGCAP" (
     "MaNCC" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -108,26 +94,15 @@ CREATE TABLE "public"."NHACUNGCAP" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."NHANVIEN" (
-    "MaNV" TEXT NOT NULL,
-    "MaNVQL" TEXT,
-    "TenNV" TEXT NOT NULL,
-    "SoDienThoai" TEXT,
-    "Email" TEXT,
-    "CCCD" TEXT,
-    "MaTK" TEXT,
-
-    CONSTRAINT "NHANVIEN_pkey" PRIMARY KEY ("MaNV")
-);
-
--- CreateTable
 CREATE TABLE "public"."PHANHOI" (
     "MaPH" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "NoiDung" TEXT NOT NULL,
     "MaTKKH" TEXT NOT NULL,
     "MaSP" TEXT NOT NULL,
-    "DanhGia" TEXT NOT NULL,
-    "ChiTietDanhGia" TEXT,
+    "SoSao" INTEGER NOT NULL,
+    "BinhLuan" TEXT,
 
     CONSTRAINT "PHANHOI_pkey" PRIMARY KEY ("MaPH")
 );
@@ -139,10 +114,12 @@ CREATE TABLE "public"."SANPHAM" (
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "MoTa" TEXT,
     "TenSP" TEXT NOT NULL,
+    "HinhAnh" TEXT[],
     "GiaBan" INTEGER NOT NULL,
     "GiaMua" INTEGER NOT NULL,
     "TrangThai" "public"."TrangThai" NOT NULL DEFAULT 'ACTIVE',
     "MaDM" TEXT NOT NULL,
+    "MauSac" "public"."MauSac" NOT NULL,
 
     CONSTRAINT "SANPHAM_pkey" PRIMARY KEY ("MaSP")
 );
@@ -156,6 +133,8 @@ CREATE TABLE "public"."SUKIENUUDAI" (
     "TenSK" TEXT NOT NULL,
     "NgayPH" TIMESTAMP(3) NOT NULL,
     "PhanTramGiam" INTEGER NOT NULL,
+    "TrangThai" "public"."TrangThai" NOT NULL DEFAULT 'ACTIVE',
+    "MoTa" TEXT,
 
     CONSTRAINT "SUKIENUUDAI_pkey" PRIMARY KEY ("MaSK")
 );
@@ -167,7 +146,7 @@ CREATE TABLE "public"."TAIKHOAN" (
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "Username" TEXT,
     "MatKhau" TEXT,
-    "Status" BOOLEAN NOT NULL DEFAULT true,
+    "Status" "public"."TrangThai" NOT NULL DEFAULT 'ACTIVE',
     "Avatar" TEXT,
     "VAITRO" "public"."VaiTro" NOT NULL,
 
@@ -194,6 +173,8 @@ CREATE TABLE "public"."VOUCHER" (
     "NgayBatDau" TIMESTAMP(3) NOT NULL,
     "NgayKetThuc" TIMESTAMP(3) NOT NULL,
     "Dieukien" INTEGER NOT NULL DEFAULT 0,
+    "TrangThai" "public"."TrangThai" NOT NULL DEFAULT 'ACTIVE',
+    "MoTa" TEXT,
 
     CONSTRAINT "VOUCHER_pkey" PRIMARY KEY ("MaVoucher")
 );
@@ -202,6 +183,8 @@ CREATE TABLE "public"."VOUCHER" (
 CREATE TABLE "public"."VOUCHER_KHACHHANG" (
     "MaVCKH" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "TrangThai" "public"."TrangThai" NOT NULL DEFAULT 'ACTIVE',
     "MaTKKH" TEXT NOT NULL,
     "MaVoucher" TEXT NOT NULL,
 
@@ -221,9 +204,6 @@ CREATE TABLE "public"."PHIEUNHAPHANG" (
 
     CONSTRAINT "PHIEUNHAPHANG_pkey" PRIMARY KEY ("MaPNNH")
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "KHACHHANG_MaTK_key" ON "public"."KHACHHANG"("MaTK");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "TAIKHOAN_Username_key" ON "public"."TAIKHOAN"("Username");
@@ -251,15 +231,6 @@ ALTER TABLE "public"."DONHANG" ADD CONSTRAINT "DONHANG_MaVoucher_fkey" FOREIGN K
 
 -- AddForeignKey
 ALTER TABLE "public"."GIOHANG" ADD CONSTRAINT "GIOHANG_MaTKKH_fkey" FOREIGN KEY ("MaTKKH") REFERENCES "public"."TAIKHOAN"("MaTK") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "public"."KHACHHANG" ADD CONSTRAINT "KHACHHANG_MaTK_fkey" FOREIGN KEY ("MaTK") REFERENCES "public"."TAIKHOAN"("MaTK") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "public"."NHANVIEN" ADD CONSTRAINT "NHANVIEN_MaTK_fkey" FOREIGN KEY ("MaTK") REFERENCES "public"."TAIKHOAN"("MaTK") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "public"."NHANVIEN" ADD CONSTRAINT "NHANVIEN_MaNVQL_fkey" FOREIGN KEY ("MaNVQL") REFERENCES "public"."NHANVIEN"("MaNV") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."PHANHOI" ADD CONSTRAINT "PHANHOI_MaTKKH_fkey" FOREIGN KEY ("MaTKKH") REFERENCES "public"."TAIKHOAN"("MaTK") ON DELETE RESTRICT ON UPDATE CASCADE;

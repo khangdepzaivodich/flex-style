@@ -82,10 +82,12 @@ model NHACUNGCAP {
 model PHANHOI {
   MaPH           String    @id @default(uuid())
   created_at     DateTime  @default(now())
+  updated_at     DateTime  @default(now())
+  NoiDung        String
   MaTKKH         String
   MaSP           String
-  DanhGia        String
-  ChiTietDanhGia String?
+  SoSao          Int
+  BinhLuan       String?
 
   TAIKHOAN       TAIKHOAN  @relation(fields: [MaTKKH], references: [MaTK])
   SANPHAM        SANPHAM   @relation(fields: [MaSP], references: [MaSP])
@@ -199,6 +201,8 @@ enum KichCo {
   XXL
 }
 
+
+
 enum MauSac {
   Red
   Orange
@@ -250,6 +254,8 @@ enum VaiTro {
   NCC
   QLDN
   NVVH  
+  NVHT
+  NVCSKH
 }
 
 
