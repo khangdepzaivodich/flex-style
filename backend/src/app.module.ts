@@ -9,7 +9,10 @@ import { ChitietsanphamModule } from './chitietsanpham/chitietsanpham.module';
 import { GiohangModule } from './giohang/giohang.module';
 import { PrismaModule } from './prisma.module';
 import { VoucherModule } from './voucher/voucher.module';
-import { VoucherKhachHangModule } from './voucher_khachhang/voucher_khachhang.module';
+import { TaikhoanService } from './taikhoan/taikhoan.service';
+import { TaikhoanController } from './taikhoan/taikhoan.controller';
+import { TaikhoanModule } from './taikhoan/taikhoan.module';
+import { VoucherKhachhangModule } from './voucher_khachhang/voucher_khachhang.module';
 
 @Module({
   imports: [
@@ -23,10 +26,11 @@ import { VoucherKhachHangModule } from './voucher_khachhang/voucher_khachhang.mo
     ChitietsanphamModule,
     GiohangModule,
     VoucherModule,
-    VoucherKhachHangModule,
+    TaikhoanModule,
+    VoucherKhachhangModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, TaikhoanController],
+  providers: [AppService, TaikhoanService],
 })
 export class AppModule {
   constructor() {
