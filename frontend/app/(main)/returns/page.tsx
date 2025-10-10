@@ -59,7 +59,7 @@ export default function ReturnsPage() {
           Đổi Trả <span className="text-primary">Dễ Dàng</span>
         </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          FashionStore cam kết mang đến trải nghiệm mua sắm tuyệt vời. Nếu bạn
+          FlexStyle cam kết mang đến trải nghiệm mua sắm tuyệt vời. Nếu bạn
           không hoàn toàn hài lòng với sản phẩm, chúng tôi hỗ trợ đổi trả một
           cách nhanh chóng và thuận tiện.
         </p>
@@ -272,7 +272,7 @@ export default function ReturnsPage() {
               Hotline: 1900 1234
             </a>
             <a
-              href="mailto:support@FashionStore.vn"
+              href="mailto:support@flexstyle.vn"
               className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-3 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               Email: support@FlexStyle.vn

@@ -24,7 +24,6 @@ export default async function layout({
           <Header />
           {children} <Footer /> <Analytics />
           {/* <LiveChat /> */}
-          {/* Tawk.to live chat script */}
           <script
             dangerouslySetInnerHTML={{
               __html: `

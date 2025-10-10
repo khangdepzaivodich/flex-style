@@ -87,7 +87,7 @@ export default function SettingsPage() {
                         <strong>Store Name:</strong> Fashion Store
                       </p>
                       <p>
-                        <strong>Contact Email:</strong> contact@fashionstore.com
+                        <strong>Contact Email:</strong> contact@flexstyle.com
                       </p>
                       <p>
                         <strong>Currency:</strong> VND (₫)
@@ -163,7 +163,7 @@ export default function SettingsPage() {
                     <Input
                       id="store-email"
                       type="email"
-                      defaultValue="contact@fashionstore.com"
+                      defaultValue="contact@flexstyle.com"
                     />
                   </div>
                 </div>
@@ -176,7 +176,7 @@ export default function SettingsPage() {
                     <Label htmlFor="store-website">Website URL</Label>
                     <Input
                       id="store-website"
-                      defaultValue="https://fashionstore.com"
+                      defaultValue="https://flexstyle.com"
                     />
                   </div>
                 </div>

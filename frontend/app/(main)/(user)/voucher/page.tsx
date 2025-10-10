@@ -137,7 +137,7 @@ export default function VoucherPage() {
       </div>
 
       {/* Voucher Input */}
-      <Card className="mb-12">
+      {/* <Card className="mb-12">
         <CardHeader>
           <CardTitle className="text-center">Nhập Mã Voucher</CardTitle>
         </CardHeader>
@@ -155,7 +155,7 @@ export default function VoucherPage() {
             Nhập mã voucher để kiểm tra tính hợp lệ và điều kiện áp dụng
           </p>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Active Vouchers */}
       <div className="mb-16">
@@ -337,9 +337,7 @@ export default function VoucherPage() {
           <p>• Mỗi voucher chỉ được sử dụng một lần cho mỗi tài khoản</p>
           <p>• Không áp dụng đồng thời nhiều voucher cho một đơn hàng</p>
           <p>• Voucher không có giá trị quy đổi thành tiền mặt</p>
-          <p>
-            • FashionStore có quyền thay đổi điều kiện mà không cần báo trước
-          </p>
+          <p>• FlexStyle có quyền thay đổi điều kiện mà không cần báo trước</p>
           <p>• Voucher không áp dụng cho sản phẩm đã giảm giá trên 50%</p>
           <p>• Liên hệ CSKH nếu gặp vấn đề khi sử dụng voucher</p>
         </CardContent>
