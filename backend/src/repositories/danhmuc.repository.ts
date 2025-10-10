@@ -45,7 +45,10 @@ export class DanhMucRepository {
     async changeTrangThai(MaDM: string, TrangThai: TrangThai) {
         const danhmuc = await this.prisma.dANHMUC.update({
                 where: { MaDM },
-                data: { TrangThai},
+                data: { 
+                    TrangThai,
+                    updated_at: new Date()
+                },
             });
         return DanhMucMapper.toEntity(danhmuc);
     }
@@ -53,7 +56,10 @@ export class DanhMucRepository {
     async changeLoai(MaDM: string, Loai: LoaiDanhMuc) {
         const danhmuc = await this.prisma.dANHMUC.update({
                 where: { MaDM },
-                data: { Loai},
+                data: { 
+                    Loai,
+                    updated_at: new Date()
+                },
             });
         return DanhMucMapper.toEntity(danhmuc);
     }

@@ -12,6 +12,7 @@ import { VoucherModule } from './voucher/voucher.module';
 import { TaikhoanService } from './taikhoan/taikhoan.service';
 import { TaikhoanController } from './taikhoan/taikhoan.controller';
 import { TaikhoanModule } from './taikhoan/taikhoan.module';
+import { VoucherKhachhangModule } from './voucher_khachhang/voucher_khachhang.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TaikhoanModule } from './taikhoan/taikhoan.module';
     GiohangModule,
     VoucherModule,
     TaikhoanModule,
+    VoucherKhachhangModule,
   ],
   controllers: [AppController, TaikhoanController],
   providers: [AppService, TaikhoanService],
