@@ -20,7 +20,7 @@ CREATE TYPE "public"."LoaiDanhMuc" AS ENUM ('NAM', 'NU', 'PHU_KIEN');
 CREATE TYPE "public"."TrangThaiPhieuNhapHang" AS ENUM ('DANG_CHO', 'NCC_XACNHAN', 'NV_XACNHAN', 'TU_CHOI');
 
 -- CreateEnum
-CREATE TYPE "public"."VaiTro" AS ENUM ('KH', 'NCC', 'QLDN', 'NVVH', 'NVCSKH');
+CREATE TYPE "public"."VaiTro" AS ENUM ('KH', 'NCC', 'QLDN', 'NVVH', 'NVCSKH', 'ADMIN');
 
 -- CreateTable
 CREATE TABLE "public"."CHITIETGIOHANG" (

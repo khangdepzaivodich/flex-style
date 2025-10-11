@@ -8,10 +8,16 @@ export class TaikhoanService {
 
   // Dang ky tai khoan moi
   async dangKy(data: TaiKhoanDto): Promise<TAIKHOAN> {
-    if ('VaiTro' in data) {
+    if ('VAITRO' in data) {
       throw new Error('Không thể thay đổi vai trò của khách hàng');
     }
-    return this.prisma.tAIKHOAN.create({ data, VaiTro: 'KH' });
+    const { VAITRO, ...cleanData } = data;
+    return this.prisma.tAIKHOAN.create({
+      data: {
+        ...cleanData,
+        VAITRO: 'KH',
+      },
+    });
   }
 
   // Dang ky tai khoan nha cung cap
@@ -19,7 +25,13 @@ export class TaikhoanService {
     if ('VaiTro' in data) {
       throw new Error('Không thể thay đổi vai trò của nhà cung cấp');
     }
-    return this.prisma.tAIKHOAN.create({ data, VaiTro: 'NCC' });
+    const { VAITRO, ...cleanData } = data;
+    return this.prisma.tAIKHOAN.create({
+      data: {
+        ...cleanData,
+        VAITRO: 'NCC',
+      },
+    });
   }
 
   // Dang ky tai khoan quan ly
@@ -27,12 +39,24 @@ export class TaikhoanService {
     if ('VaiTro' in data) {
       throw new Error('Không thể thay đổi vai trò của nhà cung cấp');
     }
-    return this.prisma.tAIKHOAN.create({ data, VaiTro: 'QLDN' });
+    const { VAITRO, ...cleanData } = data;
+    return this.prisma.tAIKHOAN.create({
+      data: {
+        ...cleanData,
+        VAITRO: 'QLDN',
+      },
+    });
   }
 
   // Dang ky tai khoan nhan vien
   async dangKyNV(data: TaiKhoanDto): Promise<TAIKHOAN> {
-    return this.prisma.tAIKHOAN.create({ data });
+    const { VAITRO, ...cleanData } = data;
+    return this.prisma.tAIKHOAN.create({
+      data: {
+        ...cleanData,
+        VAITRO: VAITRO ?? 'NVVH',
+      },
+    });
   }
 
   // Lay tat ca tai khoan cua khach hang
@@ -53,6 +77,13 @@ export class TaikhoanService {
   async taikhoansNV(): Promise<TAIKHOAN[]> {
     return this.prisma.tAIKHOAN.findMany({
       where: { VAITRO: { in: ['NVVH', 'NVCSKH'] } },
+    });
+  }
+
+  // Lay tat ca tai khoan cua nha cung cap
+  async taikhoansNCC(): Promise<TAIKHOAN[]> {
+    return this.prisma.tAIKHOAN.findMany({
+      where: { VAITRO: { equals: 'NCC' } },
     });
   }
 

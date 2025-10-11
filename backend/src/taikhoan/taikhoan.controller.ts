@@ -1,4 +1,3 @@
-// CHUA XONG
 import {
   Controller,
   Get,
@@ -20,13 +19,17 @@ import { JwtAuthGuard } from 'src/jwt/jwt.guard';
 export class TaikhoanController {
   constructor(private readonly taikhoanService: TaikhoanService) {}
 
-  // Dang ky tai khoan khach hang
+  // ============================================================
+  // 🧍 KHÁCH HÀNG
+  // ============================================================
+
+  // Đăng ký khách hàng
   @Post('dangky')
   async dangKy(@Body() data: TaiKhoanDto): Promise<TAIKHOAN> {
     return this.taikhoanService.dangKy(data);
   }
 
-  // Lay tat ca tai khoan cua khach hang
+  // Lấy tất cả tài khoản khách hàng
   @Get()
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
@@ -34,61 +37,65 @@ export class TaikhoanController {
     return this.taikhoanService.taikhoans();
   }
 
-  // Lay tai khoan theo ID khach hang
+  // Lấy tài khoản khách hàng theo ID
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async getById(@Param('id') maTK: string, @Req() req) {
     const user = req.user as { MaTK: string; Role: string };
-    const taiKhoan = await this.taikhoanService.taikhoan(maTK);
+    const tk = await this.taikhoanService.taikhoan(maTK);
 
-    // Neu la chinh tai khoan cua minh
-    if (user.MaTK === maTK) {
-      return this.taikhoanService.taikhoan(maTK);
+    if (user.MaTK === maTK) return tk;
+
+    if (
+      user.Role === 'QLDN' &&
+      tk?.VAITRO !== 'ADMIN' &&
+      tk?.VAITRO !== 'NCC'
+    ) {
+      return tk;
     }
 
-    // Neu la QLDN va khong phai la tai khoan cua nha cung cap
-    if (user.Role === 'QLDN' && taiKhoan?.VAITRO !== 'NCC') {
-      return this.taikhoanService.taikhoan(maTK);
+    if (
+      user.Role === 'ADMIN' &&
+      (tk?.VAITRO === 'QLDN' || tk?.VAITRO === 'NCC')
+    ) {
+      return tk;
     }
 
     throw new Error('Không có quyền truy cập');
   }
 
-  // Thay doi trang thai tai khoan khach hang
+  // Cập nhật trạng thái khách hàng
+  @Patch('status/:id')
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  @Patch('status/:id')
   async updateStatus(
     @Param('id') maTK: string,
     @Body('status') status: TrangThai,
   ): Promise<TAIKHOAN> {
-    const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    // QLDN khong duoc phep thay doi trang thai cua tai khoan NCC
-    if (taikhoan?.VAITRO === 'NCC') {
-      throw new Error(
-        'Không có quyền thay đổi trạng thái tài khoản nhà cung cấp',
-      );
-    }
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    if (tk?.VAITRO === 'ADMIN' || tk?.VAITRO === 'NCC')
+      throw new Error('Không có quyền thay đổi trạng thái tài khoản này');
     return this.taikhoanService.updateTrangThai(maTK, status);
   }
 
-  // Cap nhat tai khoan
-  @UseGuards(JwtAuthGuard)
+  // Cập nhật tài khoản của chính mình
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') maTK: string,
     @Body() data: TaiKhoanDto,
     @Req() req,
   ): Promise<TAIKHOAN> {
     const user = req.user as { MaTK: string; Role: string };
-
-    if (user.MaTK == maTK) {
+    if (user.MaTK === maTK)
       return this.taikhoanService.updateTaiKhoan(maTK, data);
-    }
     throw new Error('Không có quyền cập nhật');
   }
 
-  // Tao tai khoan nha cung cap
+  // ============================================================
+  // 🏢 NHÀ CUNG CẤP (NCC)
+  // ============================================================
+
   @Post('ncc/dangky')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
@@ -96,57 +103,47 @@ export class TaikhoanController {
     return this.taikhoanService.dangKyNCC(data);
   }
 
-  // Xem tat ca tai khoan cua nha cung cap
   @Get('ncc')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   async getAllNCC(): Promise<TAIKHOAN[]> {
-    return this.taikhoanService.taikhoans();
+    return this.taikhoanService.taikhoansNCC();
   }
 
-  // Xem tai khoan cua nha cung cap
   @Get('ncc/:id')
   @Roles('ADMIN', 'NCC')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   async getNCC(@Param('id') maTK: string): Promise<TAIKHOAN> {
-    const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (taikhoan?.VAITRO !== 'NCC') {
-      throw new Error('Không tìm thấy tài khoản nhà cung cấp');
-    }
-    return taikhoan;
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    if (tk?.VAITRO !== 'NCC') throw new Error('Không tìm thấy tài khoản NCC');
+    return tk;
   }
 
-  // Cap nhat thong tin nha cung cap
+  @Patch('ncc/:id')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  @Patch('ncc/:id')
-  async updateStatusNCC(
-    @Param('id') maTK: string,
-    @Body() data: TaiKhoanDto,
-  ): Promise<TAIKHOAN> {
-    const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (taikhoan?.VAITRO !== 'NCC') {
-      throw new Error('Không tìm thấy tài khoản nhà cung cấp');
-    }
+  async updateNCC(@Param('id') maTK: string, @Body() data: TaiKhoanDto) {
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    if (tk?.VAITRO !== 'NCC') throw new Error('Không tìm thấy NCC');
     return this.taikhoanService.updateTaiKhoan(maTK, data);
   }
 
-  // Thay doi trang thai tai khoan nha cung cap
+  @Patch('ncc/status/:id')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  @Patch('ncc/status/:id')
-  async updateStatusNCCStatus(
+  async updateStatusNCC(
     @Param('id') maTK: string,
     @Body('status') status: TrangThai,
   ): Promise<TAIKHOAN> {
-    const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (taikhoan?.VAITRO !== 'NCC') {
-      throw new Error('Không tìm thấy tài khoản nhà cung cấp');
-    }
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    if (tk?.VAITRO !== 'NCC') throw new Error('Không tìm thấy NCC');
     return this.taikhoanService.updateTrangThai(maTK, status);
   }
 
-  // Tao tai khoan quan ly
+  // ============================================================
+  // 🧑‍💼 QUẢN LÝ DOANH NGHIỆP (QLDN)
+  // ============================================================
+
   @Post('ql/dangky')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
@@ -154,19 +151,6 @@ export class TaikhoanController {
     return this.taikhoanService.dangKyQL(data);
   }
 
-  // Xem tai khoan quan ly
-  @Get('ql/:id')
-  @Roles('ADMIN')
-  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  async getQL(@Param('id') maTK: string): Promise<TAIKHOAN> {
-    const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (taikhoan?.VAITRO !== 'QLDN') {
-      throw new Error('Không tìm thấy tài khoản quản lý');
-    }
-    return taikhoan;
-  }
-
-  // Xem danh sach tai khoan quan ly
   @Get('ql')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
@@ -174,37 +158,40 @@ export class TaikhoanController {
     return this.taikhoanService.taikhoansQL();
   }
 
-  // Cap nhat tai khoan quan ly
+  @Get('ql/:id')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  async getQL(@Param('id') maTK: string): Promise<TAIKHOAN> {
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    if (tk?.VAITRO !== 'QLDN') throw new Error('Không tìm thấy QLDN');
+    return tk;
+  }
+
   @Patch('ql/:id')
-  async updateStatusQL(
-    @Param('id') maTK: string,
-    @Body() data: TaiKhoanDto,
-  ): Promise<TAIKHOAN> {
-    const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (taikhoan?.VAITRO !== 'QLDN') {
-      throw new Error('Không tìm thấy tài khoản quản lý');
-    }
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  async updateQL(@Param('id') maTK: string, @Body() data: TaiKhoanDto) {
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    if (tk?.VAITRO !== 'QLDN') throw new Error('Không tìm thấy QLDN');
     return this.taikhoanService.updateTaiKhoan(maTK, data);
   }
 
-  // Cap nhat trang thai tai khoan quan ly
+  @Patch('ql/status/:id')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  @Patch('ql/status/:id')
-  async updateStatusQLStatus(
+  async updateStatusQL(
     @Param('id') maTK: string,
     @Body('status') status: TrangThai,
   ): Promise<TAIKHOAN> {
-    const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (taikhoan?.VAITRO !== 'QLDN') {
-      throw new Error('Không tìm thấy tài khoản quản lý');
-    }
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    if (tk?.VAITRO !== 'QLDN') throw new Error('Không tìm thấy QLDN');
     return this.taikhoanService.updateTrangThai(maTK, status);
   }
 
-  // Tao tai khoan nhan vien
+  // ============================================================
+  // 👷 NHÂN VIÊN
+  // ============================================================
+
   @Post('nv/dangky')
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
@@ -215,40 +202,6 @@ export class TaikhoanController {
     throw new Error('Vai trò không hợp lệ cho nhân viên');
   }
 
-  // Thay doi trang thai nhan vien
-  @Patch('nv/status/:id')
-  @Roles('QLDN')
-  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  async updateStatusNV(
-    @Param('id') maTK: string,
-    @Body('status') status: TrangThai,
-  ): Promise<TAIKHOAN> {
-    const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (taikhoan?.VAITRO === 'NVVH' || taikhoan?.VAITRO === 'NVCSKH') {
-      return this.taikhoanService.updateTaiKhoan(maTK, { Status: status });
-    }
-    throw new Error('Yêu cầu không hợp lệ');
-  }
-
-  // Thay doi chuc vu nhan vien
-  @Patch('nv/role/:id')
-  @Roles('QLDN')
-  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  async updateVaiTroNV(
-    @Param('id') maTK: string,
-    @Body('vaiTro') vaiTro: VaiTro,
-  ): Promise<TAIKHOAN> {
-    const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (taikhoan?.VAITRO === 'NVVH' || taikhoan?.VAITRO === 'NVCSKH') {
-      if (vaiTro === 'NVVH' || vaiTro === 'NVCSKH') {
-        return this.taikhoanService.updateVaiTro(maTK, vaiTro);
-      }
-      throw new Error('Vai trò không hợp lệ cho nhân viên');
-    }
-    throw new Error('Yêu cầu không hợp lệ');
-  }
-
-  // Lay tat ca tai khoan cua nhan vien
   @Get('nv')
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
@@ -256,15 +209,41 @@ export class TaikhoanController {
     return this.taikhoanService.taikhoansNV();
   }
 
-  // Lay tai khoan cua nhan vien
   @Get('nv/:id')
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   async getNV(@Param('id') maTK: string): Promise<TAIKHOAN> {
-    const taikhoan = await this.taikhoanService.taikhoan(maTK);
-    if (taikhoan?.VAITRO === 'NVVH' || taikhoan?.VAITRO === 'NVCSKH') {
-      return taikhoan;
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    if (tk?.VAITRO === 'NVVH' || tk?.VAITRO === 'NVCSKH') return tk;
+    throw new Error('Không tìm thấy nhân viên');
+  }
+
+  @Patch('nv/status/:id')
+  @Roles('QLDN')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  async updateStatusNV(
+    @Param('id') maTK: string,
+    @Body('status') status: TrangThai,
+  ): Promise<TAIKHOAN> {
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    if (tk?.VAITRO === 'NVVH' || tk?.VAITRO === 'NVCSKH')
+      return this.taikhoanService.updateTrangThai(maTK, status);
+    throw new Error('Không được phép thay đổi tài khoản này');
+  }
+
+  @Patch('nv/role/:id')
+  @Roles('QLDN')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  async updateVaiTroNV(
+    @Param('id') maTK: string,
+    @Body('vaiTro') vaiTro: VaiTro,
+  ): Promise<TAIKHOAN> {
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    if (tk?.VAITRO === 'NVVH' || tk?.VAITRO === 'NVCSKH') {
+      if (vaiTro === 'NVVH' || vaiTro === 'NVCSKH')
+        return this.taikhoanService.updateVaiTro(maTK, vaiTro);
+      throw new Error('Vai trò không hợp lệ cho nhân viên');
     }
-    throw new Error('Không tìm thấy tài khoản nhân viên');
+    throw new Error('Không được phép thay đổi tài khoản này');
   }
 }

@@ -255,6 +255,7 @@ enum VaiTro {
   QLDN
   NVVH  
   NVCSKH
+  ADMIN
 }
 
 
