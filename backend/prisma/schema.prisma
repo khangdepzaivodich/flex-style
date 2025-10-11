@@ -178,13 +178,14 @@ model VOUCHER_KHACHHANG {
 
 model PHIEUNHAPHANG {
   MaPNNH     String    @id @default(uuid())
-  timestamp  DateTime  @default(now())
+  created_at  DateTime  @default(now())
   SoLuong    Int
   MaCTSP     String
   MaNCC      String
   TrangThai  TrangThaiPhieuNhapHang
   MaTKNVQL   String?
   MaTKNVXN   String?
+  NoiDung    String
 
   CHITIETSANPHAM CHITIETSANPHAM? @relation(fields: [MaCTSP], references: [MaCTSP])
   NHACUNGCAP     NHACUNGCAP?     @relation(fields: [MaNCC], references: [MaNCC])
