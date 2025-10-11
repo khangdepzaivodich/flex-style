@@ -44,14 +44,14 @@ export class CartItemResponseDto {
   CHITIETSANPHAM: {
     MaCTSP: string;
     KichCo: string;
-    MauSac: string;
-    HinhAnh: string | null;
     SoLuong: number;
     SANPHAM: {
       MaSP: string;
       TenSP: string;
       GiaBan: number;
       MoTa: string | null;
+      MauSac: string;
+      HinhAnh: Array<string>;
     };
   };
 }

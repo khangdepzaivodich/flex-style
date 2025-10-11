@@ -14,6 +14,9 @@ import { TaikhoanController } from './taikhoan/taikhoan.controller';
 import { TaikhoanModule } from './taikhoan/taikhoan.module';
 import { VoucherKhachHangModule } from './voucher_khachhang/voucher_khachhang.module';
 import { PhanHoiModule } from './phanhoi/phanhoi.module';
+import { PhieunhaphangModule } from './phieunhaphang/phieunhaphang.module';
+import { JwtAuthGuard } from './jwt/jwt.guard';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -30,9 +33,10 @@ import { PhanHoiModule } from './phanhoi/phanhoi.module';
     TaikhoanModule,
     VoucherKhachHangModule,
     PhanHoiModule,
+    PhieunhaphangModule,
   ],
   controllers: [AppController, TaikhoanController],
-  providers: [AppService, TaikhoanService],
+  providers: [AppService, TaikhoanService, JwtService],
 })
 export class AppModule {
   constructor() {
