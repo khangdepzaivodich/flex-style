@@ -101,7 +101,6 @@ export default function AccountPage() {
         <Tabs defaultValue="profile" className="space-y-6">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="profile">Thông tin cá nhân</TabsTrigger>
-            <TabsTrigger value="orders">Đơn hàng</TabsTrigger>
             <TabsTrigger value="settings">Cài đặt</TabsTrigger>
           </TabsList>
 
@@ -232,7 +231,7 @@ export default function AccountPage() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="orders">
+          {/* <TabsContent value="orders">
             <Card>
               <CardHeader>
                 <CardTitle>Đơn hàng của tôi</CardTitle>
@@ -251,7 +250,7 @@ export default function AccountPage() {
                 </div>
               </CardContent>
             </Card>
-          </TabsContent>
+          </TabsContent> */}
 
           <TabsContent value="settings">
             <Card>

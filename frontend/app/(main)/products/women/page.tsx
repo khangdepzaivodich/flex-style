@@ -4,10 +4,9 @@ import { useState, useMemo } from "react";
 import { products } from "@/data/products.json";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Heart, TrendingUp, Star, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 export default function WomenPage() {
   const [sortBy, setSortBy] = useState<
@@ -16,14 +15,11 @@ export default function WomenPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   // Filter women's products
-  const allWomenProducts = products.filter(
-    (product) => product.category === "men" || product.tags?.includes("men")
-  );
+  const allWomenProducts = useMemo(() => {
+    return products.filter((product) => product.category === "women");
+  }, []);
   const womenProducts = useMemo(() => {
-    let filtered = products.filter(
-      (product) =>
-        product.category === "women" || product.tags?.includes("women")
-    );
+    let filtered = products.filter((product) => product.category === "women");
 
     if (selectedCategory !== "all") {
       filtered = filtered.filter(
@@ -84,63 +80,6 @@ export default function WomenPage() {
           Khám phá bộ sưu tập thời trang nữ thanh lịch, hiện đại và đầy cá tính
         </p>
       </div>
-
-      {/* Stats Cards */}
-      {/* <div className="grid md:grid-cols-4 gap-6 mb-8">
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <Heart className="h-8 w-8 text-pink-500" />
-            </div>
-            <h3 className="text-2xl font-bold">{womenProducts.length}</h3>
-            <p className="text-sm text-muted-foreground">Sản phẩm nữ</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <TrendingUp className="h-8 w-8 text-green-500" />
-            </div>
-            <h3 className="text-2xl font-bold">
-              {
-                womenProducts.filter(
-                  (p) => p.originalPrice && p.originalPrice > p.price
-                ).length
-              }
-            </h3>
-            <p className="text-sm text-muted-foreground">Đang sale</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <Star className="h-8 w-8 text-yellow-500" />
-            </div>
-            <h3 className="text-2xl font-bold">
-              {womenProducts.length > 0
-                ? (
-                    womenProducts.reduce((sum, p) => sum + p.rating, 0) /
-                    womenProducts.length
-                  ).toFixed(1)
-                : "0"}
-            </h3>
-            <p className="text-sm text-muted-foreground">Đánh giá TB</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <Badge className="h-8 w-8 bg-pink-500 text-white rounded-full flex items-center justify-center">
-                NEW
-              </Badge>
-            </div>
-            <h3 className="text-2xl font-bold">
-              {womenProducts.filter((p) => p.tags?.includes("new")).length}
-            </h3>
-            <p className="text-sm text-muted-foreground">Sản phẩm mới</p>
-          </CardContent>
-        </Card>
-      </div> */}
 
       {/* Category Filter */}
       <div className="mb-8">

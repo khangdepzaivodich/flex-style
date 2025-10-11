@@ -395,7 +395,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                         <span className="text-muted-foreground">
                           Thương hiệu:
                         </span>
-                        <span>FashionStore</span>
+                        <span>FlexStyle</span>
                       </div>
                     </div>
                   </div>

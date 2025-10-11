@@ -13,6 +13,7 @@ import { TaikhoanService } from './taikhoan/taikhoan.service';
 import { TaikhoanController } from './taikhoan/taikhoan.controller';
 import { TaikhoanModule } from './taikhoan/taikhoan.module';
 import { VoucherKhachHangModule } from './voucher_khachhang/voucher_khachhang.module';
+import { PhanHoiModule } from './phanhoi/phanhoi.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { VoucherKhachHangModule } from './voucher_khachhang/voucher_khachhang.mo
     VoucherModule,
     TaikhoanModule,
     VoucherKhachHangModule,
+    PhanHoiModule,
   ],
   controllers: [AppController, TaikhoanController],
   providers: [AppService, TaikhoanService],
