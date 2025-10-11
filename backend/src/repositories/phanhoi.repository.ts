@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 @Injectable()
-export class pHANHOIRepository {
+export class PhanHoiRepository {
     constructor(private readonly prisma: PrismaService) { }
     //lấy danh sách phản hồi theo sản phẩm
     async findAll(MaSP: string) {
