@@ -16,8 +16,8 @@ export async function GET(req: NextRequest) {
       chatId = "chat_" + Math.random().toString(36).substring(2, 10);
       const { data, error } = await supabase
         .from("n8n_chat_histories")
-        .select("sessionId")
-        .eq("sessionId", chatId)
+        .select("session_id")
+        .eq("session_id", chatId)
         .limit(1);
 
       if (error) {
