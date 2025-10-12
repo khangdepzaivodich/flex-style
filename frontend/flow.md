@@ -36,3 +36,5 @@ npm i @vercel/analytics
 npm install recharts
 
 npm install --save-dev @types/recharts
+
+npm install @paypal/react-paypal-js
