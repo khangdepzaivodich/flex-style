@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { createClient } from "@supabase/supabase-js";
 
 interface ChatWidgetConfig {
   chatUrl: string;
@@ -29,11 +28,6 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
   const primaryColor = config.style?.primaryColor || "#854fff";
   const backgroundColor = config.style?.backgroundColor || "#ffffff";
   const fontColor = config.style?.fontColor || "#333333";
-
-  const supabase = createClient(
-    config.supabaseUrl,
-    config.supabaseServiceRoleKey
-  );
 
   // Auto-scroll to bottom
   useEffect(() => {
