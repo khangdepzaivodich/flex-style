@@ -28,6 +28,9 @@ export default async function layout({
           <ChatWidget
             config={{
               chatUrl: process.env.N8N_CHAT_URL || "",
+              supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+              supabaseServiceRoleKey:
+                process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || "",
             }}
           />
         </CartProvider>

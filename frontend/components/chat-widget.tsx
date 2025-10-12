@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createClient } from "@supabase/supabase-js";
 
 interface ChatWidgetConfig {
-  chatUrl: string; // only ONE URL now
+  chatUrl: string;
+  supabaseUrl: string;
+  supabaseServiceRoleKey: string;
   style?: {
     primaryColor?: string;
     backgroundColor?: string;
@@ -19,7 +22,7 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<
     { sender: "user" | "bot"; text: string }[]
-  >([{ sender: "bot", text: "Hi 👋, how can we help?" }]);
+  >([{ sender: "bot", text: "Hi, how can we help?" }]);
   const [input, setInput] = useState("");
   const chatBodyRef = useRef<HTMLDivElement>(null);
 
@@ -27,7 +30,12 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
   const backgroundColor = config.style?.backgroundColor || "#ffffff";
   const fontColor = config.style?.fontColor || "#333333";
 
-  // Auto-scroll to bottom when new messages arrive
+  const supabase = createClient(
+    config.supabaseUrl,
+    config.supabaseServiceRoleKey
+  );
+
+  // Auto-scroll to bottom
   useEffect(() => {
     chatBodyRef.current?.scrollTo({
       top: chatBodyRef.current.scrollHeight,
@@ -35,30 +43,44 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
     });
   }, [messages]);
 
-  // Generate or reuse a unique chat session ID
-  const getChatId = () => {
+  // Get or create chatId safely
+  const getChatId = async (): Promise<string> => {
     if (typeof window === "undefined") return "";
     let chatId = sessionStorage.getItem("chatId");
     if (!chatId) {
-      chatId = "chat_" + Math.random().toString(36).substring(2, 10);
-      sessionStorage.setItem("chatId", chatId);
+      try {
+        const res = await fetch("/api/get-chat-id");
+        if (!res.ok) throw new Error("Failed to get chat ID");
+        const text = await res.text();
+        let data: { chatId?: string } = {};
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch {
+          console.error("Invalid JSON from /api/get-chat-id:", text);
+        }
+        chatId =
+          data.chatId || "chat_" + Math.random().toString(36).substring(2, 10);
+        sessionStorage.setItem("chatId", chatId);
+      } catch (err) {
+        console.error("Error fetching chat ID:", err);
+        chatId = "chat_" + Math.random().toString(36).substring(2, 10);
+        sessionStorage.setItem("chatId", chatId);
+      }
     }
     return chatId;
   };
 
-  // Send message and handle AI response
+  // Send message and handle bot response
   const handleSend = async () => {
     if (!input.trim()) return;
 
     const message = input.trim();
-    const chatId = getChatId();
+    const chatId = await getChatId();
 
-    // Show user message instantly
     setMessages((prev) => [...prev, { sender: "user", text: message }]);
     setInput("");
 
     try {
-      // Send message to n8n (expects n8n Responds with AI reply)
       const res = await fetch(config.chatUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -67,9 +89,15 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
 
       if (!res.ok) throw new Error("Failed to get bot response");
 
-      const data = await res.json();
+      // Safe JSON parsing
+      const text = await res.text();
+      let data: { output?: string } = {};
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        console.error("Invalid JSON from chatUrl:", text);
+      }
 
-      // Show bot reply from n8n
       setMessages((prev) => [
         ...prev,
         {
@@ -88,7 +116,6 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
 
   return (
     <>
-      {/* Floating Chat Button */}
       {!open && (
         <button
           onClick={() => setOpen(true)}
@@ -99,7 +126,6 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
         </button>
       )}
 
-      {/* Chat Container */}
       {open && (
         <div
           className="fixed bottom-5 right-5 flex flex-col rounded-xl shadow-xl overflow-hidden"
