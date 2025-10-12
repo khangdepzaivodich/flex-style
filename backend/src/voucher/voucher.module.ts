@@ -8,6 +8,7 @@ import { PrismaModule } from '../prisma.module';
 @Module({
   imports: [PrismaModule],
   controllers: [VoucherController],
-  providers: [VoucherService, VoucherRepository, ExcelService]
+  providers: [VoucherService, VoucherRepository, ExcelService],
+  exports: [VoucherRepository],
 })
 export class VoucherModule {}

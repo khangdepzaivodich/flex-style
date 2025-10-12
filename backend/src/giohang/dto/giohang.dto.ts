@@ -13,7 +13,11 @@ export class AddToCartDto {
   @Min(1)
   SoLuong: number;
 
-  @ApiProperty({ description: 'Mã tài khoản khách hàng (optional)', example: 'uuid-string', required: false })
+  @ApiProperty({
+    description: 'Mã tài khoản khách hàng (optional)',
+    example: 'uuid-string',
+    required: false,
+  })
   @IsString()
   MaTKKH?: string;
 }
@@ -47,7 +51,7 @@ export class CartItemResponseDto {
       GiaBan: number;
       MoTa: string | null;
       MauSac: string;
-      HinhAnh: string | null;
+      HinhAnh: Array<string>;
     };
   };
 }
@@ -65,6 +69,9 @@ export class CartResponseDto {
   @ApiProperty({ description: 'Tổng giá trị giỏ hàng' })
   totalValue: number;
 
-  @ApiProperty({ description: 'Danh sách sản phẩm trong giỏ', type: [CartItemResponseDto] })
+  @ApiProperty({
+    description: 'Danh sách sản phẩm trong giỏ',
+    type: [CartItemResponseDto],
+  })
   items: CartItemResponseDto[];
 }

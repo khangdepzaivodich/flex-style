@@ -8,6 +8,7 @@ import { PrismaModule } from '../prisma.module';
 @Module({
   imports: [PrismaModule],
   controllers: [VoucherKhachHangController],
-  providers: [VoucherKhachHangService, VoucherKhachHangRepository, VoucherRepository]
+  providers: [VoucherKhachHangService, VoucherKhachHangRepository, VoucherRepository],
+  exports: [VoucherKhachHangRepository],
 })
 export class VoucherKhachHangModule {}

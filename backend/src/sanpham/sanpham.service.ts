@@ -47,9 +47,20 @@ export class SanphamService {
 
   // Tao san pham moi
   async createSanpham(data: SanPhamDto): Promise<SANPHAM> {
-    return this.prisma.sANPHAM.create({
-      data,
-    });
+    // Ep ve kieu Prisma payload
+    const payload: Prisma.SANPHAMCreateInput = {
+      TenSP: data.TenSP,
+      MoTa: data.MoTa,
+      HinhAnh: data.HinhAnh,
+      GiaBan: data.GiaBan,
+      GiaMua: data.GiaMua,
+      TrangThai: data.TrangThai,
+      MauSac: data.MauSac,
+      DANHMUC: {
+        connect: { MaDM: data.MaDM },
+      },
+    };
+    return this.prisma.sANPHAM.create({ data: payload });
   }
 
   // Cap nhat san pham
@@ -58,9 +69,23 @@ export class SanphamService {
     data: SanPhamDto;
   }): Promise<SANPHAM> {
     const { where, data } = params;
+
+    const payload: Prisma.SANPHAMUpdateInput = {
+      TenSP: data.TenSP,
+      MoTa: data.MoTa,
+      HinhAnh: data.HinhAnh,
+      GiaBan: data.GiaBan,
+      GiaMua: data.GiaMua,
+      TrangThai: data.TrangThai,
+      MauSac: data.MauSac,
+      DANHMUC: {
+        connect: { MaDM: data.MaDM },
+      },
+    };
+
     try {
       return await this.prisma.sANPHAM.update({
-        data,
+        data: payload,
         where,
       });
     } catch (error: any) {
@@ -74,11 +99,12 @@ export class SanphamService {
   // Xoa san pham
   async deleteSanpham(where: { MaSP: string }): Promise<SANPHAM> {
     try {
-      return this.prisma.sANPHAM.delete({
-        where,
-      });
-    } catch (error: any) {
-      if (error.code === 'P2025') {
+      return await this.prisma.sANPHAM.delete({ where });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
         throw new NotFoundException('Sản phẩm không tồn tại');
       }
       throw error;

@@ -20,7 +20,7 @@ CREATE TYPE "public"."LoaiDanhMuc" AS ENUM ('NAM', 'NU', 'PHU_KIEN');
 CREATE TYPE "public"."TrangThaiPhieuNhapHang" AS ENUM ('DANG_CHO', 'NCC_XACNHAN', 'NV_XACNHAN', 'TU_CHOI');
 
 -- CreateEnum
-CREATE TYPE "public"."VaiTro" AS ENUM ('KH', 'NCC', 'QLDN', 'NVVH', 'NVCSKH');
+CREATE TYPE "public"."VaiTro" AS ENUM ('KH', 'NCC', 'QLDN', 'NVVH', 'NVCSKH', 'ADMIN');
 
 -- CreateTable
 CREATE TABLE "public"."CHITIETGIOHANG" (
@@ -194,13 +194,14 @@ CREATE TABLE "public"."VOUCHER_KHACHHANG" (
 -- CreateTable
 CREATE TABLE "public"."PHIEUNHAPHANG" (
     "MaPNNH" TEXT NOT NULL,
-    "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "SoLuong" INTEGER NOT NULL,
     "MaCTSP" TEXT NOT NULL,
     "MaNCC" TEXT NOT NULL,
     "TrangThai" "public"."TrangThaiPhieuNhapHang" NOT NULL,
     "MaTKNVQL" TEXT,
     "MaTKNVXN" TEXT,
+    "NoiDung" TEXT NOT NULL,
 
     CONSTRAINT "PHIEUNHAPHANG_pkey" PRIMARY KEY ("MaPNNH")
 );

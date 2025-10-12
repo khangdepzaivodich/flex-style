@@ -11,8 +11,14 @@ import { GiohangModule } from './giohang/giohang.module';
 import { DonhangModule } from './donhang/donhang.module';
 import { TinhtrangDonhangModule } from './tinhtrangdonhang/tinhtrangdonhang.module';
 import { VoucherModule } from './voucher/voucher.module';
-import { VoucherKhachHangModule as VoucherCustomerModule } from './voucher_khachhang/voucher_khachhang.module';
-import { PrismaModule } from './prisma.module';
+import { TaikhoanService } from './taikhoan/taikhoan.service';
+import { TaikhoanController } from './taikhoan/taikhoan.controller';
+import { TaikhoanModule } from './taikhoan/taikhoan.module';
+import { VoucherKhachHangModule } from './voucher_khachhang/voucher_khachhang.module';
+import { PhanHoiModule } from './phanhoi/phanhoi.module';
+import { PhieunhaphangModule } from './phieunhaphang/phieunhaphang.module';
+import { JwtAuthGuard } from './jwt/jwt.guard';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -34,10 +40,13 @@ import { PrismaModule } from './prisma.module';
     DonhangModule,
     TinhtrangDonhangModule,
     VoucherModule,
-    VoucherCustomerModule,
+    TaikhoanModule,
+    VoucherKhachHangModule,
+    PhanHoiModule,
+    PhieunhaphangModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, TaikhoanController],
+  providers: [AppService, TaikhoanService, JwtService],
 })
 export class AppModule {
   constructor() {

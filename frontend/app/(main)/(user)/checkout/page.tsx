@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState } from "react";
 import { useCart } from "@/contexts/cart-context";
 import { useAuth } from "@/contexts/auth-context";
@@ -14,6 +13,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CreditCard, Truck, MapPin, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
+import PayPal from "@/components/paypal";
 
 export default function CheckoutPage() {
   const { items, total, clearCart } = useCart();
@@ -272,6 +272,10 @@ export default function CheckoutPage() {
                   <Label htmlFor="card">Thẻ tín dụng/ghi nợ</Label>
                 </div>
                 <div className="flex items-center space-x-2 p-4 border rounded-lg">
+                  <RadioGroupItem value="paypal" id="paypal" />
+                  <Label htmlFor="paypal">PayPal</Label>
+                </div>
+                <div className="flex items-center space-x-2 p-4 border rounded-lg">
                   <RadioGroupItem value="momo" id="momo" />
                   <Label htmlFor="momo">Ví MoMo</Label>
                 </div>
@@ -280,33 +284,6 @@ export default function CheckoutPage() {
                   <Label htmlFor="cod">Thanh toán khi nhận hàng (COD)</Label>
                 </div> */}
               </RadioGroup>
-
-              {formData.paymentMethod === "card" && (
-                <div className="mt-4 space-y-4">
-                  <div>
-                    <Label htmlFor="cardNumber">Số thẻ *</Label>
-                    <Input
-                      id="cardNumber"
-                      placeholder="1234 5678 9012 3456"
-                      required
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="expiry">Ngày hết hạn *</Label>
-                      <Input id="expiry" placeholder="MM/YY" required />
-                    </div>
-                    <div>
-                      <Label htmlFor="cvv">CVV *</Label>
-                      <Input id="cvv" placeholder="123" required />
-                    </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="cardName">Tên trên thẻ *</Label>
-                    <Input id="cardName" placeholder="NGUYEN VAN A" required />
-                  </div>
-                </div>
-              )}
             </CardContent>
           </Card>
         </div>
@@ -369,14 +346,18 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <Button
-                type="submit"
-                className="w-full"
-                size="lg"
-                disabled={isProcessing}
-              >
-                {isProcessing ? "Đang xử lý..." : "Hoàn tất đơn hàng"}
-              </Button>
+              {formData.paymentMethod === "paypal" ? (
+                <PayPal />
+              ) : (
+                <Button
+                  type="submit"
+                  className="w-full"
+                  size="lg"
+                  disabled={isProcessing}
+                >
+                  {isProcessing ? "Đang xử lý..." : "Hoàn tất đơn hàng"}
+                </Button>
+              )}
 
               <p className="text-xs text-muted-foreground text-center">
                 Bằng cách đặt hàng, bạn đồng ý với{" "}

@@ -25,11 +25,12 @@ export class TaikhoanService {
     if ('VAITRO' in data) {
       throw new Error('Không thể thay đổi vai trò của khách hàng');
     }
-    return this.prisma.tAIKHOAN.create({ 
-      data: { 
-        ...data, 
-        VAITRO: 'KH' 
-      } 
+    const { VAITRO, ...cleanData } = data;
+    return this.prisma.tAIKHOAN.create({
+      data: {
+        ...cleanData,
+        VAITRO: 'KH',
+      },
     });
   }
 
@@ -38,11 +39,12 @@ export class TaikhoanService {
     if ('VAITRO' in data) {
       throw new Error('Không thể thay đổi vai trò của nhà cung cấp');
     }
-    return this.prisma.tAIKHOAN.create({ 
-      data: { 
-        ...data, 
-        VAITRO: 'NCC' 
-      } 
+    const { VAITRO, ...cleanData } = data;
+    return this.prisma.tAIKHOAN.create({
+      data: {
+        ...cleanData,
+        VAITRO: 'NCC',
+      },
     });
   }
 
@@ -51,21 +53,23 @@ export class TaikhoanService {
     if ('VAITRO' in data) {
       throw new Error('Không thể thay đổi vai trò của nhà cung cấp');
     }
-    return this.prisma.tAIKHOAN.create({ 
-      data: { 
-        ...data, 
-        VAITRO: 'QLDN' 
-      } 
+    const { VAITRO, ...cleanData } = data;
+    return this.prisma.tAIKHOAN.create({
+      data: {
+        ...cleanData,
+        VAITRO: 'QLDN',
+      },
     });
   }
 
   // Dang ky tai khoan nhan vien
   async dangKyNV(data: TaiKhoanDto): Promise<TAIKHOAN> {
-    return this.prisma.tAIKHOAN.create({ 
-      data: { 
-        ...data, 
-        VAITRO: 'NVVH' 
-      } 
+    const { VAITRO, ...cleanData } = data;
+    return this.prisma.tAIKHOAN.create({
+      data: {
+        ...cleanData,
+        VAITRO: VAITRO ?? 'NVVH',
+      },
     });
   }
 
@@ -87,6 +91,13 @@ export class TaikhoanService {
   async taikhoansNV(): Promise<TAIKHOAN[]> {
     return this.prisma.tAIKHOAN.findMany({
       where: { VAITRO: { in: ['NVVH', 'NVCSKH'] } },
+    });
+  }
+
+  // Lay tat ca tai khoan cua nha cung cap
+  async taikhoansNCC(): Promise<TAIKHOAN[]> {
+    return this.prisma.tAIKHOAN.findMany({
+      where: { VAITRO: { equals: 'NCC' } },
     });
   }
 
