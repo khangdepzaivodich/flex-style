@@ -102,7 +102,7 @@ export class GiohangService {
           GiaBan: item.CHITIETSANPHAM.SANPHAM.GiaBan,
           MoTa: item.CHITIETSANPHAM.SANPHAM.MoTa,
           MauSac: item.CHITIETSANPHAM.SANPHAM.MauSac,
-          HinhAnh: item.CHITIETSANPHAM.SANPHAM.HinhAnh[0] || null,
+          HinhAnh: item.CHITIETSANPHAM.SANPHAM.HinhAnh,
         }
       }
     }));
