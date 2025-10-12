@@ -1,14 +1,9 @@
-"use client";
-
 import {
   PayPalButtons,
   PayPalButtonsComponentProps,
   PayPalScriptProvider,
   ReactPayPalScriptOptions,
-  usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-import { useCallback } from "react";
-
 interface OrderData {
   id: string;
   details?: Array<{
@@ -17,76 +12,68 @@ interface OrderData {
   }>;
   debug_id?: string;
 }
-
-export default function PayPal() {
+export default function PayPal(value: number, reference_id: string) {
   const initialOptions: ReactPayPalScriptOptions = {
-    clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? "",
-    components: "buttons",
-    currency: "USD",
+    clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "test",
   };
 
-  return (
-    <div className="flex flex-col items-center justify-center py-10">
-      <h2 className="text-xl font-semibold mb-4 text-gray-700">
-        Thanh toán qua PayPal (Sandbox)
-      </h2>
-      <PayPalScriptProvider options={initialOptions}>
-        <PayPalButtonsWrapper />
-      </PayPalScriptProvider>
-    </div>
-  );
-}
+  const createOrder: PayPalButtonsComponentProps["createOrder"] = async () => {
+    try {
+      const response = await fetch("/paypal/create-paypal-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          value: value,
+          currency_code: "USD",
+          reference_id: reference_id,
+        }),
+      });
 
-function PayPalButtonsWrapper() {
-  const [{ isPending, isResolved }] = usePayPalScriptReducer();
+      const orderData: OrderData = await response.json();
 
-  const styles: PayPalButtonsComponentProps["style"] = {
-    shape: "rect",
-    layout: "vertical",
-    color: "gold",
-    label: "paypal",
-  };
+      if (!orderData.id) {
+        const errorDetail = orderData?.details?.[0];
+        const errorMessage = errorDetail
+          ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+          : "Unexpected error occurred, please try again.";
 
-  // Hàm tạo đơn hàng (gọi API backend)
-  const createOrder: PayPalButtonsComponentProps["createOrder"] =
-    useCallback(async () => {
-      try {
-        const response = await fetch("/api/create-paypal-order", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            cart: [{ id: "product_1", quantity: 1 }],
-          }),
-        });
-
-        const orderData: OrderData = await response.json();
-
-        if (!orderData.id) {
-          const errorDetail = orderData?.details?.[0];
-          const errorMessage = errorDetail
-            ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
-            : "Unexpected error occurred, please try again.";
-          throw new Error(errorMessage);
-        }
-
-        return orderData.id;
-      } catch (error) {
-        console.error("Create Order Error:", error);
-        alert("Lỗi khi tạo đơn hàng PayPal, vui lòng thử lại.");
-        throw error;
+        throw new Error(errorMessage);
       }
-    }, []);
 
-  if (isPending) return <div>Đang tải PayPal...</div>;
-  if (!isResolved) return null;
+      return orderData.id;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const onApprove: PayPalButtonsComponentProps["onApprove"] = async (data) => {
+    const response = await fetch("/paypal/capture-paypal-order", {
+      method: "POST",
+      body: JSON.stringify({
+        orderID: data.orderID,
+      }),
+    });
+
+    const details = await response.json();
+
+    window.location.href = "/checkout/success";
+    alert("Transaction completed by " + details.payer.name.given_name);
+  };
+  const onCancel: PayPalButtonsComponentProps["onCancel"] = () => {
+    window.location.assign("/checkout");
+  };
 
   return (
-    <div className="w-full max-w-xs">
-      <PayPalButtons
-        style={styles}
-        createOrder={createOrder}
-        fundingSource="paypal"
-      />
+    <div className="App">
+      <PayPalScriptProvider options={initialOptions}>
+        <PayPalButtons
+          createOrder={createOrder}
+          onApprove={onApprove}
+          onCancel={onCancel}
+          fundingSource="paypal"
+        />
+      </PayPalScriptProvider>
     </div>
   );
 }
