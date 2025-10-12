@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { VoucherKhachhangController } from './voucher_khachhang.controller';
+import { VoucherKhachHangController } from './voucher_khachhang.controller';
 
-describe('VoucherKhachhangController', () => {
-  let controller: VoucherKhachhangController;
+describe('VoucherKhachHangController', () => {
+  let controller: VoucherKhachHangController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [VoucherKhachhangController],
+      controllers: [VoucherKhachHangController],
     }).compile();
 
-    controller = module.get<VoucherKhachhangController>(VoucherKhachhangController);
+    controller = module.get<VoucherKhachHangController>(VoucherKhachHangController);
   });
 
   it('should be defined', () => {

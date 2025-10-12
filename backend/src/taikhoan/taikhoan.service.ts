@@ -1,7 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { Prisma, TAIKHOAN, TrangThai, VaiTro } from '@prisma/client';
 import { TaiKhoanDto } from './dto/taikhoan.dto';
+
+// Define types based on the schema - matching Prisma exactly
+type VaiTro = 'KH' | 'NCC' | 'QLDN' | 'NVVH' | 'NVCSKH' | 'ADMIN';
+type TrangThai = 'ACTIVE' | 'INACTIVE';
+
+export interface TAIKHOAN {
+  MaTK: string;
+  created_at: Date;
+  updated_at: Date;
+  Username: string | null; // Use null to match Prisma
+  MatKhau: string | null;  // Use null to match Prisma
+  Status: TrangThai;
+  Avatar: string | null;   // Use null to match Prisma
+  VAITRO: VaiTro;
+}
 @Injectable()
 export class TaikhoanService {
   constructor(private readonly prisma: PrismaService) {}
@@ -22,7 +36,7 @@ export class TaikhoanService {
 
   // Dang ky tai khoan nha cung cap
   async dangKyNCC(data: TaiKhoanDto): Promise<TAIKHOAN> {
-    if ('VaiTro' in data) {
+    if ('VAITRO' in data) {
       throw new Error('Không thể thay đổi vai trò của nhà cung cấp');
     }
     const { VAITRO, ...cleanData } = data;
@@ -36,7 +50,7 @@ export class TaikhoanService {
 
   // Dang ky tai khoan quan ly
   async dangKyQL(data: TaiKhoanDto): Promise<TAIKHOAN> {
-    if ('VaiTro' in data) {
+    if ('VAITRO' in data) {
       throw new Error('Không thể thay đổi vai trò của nhà cung cấp');
     }
     const { VAITRO, ...cleanData } = data;
@@ -107,7 +121,7 @@ export class TaikhoanService {
     }
     return this.prisma.tAIKHOAN.update({
       where: { MaTK: maTK },
-      data,
+      data: data as any,
     });
   }
 
@@ -115,7 +129,7 @@ export class TaikhoanService {
   async updateVaiTro(maTK: string, vaiTro: VaiTro): Promise<TAIKHOAN> {
     return this.prisma.tAIKHOAN.update({
       where: { MaTK: maTK },
-      data: { VAITRO: vaiTro },
+      data: { VAITRO: vaiTro as any },
     });
   }
 

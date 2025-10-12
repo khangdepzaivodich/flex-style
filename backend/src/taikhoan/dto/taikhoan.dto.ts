@@ -1,14 +1,28 @@
 import { IsString, IsOptional, IsEnum } from 'class-validator';
-import { VaiTro, TrangThai } from '@prisma/client';
+
+// Define enums locally since Prisma exports are not working properly
+enum VaiTro {
+  KH = 'KH',
+  NCC = 'NCC', 
+  QLDN = 'QLDN',
+  NVVH = 'NVVH',
+  NVCSKH = 'NVCSKH',
+  ADMIN = 'ADMIN'
+}
+
+enum TrangThai {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE'
+}
 
 export class TaiKhoanDto {
   @IsOptional()
   @IsString()
-  Username?: string;
+  Username?: string | null;
 
   @IsOptional()
   @IsString()
-  MatKhau?: string;
+  MatKhau?: string | null;
 
   @IsOptional()
   @IsEnum(TrangThai)
@@ -16,7 +30,7 @@ export class TaiKhoanDto {
 
   @IsOptional()
   @IsString()
-  Avatar?: string;
+  Avatar?: string | null;
 
   @IsOptional()
   @IsEnum(VaiTro)

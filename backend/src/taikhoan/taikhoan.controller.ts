@@ -10,10 +10,25 @@ import {
 } from '@nestjs/common';
 import { TaikhoanService } from './taikhoan.service';
 import { TaiKhoanDto } from './dto/taikhoan.dto';
-import { TAIKHOAN, TrangThai, VaiTro } from '@prisma/client';
+import { TAIKHOAN } from './taikhoan.service';
 import { Roles } from './factory_function/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
+
+// Define enums locally
+enum TrangThai {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE'
+}
+
+enum VaiTro {
+  KH = 'KH',
+  NCC = 'NCC', 
+  QLDN = 'QLDN',
+  NVVH = 'NVVH',
+  NVCSKH = 'NVCSKH',
+  ADMIN = 'ADMIN'
+}
 
 @Controller('taikhoan')
 export class TaikhoanController {
