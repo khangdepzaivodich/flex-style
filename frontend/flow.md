@@ -38,3 +38,7 @@ npm install recharts
 npm install --save-dev @types/recharts
 
 npm install @paypal/react-paypal-js
+
+npm install uuid
+
+npm install --save-dev @types/uuid
