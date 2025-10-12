@@ -19,6 +19,7 @@ import { PhanHoiModule } from './phanhoi/phanhoi.module';
 import { PhieunhaphangModule } from './phieunhaphang/phieunhaphang.module';
 import { JwtAuthGuard } from './jwt/jwt.guard';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaModule } from './prisma.module';
 
 @Module({
   imports: [
