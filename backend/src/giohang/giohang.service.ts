@@ -82,10 +82,30 @@ export class GiohangService {
   async getCartItems(MaTKKH?: string): Promise<CartResponseDto> {
     const cart = await this.getOrCreateCart(MaTKKH);
 
-    const cartItems = await this.giohangRepository.findAllCartItems(cart.MaGH);
+    const rawCartItems = await this.giohangRepository.findAllCartItems(cart.MaGH);
 
     const { totalQuantity, totalValue } =
       await this.giohangRepository.calculateCartTotal(cart.MaGH);
+
+    // Transform the data to match DTO structure
+    const cartItems = rawCartItems.map(item => ({
+      MaCTGH: item.MaCTGH,
+      SoLuong: item.SoLuong,
+      created_at: item.created_at,
+      CHITIETSANPHAM: {
+        MaCTSP: item.CHITIETSANPHAM.MaCTSP,
+        KichCo: item.CHITIETSANPHAM.KichCo,
+        SoLuong: item.CHITIETSANPHAM.SoLuong,
+        SANPHAM: {
+          MaSP: item.CHITIETSANPHAM.SANPHAM.MaSP,
+          TenSP: item.CHITIETSANPHAM.SANPHAM.TenSP,
+          GiaBan: item.CHITIETSANPHAM.SANPHAM.GiaBan,
+          MoTa: item.CHITIETSANPHAM.SANPHAM.MoTa,
+          MauSac: item.CHITIETSANPHAM.SANPHAM.MauSac,
+          HinhAnh: item.CHITIETSANPHAM.SANPHAM.HinhAnh,
+        }
+      }
+    }));
 
     return {
       MaGH: cart.MaGH,
