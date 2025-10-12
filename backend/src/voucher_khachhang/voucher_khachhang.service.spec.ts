@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { VoucherKhachhangService } from './voucher_khachhang.service';
+import { VoucherKhachHangService } from './voucher_khachhang.service';
 
-describe('VoucherKhachhangService', () => {
-  let service: VoucherKhachhangService;
+describe('VoucherKhachHangService', () => {
+  let service: VoucherKhachHangService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [VoucherKhachhangService],
+      providers: [VoucherKhachHangService],
     }).compile();
 
-    service = module.get<VoucherKhachhangService>(VoucherKhachhangService);
+    service = module.get<VoucherKhachHangService>(VoucherKhachHangService);
   });
 
   it('should be defined', () => {

@@ -1,7 +1,9 @@
-import { TaikhoanGuard } from './taikhoan.guard';
+import { Reflector } from '@nestjs/core';
+import { TaiKhoanGuard } from './taikhoan.guard';
 
-describe('TaikhoanGuard', () => {
+describe('TaiKhoanGuard', () => {
   it('should be defined', () => {
-    expect(new TaikhoanGuard()).toBeDefined();
+    const reflector = {} as Reflector;
+    expect(new TaiKhoanGuard(reflector)).toBeDefined();
   });
 });
