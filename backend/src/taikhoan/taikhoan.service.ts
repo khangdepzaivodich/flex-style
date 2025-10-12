@@ -1,38 +1,72 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { Prisma, TAIKHOAN, TrangThai, VaiTro } from '@prisma/client';
 import { TaiKhoanDto } from './dto/taikhoan.dto';
+
+// Define types based on the schema - matching Prisma exactly
+type VaiTro = 'KH' | 'NCC' | 'QLDN' | 'NVVH' | 'NVCSKH' | 'ADMIN';
+type TrangThai = 'ACTIVE' | 'INACTIVE';
+
+export interface TAIKHOAN {
+  MaTK: string;
+  created_at: Date;
+  updated_at: Date;
+  Username: string | null; // Use null to match Prisma
+  MatKhau: string | null;  // Use null to match Prisma
+  Status: TrangThai;
+  Avatar: string | null;   // Use null to match Prisma
+  VAITRO: VaiTro;
+}
 @Injectable()
 export class TaikhoanService {
   constructor(private readonly prisma: PrismaService) {}
 
   // Dang ky tai khoan moi
   async dangKy(data: TaiKhoanDto): Promise<TAIKHOAN> {
-    if ('VaiTro' in data) {
+    if ('VAITRO' in data) {
       throw new Error('Không thể thay đổi vai trò của khách hàng');
     }
-    return this.prisma.tAIKHOAN.create({ data, VaiTro: 'KH' });
+    return this.prisma.tAIKHOAN.create({ 
+      data: { 
+        ...data, 
+        VAITRO: 'KH' 
+      } 
+    });
   }
 
   // Dang ky tai khoan nha cung cap
   async dangKyNCC(data: TaiKhoanDto): Promise<TAIKHOAN> {
-    if ('VaiTro' in data) {
+    if ('VAITRO' in data) {
       throw new Error('Không thể thay đổi vai trò của nhà cung cấp');
     }
-    return this.prisma.tAIKHOAN.create({ data, VaiTro: 'NCC' });
+    return this.prisma.tAIKHOAN.create({ 
+      data: { 
+        ...data, 
+        VAITRO: 'NCC' 
+      } 
+    });
   }
 
   // Dang ky tai khoan quan ly
   async dangKyQL(data: TaiKhoanDto): Promise<TAIKHOAN> {
-    if ('VaiTro' in data) {
+    if ('VAITRO' in data) {
       throw new Error('Không thể thay đổi vai trò của nhà cung cấp');
     }
-    return this.prisma.tAIKHOAN.create({ data, VaiTro: 'QLDN' });
+    return this.prisma.tAIKHOAN.create({ 
+      data: { 
+        ...data, 
+        VAITRO: 'QLDN' 
+      } 
+    });
   }
 
   // Dang ky tai khoan nhan vien
   async dangKyNV(data: TaiKhoanDto): Promise<TAIKHOAN> {
-    return this.prisma.tAIKHOAN.create({ data });
+    return this.prisma.tAIKHOAN.create({ 
+      data: { 
+        ...data, 
+        VAITRO: 'NVVH' 
+      } 
+    });
   }
 
   // Lay tat ca tai khoan cua khach hang
@@ -76,7 +110,7 @@ export class TaikhoanService {
     }
     return this.prisma.tAIKHOAN.update({
       where: { MaTK: maTK },
-      data,
+      data: data as any,
     });
   }
 
@@ -84,7 +118,7 @@ export class TaikhoanService {
   async updateVaiTro(maTK: string, vaiTro: VaiTro): Promise<TAIKHOAN> {
     return this.prisma.tAIKHOAN.update({
       where: { MaTK: maTK },
-      data: { VAITRO: vaiTro },
+      data: { VAITRO: vaiTro as any },
     });
   }
 

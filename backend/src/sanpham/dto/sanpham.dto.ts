@@ -5,8 +5,29 @@ import {
   IsInt,
   Min,
   IsEnum,
+  IsArray,
 } from 'class-validator';
-import { TrangThai } from '@prisma/client';
+
+// Define enums locally since Prisma exports are not working properly
+enum TrangThai {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE'
+}
+
+enum MauSac {
+  Red = 'Red',
+  Orange = 'Orange', 
+  Yellow = 'Yellow',
+  Green = 'Green',
+  Blue = 'Blue',
+  Indigo = 'Indigo',
+  Violet = 'Violet',
+  Black = 'Black',
+  White = 'White',
+  Gray = 'Gray',
+  Brown = 'Brown',
+  Pink = 'Pink'
+}
 
 export class SanPhamDto {
   @IsString({ message: 'Tên sản phẩm phải là chuỗi ký tự.' })
@@ -36,4 +57,13 @@ export class SanPhamDto {
   @IsString({ message: 'Mã danh mục phải là chuỗi ký tự.' })
   @IsNotEmpty({ message: 'Mã danh mục không được để trống.' })
   MaDM: string;
+
+  @IsEnum(MauSac, {
+    message: 'Màu sắc không hợp lệ. Giá trị hợp lệ: ' + Object.values(MauSac).join(', ')
+  })
+  MauSac: MauSac;
+
+  @IsArray()
+  @IsString({ each: true })
+  HinhAnh: string[];
 }

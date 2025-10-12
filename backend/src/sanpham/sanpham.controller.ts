@@ -26,7 +26,7 @@ export class SanphamController {
   // Lay san pham theo ID
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.sanphamService.sanpham({ MaSP: id });
+    return await this.sanphamService.sanpham(id);
   }
 
   // Tao san pham moi

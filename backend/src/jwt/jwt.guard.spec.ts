@@ -1,7 +1,9 @@
-import { JwtGuard } from './jwt.guard';
+import { JwtService } from '@nestjs/jwt';
+import { JwtAuthGuard } from './jwt.guard';
 
-describe('JwtGuard', () => {
+describe('JwtAuthGuard', () => {
   it('should be defined', () => {
-    expect(new JwtGuard()).toBeDefined();
+    const jwtService = {} as JwtService;
+    expect(new JwtAuthGuard(jwtService)).toBeDefined();
   });
 });
