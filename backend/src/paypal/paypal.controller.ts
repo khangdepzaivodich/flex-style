@@ -9,7 +9,7 @@ export class PaypalController {
   async createOrder(
     @Body()
     body: {
-      value: number;
+      value: string;
       currency_code: string;
       reference_id: string;
     },

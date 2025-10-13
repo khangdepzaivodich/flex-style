@@ -1,7 +1,15 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { GiohangRepository } from 'src/repositories/giohang.repository';
-import { AddToCartDto, UpdateQuantityDto, CartResponseDto } from './dto/giohang.dto';
+import {
+  AddToCartDto,
+  UpdateQuantityDto,
+  CartResponseDto,
+} from './dto/giohang.dto';
 
 @Injectable()
 export class GiohangService {
@@ -34,8 +42,8 @@ export class GiohangService {
     const chiTietSanPham = await this.prisma.cHITIETSANPHAM.findUnique({
       where: { MaCTSP },
       include: {
-        SANPHAM: true
-      }
+        SANPHAM: true,
+      },
     });
 
     if (!chiTietSanPham) {
@@ -44,24 +52,29 @@ export class GiohangService {
 
     // Kiểm tra số lượng tồn kho
     if (chiTietSanPham.SoLuong < SoLuong) {
-      throw new BadRequestException(`Không đủ hàng trong kho. Chỉ còn ${chiTietSanPham.SoLuong} sản phẩm`);
+      throw new BadRequestException(
+        `Không đủ hàng trong kho. Chỉ còn ${chiTietSanPham.SoLuong} sản phẩm`,
+      );
     }
 
     // Lấy hoặc tạo giỏ hàng
     const cart = await this.getOrCreateCart(MaTKKH);
 
     // Kiểm tra sản phẩm đã có trong giỏ chưa
-    const existingItem = await this.giohangRepository.findCartItemByProductDetail(
-      cart.MaGH,
-      MaCTSP,
-    );
+    const existingItem =
+      await this.giohangRepository.findCartItemByProductDetail(
+        cart.MaGH,
+        MaCTSP,
+      );
 
     if (existingItem) {
       // Cập nhật số lượng
       const newQuantity = existingItem.SoLuong + SoLuong;
-      
+
       if (chiTietSanPham.SoLuong < newQuantity) {
-        throw new BadRequestException(`Không đủ hàng trong kho. Chỉ còn ${chiTietSanPham.SoLuong} sản phẩm`);
+        throw new BadRequestException(
+          `Không đủ hàng trong kho. Chỉ còn ${chiTietSanPham.SoLuong} sản phẩm`,
+        );
       }
 
       return await this.giohangRepository.updateCartItemQuantity(
@@ -82,13 +95,15 @@ export class GiohangService {
   async getCartItems(MaTKKH?: string): Promise<CartResponseDto> {
     const cart = await this.getOrCreateCart(MaTKKH);
 
-    const rawCartItems = await this.giohangRepository.findAllCartItems(cart.MaGH);
+    const rawCartItems = await this.giohangRepository.findAllCartItems(
+      cart.MaGH,
+    );
 
     const { totalQuantity, totalValue } =
       await this.giohangRepository.calculateCartTotal(cart.MaGH);
 
     // Transform the data to match DTO structure
-    const cartItems = rawCartItems.map(item => ({
+    const cartItems = rawCartItems.map((item) => ({
       MaCTGH: item.MaCTGH,
       SoLuong: item.SoLuong,
       created_at: item.created_at,
@@ -102,9 +117,13 @@ export class GiohangService {
           GiaBan: item.CHITIETSANPHAM.SANPHAM.GiaBan,
           MoTa: item.CHITIETSANPHAM.SANPHAM.MoTa,
           MauSac: item.CHITIETSANPHAM.SANPHAM.MauSac,
-          HinhAnh: item.CHITIETSANPHAM.SANPHAM.HinhAnh[0] || null,
-        }
-      }
+          HinhAnh: item.CHITIETSANPHAM.SANPHAM.HinhAnh[0]
+            ? Array.isArray(item.CHITIETSANPHAM.SANPHAM.HinhAnh)
+              ? item.CHITIETSANPHAM.SANPHAM.HinhAnh
+              : [item.CHITIETSANPHAM.SANPHAM.HinhAnh]
+            : [],
+        },
+      },
     }));
 
     return {

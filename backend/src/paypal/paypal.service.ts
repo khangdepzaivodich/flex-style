@@ -1,6 +1,5 @@
 // filepath: d:\Project\flex-style\backend\src\paypal\paypal.service.ts
 import { Injectable } from '@nestjs/common';
-import fetch from 'node-fetch';
 
 @Injectable()
 export class PaypalService {
@@ -30,8 +29,7 @@ export class PaypalService {
           `Failed to get PayPal access token: ${response.status} ${errorText}`,
         );
       }
-      const data = await response.json();
-      console.log('PayPal access token obtained:', data.access_token);
+      const data: any = await response.json();
       return data.access_token;
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -42,7 +40,7 @@ export class PaypalService {
     }
   }
   async createOrder(
-    value: number,
+    value: string,
     currency_code: string,
     reference_id: string,
   ): Promise<any> {
@@ -64,7 +62,7 @@ export class PaypalService {
               {
                 amount: {
                   currency_code: currency_code,
-                  value: value,
+                  value: Number(value).toFixed(2),
                 },
                 reference_id: reference_id,
               },
@@ -125,6 +123,7 @@ export class PaypalService {
         );
       }
       const data = await response.json();
+      console.log('Capture Order Response:', data);
       return data;
     } catch (error: unknown) {
       if (error instanceof Error) {

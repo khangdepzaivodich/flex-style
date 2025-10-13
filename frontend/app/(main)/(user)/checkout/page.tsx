@@ -111,6 +111,7 @@ export default function CheckoutPage() {
       price: (item.price * item.quantity).toLocaleString("vi-VN") + "₫",
     })),
   };
+  const usdTotal = finalTotal / 25000; // chuyển VNĐ sang USD
 
   if (items.length === 0) {
     return (
@@ -453,10 +454,10 @@ export default function CheckoutPage() {
             {/* Payment Methods */}
             <h3 className="mb-3 font-semibold">Chọn phương thức thanh toán:</h3>
             <div className="flex flex-wrap gap-3 mb-5 ">
-              <PayPal
-                value={invoiceData.totalAmount}
-                reference_id={invoiceData.orderId}
-              />
+              {PayPal({
+                value: usdTotal.toFixed(2),
+                reference_id: invoiceData.orderId,
+              })}
             </div>
 
             {/* Confirm Buttons */}

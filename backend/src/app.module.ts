@@ -19,6 +19,7 @@ import { PhanHoiModule } from './phanhoi/phanhoi.module';
 import { PhieunhaphangModule } from './phieunhaphang/phieunhaphang.module';
 import { JwtAuthGuard } from './jwt/jwt.guard';
 import { JwtService } from '@nestjs/jwt';
+import { PaypalModule } from './paypal/paypal.module';
 
 @Module({
   imports: [
@@ -31,7 +32,8 @@ import { JwtService } from '@nestjs/jwt';
       signOptions: { expiresIn: '24h' },
     }),
     // Prisma module phải đứng trước để các service khác inject PrismaService
-    PrismaModule,
+    // PrismaModule,
+    PaypalModule,
     DanhMucModule,
     SuKienUuDaiModule,
     SanphamModule,
@@ -51,6 +53,8 @@ import { JwtService } from '@nestjs/jwt';
 export class AppModule {
   constructor() {
     // Sentinel log to verify recompilation
-    console.log('[AppModule] Bootstrapping with modules: DanhMuc, Sukienuudai, Sanpham, ChitietSanpham, Giohang, Donhang, TinhtrangDonhang, Voucher, VoucherKhachhang - V9');
+    console.log(
+      '[AppModule] Bootstrapping with modules: DanhMuc, Sukienuudai, Sanpham, ChitietSanpham, Giohang, Donhang, TinhtrangDonhang, Voucher, VoucherKhachhang - V9',
+    );
   }
 }

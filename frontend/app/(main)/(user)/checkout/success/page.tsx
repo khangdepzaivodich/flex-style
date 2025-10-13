@@ -1,16 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Package, Truck, Mail } from "lucide-react";
 import Link from "next/link";
 
 export default function CheckoutSuccessPage() {
-  const [orderNumber] = useState(
-    () => "ORD" + Math.random().toString(36).substr(2, 9).toUpperCase()
-  );
-
+  const searchParams = new URLSearchParams(window.location.search);
+  const orderID = searchParams.get("orderID");
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto text-center">
@@ -29,7 +26,7 @@ export default function CheckoutSuccessPage() {
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center">
               <span className="font-medium">Mã đơn hàng:</span>
-              <span className="font-mono text-primary">{orderNumber}</span>
+              <span className="font-mono text-primary">{orderID}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="font-medium">Ngày đặt:</span>
