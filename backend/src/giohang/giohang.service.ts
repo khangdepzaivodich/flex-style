@@ -117,11 +117,7 @@ export class GiohangService {
           GiaBan: item.CHITIETSANPHAM.SANPHAM.GiaBan,
           MoTa: item.CHITIETSANPHAM.SANPHAM.MoTa,
           MauSac: item.CHITIETSANPHAM.SANPHAM.MauSac,
-          HinhAnh: item.CHITIETSANPHAM.SANPHAM.HinhAnh[0]
-            ? Array.isArray(item.CHITIETSANPHAM.SANPHAM.HinhAnh)
-              ? item.CHITIETSANPHAM.SANPHAM.HinhAnh
-              : [item.CHITIETSANPHAM.SANPHAM.HinhAnh]
-            : [],
+          HinhAnh: item.CHITIETSANPHAM.SANPHAM.HinhAnh,
         },
       },
     }));
