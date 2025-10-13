@@ -109,12 +109,17 @@ git clone <REPO_URL> flex-style
 cd flex-style
 
 # Backend deps
-cd backend
-npm install
+cd ./backend
+cp .env.example .env 
+npm i
+npx prisma migrate dev --name init
+npm run start:dev
 
 # Frontend deps
-cd ../frontend
-npm install
+cd ./frontend
+cp .env.example .env.local
+npm i
+npm run dev
 ```
 
 ### 5.2 Chạy song song (mở 2 cửa sổ PowerShell)
@@ -174,7 +179,7 @@ app.enableCors({
 Sau khi backend chạy: mở http://localhost:8080/api/docs để xem tài liệu API.
 
 ## 10. Seed dữ liệu (Tùy chọn)
-Hiện chưa có script seed. Bạn có thể tự thêm file `prisma/seed.ts` và trong `package.json` thêm script:
+Thêm file `prisma/seed.ts` và trong `package.json` thêm script:
 ```json
 "prisma": { "seed": "ts-node prisma/seed.ts" }
 ```
@@ -192,20 +197,20 @@ npx prisma db seed
 | Supabase auth không login | Thiếu env hoặc cookie | Kiểm tra `.env.local` & middleware |
 | CORS lỗi | Origin không khớp | Cập nhật `enableCors` |
 
-## 12. Deploy gợi ý
+<!-- ## 12. Deploy gợi ý
 - Backend: Docker + Render / Railway / AWS ECS / NestJS Mau.
 - Database: Supabase (Postgres managed) hoặc Neon / RDS.
 - Frontend: Vercel. Cần set env: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
-- Cập nhật biến `DATABASE_URL` cho backend (ví dụ dùng Supabase Postgres connection string).
+- Cập nhật biến `DATABASE_URL` cho backend (ví dụ dùng Supabase Postgres connection string). -->
 
-## 13. Nâng cấp tương lai (gợi ý)
+<!-- ## 13. Nâng cấp tương lai (gợi ý)
 - Thêm Auth Guard thực sự (Hiện Supabase guard comment out).
 - Thêm script seed dữ liệu mẫu (danh mục, sản phẩm).
 - Chuẩn hoá logging (Winston + Pino).
 - Thêm docker-compose orchestrate Postgres + backend + frontend.
-- Tách layer repository rõ ràng hơn (hiện mới có một repository ví dụ).
+- Tách layer repository rõ ràng hơn (hiện mới có một repository ví dụ). -->
 
-## 14. Quick Start Nhanh
+<!-- ## 14. Quick Start Nhanh
 ```powershell
 git clone <REPO_URL> flex-style
 cd flex-style
@@ -219,7 +224,7 @@ cd ../frontend
 cp .env.example .env.local  # (tự tạo nếu chưa có)
 npm i
 npm run dev
-```
+``` -->
 
 ## 15. Liên hệ / Hỗ trợ
 Cứ tiếp tục hỏi trong chat này nếu bạn cần thêm các script tự động, Docker hoá hoặc CI/CD.
