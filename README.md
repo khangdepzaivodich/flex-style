@@ -41,6 +41,8 @@ PORT=8080
 |------|---------|-------|
 | NEXT_PUBLIC_SUPABASE_URL | URL Supabase Project | Public (exposed) |
 | NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY | Public anon key | Public (exposed) |
+| NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY | Private Service Role Key | Private |
+| N8N_CHAT_URL | n8n Webhook URL | Public (exposed) |
 
 Tạo file `frontend/.env.local`:
 ```
@@ -53,6 +55,25 @@ Nếu bạn dùng Supabase local (Docker):
 NEXT_PUBLIC_SUPABASE_URL=http://localhost:54321
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-local-anon-key
 ```
+
+### Cách lấy các key cần thiết để setup Supabase:
+#### 1 Supabase URL 
+- Dùng để kết nối instance Supabase của bạn
+- Vào dashboard trên Supabase -> Project Setting -> Data API -> Project URL
+#### 2 Supabase Anon Key (Public API Key)
+- Dùng cho Frontend để xác thưc người dùng, lấy dữ liệu công khai
+- Vào dashboard trên Supabase -> Project Setting -> API Keys -> Anon Key
+#### 3 Supabase Service Role Key (Private API Key)
+- Dùng cho Backend để có toàn quyền CRUD, bypass RLS
+- Vào dashboard trên Supabase -> Project Setting -> API Keys -> Service Role Key
+#### 4 Database Connection String
+- Dùng để NestJS + Prisma kết nối trực tiếp tới Supabase
+- Vào dashboard trên Supabase -> chọn Connect -> Connection String -> Transaction pooler
+- Connection string có dạng như sau: ``` postgresql://postgres.kehjhwwoaxblvocxwkiq:[YOUR-PASSWORD]@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres ```
+- Trong đó ``` [YOUR-PASSWORD] ``` là nơi mà ta điền Database Password của mình vào
+#### 5 Database Password
+- Dùng để xác thực kết nối
+- Vào dashboard trên Supabase -> Project Setting -> Database -> Reset database password (Lưu ý là Database Password chỉ xem được 1 lần)
 
 ## 4. Khởi tạo cơ sở dữ liệu PostgreSQL
 
