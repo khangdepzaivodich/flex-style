@@ -68,8 +68,8 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-local-anon-key
 - Vào dashboard trên Supabase -> Project Setting -> API Keys -> Service Role Key
 #### 4 Database Connection String
 - Dùng để NestJS + Prisma kết nối trực tiếp tới Supabase
-- Vào dashboard trên Supabase -> chọn Connect -> Connection String -> Transaction pooler
-- Connection string có dạng như sau: ``` postgresql://postgres.kehjhwwoaxblvocxwkiq:[YOUR-PASSWORD]@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres ```
+- Vào dashboard trên Supabase -> chọn Connect -> Connection String -> Direct Connection
+- Connection string có dạng như sau: ``` postgresql://postgres:[YOUR-PASSWORD]@db.kehjhwwoaxblvocxwkiq.supabase.co:5432/postgres ```
 - Trong đó ``` [YOUR-PASSWORD] ``` là nơi mà ta điền Database Password của mình vào
 #### 5 Database Password
 - Dùng để xác thực kết nối
