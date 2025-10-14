@@ -1,33 +1,36 @@
-// src/auth/jwt-auth.guard.ts
 import {
   Injectable,
   CanActivate,
   ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { Database } from 'src/supabase/types';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+  private readonly supabase: SupabaseClient<Database>;
 
-  canActivate(context: ExecutionContext): boolean {
-    const request = context.switchToHttp().getRequest<Request>();
+  constructor() {
+    this.supabase = createClient<Database>(
+      process.env.SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    );
+  }
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
     const authHeader = request.headers['authorization'];
 
-    if (!authHeader) throw new UnauthorizedException('Token missing');
+    if (!authHeader) throw new UnauthorizedException('Missing token');
 
-    const [bearer, token] = authHeader.split(' ');
-    if (bearer !== 'Bearer' || !token)
-      throw new UnauthorizedException('Invalid token');
+    const token = authHeader.replace('Bearer ', '');
+    const { data, error } = await this.supabase.auth.getUser(token);
 
-    try {
-      const payload = this.jwtService.verify(token); // giải mã JWT
-      request.user = payload;
-      return true;
-    } catch (err) {
-      throw new UnauthorizedException(err);
-    }
+    if (error || !data?.user)
+      throw new UnauthorizedException('Invalid or expired token');
+
+    request.user = data.user; // attach Supabase user
+    return true;
   }
 }
