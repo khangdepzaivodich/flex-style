@@ -147,15 +147,21 @@ model VOUCHER {
   MaVoucher         String              @id @default(uuid())
   created_at        DateTime            @default(now())
   TenVoucher        String
-  SoTien            Int                 @default(0)
-  FreeShip          Boolean             @default(false)
+  SoTien            Int?                @default(0)
+  Loai              LoaiVoucher         @map("LoaiVoucher")
+  Code              String
   NgayBatDau        DateTime
   NgayKetThuc       DateTime
-  Dieukien          Int                 @default(0)
+  Dieukien          Int?                 @default(0)
   TrangThai         TrangThai           @default(ACTIVE)
   MoTa              String?
   DONHANG           DONHANG[]
   VOUCHER_KHACHHANG VOUCHER_KHACHHANG[]
+}
+
+enum LoaiVoucher{
+  FreeShip
+  GiamGia
 }
 
 model VOUCHER_KHACHHANG {

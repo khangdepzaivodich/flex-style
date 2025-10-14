@@ -61,7 +61,7 @@ export class VoucherKhachHangService {
     //kiểm tra mã voucher có tồn tại trong bảng voucher không
     const checkVoucher = await this.voucherRepository.getVoucherById(MaVoucher);
     if (!checkVoucher) {
-      throw new Error('Không tìm thấy voucher này');
+      throw new Error('Voucher không tồn tại');
     }
     //kiểm tra voucher có trong thời hạn tặng không
     const currentDate = new Date();
