@@ -14,3 +14,8 @@ export enum TrangThaiPhieuNhapHang {
   NV_XACNHAN = 'NV_XACNHAN',
   TU_CHOI = 'TU_CHOI'
 }
+
+export enum LoaiVoucher{
+  FreeShip = 'FreeShip',
+  GiamGia = 'GiamGia',
+}

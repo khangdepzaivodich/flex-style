@@ -43,20 +43,20 @@ export class VoucherController {
   }
 
   //xuất báo cáo excel voucher
-  @Get('export')
-  async exportVoucherToExcel(@Res() res: Response) {
-    try {
-      const excelBuffer = await this.voucherService.exportVoucherToExcel();
-      res.set({
-        'Content-Type':
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'Content-Disposition': 'attachment; filename=voucher_report.xlsx',
-      });
-      res.end(excelBuffer);
-    } catch (error) {
-      res
-        .status(400)
-        .json({ message: 'Xuất voucher thất bại', error: error.message });
-    }
-  }
+  // @Get('export')
+  // async exportVoucherToExcel(@Res() res: Response) {
+  //   try {
+  //     const excelBuffer = await this.voucherService.exportVoucherToExcel();
+  //     res.set({
+  //       'Content-Type':
+  //         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  //       'Content-Disposition': 'attachment; filename=voucher_report.xlsx',
+  //     });
+  //     res.end(excelBuffer);
+  //   } catch (error) {
+  //     res
+  //       .status(400)
+  //       .json({ message: 'Xuất voucher thất bại', error: error.message });
+  //   }
+  // }
 }

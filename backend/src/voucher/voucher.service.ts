@@ -37,6 +37,10 @@ export class VoucherService {
     if (existingVoucher) {
       throw new BadRequestException('Tên voucher đã tồn tại');
     }
+    const voucherCode = await this.voucherRepository.checkVoucherCode(data.Code);
+    if (voucherCode) {
+      throw new BadRequestException('Mã code đã tồn tại');
+    }
     return this.voucherRepository.addVoucher(data);
   }
 

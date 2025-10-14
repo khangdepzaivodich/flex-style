@@ -43,4 +43,10 @@ export class VoucherRepository {
                 },
             });
     }
+    //kiểm tra mã voucher
+    async checkVoucherCode(code: string) {
+        return this.prismaService.vOUCHER.findFirst({
+            where: { Code: code },
+        });
+    }
 }
