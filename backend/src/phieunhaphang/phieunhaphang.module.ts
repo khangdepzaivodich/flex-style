@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { PhieunhaphangController } from './phieunhaphang.controller';
-import { PhieunhaphangService } from './phieunhaphang.service';
+import { PhieuNhapHangController } from './phieunhaphang.controller';
+import { PhieuNhapHangService } from './phieunhaphang.service';
+import { PhieuNhapHangRepository } from 'src/repositories/phieunhaphang.repository';
 
 @Module({
-  controllers: [PhieunhaphangController],
-  providers: [PhieunhaphangService]
+  controllers: [PhieuNhapHangController],
+  providers: [PhieuNhapHangService, PhieuNhapHangRepository],
+  exports: [PhieuNhapHangRepository],
 })
-export class PhieunhaphangModule {}
+export class PhieuNhapHangModule {}

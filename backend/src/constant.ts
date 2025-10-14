@@ -1,6 +1,6 @@
 export enum LoaiDanhMuc {
-  NAM = 'NAM',
-  NU = 'NU',
+  AO= 'AO',
+  QUAN = 'QUAN',
   PHU_KIEN = 'PHU_KIEN',
 }
 export enum TrangThai {

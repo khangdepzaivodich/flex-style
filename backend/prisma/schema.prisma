@@ -216,8 +216,8 @@ enum TrangThaiSP {
 }
 
 enum LoaiDanhMuc {
-  NAM
-  NU
+  AO
+  QUAN
   PHU_KIEN
 }
 

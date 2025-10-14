@@ -5,7 +5,7 @@ import { PhieuNhapHangService } from './phieunhaphang.service';
 import { Roles } from 'src/taikhoan/factory_function/role';
 
 @Controller('phieunhaphang')
-export class PhieunhaphangController {
+export class PhieuNhapHangController {
     constructor(private readonly phieuNhapHangService: PhieuNhapHangService) {}
     //lấy danh sách phiếu nhập hàng
     @Get()
