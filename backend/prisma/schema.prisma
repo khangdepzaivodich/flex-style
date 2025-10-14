@@ -177,7 +177,7 @@ model VOUCHER_KHACHHANG {
 }
 
 model PHIEUNHAPHANG {
-  MaPNNH     String    @id @default(uuid())
+  MaPNH     String    @id @default(uuid())
   created_at  DateTime  @default(now())
   SoLuong    Int
   MaCTSP     String
