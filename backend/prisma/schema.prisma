@@ -99,7 +99,7 @@ model SANPHAM {
   GiaMua         Int
   TrangThai      TrangThai        @default(ACTIVE)
   MaDM           String
-  MauSac         MauSac
+  MauSac         String
   CHITIETSANPHAM CHITIETSANPHAM[]
   PHANHOI        PHANHOI[]
   DANHMUC        DANHMUC          @relation(fields: [MaDM], references: [MaDM])
@@ -194,20 +194,6 @@ enum KichCo {
   XXL
 }
 
-enum MauSac {
-  Red
-  Orange
-  Yellow
-  Green
-  Blue
-  Indigo
-  Violet
-  Black
-  White
-  Gray
-  Brown
-  Pink
-}
 
 enum TrangThai {
   ACTIVE

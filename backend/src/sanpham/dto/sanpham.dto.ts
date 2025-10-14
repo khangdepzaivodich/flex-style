@@ -8,7 +8,7 @@ import {
   IsArray,
   ArrayNotEmpty,
 } from 'class-validator';
-import { TrangThai, MauSac } from '@prisma/client';
+import { TrangThai } from '@prisma/client';
 
 export class SanPhamDto {
   @IsString({ message: 'Tên sản phẩm phải là chuỗi ký tự.' })
@@ -44,10 +44,8 @@ export class SanPhamDto {
   @IsNotEmpty({ message: 'Mã danh mục không được để trống.' })
   MaDM: string;
 
-  @IsEnum(MauSac, {
-    message:
-      'Màu sắc không hợp lệ. Giá trị hợp lệ: ' +
-      Object.values(MauSac).join(', '),
+  @IsEnum({
+    message: 'Màu sắc không hợp lệ',
   })
-  MauSac: MauSac;
+  MauSac: string;
 }
