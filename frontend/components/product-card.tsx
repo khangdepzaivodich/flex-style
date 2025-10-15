@@ -1,56 +1,27 @@
 "use client";
-
-import type React from "react";
-
 import Image from "next/image";
 import Link from "next/link";
-import { Star, ShoppingCart } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Product } from "@/lib/types";
 import { formatPrice } from "@/lib/data";
-import { useCart } from "@/contexts/cart-context";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { addItem } = useCart();
-
-  const discountPercentage = product.originalPrice
-    ? Math.round(
-        ((product.originalPrice - product.price) / product.originalPrice) * 100
-      )
+  const discountPercentage = product.GiaBan
+    ? Math.round(((product.GiaBan - product.GiaBan) / product.GiaBan) * 100)
     : 0;
-
-  const handleQuickAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!product.inStock) return;
-
-    addItem({
-      productId: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.images[0],
-      size: product.sizes[0] || "M",
-      color: product.colors[0] || "Đen",
-      quantity: 1,
-    });
-
-    alert("Đã thêm sản phẩm vào giỏ hàng!");
-  };
-
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="relative aspect-square overflow-hidden">
-        <Link href={`/products/${product.slug}`}>
+        <Link href={`/products/${product.TenSP}`}>
           <Image
-            src={product.images[0] || "/placeholder.svg"}
-            alt={product.name}
+            src={"https:" + product.HinhAnh[0] || "/placeholder.svg"}
+            alt={product.TenSP}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
@@ -68,9 +39,9 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       <CardContent className="p-4">
-        <Link href={`/products/${product.slug}`}>
+        <Link href={`/products/${product.TenSP}`}>
           <h3 className="font-semibold text-sm mb-2 line-clamp-2 hover:text-primary transition-colors">
-            {product.name}
+            {product.TenSP}
           </h3>
         </Link>
 
@@ -94,24 +65,14 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className="flex items-center space-x-2 mb-3">
           <span className="font-bold text-primary">
-            {formatPrice(product.price)}
+            {formatPrice(product.GiaBan)}
           </span>
-          {product.originalPrice && (
+          {product.GiaBan && (
             <span className="text-sm text-muted-foreground line-through">
-              {formatPrice(product.originalPrice)}
+              {formatPrice(product.GiaBan)}
             </span>
           )}
         </div>
-
-        <Button
-          size="sm"
-          className="w-full"
-          disabled={!product.inStock}
-          onClick={handleQuickAdd}
-        >
-          <ShoppingCart className="h-4 w-4 mr-2" />
-          {product.inStock ? "Thêm vào giỏ" : "Hết hàng"}
-        </Button>
       </CardContent>
     </Card>
   );

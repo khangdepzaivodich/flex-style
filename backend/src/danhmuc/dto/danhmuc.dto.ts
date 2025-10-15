@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  IsInt,
-  IsBoolean,
-  IsEnum,
-} from 'class-validator';
+import { IsNotEmpty, IsString, IsEnum } from 'class-validator';
 import { TrangThai, LoaiDanhMuc } from 'src/constant';
 
 export class DanhMucDto {

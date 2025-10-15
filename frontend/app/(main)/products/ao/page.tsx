@@ -74,72 +74,15 @@ export default function MenPage() {
       <div className="text-center mb-12">
         <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
           <Users className="h-4 w-4" />
-          <span className="font-medium">THỜI TRANG NAM</span>
+          <span className="font-medium">ÁO QUÝ PHÁI</span>
         </div>
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          Phong Cách <span className="text-primary">Nam Tính</span>
+          Phong Cách <span className="text-primary">Lịch Lãm</span>
         </h1>
         <p className="text-xl text-muted-foreground mb-6">
-          Khám phá bộ sưu tập thời trang nam hiện đại, lịch lãm và năng động
+          Khám phá bộ sưu tập áo quần hiện đại, lịch lãm và năng động
         </p>
       </div>
-
-      {/* Stats Cards */}
-      {/* <div className="grid md:grid-cols-4 gap-6 mb-8">
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <Shirt className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-2xl font-bold">{menProducts.length}</h3>
-            <p className="text-sm text-muted-foreground">Sản phẩm nam</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <TrendingUp className="h-8 w-8 text-green-500" />
-            </div>
-            <h3 className="text-2xl font-bold">
-              {
-                menProducts.filter(
-                  (p) => p.originalPrice && p.originalPrice > p.price
-                ).length
-              }
-            </h3>
-            <p className="text-sm text-muted-foreground">Đang sale</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <Star className="h-8 w-8 text-yellow-500" />
-            </div>
-            <h3 className="text-2xl font-bold">
-              {menProducts.length > 0
-                ? (
-                    menProducts.reduce((sum, p) => sum + p.rating, 0) /
-                    menProducts.length
-                  ).toFixed(1)
-                : "0"}
-            </h3>
-            <p className="text-sm text-muted-foreground">Đánh giá TB</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <Badge className="h-8 w-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center">
-                NEW
-              </Badge>
-            </div>
-            <h3 className="text-2xl font-bold">
-              {menProducts.filter((p) => p.tags?.includes("new")).length}
-            </h3>
-            <p className="text-sm text-muted-foreground">Sản phẩm mới</p>
-          </CardContent>
-        </Card>
-      </div> */}
 
       {/* Category Filter */}
       <div className="mb-8">

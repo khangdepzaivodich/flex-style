@@ -71,13 +71,13 @@ export default function WomenPage() {
       <div className="text-center mb-12">
         <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-2 rounded-full mb-4">
           <Sparkles className="h-4 w-4" />
-          <span className="font-medium">THỜI TRANG NỮ</span>
+          <span className="font-medium">Quần quý tộc</span>
         </div>
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
           Vẻ Đẹp <span className="text-pink-600">Quyến Rũ</span>
         </h1>
         <p className="text-xl text-muted-foreground mb-6">
-          Khám phá bộ sưu tập thời trang nữ thanh lịch, hiện đại và đầy cá tính
+          Khám phá bộ sưu tập áo quần thanh lịch, hiện đại và đầy cá tính
         </p>
       </div>
 

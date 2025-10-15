@@ -55,22 +55,22 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link
-              href="/products/men"
+              href="/products/ao"
               className="text-sm font-medium hover:text-primary transition-colors"
             >
-              {t("nav.men")}
+              {t("nav.ao")}
             </Link>
             <Link
-              href="/products/women"
+              href="/products/quan"
               className="text-sm font-medium hover:text-primary transition-colors"
             >
-              {t("nav.women")}
+              {t("nav.quan")}
             </Link>
             <Link
-              href="/products/accessories"
+              href="/products/phu-kien"
               className="text-sm font-medium hover:text-primary transition-colors"
             >
-              {t("nav.accessories")}
+              {t("nav.phu-kien")}
             </Link>
             <Link
               href="/sale"

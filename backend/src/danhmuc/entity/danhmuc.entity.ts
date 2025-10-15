@@ -1,4 +1,4 @@
-import { TrangThai, LoaiDanhMuc } from "src/constant";
+import { TrangThai, LoaiDanhMuc } from 'src/constant';
 export class DanhMucEntity {
   MaDM: string;
   TenDM: string;
@@ -9,7 +9,7 @@ export class DanhMucEntity {
     TenDM: string,
     TrangThai: TrangThai,
     Loai: LoaiDanhMuc,
-  ){
+  ) {
     this.MaDM = MaDM;
     this.TenDM = TenDM;
     this.TrangThai = TrangThai;

@@ -60,12 +60,16 @@ export default function PayPal({ value, reference_id }: PayPalProps) {
 
     alert("Thanh toán thành công! " + details?.payer?.name?.given_name);
     clearCart();
-    window.location.href = `/checkout/success?orderID=${data.orderID}`;
+    window.location.href = `/checkout/success?orderID=${reference_id}`;
   };
 
   return (
     <PayPalScriptProvider options={initialOptions}>
-      <PayPalButtons createOrder={createOrder} onApprove={onApprove} />
+      <PayPalButtons
+        createOrder={createOrder}
+        onApprove={onApprove}
+        fundingSource="paypal"
+      />
     </PayPalScriptProvider>
   );
 }

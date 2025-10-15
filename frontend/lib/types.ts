@@ -1,24 +1,20 @@
 export interface Product {
-  id: string;
-  name: string;
-  slug: string;
-  price: number;
-  originalPrice?: number;
-  category: string;
-  images: string[];
-  description: string;
-  sizes: string[];
-  colors: string[];
-  inStock: boolean;
-  featured: boolean;
-  rating: number;
-  reviews: number;
+  MaSP: number;
+  TenSP: string;
+  MoTa: string | null;
+  HinhAnh: string[];
+  GiaBan: number;
+  GiaMua: number;
+  TrangThai: string;
+  MaDM: string;
+  MauSac: string;
 }
 
 export interface Category {
-  id: string;
-  name: string;
-  slug: string;
+  MaDM: string;
+  TenDM: string;
+  TrangThai: string;
+  Loai: string;
 }
 
 export interface CartItem {
