@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function CheckoutSuccessPage() {
   const searchParams = new URLSearchParams(window.location.search);
-  const orderID = searchParams.get("orderID");
+  const orderID = searchParams.get("orderID") || searchParams.get('vnp_TxnRef');
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto text-center">
