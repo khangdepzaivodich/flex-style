@@ -25,14 +25,13 @@ import { ProductCard } from "@/components/product-card";
 import type { Category, Product } from "@/lib/types";
 
 export default function ProductsPage({
-  page,
-  products,
+  initialProducts,
   categories,
 }: {
-  page: number;
-  products: Product[];
+  initialProducts: Product[];
   categories: Category[];
 }) {
+  const [products, setProducts] = useState<Product[]>(initialProducts || []);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<string>("all");
@@ -94,7 +93,7 @@ export default function ProductsPage({
     }
 
     return filtered;
-  }, [searchQuery, selectedCategories, priceRange, sortBy]);
+  }, [searchQuery, selectedCategories, priceRange, sortBy, products]);
 
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
     if (checked) {
@@ -104,6 +103,16 @@ export default function ProductsPage({
         selectedCategories.filter((id) => id !== categoryId)
       );
     }
+  };
+  const addMore = async () => {
+    const currentLength = products.length;
+    const res = await fetch(
+      `http://localhost:8080/api/sanpham?skip=${currentLength}&take=15`,
+      { cache: "no-store" }
+    );
+    const data = await res.json();
+    const newProducts = data.data || [];
+    setProducts((prev) => [...prev, ...newProducts]);
   };
 
   const FilterContent = () => (
@@ -283,12 +292,7 @@ export default function ProductsPage({
             </div>
           )}
           <div className="mt-8 text-center">
-            <Button
-              variant="outline"
-              onClick={() => {
-                window.location.href = `/products?page=${page + 1}`;
-              }}
-            >
+            <Button variant="outline" onClick={addMore}>
               Xem thêm
             </Button>
           </div>

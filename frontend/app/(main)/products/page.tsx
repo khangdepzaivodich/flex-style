@@ -1,29 +1,29 @@
 import ProductsPage from "./ProductsPage";
 
-export default async function ProductsPageWrapper({
-  searchParams,
-}: {
-  searchParams: { page?: string };
-}) {
-  const page = Number(searchParams.page) || 1;
-  const take = 12;
-  const skip = (page - 1) * take;
-
-  // Call API ở server-side
-  const res = await fetch(
-    `http://localhost:8080/api/sanpham?skip=${skip}&take=${take}`,
-    { cache: "no-store" }
-  );
-  const products = await res.json();
-  const resCat = await fetch("http://localhost:8080/api/danhmuc", {
+async function getProducts() {
+  const res = await fetch("http://localhost:8080/api/sanpham?skip=0&take=50", {
     cache: "no-store",
   });
-  const categories = await resCat.json();
+  if (!res.ok) throw new Error("Failed to fetch products");
+  return res.json();
+}
+async function getCategories() {
+  const res = await fetch("http://localhost:8080/api/danhmuc");
+  if (!res.ok) throw new Error("Failed to fetch categories");
+  return res.json();
+}
+
+export default async function ProductsCarousel() {
+  const products = await getProducts();
+  const categories = await getCategories();
+
   return (
-    <ProductsPage
-      products={products.data}
-      categories={categories.data}
-      page={page}
-    />
+    <div>
+      <ProductsPage
+        key={products}
+        initialProducts={products.data}
+        categories={categories.data}
+      />
+    </div>
   );
 }
