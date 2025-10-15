@@ -52,19 +52,25 @@ export class DonhangService {
       }
 
       // Kiểm tra điều kiện áp dụng voucher
-      if (tongTien < voucher.Dieukien) {
-        throw new BadRequestException(
-          `Đơn hàng phải đạt tối thiểu ${voucher.Dieukien.toLocaleString('vi-VN')}đ để sử dụng voucher này`
-        );
-      }
+      if (voucher.Loai == "GiamGia") {
+        if (voucher.Dieukien != null && voucher.SoTien != null && tongTien < voucher.Dieukien) {
+          throw new BadRequestException(
+            `Đơn hàng phải đạt tối thiểu ${voucher.Dieukien.toLocaleString('vi-VN')}đ để sử dụng voucher này`
+          );
+        }
 
-      // Kiểm tra thời gian voucher
-      const now = new Date();
-      if (now < voucher.NgayBatDau || now > voucher.NgayKetThuc) {
-        throw new BadRequestException('Voucher đã hết hạn hoặc chưa đến thời gian sử dụng');
-      }
+        // Kiểm tra thời gian voucher
+        const now = new Date();
+        if (now < voucher.NgayBatDau || now > voucher.NgayKetThuc) {
+          throw new BadRequestException('Voucher đã hết hạn hoặc chưa đến thời gian sử dụng');
+        }
 
-      discount += voucher.SoTien;
+        discount += voucher.SoTien || 0;
+      } else if (voucher.Loai == "FreeShip") {
+        // Giả sử phí vận chuyển cố định là 30,000 VND
+        const shippingFee = 30000;
+        discount += shippingFee;
+      }
     }
 
     // Áp dụng sự kiện ưu đãi nếu có
