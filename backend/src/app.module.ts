@@ -16,10 +16,11 @@ import { TaikhoanController } from './taikhoan/taikhoan.controller';
 import { TaikhoanModule } from './taikhoan/taikhoan.module';
 import { VoucherKhachHangModule } from './voucher_khachhang/voucher_khachhang.module';
 import { PhanHoiModule } from './phanhoi/phanhoi.module';
-import { PhieunhaphangModule } from './phieunhaphang/phieunhaphang.module';
+import { PhieuNhapHangModule } from './phieunhaphang/phieunhaphang.module';
 import { JwtAuthGuard } from './jwt/jwt.guard';
 import { JwtService } from '@nestjs/jwt';
 import { PaypalModule } from './paypal/paypal.module';
+import { VNPAYModule } from './vnpay/vnpay.module';
 
 @Module({
   imports: [
@@ -45,7 +46,8 @@ import { PaypalModule } from './paypal/paypal.module';
     TaikhoanModule,
     VoucherKhachHangModule,
     PhanHoiModule,
-    PhieunhaphangModule,
+    PhieuNhapHangModule,
+    VNPAYModule
   ],
   controllers: [AppController, TaikhoanController],
   providers: [AppService, TaikhoanService, JwtService],
