@@ -12,12 +12,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CreditCard, Truck, MapPin, Mail } from "lucide-react";
+import { Truck, MapPin, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import PayPal from "@/components/paypal";
 import { VNPAY } from "@/components/vnpay";
 export default function CheckoutPage() {
-  const { items, total, clearCart } = useCart();
+  const { items, total } = useCart();
   const { user } = useAuth();
   const router = useRouter();
 
@@ -38,9 +38,6 @@ export default function CheckoutPage() {
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [selectedPayment, setSelectedPayment] = useState<string>(
-    formData.paymentMethod
-  );
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -64,41 +61,16 @@ export default function CheckoutPage() {
       alert("Vui lòng điền đầy đủ thông tin bắt buộc!");
       return;
     }
-    setSelectedPayment(formData.paymentMethod);
     setIsPopupOpen(true);
   };
 
   const handleClosePopup = () => {
     setIsPopupOpen(false);
-    setSelectedPayment(formData.paymentMethod);
   };
 
-  const handleConfirmPayment = async () => {
-    if (!selectedPayment) {
-      alert("Vui lòng chọn phương thức thanh toán!");
-      return;
-    }
-
-    setIsProcessing(true);
-    setIsPopupOpen(false);
-
-    // Simulate payment processing
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    // Update formData with selected payment if changed
-    setFormData((prev) => ({ ...prev, paymentMethod: selectedPayment }));
-
-    // Clear cart and redirect to success page
-    clearCart();
-    router.push("/checkout/success");
-    setIsProcessing(false);
-  };
-
-  // Generate order ID based on current date
-  // const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   const orderId = uuidv4();
 
-  const shippingCost = formData.shippingMethod === "express" ? 50000 : 30000;
+  const shippingCost = total * 0.05;
   const finalTotal = total + shippingCost;
 
   const invoiceData = {
@@ -259,53 +231,6 @@ export default function CheckoutPage() {
                   Lưu thông tin cho lần mua tiếp theo
                 </Label>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Shipping Method */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Truck className="h-5 w-5" />
-                Phương thức giao hàng
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <RadioGroup
-                value={formData.shippingMethod}
-                onValueChange={(value) =>
-                  handleInputChange("shippingMethod", value)
-                }
-              >
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="standard" id="standard" />
-                    <Label htmlFor="standard">
-                      <div>
-                        <p className="font-medium">Giao hàng tiêu chuẩn</p>
-                        <p className="text-sm text-muted-foreground">
-                          5-7 ngày làm việc
-                        </p>
-                      </div>
-                    </Label>
-                  </div>
-                  <span className="font-medium">30.000₫</span>
-                </div>
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="express" id="express" />
-                    <Label htmlFor="express">
-                      <div>
-                        <p className="font-medium">Giao hàng nhanh</p>
-                        <p className="text-sm text-muted-foreground">
-                          2-3 ngày làm việc
-                        </p>
-                      </div>
-                    </Label>
-                  </div>
-                  <span className="font-medium">50.000₫</span>
-                </div>
-              </RadioGroup>
             </CardContent>
           </Card>
         </div>
@@ -481,13 +406,13 @@ export default function CheckoutPage() {
               >
                 Hủy
               </Button>
-              <Button
+              {/* <Button
                 type="button"
                 onClick={handleConfirmPayment}
                 disabled={isProcessing || !selectedPayment}
               >
                 {isProcessing ? "Đang xử lý..." : "Xác nhận"}
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
