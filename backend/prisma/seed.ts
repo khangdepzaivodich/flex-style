@@ -3,204 +3,22885 @@ const prisma = new PrismaClient();
 
 async function main() {
     await Promise.all([
-        prisma.dANHMUC.createMany({
+        prisma.sUKIENUUDAI.createMany({
+            data : [
+                {
+                    "NgayPH": new Date("2025-06-01T00:00:00.000Z"),
+                    "NgayKT": new Date("2025-06-30T23:59:59.000Z"),
+                    "TenSK":"Giảm giá mùa hè",
+                    "PhanTramGiam": 20,
+                    "TrangThai": "ACTIVE",
+                    "MoTa": "Ưu đãi giảm giá 20% cho toàn bộ sản phẩm mùa hè"
+                },
+                {
+                    "NgayPH": new Date("2025-11-12T00:00:00.000Z"),
+                    "NgayKT": new Date("2025-11-12T23:59:59.000Z"),
+                    "TenSK": "Flash Sale 11/11",
+                    "PhanTramGiam": 50,
+                    "TrangThai": "ACTIVE",
+                    "MoTa": "Giảm giá sốc 50% trong 24h"
+                },
+                {
+                    "NgayPH": new Date("2025-11-28T00:00:00.000Z"),
+                    "NgayKT": new Date("2025-11-29T00:00:00.000Z"),
+                    "TenSK": "Ưu đãi Black Friday",
+                    "PhanTramGiam": 40,
+                    "TrangThai":"ACTIVE",
+                    "MoTa": "Black Friday - giảm giá toàn shop"
+                },
+                {
+                    "NgayPH": new Date("2025-12-31T00:00:00.000Z"),
+                    "NgayKT": new Date("2026-01-02T00:00:00.000Z"),
+                    "TenSK": "Mừng năm mới 2026",
+                    "PhanTramGiam": 30,
+                    "TrangThai": "ACTIVE",
+                    "MoTa": "Ưu đãi mừng năm mới 2026"
+                },
+                {
+                    "NgayPH": new Date("2025-10-15T00:00:00.000Z"),
+                    "NgayKT": new Date("2025-10-20T00:00:00.000Z"),
+                    "TenSK": "Ưu đãi sinh nhật shop",
+                    "PhanTramGiam": 25,
+                    "TrangThai": "ACTIVE",
+                    "MoTa": "Giảm giá 25% nhân dịp sinh nhật shop"
+                },
+            ],
+            skipDuplicates: true,
+        })
+
+        /*prisma.vOUCHER.createMany({
             data: [
                 {
-                    TenDM: 'Áo khoác Bomber',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
+                "TenVoucher": "Sự kiện Black Friday",
+                "MoTa": "Tặng Voucher 50k cho tất cả sản phẩm trong sự kiện Black Friday.",
+                "Loai": "GiamGia",
+                "SoTien": 50000,
+                "Dieukien": 0, 
+                "NgayBatDau": new Date("2025-11-28T00:00:00.000Z"),
+                "NgayKetThuc": new Date("2025-11-28T02:59:59.000Z"),
+                "Code": "BLACKFRIDAY198765",
+                "TrangThai": "ACTIVE"
                 },
                 {
-                    TenDM: 'Áo khoác chống nắng',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
+                "TenVoucher": "Sự kiện Cyber Monday",
+                "MoTa": "Giảm giá 40k cho đơn hàng trên 300k.",
+                "Loai": "GiamGia",
+                "SoTien": 40000,
+                "Dieukien": 300000,
+                "NgayBatDau": new Date("2025-12-01T00:00:00.000Z"),
+                "NgayKetThuc": new Date("2025-12-01T23:59:59.000Z"),
+                "Code": "CYBERMONDAY2025567",
+                "TrangThai": "ACTIVE"
                 },
                 {
-                    TenDM: 'Áo khoác gió',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
+                "TenVoucher": "Giảm giá mùa hè",
+                "MoTa": "Giảm 20k cho đơn hàng bất kỳ trong tháng 6.",
+                "Loai": "GiamGia",
+                "SoTien": 20000,
+                "Dieukien": 0,
+                "NgayBatDau": new Date("2025-06-01T00:00:00.000Z"),
+                "NgayKetThuc": new Date("2025-06-30T23:59:59.000Z"),
+                "Code": "SUMMER2025235",
+                "TrangThai": "ACTIVE"
                 },
                 {
-                    TenDM: 'Áo khoác hoodie',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
+                "TenVoucher": "Voucher Tết",
+                "MoTa": "Giảm 80k cho đơn hàng trên 500k dịp Tết.",
+                "Loai": "GiamGia",
+                "SoTien": 80000,
+                "Dieukien": 500000,
+                "NgayBatDau": new Date("2026-01-20T00:00:00.000Z"),
+                "NgayKetThuc": new Date("2026-02-10T23:59:59.000Z"),
+                "Code": "TET2026198",
+                "TrangThai": "ACTIVE"
                 },
                 {
-                    TenDM: 'Áo khoác jean',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
+                "TenVoucher": "Voucher Anh trai say hi",
+                "MoTa": "FreeShip cho tất cả mặt hàng",
+                "Loai": "FreeShip",
+                "NgayBatDau": new Date("2025-10-16T00:00:00.000Z"),
+                "NgayKetThuc": new Date("2025-12-31T23:59:59.000Z"),
+                "Code": "ANHTRAISAYHI2025782",
+                "TrangThai": "ACTIVE"
                 },
                 {
-                    TenDM: 'Áo khoác kaki',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
-                },
-                {
-                    TenDM: 'Áo khoác sơ mi',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
-                },
-                {
-                    TenDM: 'Áo khoác thể thao',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
-                },
-                {
-                    TenDM: 'Áo sơ mi tay dài',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
-                },
-                {
-                    TenDM: 'Áo sơ mi tay ngắn',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
-                },
-                {
-                    TenDM: 'Áo thun ba lỗ',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
-                },
-                {
-                    TenDM: 'Áo thun cổ polo tay ngắn',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
-                },
-                {
-                    TenDM: 'Áo thun cổ tròn tay ngắn',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
-                },
-                {
-                    TenDM: 'Áo thun tay dài',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
-                },
-                {
-                    TenDM: 'Balo Essential',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'PHU_KIEN',
-                },
-                {
-                    TenDM: 'Balo Smart',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'PHU_KIEN',
-                },
-                {
-                    TenDM: 'Dây nịt da bò',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'PHU_KIEN',
-                },
-                {
-                    TenDM: 'Găng tay',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'PHU_KIEN',
-                },
-                {
-                    TenDM: 'Nón lưỡi trai',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'PHU_KIEN',
-                },
-                {
-                    TenDM: 'Nón Dat Hat',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'AO',
-                },
-                {
-                    TenDM: 'Quần jean jogger',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Quần jean loose fit',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Quần jean slim fit',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Quần jogger',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Quần kaki',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Quần lót lụa băng',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Quần lót seamless',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Quần lót sợi tự nhiên',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Quần short boxer',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Quần short dù',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Quần short thun',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Quần tây',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'QUAN',
-                },
-                {
-                    TenDM: 'Túi cross',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'PHU_KIEN',
-                },
-                {
-                    TenDM: 'Túi hip sack',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'PHU_KIEN',
-                },
-                {
-                    TenDM: 'Ví đứng',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'PHU_KIEN',
-                },
-                {
-                    TenDM: 'Ví ngang',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'PHU_KIEN',
-                },
-                {
-                    TenDM: 'Vớ cổ ngắn',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'PHU_KIEN',
-                },
-                {
-                    TenDM: 'Vớ lưới',
-                    TrangThai: 'ACTIVE',
-                    Loai: 'PHU_KIEN',
+                "TenVoucher": "Voucher Giáng sinh",
+                "MoTa": "Giảm 150k cho đơn hàng trên 2 triệu.",
+                "Loai": "GiamGia",
+                "SoTien": 150000,
+                "Dieukien": 2000000,
+                "NgayBatDau": new Date("2025-12-20T00:00:00.000Z"),
+                "NgayKetThuc": new Date("2025-12-31T23:59:59.000Z"),
+                "Code": "GIANGSINH2025873",
+                "TrangThai": "ACTIVE"
                 }
             ],
             skipDuplicates: true,
-        }),
-        prisma.sANPHAM.createMany({
+        })/*
+        /*prisma.cHITIETSANPHAM.createMany({
             data: [
-    {
+                {
+    "KichCo": "S",
+    "MaSP": "fa0d3753-84de-4c86-a849-846d841e03f2",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fa0d3753-84de-4c86-a849-846d841e03f2",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fa0d3753-84de-4c86-a849-846d841e03f2",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fa0d3753-84de-4c86-a849-846d841e03f2",
+    "SoLuong": 32,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fa0d3753-84de-4c86-a849-846d841e03f2",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e119abdd-7d04-4898-9a0b-615c8019ec5e",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e119abdd-7d04-4898-9a0b-615c8019ec5e",
+    "SoLuong": 87,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e119abdd-7d04-4898-9a0b-615c8019ec5e",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e119abdd-7d04-4898-9a0b-615c8019ec5e",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e119abdd-7d04-4898-9a0b-615c8019ec5e",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "06be89f9-a31b-48ab-af04-4dd08b5d2d02",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "06be89f9-a31b-48ab-af04-4dd08b5d2d02",
+    "SoLuong": 65,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "06be89f9-a31b-48ab-af04-4dd08b5d2d02",
+    "SoLuong": 30,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "06be89f9-a31b-48ab-af04-4dd08b5d2d02",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "06be89f9-a31b-48ab-af04-4dd08b5d2d02",
+    "SoLuong": 59,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "739f3522-a5a1-4c46-8b9f-c49c10dc277a",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "739f3522-a5a1-4c46-8b9f-c49c10dc277a",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "739f3522-a5a1-4c46-8b9f-c49c10dc277a",
+    "SoLuong": 34,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "739f3522-a5a1-4c46-8b9f-c49c10dc277a",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "739f3522-a5a1-4c46-8b9f-c49c10dc277a",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b4ffa3b3-118d-4e4a-90ac-88e18d5837bb",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b4ffa3b3-118d-4e4a-90ac-88e18d5837bb",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b4ffa3b3-118d-4e4a-90ac-88e18d5837bb",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b4ffa3b3-118d-4e4a-90ac-88e18d5837bb",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b4ffa3b3-118d-4e4a-90ac-88e18d5837bb",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d5119e5e-7fe1-43b4-9877-452979936491",
+    "SoLuong": 79,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d5119e5e-7fe1-43b4-9877-452979936491",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d5119e5e-7fe1-43b4-9877-452979936491",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d5119e5e-7fe1-43b4-9877-452979936491",
+    "SoLuong": 28,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d5119e5e-7fe1-43b4-9877-452979936491",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f6e2f409-d57f-4db0-9f63-7988ac03ceb4",
+    "SoLuong": 30,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f6e2f409-d57f-4db0-9f63-7988ac03ceb4",
+    "SoLuong": 68,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f6e2f409-d57f-4db0-9f63-7988ac03ceb4",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f6e2f409-d57f-4db0-9f63-7988ac03ceb4",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f6e2f409-d57f-4db0-9f63-7988ac03ceb4",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b47b9a81-8659-4071-a1dc-67b9512ee78a",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b47b9a81-8659-4071-a1dc-67b9512ee78a",
+    "SoLuong": 72,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b47b9a81-8659-4071-a1dc-67b9512ee78a",
+    "SoLuong": 61,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b47b9a81-8659-4071-a1dc-67b9512ee78a",
+    "SoLuong": 21,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b47b9a81-8659-4071-a1dc-67b9512ee78a",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b66b2829-3036-4acc-bd11-63a3957bf213",
+    "SoLuong": 27,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b66b2829-3036-4acc-bd11-63a3957bf213",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b66b2829-3036-4acc-bd11-63a3957bf213",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b66b2829-3036-4acc-bd11-63a3957bf213",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b66b2829-3036-4acc-bd11-63a3957bf213",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5b3627f9-0577-4155-9ede-b0812b8dd948",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5b3627f9-0577-4155-9ede-b0812b8dd948",
+    "SoLuong": 69,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5b3627f9-0577-4155-9ede-b0812b8dd948",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5b3627f9-0577-4155-9ede-b0812b8dd948",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5b3627f9-0577-4155-9ede-b0812b8dd948",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "609be503-06b1-4e40-8158-8e53bfff4c01",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "609be503-06b1-4e40-8158-8e53bfff4c01",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "609be503-06b1-4e40-8158-8e53bfff4c01",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "609be503-06b1-4e40-8158-8e53bfff4c01",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "609be503-06b1-4e40-8158-8e53bfff4c01",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "349f2481-962e-4a24-b3c8-f2c63abaff44",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "349f2481-962e-4a24-b3c8-f2c63abaff44",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "349f2481-962e-4a24-b3c8-f2c63abaff44",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "349f2481-962e-4a24-b3c8-f2c63abaff44",
+    "SoLuong": 93,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "349f2481-962e-4a24-b3c8-f2c63abaff44",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8f70d906-faef-4456-a98b-bab1128daa43",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8f70d906-faef-4456-a98b-bab1128daa43",
+    "SoLuong": 65,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8f70d906-faef-4456-a98b-bab1128daa43",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8f70d906-faef-4456-a98b-bab1128daa43",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8f70d906-faef-4456-a98b-bab1128daa43",
+    "SoLuong": 76,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7f75dbce-1c3d-4c42-9326-bd0d0334897a",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7f75dbce-1c3d-4c42-9326-bd0d0334897a",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7f75dbce-1c3d-4c42-9326-bd0d0334897a",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7f75dbce-1c3d-4c42-9326-bd0d0334897a",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7f75dbce-1c3d-4c42-9326-bd0d0334897a",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "41fc8d4f-b039-4585-8b17-e8ce7293b7ea",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "41fc8d4f-b039-4585-8b17-e8ce7293b7ea",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "41fc8d4f-b039-4585-8b17-e8ce7293b7ea",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "41fc8d4f-b039-4585-8b17-e8ce7293b7ea",
+    "SoLuong": 19,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "41fc8d4f-b039-4585-8b17-e8ce7293b7ea",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5aa6186f-43f0-4583-8de1-fb41a44e7b3f",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5aa6186f-43f0-4583-8de1-fb41a44e7b3f",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5aa6186f-43f0-4583-8de1-fb41a44e7b3f",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5aa6186f-43f0-4583-8de1-fb41a44e7b3f",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5aa6186f-43f0-4583-8de1-fb41a44e7b3f",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d493e405-95a9-4eff-96c7-c79a5ff4642a",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d493e405-95a9-4eff-96c7-c79a5ff4642a",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d493e405-95a9-4eff-96c7-c79a5ff4642a",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d493e405-95a9-4eff-96c7-c79a5ff4642a",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d493e405-95a9-4eff-96c7-c79a5ff4642a",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "594d0b74-3447-495e-b1be-92ce5c5f7cbe",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "594d0b74-3447-495e-b1be-92ce5c5f7cbe",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "594d0b74-3447-495e-b1be-92ce5c5f7cbe",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "594d0b74-3447-495e-b1be-92ce5c5f7cbe",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "594d0b74-3447-495e-b1be-92ce5c5f7cbe",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1669aba3-08a9-47e1-bd47-275f63910c92",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1669aba3-08a9-47e1-bd47-275f63910c92",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1669aba3-08a9-47e1-bd47-275f63910c92",
+    "SoLuong": 59,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1669aba3-08a9-47e1-bd47-275f63910c92",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1669aba3-08a9-47e1-bd47-275f63910c92",
+    "SoLuong": 93,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "856ad1e4-1513-47db-a147-9fd547db3ad0",
+    "SoLuong": 61,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "856ad1e4-1513-47db-a147-9fd547db3ad0",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "856ad1e4-1513-47db-a147-9fd547db3ad0",
+    "SoLuong": 93,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "856ad1e4-1513-47db-a147-9fd547db3ad0",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "856ad1e4-1513-47db-a147-9fd547db3ad0",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b3482cf3-9b93-4986-8287-3b33963d9ae5",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b3482cf3-9b93-4986-8287-3b33963d9ae5",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b3482cf3-9b93-4986-8287-3b33963d9ae5",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b3482cf3-9b93-4986-8287-3b33963d9ae5",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b3482cf3-9b93-4986-8287-3b33963d9ae5",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "37507e7c-7e0e-4c40-8a41-9eb3ed836441",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "37507e7c-7e0e-4c40-8a41-9eb3ed836441",
+    "SoLuong": 23,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "37507e7c-7e0e-4c40-8a41-9eb3ed836441",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "37507e7c-7e0e-4c40-8a41-9eb3ed836441",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "37507e7c-7e0e-4c40-8a41-9eb3ed836441",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9cc2d7d9-f732-4441-a5bd-1eb722de369a",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9cc2d7d9-f732-4441-a5bd-1eb722de369a",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9cc2d7d9-f732-4441-a5bd-1eb722de369a",
+    "SoLuong": 34,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9cc2d7d9-f732-4441-a5bd-1eb722de369a",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9cc2d7d9-f732-4441-a5bd-1eb722de369a",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5b7c728c-56fa-4da3-98c2-2a77963cbc8e",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5b7c728c-56fa-4da3-98c2-2a77963cbc8e",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5b7c728c-56fa-4da3-98c2-2a77963cbc8e",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5b7c728c-56fa-4da3-98c2-2a77963cbc8e",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5b7c728c-56fa-4da3-98c2-2a77963cbc8e",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f18c1d9d-6ca5-404e-ad73-cd3cd454503e",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f18c1d9d-6ca5-404e-ad73-cd3cd454503e",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f18c1d9d-6ca5-404e-ad73-cd3cd454503e",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f18c1d9d-6ca5-404e-ad73-cd3cd454503e",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f18c1d9d-6ca5-404e-ad73-cd3cd454503e",
+    "SoLuong": 65,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8c793124-07ca-482c-8799-cc33b49290b6",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8c793124-07ca-482c-8799-cc33b49290b6",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8c793124-07ca-482c-8799-cc33b49290b6",
+    "SoLuong": 43,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8c793124-07ca-482c-8799-cc33b49290b6",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8c793124-07ca-482c-8799-cc33b49290b6",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6697b02e-ee5e-468e-a6b9-35f5762e5f65",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6697b02e-ee5e-468e-a6b9-35f5762e5f65",
+    "SoLuong": 23,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6697b02e-ee5e-468e-a6b9-35f5762e5f65",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6697b02e-ee5e-468e-a6b9-35f5762e5f65",
+    "SoLuong": 28,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6697b02e-ee5e-468e-a6b9-35f5762e5f65",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5e9a777f-6829-47ca-98a3-64e86f7bea45",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5e9a777f-6829-47ca-98a3-64e86f7bea45",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5e9a777f-6829-47ca-98a3-64e86f7bea45",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5e9a777f-6829-47ca-98a3-64e86f7bea45",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5e9a777f-6829-47ca-98a3-64e86f7bea45",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d5ce00cf-5097-4152-a014-1a183625e1aa",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d5ce00cf-5097-4152-a014-1a183625e1aa",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d5ce00cf-5097-4152-a014-1a183625e1aa",
+    "SoLuong": 20,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d5ce00cf-5097-4152-a014-1a183625e1aa",
+    "SoLuong": 84,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d5ce00cf-5097-4152-a014-1a183625e1aa",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "405a703a-8507-4cfb-92e7-b8341559f5dd",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "405a703a-8507-4cfb-92e7-b8341559f5dd",
+    "SoLuong": 65,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "405a703a-8507-4cfb-92e7-b8341559f5dd",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "405a703a-8507-4cfb-92e7-b8341559f5dd",
+    "SoLuong": 32,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "405a703a-8507-4cfb-92e7-b8341559f5dd",
+    "SoLuong": 88,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "39ed7a03-2451-44a4-9d34-3ca8d3212e58",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "39ed7a03-2451-44a4-9d34-3ca8d3212e58",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "39ed7a03-2451-44a4-9d34-3ca8d3212e58",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "39ed7a03-2451-44a4-9d34-3ca8d3212e58",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "39ed7a03-2451-44a4-9d34-3ca8d3212e58",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "50bfe831-cea7-4310-91e4-fa72f7328578",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "50bfe831-cea7-4310-91e4-fa72f7328578",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "50bfe831-cea7-4310-91e4-fa72f7328578",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "50bfe831-cea7-4310-91e4-fa72f7328578",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "50bfe831-cea7-4310-91e4-fa72f7328578",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fd86297d-d658-4035-9900-67cbd6cff6b5",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fd86297d-d658-4035-9900-67cbd6cff6b5",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fd86297d-d658-4035-9900-67cbd6cff6b5",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fd86297d-d658-4035-9900-67cbd6cff6b5",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fd86297d-d658-4035-9900-67cbd6cff6b5",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5d6051da-33b3-4960-8b7f-a24b71c80ae5",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5d6051da-33b3-4960-8b7f-a24b71c80ae5",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5d6051da-33b3-4960-8b7f-a24b71c80ae5",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5d6051da-33b3-4960-8b7f-a24b71c80ae5",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5d6051da-33b3-4960-8b7f-a24b71c80ae5",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f1a6c0c6-611a-44f5-b407-77259b62196f",
+    "SoLuong": 15,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f1a6c0c6-611a-44f5-b407-77259b62196f",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f1a6c0c6-611a-44f5-b407-77259b62196f",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f1a6c0c6-611a-44f5-b407-77259b62196f",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f1a6c0c6-611a-44f5-b407-77259b62196f",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b00cc55a-865e-498c-8c40-45cbb1bb4e4e",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b00cc55a-865e-498c-8c40-45cbb1bb4e4e",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b00cc55a-865e-498c-8c40-45cbb1bb4e4e",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b00cc55a-865e-498c-8c40-45cbb1bb4e4e",
+    "SoLuong": 97,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b00cc55a-865e-498c-8c40-45cbb1bb4e4e",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "703c9b2f-8750-46d0-afda-6fc43b08394f",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "703c9b2f-8750-46d0-afda-6fc43b08394f",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "703c9b2f-8750-46d0-afda-6fc43b08394f",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "703c9b2f-8750-46d0-afda-6fc43b08394f",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "703c9b2f-8750-46d0-afda-6fc43b08394f",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cb90458e-87d2-4fd6-bafb-20abe4751a5b",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cb90458e-87d2-4fd6-bafb-20abe4751a5b",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cb90458e-87d2-4fd6-bafb-20abe4751a5b",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cb90458e-87d2-4fd6-bafb-20abe4751a5b",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cb90458e-87d2-4fd6-bafb-20abe4751a5b",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "df2a6bbd-b333-47e5-ad4e-45f35294dda6",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "df2a6bbd-b333-47e5-ad4e-45f35294dda6",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "df2a6bbd-b333-47e5-ad4e-45f35294dda6",
+    "SoLuong": 13,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "df2a6bbd-b333-47e5-ad4e-45f35294dda6",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "df2a6bbd-b333-47e5-ad4e-45f35294dda6",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b123ae34-2367-4b62-8399-40e4191287f6",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b123ae34-2367-4b62-8399-40e4191287f6",
+    "SoLuong": 39,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b123ae34-2367-4b62-8399-40e4191287f6",
+    "SoLuong": 23,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b123ae34-2367-4b62-8399-40e4191287f6",
+    "SoLuong": 15,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b123ae34-2367-4b62-8399-40e4191287f6",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "691e14c0-4e7e-420e-9b91-d9494fcec15b",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "691e14c0-4e7e-420e-9b91-d9494fcec15b",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "691e14c0-4e7e-420e-9b91-d9494fcec15b",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "691e14c0-4e7e-420e-9b91-d9494fcec15b",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "691e14c0-4e7e-420e-9b91-d9494fcec15b",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1683dc13-1920-458c-8073-aacebd5436f9",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1683dc13-1920-458c-8073-aacebd5436f9",
+    "SoLuong": 89,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1683dc13-1920-458c-8073-aacebd5436f9",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1683dc13-1920-458c-8073-aacebd5436f9",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1683dc13-1920-458c-8073-aacebd5436f9",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "61dc644e-e5c8-4e66-9963-26a435a24d4e",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "61dc644e-e5c8-4e66-9963-26a435a24d4e",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "61dc644e-e5c8-4e66-9963-26a435a24d4e",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "61dc644e-e5c8-4e66-9963-26a435a24d4e",
+    "SoLuong": 32,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "61dc644e-e5c8-4e66-9963-26a435a24d4e",
+    "SoLuong": 56,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cb7ebeb0-ace1-40e7-a145-7d864fac7ab9",
+    "SoLuong": 23,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cb7ebeb0-ace1-40e7-a145-7d864fac7ab9",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cb7ebeb0-ace1-40e7-a145-7d864fac7ab9",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cb7ebeb0-ace1-40e7-a145-7d864fac7ab9",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cb7ebeb0-ace1-40e7-a145-7d864fac7ab9",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cc3c9d5d-5059-4ede-9c13-2afc760e71d9",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cc3c9d5d-5059-4ede-9c13-2afc760e71d9",
+    "SoLuong": 87,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cc3c9d5d-5059-4ede-9c13-2afc760e71d9",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cc3c9d5d-5059-4ede-9c13-2afc760e71d9",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cc3c9d5d-5059-4ede-9c13-2afc760e71d9",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "711e59cb-d020-4e6b-8104-18745bd7e8db",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "711e59cb-d020-4e6b-8104-18745bd7e8db",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "711e59cb-d020-4e6b-8104-18745bd7e8db",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "711e59cb-d020-4e6b-8104-18745bd7e8db",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "711e59cb-d020-4e6b-8104-18745bd7e8db",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7a27d4b7-4a55-4f17-8042-d0f3dece97a8",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7a27d4b7-4a55-4f17-8042-d0f3dece97a8",
+    "SoLuong": 23,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7a27d4b7-4a55-4f17-8042-d0f3dece97a8",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7a27d4b7-4a55-4f17-8042-d0f3dece97a8",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7a27d4b7-4a55-4f17-8042-d0f3dece97a8",
+    "SoLuong": 26,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7416750f-cc79-4249-9dc8-d7ca9e61dc45",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7416750f-cc79-4249-9dc8-d7ca9e61dc45",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7416750f-cc79-4249-9dc8-d7ca9e61dc45",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7416750f-cc79-4249-9dc8-d7ca9e61dc45",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7416750f-cc79-4249-9dc8-d7ca9e61dc45",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "087d4b16-4ad1-4d11-b608-4dab9585c8ef",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "087d4b16-4ad1-4d11-b608-4dab9585c8ef",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "087d4b16-4ad1-4d11-b608-4dab9585c8ef",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "087d4b16-4ad1-4d11-b608-4dab9585c8ef",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "087d4b16-4ad1-4d11-b608-4dab9585c8ef",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e479d612-eeb7-4804-babb-a02d2c7285b9",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e479d612-eeb7-4804-babb-a02d2c7285b9",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e479d612-eeb7-4804-babb-a02d2c7285b9",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e479d612-eeb7-4804-babb-a02d2c7285b9",
+    "SoLuong": 25,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e479d612-eeb7-4804-babb-a02d2c7285b9",
+    "SoLuong": 59,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ee9e3ed8-9d2c-437f-bb26-a11061289a2a",
+    "SoLuong": 69,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ee9e3ed8-9d2c-437f-bb26-a11061289a2a",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ee9e3ed8-9d2c-437f-bb26-a11061289a2a",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ee9e3ed8-9d2c-437f-bb26-a11061289a2a",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ee9e3ed8-9d2c-437f-bb26-a11061289a2a",
+    "SoLuong": 43,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7876e8ea-07c2-4c6b-9336-4b98a2821fff",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7876e8ea-07c2-4c6b-9336-4b98a2821fff",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7876e8ea-07c2-4c6b-9336-4b98a2821fff",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7876e8ea-07c2-4c6b-9336-4b98a2821fff",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7876e8ea-07c2-4c6b-9336-4b98a2821fff",
+    "SoLuong": 30,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "77ce308d-fac7-4dda-9c20-2267af544f91",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "77ce308d-fac7-4dda-9c20-2267af544f91",
+    "SoLuong": 97,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "77ce308d-fac7-4dda-9c20-2267af544f91",
+    "SoLuong": 34,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "77ce308d-fac7-4dda-9c20-2267af544f91",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "77ce308d-fac7-4dda-9c20-2267af544f91",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "92558132-7b9a-4fe3-9198-3645793ad5d6",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "92558132-7b9a-4fe3-9198-3645793ad5d6",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "92558132-7b9a-4fe3-9198-3645793ad5d6",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "92558132-7b9a-4fe3-9198-3645793ad5d6",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "92558132-7b9a-4fe3-9198-3645793ad5d6",
+    "SoLuong": 86,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7dc87bb0-8d23-439b-adc7-96a322ff2fb7",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7dc87bb0-8d23-439b-adc7-96a322ff2fb7",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7dc87bb0-8d23-439b-adc7-96a322ff2fb7",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7dc87bb0-8d23-439b-adc7-96a322ff2fb7",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7dc87bb0-8d23-439b-adc7-96a322ff2fb7",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "35d3b270-fd75-475f-b90b-a2552e80632f",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "35d3b270-fd75-475f-b90b-a2552e80632f",
+    "SoLuong": 97,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "35d3b270-fd75-475f-b90b-a2552e80632f",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "35d3b270-fd75-475f-b90b-a2552e80632f",
+    "SoLuong": 97,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "35d3b270-fd75-475f-b90b-a2552e80632f",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "af8c821f-6a87-478b-91a1-20dc519b9610",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "af8c821f-6a87-478b-91a1-20dc519b9610",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "af8c821f-6a87-478b-91a1-20dc519b9610",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "af8c821f-6a87-478b-91a1-20dc519b9610",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "af8c821f-6a87-478b-91a1-20dc519b9610",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "682dc485-7b47-42a0-9860-51fe90cbd08f",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "682dc485-7b47-42a0-9860-51fe90cbd08f",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "682dc485-7b47-42a0-9860-51fe90cbd08f",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "682dc485-7b47-42a0-9860-51fe90cbd08f",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "682dc485-7b47-42a0-9860-51fe90cbd08f",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bc0719cf-a7f7-4e35-b3fe-62296e4ae9f6",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bc0719cf-a7f7-4e35-b3fe-62296e4ae9f6",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bc0719cf-a7f7-4e35-b3fe-62296e4ae9f6",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bc0719cf-a7f7-4e35-b3fe-62296e4ae9f6",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bc0719cf-a7f7-4e35-b3fe-62296e4ae9f6",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "962e3b5b-f2ee-4598-abf1-eaf71da3e370",
+    "SoLuong": 42,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "962e3b5b-f2ee-4598-abf1-eaf71da3e370",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "962e3b5b-f2ee-4598-abf1-eaf71da3e370",
+    "SoLuong": 89,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "962e3b5b-f2ee-4598-abf1-eaf71da3e370",
+    "SoLuong": 64,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "962e3b5b-f2ee-4598-abf1-eaf71da3e370",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d94dc849-c347-4163-9f07-5112fbc82a1e",
+    "SoLuong": 95,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d94dc849-c347-4163-9f07-5112fbc82a1e",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d94dc849-c347-4163-9f07-5112fbc82a1e",
+    "SoLuong": 91,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d94dc849-c347-4163-9f07-5112fbc82a1e",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d94dc849-c347-4163-9f07-5112fbc82a1e",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "365bf612-c7b2-4a2a-9508-991122e01efc",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "365bf612-c7b2-4a2a-9508-991122e01efc",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "365bf612-c7b2-4a2a-9508-991122e01efc",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "365bf612-c7b2-4a2a-9508-991122e01efc",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "365bf612-c7b2-4a2a-9508-991122e01efc",
+    "SoLuong": 42,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1f231af5-faff-47b2-aa10-462bf52bd2d4",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1f231af5-faff-47b2-aa10-462bf52bd2d4",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1f231af5-faff-47b2-aa10-462bf52bd2d4",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1f231af5-faff-47b2-aa10-462bf52bd2d4",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1f231af5-faff-47b2-aa10-462bf52bd2d4",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "807bd36a-5755-4635-be28-de1ba31b5bb0",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "807bd36a-5755-4635-be28-de1ba31b5bb0",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "807bd36a-5755-4635-be28-de1ba31b5bb0",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "807bd36a-5755-4635-be28-de1ba31b5bb0",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "807bd36a-5755-4635-be28-de1ba31b5bb0",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8274f8ec-d130-41d4-b8f8-8d53562c4828",
+    "SoLuong": 79,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8274f8ec-d130-41d4-b8f8-8d53562c4828",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8274f8ec-d130-41d4-b8f8-8d53562c4828",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8274f8ec-d130-41d4-b8f8-8d53562c4828",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8274f8ec-d130-41d4-b8f8-8d53562c4828",
+    "SoLuong": 23,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7a8a7d1e-ac7c-4d74-85fa-db91d155d139",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7a8a7d1e-ac7c-4d74-85fa-db91d155d139",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7a8a7d1e-ac7c-4d74-85fa-db91d155d139",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7a8a7d1e-ac7c-4d74-85fa-db91d155d139",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7a8a7d1e-ac7c-4d74-85fa-db91d155d139",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f4971b13-eb6b-41de-8a0e-7d2fd3ac43e6",
+    "SoLuong": 43,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f4971b13-eb6b-41de-8a0e-7d2fd3ac43e6",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f4971b13-eb6b-41de-8a0e-7d2fd3ac43e6",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f4971b13-eb6b-41de-8a0e-7d2fd3ac43e6",
+    "SoLuong": 56,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f4971b13-eb6b-41de-8a0e-7d2fd3ac43e6",
+    "SoLuong": 68,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d20d25ad-e00b-45c0-913f-ace099705fee",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d20d25ad-e00b-45c0-913f-ace099705fee",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d20d25ad-e00b-45c0-913f-ace099705fee",
+    "SoLuong": 56,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d20d25ad-e00b-45c0-913f-ace099705fee",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d20d25ad-e00b-45c0-913f-ace099705fee",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a6813cb2-e2b4-4eb8-bb04-1c14b2a5815f",
+    "SoLuong": 98,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a6813cb2-e2b4-4eb8-bb04-1c14b2a5815f",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a6813cb2-e2b4-4eb8-bb04-1c14b2a5815f",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a6813cb2-e2b4-4eb8-bb04-1c14b2a5815f",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a6813cb2-e2b4-4eb8-bb04-1c14b2a5815f",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "16e440ad-743f-4dfa-8116-a69ac51ae3d2",
+    "SoLuong": 19,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "16e440ad-743f-4dfa-8116-a69ac51ae3d2",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "16e440ad-743f-4dfa-8116-a69ac51ae3d2",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "16e440ad-743f-4dfa-8116-a69ac51ae3d2",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "16e440ad-743f-4dfa-8116-a69ac51ae3d2",
+    "SoLuong": 50,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "63f78090-7e4d-4a11-9981-60d237bb8da3",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "63f78090-7e4d-4a11-9981-60d237bb8da3",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "63f78090-7e4d-4a11-9981-60d237bb8da3",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "63f78090-7e4d-4a11-9981-60d237bb8da3",
+    "SoLuong": 32,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "63f78090-7e4d-4a11-9981-60d237bb8da3",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0c2dddda-3a04-488f-a46a-a2f794edfd12",
+    "SoLuong": 100,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0c2dddda-3a04-488f-a46a-a2f794edfd12",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0c2dddda-3a04-488f-a46a-a2f794edfd12",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0c2dddda-3a04-488f-a46a-a2f794edfd12",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0c2dddda-3a04-488f-a46a-a2f794edfd12",
+    "SoLuong": 45,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "082b6d19-c041-4c09-8908-89f025769c6c",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "082b6d19-c041-4c09-8908-89f025769c6c",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "082b6d19-c041-4c09-8908-89f025769c6c",
+    "SoLuong": 51,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "082b6d19-c041-4c09-8908-89f025769c6c",
+    "SoLuong": 48,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "082b6d19-c041-4c09-8908-89f025769c6c",
+    "SoLuong": 39,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "643bb544-6300-4bec-880f-33838992b765",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "643bb544-6300-4bec-880f-33838992b765",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "643bb544-6300-4bec-880f-33838992b765",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "643bb544-6300-4bec-880f-33838992b765",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "643bb544-6300-4bec-880f-33838992b765",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bc986334-b3f1-4438-824c-571b346d7d17",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bc986334-b3f1-4438-824c-571b346d7d17",
+    "SoLuong": 65,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bc986334-b3f1-4438-824c-571b346d7d17",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bc986334-b3f1-4438-824c-571b346d7d17",
+    "SoLuong": 45,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bc986334-b3f1-4438-824c-571b346d7d17",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d38346bb-600a-48c1-9435-9f0bd7bb03ac",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d38346bb-600a-48c1-9435-9f0bd7bb03ac",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d38346bb-600a-48c1-9435-9f0bd7bb03ac",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d38346bb-600a-48c1-9435-9f0bd7bb03ac",
+    "SoLuong": 51,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d38346bb-600a-48c1-9435-9f0bd7bb03ac",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "08f9d001-c0ce-4897-badf-3b4211c9f4b1",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "08f9d001-c0ce-4897-badf-3b4211c9f4b1",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "08f9d001-c0ce-4897-badf-3b4211c9f4b1",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "08f9d001-c0ce-4897-badf-3b4211c9f4b1",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "08f9d001-c0ce-4897-badf-3b4211c9f4b1",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "57cba120-0ff0-48f7-8c00-b7fb827960b3",
+    "SoLuong": 65,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "57cba120-0ff0-48f7-8c00-b7fb827960b3",
+    "SoLuong": 58,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "57cba120-0ff0-48f7-8c00-b7fb827960b3",
+    "SoLuong": 93,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "57cba120-0ff0-48f7-8c00-b7fb827960b3",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "57cba120-0ff0-48f7-8c00-b7fb827960b3",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "babe0bb2-f568-472b-8946-b89dacf54cf8",
+    "SoLuong": 64,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "babe0bb2-f568-472b-8946-b89dacf54cf8",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "babe0bb2-f568-472b-8946-b89dacf54cf8",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "babe0bb2-f568-472b-8946-b89dacf54cf8",
+    "SoLuong": 58,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "babe0bb2-f568-472b-8946-b89dacf54cf8",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "baba930a-03b6-4808-8cf4-efedf26f7d96",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "baba930a-03b6-4808-8cf4-efedf26f7d96",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "baba930a-03b6-4808-8cf4-efedf26f7d96",
+    "SoLuong": 89,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "baba930a-03b6-4808-8cf4-efedf26f7d96",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "baba930a-03b6-4808-8cf4-efedf26f7d96",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9226bae0-f728-49df-8dd1-5c561f774342",
+    "SoLuong": 50,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9226bae0-f728-49df-8dd1-5c561f774342",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9226bae0-f728-49df-8dd1-5c561f774342",
+    "SoLuong": 97,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9226bae0-f728-49df-8dd1-5c561f774342",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9226bae0-f728-49df-8dd1-5c561f774342",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6dc90fd5-7415-4841-9027-5311c414f329",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6dc90fd5-7415-4841-9027-5311c414f329",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6dc90fd5-7415-4841-9027-5311c414f329",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6dc90fd5-7415-4841-9027-5311c414f329",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6dc90fd5-7415-4841-9027-5311c414f329",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "49020fac-33d7-4bcf-a845-6c034656a401",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "49020fac-33d7-4bcf-a845-6c034656a401",
+    "SoLuong": 79,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "49020fac-33d7-4bcf-a845-6c034656a401",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "49020fac-33d7-4bcf-a845-6c034656a401",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "49020fac-33d7-4bcf-a845-6c034656a401",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9eb0379c-fcf0-4fb2-90ac-de86b3ac7d2a",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9eb0379c-fcf0-4fb2-90ac-de86b3ac7d2a",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9eb0379c-fcf0-4fb2-90ac-de86b3ac7d2a",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9eb0379c-fcf0-4fb2-90ac-de86b3ac7d2a",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9eb0379c-fcf0-4fb2-90ac-de86b3ac7d2a",
+    "SoLuong": 45,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a88c5477-f311-4357-b9a3-10887e91ddcf",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a88c5477-f311-4357-b9a3-10887e91ddcf",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a88c5477-f311-4357-b9a3-10887e91ddcf",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a88c5477-f311-4357-b9a3-10887e91ddcf",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a88c5477-f311-4357-b9a3-10887e91ddcf",
+    "SoLuong": 93,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b295f3f2-d549-4d77-991a-f512df711e23",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b295f3f2-d549-4d77-991a-f512df711e23",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b295f3f2-d549-4d77-991a-f512df711e23",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b295f3f2-d549-4d77-991a-f512df711e23",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b295f3f2-d549-4d77-991a-f512df711e23",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3b309e60-abb0-47f4-b191-75c5dd54d8fe",
+    "SoLuong": 51,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3b309e60-abb0-47f4-b191-75c5dd54d8fe",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3b309e60-abb0-47f4-b191-75c5dd54d8fe",
+    "SoLuong": 65,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3b309e60-abb0-47f4-b191-75c5dd54d8fe",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3b309e60-abb0-47f4-b191-75c5dd54d8fe",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5f6df9ea-8441-4029-85a8-e45fc4a91976",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5f6df9ea-8441-4029-85a8-e45fc4a91976",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5f6df9ea-8441-4029-85a8-e45fc4a91976",
+    "SoLuong": 20,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5f6df9ea-8441-4029-85a8-e45fc4a91976",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5f6df9ea-8441-4029-85a8-e45fc4a91976",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0b5e6b7c-1d7b-4fa6-a780-e25f2d97a2b7",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0b5e6b7c-1d7b-4fa6-a780-e25f2d97a2b7",
+    "SoLuong": 97,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0b5e6b7c-1d7b-4fa6-a780-e25f2d97a2b7",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0b5e6b7c-1d7b-4fa6-a780-e25f2d97a2b7",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0b5e6b7c-1d7b-4fa6-a780-e25f2d97a2b7",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bdebc096-e6c0-401c-8b65-c3c24fb3e4f8",
+    "SoLuong": 45,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bdebc096-e6c0-401c-8b65-c3c24fb3e4f8",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bdebc096-e6c0-401c-8b65-c3c24fb3e4f8",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bdebc096-e6c0-401c-8b65-c3c24fb3e4f8",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bdebc096-e6c0-401c-8b65-c3c24fb3e4f8",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a672af74-f518-4c85-a854-3a2b157d575a",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a672af74-f518-4c85-a854-3a2b157d575a",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a672af74-f518-4c85-a854-3a2b157d575a",
+    "SoLuong": 97,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a672af74-f518-4c85-a854-3a2b157d575a",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a672af74-f518-4c85-a854-3a2b157d575a",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "19a61c45-bfab-45e3-ac9d-cb3255cb9e48",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "19a61c45-bfab-45e3-ac9d-cb3255cb9e48",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "19a61c45-bfab-45e3-ac9d-cb3255cb9e48",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "19a61c45-bfab-45e3-ac9d-cb3255cb9e48",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "19a61c45-bfab-45e3-ac9d-cb3255cb9e48",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f8782ae9-0b3b-40f6-b2bf-5cfafb0c4c84",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f8782ae9-0b3b-40f6-b2bf-5cfafb0c4c84",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f8782ae9-0b3b-40f6-b2bf-5cfafb0c4c84",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f8782ae9-0b3b-40f6-b2bf-5cfafb0c4c84",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f8782ae9-0b3b-40f6-b2bf-5cfafb0c4c84",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4441dd2c-ca31-435f-9d4c-70dc6b4d73a3",
+    "SoLuong": 75,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4441dd2c-ca31-435f-9d4c-70dc6b4d73a3",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4441dd2c-ca31-435f-9d4c-70dc6b4d73a3",
+    "SoLuong": 36,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4441dd2c-ca31-435f-9d4c-70dc6b4d73a3",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4441dd2c-ca31-435f-9d4c-70dc6b4d73a3",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8e36c620-9fbc-4d82-a958-b3dc5f1d873a",
+    "SoLuong": 45,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8e36c620-9fbc-4d82-a958-b3dc5f1d873a",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8e36c620-9fbc-4d82-a958-b3dc5f1d873a",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8e36c620-9fbc-4d82-a958-b3dc5f1d873a",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8e36c620-9fbc-4d82-a958-b3dc5f1d873a",
+    "SoLuong": 79,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5bf592ab-7980-41a9-9d69-19c33e88a9e0",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5bf592ab-7980-41a9-9d69-19c33e88a9e0",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5bf592ab-7980-41a9-9d69-19c33e88a9e0",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5bf592ab-7980-41a9-9d69-19c33e88a9e0",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5bf592ab-7980-41a9-9d69-19c33e88a9e0",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cae5145e-ece9-4ebc-bb02-9c5d10e7ee55",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cae5145e-ece9-4ebc-bb02-9c5d10e7ee55",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cae5145e-ece9-4ebc-bb02-9c5d10e7ee55",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cae5145e-ece9-4ebc-bb02-9c5d10e7ee55",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cae5145e-ece9-4ebc-bb02-9c5d10e7ee55",
+    "SoLuong": 65,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "567a9dc7-d224-4269-a6d0-77696f509c64",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "567a9dc7-d224-4269-a6d0-77696f509c64",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "567a9dc7-d224-4269-a6d0-77696f509c64",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "567a9dc7-d224-4269-a6d0-77696f509c64",
+    "SoLuong": 87,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "567a9dc7-d224-4269-a6d0-77696f509c64",
+    "SoLuong": 39,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8655969e-be20-4e3a-8c68-d6221bd5b0a5",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8655969e-be20-4e3a-8c68-d6221bd5b0a5",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8655969e-be20-4e3a-8c68-d6221bd5b0a5",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8655969e-be20-4e3a-8c68-d6221bd5b0a5",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8655969e-be20-4e3a-8c68-d6221bd5b0a5",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "01c2262a-3262-46a4-9a56-bd81943dc3c3",
+    "SoLuong": 62,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "01c2262a-3262-46a4-9a56-bd81943dc3c3",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "01c2262a-3262-46a4-9a56-bd81943dc3c3",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "01c2262a-3262-46a4-9a56-bd81943dc3c3",
+    "SoLuong": 43,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "01c2262a-3262-46a4-9a56-bd81943dc3c3",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2a03db10-c0e5-4e01-ab83-64075ef9b281",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2a03db10-c0e5-4e01-ab83-64075ef9b281",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2a03db10-c0e5-4e01-ab83-64075ef9b281",
+    "SoLuong": 39,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2a03db10-c0e5-4e01-ab83-64075ef9b281",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2a03db10-c0e5-4e01-ab83-64075ef9b281",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3093bf80-5d55-44b2-8cc5-45454be2b745",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3093bf80-5d55-44b2-8cc5-45454be2b745",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3093bf80-5d55-44b2-8cc5-45454be2b745",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3093bf80-5d55-44b2-8cc5-45454be2b745",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3093bf80-5d55-44b2-8cc5-45454be2b745",
+    "SoLuong": 34,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a0ac54c4-5a2c-4abf-bd50-3ca30837ded4",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a0ac54c4-5a2c-4abf-bd50-3ca30837ded4",
+    "SoLuong": 34,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a0ac54c4-5a2c-4abf-bd50-3ca30837ded4",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a0ac54c4-5a2c-4abf-bd50-3ca30837ded4",
+    "SoLuong": 79,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a0ac54c4-5a2c-4abf-bd50-3ca30837ded4",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "35f0ce70-b29f-4947-8bc1-585e2cc67d53",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "35f0ce70-b29f-4947-8bc1-585e2cc67d53",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "35f0ce70-b29f-4947-8bc1-585e2cc67d53",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "35f0ce70-b29f-4947-8bc1-585e2cc67d53",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "35f0ce70-b29f-4947-8bc1-585e2cc67d53",
+    "SoLuong": 97,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2e432b9b-d5c2-4c90-8d34-33fccb786fca",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2e432b9b-d5c2-4c90-8d34-33fccb786fca",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2e432b9b-d5c2-4c90-8d34-33fccb786fca",
+    "SoLuong": 79,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2e432b9b-d5c2-4c90-8d34-33fccb786fca",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2e432b9b-d5c2-4c90-8d34-33fccb786fca",
+    "SoLuong": 90,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6aa8ada0-e9cb-4911-bc06-8912966b19ca",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6aa8ada0-e9cb-4911-bc06-8912966b19ca",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6aa8ada0-e9cb-4911-bc06-8912966b19ca",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6aa8ada0-e9cb-4911-bc06-8912966b19ca",
+    "SoLuong": 86,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6aa8ada0-e9cb-4911-bc06-8912966b19ca",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f6bce268-15aa-4431-bd6c-338bdbffcc7f",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f6bce268-15aa-4431-bd6c-338bdbffcc7f",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f6bce268-15aa-4431-bd6c-338bdbffcc7f",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f6bce268-15aa-4431-bd6c-338bdbffcc7f",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f6bce268-15aa-4431-bd6c-338bdbffcc7f",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d07a47c6-b0a8-4013-b507-db50f192fc35",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d07a47c6-b0a8-4013-b507-db50f192fc35",
+    "SoLuong": 95,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d07a47c6-b0a8-4013-b507-db50f192fc35",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d07a47c6-b0a8-4013-b507-db50f192fc35",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d07a47c6-b0a8-4013-b507-db50f192fc35",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "afc2bcc0-c34e-4824-b22d-4577bd1d75a4",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "afc2bcc0-c34e-4824-b22d-4577bd1d75a4",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "afc2bcc0-c34e-4824-b22d-4577bd1d75a4",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "afc2bcc0-c34e-4824-b22d-4577bd1d75a4",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "afc2bcc0-c34e-4824-b22d-4577bd1d75a4",
+    "SoLuong": 86,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "50c50066-9f35-479f-ad14-cc977245a42d",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "50c50066-9f35-479f-ad14-cc977245a42d",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "50c50066-9f35-479f-ad14-cc977245a42d",
+    "SoLuong": 32,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "50c50066-9f35-479f-ad14-cc977245a42d",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "50c50066-9f35-479f-ad14-cc977245a42d",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "418383ef-4532-4fbd-9fe1-4d129ba02469",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "418383ef-4532-4fbd-9fe1-4d129ba02469",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "418383ef-4532-4fbd-9fe1-4d129ba02469",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "418383ef-4532-4fbd-9fe1-4d129ba02469",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "418383ef-4532-4fbd-9fe1-4d129ba02469",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3518c82a-c076-4e98-8ec3-ca3f8af09ee6",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3518c82a-c076-4e98-8ec3-ca3f8af09ee6",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3518c82a-c076-4e98-8ec3-ca3f8af09ee6",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3518c82a-c076-4e98-8ec3-ca3f8af09ee6",
+    "SoLuong": 48,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3518c82a-c076-4e98-8ec3-ca3f8af09ee6",
+    "SoLuong": 48,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "39500752-fa1f-4a04-8e9c-be4eea28c38e",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "39500752-fa1f-4a04-8e9c-be4eea28c38e",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "39500752-fa1f-4a04-8e9c-be4eea28c38e",
+    "SoLuong": 65,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "39500752-fa1f-4a04-8e9c-be4eea28c38e",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "39500752-fa1f-4a04-8e9c-be4eea28c38e",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "803416f5-0004-4419-b746-3bb785483817",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "803416f5-0004-4419-b746-3bb785483817",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "803416f5-0004-4419-b746-3bb785483817",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "803416f5-0004-4419-b746-3bb785483817",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "803416f5-0004-4419-b746-3bb785483817",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2e9cd35c-972f-441b-8b56-83ab9b20e852",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2e9cd35c-972f-441b-8b56-83ab9b20e852",
+    "SoLuong": 28,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2e9cd35c-972f-441b-8b56-83ab9b20e852",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2e9cd35c-972f-441b-8b56-83ab9b20e852",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2e9cd35c-972f-441b-8b56-83ab9b20e852",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6af05d7a-1ac6-4554-b0d5-e1c73cbd25c2",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6af05d7a-1ac6-4554-b0d5-e1c73cbd25c2",
+    "SoLuong": 15,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6af05d7a-1ac6-4554-b0d5-e1c73cbd25c2",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6af05d7a-1ac6-4554-b0d5-e1c73cbd25c2",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6af05d7a-1ac6-4554-b0d5-e1c73cbd25c2",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d1b8e44f-4346-4dd3-8716-f6687505938e",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d1b8e44f-4346-4dd3-8716-f6687505938e",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d1b8e44f-4346-4dd3-8716-f6687505938e",
+    "SoLuong": 28,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d1b8e44f-4346-4dd3-8716-f6687505938e",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d1b8e44f-4346-4dd3-8716-f6687505938e",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "251516ed-1fca-44b5-8cba-8a059dacb1aa",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "251516ed-1fca-44b5-8cba-8a059dacb1aa",
+    "SoLuong": 26,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "251516ed-1fca-44b5-8cba-8a059dacb1aa",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "251516ed-1fca-44b5-8cba-8a059dacb1aa",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "251516ed-1fca-44b5-8cba-8a059dacb1aa",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "96ee7fe4-62da-4592-902c-d530b391001b",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "96ee7fe4-62da-4592-902c-d530b391001b",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "96ee7fe4-62da-4592-902c-d530b391001b",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "96ee7fe4-62da-4592-902c-d530b391001b",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "96ee7fe4-62da-4592-902c-d530b391001b",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fa836247-3d63-4f46-820d-7aecf0edfef9",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fa836247-3d63-4f46-820d-7aecf0edfef9",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fa836247-3d63-4f46-820d-7aecf0edfef9",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fa836247-3d63-4f46-820d-7aecf0edfef9",
+    "SoLuong": 42,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fa836247-3d63-4f46-820d-7aecf0edfef9",
+    "SoLuong": 27,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d6c46e97-f930-4c45-a307-877bae3b318e",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d6c46e97-f930-4c45-a307-877bae3b318e",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d6c46e97-f930-4c45-a307-877bae3b318e",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d6c46e97-f930-4c45-a307-877bae3b318e",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d6c46e97-f930-4c45-a307-877bae3b318e",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "188efd06-6b81-4f54-b31f-bbb45a869115",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "188efd06-6b81-4f54-b31f-bbb45a869115",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "188efd06-6b81-4f54-b31f-bbb45a869115",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "188efd06-6b81-4f54-b31f-bbb45a869115",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "188efd06-6b81-4f54-b31f-bbb45a869115",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "372b6b26-8107-43c2-a595-785a8f6f0084",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "372b6b26-8107-43c2-a595-785a8f6f0084",
+    "SoLuong": 79,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "372b6b26-8107-43c2-a595-785a8f6f0084",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "372b6b26-8107-43c2-a595-785a8f6f0084",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "372b6b26-8107-43c2-a595-785a8f6f0084",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "08a43d28-48c9-4ddf-a44b-49c8cce14ee4",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "08a43d28-48c9-4ddf-a44b-49c8cce14ee4",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "08a43d28-48c9-4ddf-a44b-49c8cce14ee4",
+    "SoLuong": 69,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "08a43d28-48c9-4ddf-a44b-49c8cce14ee4",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "08a43d28-48c9-4ddf-a44b-49c8cce14ee4",
+    "SoLuong": 27,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1c39416f-8a46-4275-a576-c7ce317be704",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1c39416f-8a46-4275-a576-c7ce317be704",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1c39416f-8a46-4275-a576-c7ce317be704",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1c39416f-8a46-4275-a576-c7ce317be704",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1c39416f-8a46-4275-a576-c7ce317be704",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b3347cce-29bd-4be1-a250-47a44364d743",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b3347cce-29bd-4be1-a250-47a44364d743",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b3347cce-29bd-4be1-a250-47a44364d743",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b3347cce-29bd-4be1-a250-47a44364d743",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b3347cce-29bd-4be1-a250-47a44364d743",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "48d24c3b-aa04-466e-b79d-fc1e7697a7b7",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "48d24c3b-aa04-466e-b79d-fc1e7697a7b7",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "48d24c3b-aa04-466e-b79d-fc1e7697a7b7",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "48d24c3b-aa04-466e-b79d-fc1e7697a7b7",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "48d24c3b-aa04-466e-b79d-fc1e7697a7b7",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fb828d72-eb29-42cf-a626-51f0e051c323",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fb828d72-eb29-42cf-a626-51f0e051c323",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fb828d72-eb29-42cf-a626-51f0e051c323",
+    "SoLuong": 68,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fb828d72-eb29-42cf-a626-51f0e051c323",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fb828d72-eb29-42cf-a626-51f0e051c323",
+    "SoLuong": 92,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d19c4248-54a1-4bba-abd9-9138a20a5a35",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d19c4248-54a1-4bba-abd9-9138a20a5a35",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d19c4248-54a1-4bba-abd9-9138a20a5a35",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d19c4248-54a1-4bba-abd9-9138a20a5a35",
+    "SoLuong": 97,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d19c4248-54a1-4bba-abd9-9138a20a5a35",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a78fac7f-0aac-4313-9bc8-4eea05d6907d",
+    "SoLuong": 45,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a78fac7f-0aac-4313-9bc8-4eea05d6907d",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a78fac7f-0aac-4313-9bc8-4eea05d6907d",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a78fac7f-0aac-4313-9bc8-4eea05d6907d",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a78fac7f-0aac-4313-9bc8-4eea05d6907d",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f3714426-0b76-4637-b37f-3e2337db2a10",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f3714426-0b76-4637-b37f-3e2337db2a10",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f3714426-0b76-4637-b37f-3e2337db2a10",
+    "SoLuong": 88,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f3714426-0b76-4637-b37f-3e2337db2a10",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f3714426-0b76-4637-b37f-3e2337db2a10",
+    "SoLuong": 19,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "87c85d3e-bc6d-46ef-aa1c-48d06b3d7cc8",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "87c85d3e-bc6d-46ef-aa1c-48d06b3d7cc8",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "87c85d3e-bc6d-46ef-aa1c-48d06b3d7cc8",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "87c85d3e-bc6d-46ef-aa1c-48d06b3d7cc8",
+    "SoLuong": 84,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "87c85d3e-bc6d-46ef-aa1c-48d06b3d7cc8",
+    "SoLuong": 25,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8c372e89-1185-49ae-ad82-18d0ce3522c6",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8c372e89-1185-49ae-ad82-18d0ce3522c6",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8c372e89-1185-49ae-ad82-18d0ce3522c6",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8c372e89-1185-49ae-ad82-18d0ce3522c6",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8c372e89-1185-49ae-ad82-18d0ce3522c6",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9f5a489e-c1d5-4f33-9e25-5e32077fb598",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9f5a489e-c1d5-4f33-9e25-5e32077fb598",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9f5a489e-c1d5-4f33-9e25-5e32077fb598",
+    "SoLuong": 99,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9f5a489e-c1d5-4f33-9e25-5e32077fb598",
+    "SoLuong": 25,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9f5a489e-c1d5-4f33-9e25-5e32077fb598",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "66aab460-d90a-434d-bb40-5f27c5515d29",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "66aab460-d90a-434d-bb40-5f27c5515d29",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "66aab460-d90a-434d-bb40-5f27c5515d29",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "66aab460-d90a-434d-bb40-5f27c5515d29",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "66aab460-d90a-434d-bb40-5f27c5515d29",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "67101f78-8ec3-4e1f-a40f-ab730e19bf4e",
+    "SoLuong": 51,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "67101f78-8ec3-4e1f-a40f-ab730e19bf4e",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "67101f78-8ec3-4e1f-a40f-ab730e19bf4e",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "67101f78-8ec3-4e1f-a40f-ab730e19bf4e",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "67101f78-8ec3-4e1f-a40f-ab730e19bf4e",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ae6b05d9-d4d1-4e88-8c2f-b48869a4202f",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ae6b05d9-d4d1-4e88-8c2f-b48869a4202f",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ae6b05d9-d4d1-4e88-8c2f-b48869a4202f",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ae6b05d9-d4d1-4e88-8c2f-b48869a4202f",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ae6b05d9-d4d1-4e88-8c2f-b48869a4202f",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0e45e78b-638f-4be0-96f4-38ebd78000d1",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0e45e78b-638f-4be0-96f4-38ebd78000d1",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0e45e78b-638f-4be0-96f4-38ebd78000d1",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0e45e78b-638f-4be0-96f4-38ebd78000d1",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0e45e78b-638f-4be0-96f4-38ebd78000d1",
+    "SoLuong": 79,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cb6edc3d-e65b-469d-a138-37afbcb45254",
+    "SoLuong": 26,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cb6edc3d-e65b-469d-a138-37afbcb45254",
+    "SoLuong": 72,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cb6edc3d-e65b-469d-a138-37afbcb45254",
+    "SoLuong": 68,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cb6edc3d-e65b-469d-a138-37afbcb45254",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cb6edc3d-e65b-469d-a138-37afbcb45254",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1b1c3bfd-3c27-4323-922a-14c643f7982e",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1b1c3bfd-3c27-4323-922a-14c643f7982e",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1b1c3bfd-3c27-4323-922a-14c643f7982e",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1b1c3bfd-3c27-4323-922a-14c643f7982e",
+    "SoLuong": 43,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1b1c3bfd-3c27-4323-922a-14c643f7982e",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "00c1ec50-892d-4794-8859-1b6c0ecde699",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "00c1ec50-892d-4794-8859-1b6c0ecde699",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "00c1ec50-892d-4794-8859-1b6c0ecde699",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "00c1ec50-892d-4794-8859-1b6c0ecde699",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "00c1ec50-892d-4794-8859-1b6c0ecde699",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f190a995-91db-4eb1-a2a0-8ef4ad257e15",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f190a995-91db-4eb1-a2a0-8ef4ad257e15",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f190a995-91db-4eb1-a2a0-8ef4ad257e15",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f190a995-91db-4eb1-a2a0-8ef4ad257e15",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f190a995-91db-4eb1-a2a0-8ef4ad257e15",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8101b181-1236-4651-8bef-1a7507afa253",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8101b181-1236-4651-8bef-1a7507afa253",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8101b181-1236-4651-8bef-1a7507afa253",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8101b181-1236-4651-8bef-1a7507afa253",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8101b181-1236-4651-8bef-1a7507afa253",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4da8980a-54a2-4b0f-b7ca-aa009d476d55",
+    "SoLuong": 39,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4da8980a-54a2-4b0f-b7ca-aa009d476d55",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4da8980a-54a2-4b0f-b7ca-aa009d476d55",
+    "SoLuong": 43,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4da8980a-54a2-4b0f-b7ca-aa009d476d55",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4da8980a-54a2-4b0f-b7ca-aa009d476d55",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4f480a0f-b99a-4980-9f96-d7b058dbdc65",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4f480a0f-b99a-4980-9f96-d7b058dbdc65",
+    "SoLuong": 32,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4f480a0f-b99a-4980-9f96-d7b058dbdc65",
+    "SoLuong": 59,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4f480a0f-b99a-4980-9f96-d7b058dbdc65",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4f480a0f-b99a-4980-9f96-d7b058dbdc65",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "85997673-3812-4c53-aa36-7c45a7c2dc93",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "85997673-3812-4c53-aa36-7c45a7c2dc93",
+    "SoLuong": 42,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "85997673-3812-4c53-aa36-7c45a7c2dc93",
+    "SoLuong": 36,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "85997673-3812-4c53-aa36-7c45a7c2dc93",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "85997673-3812-4c53-aa36-7c45a7c2dc93",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6e489934-c8a0-42de-89d8-71d257bd2b43",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6e489934-c8a0-42de-89d8-71d257bd2b43",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6e489934-c8a0-42de-89d8-71d257bd2b43",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6e489934-c8a0-42de-89d8-71d257bd2b43",
+    "SoLuong": 45,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6e489934-c8a0-42de-89d8-71d257bd2b43",
+    "SoLuong": 36,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "59101d5d-3055-41d3-805e-c164d8627255",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "59101d5d-3055-41d3-805e-c164d8627255",
+    "SoLuong": 43,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "59101d5d-3055-41d3-805e-c164d8627255",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "59101d5d-3055-41d3-805e-c164d8627255",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "59101d5d-3055-41d3-805e-c164d8627255",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d026ae11-a100-44fb-89fc-320339d79a37",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d026ae11-a100-44fb-89fc-320339d79a37",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d026ae11-a100-44fb-89fc-320339d79a37",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d026ae11-a100-44fb-89fc-320339d79a37",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d026ae11-a100-44fb-89fc-320339d79a37",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c261ea41-80ce-40ca-b4a5-cf7770fe4445",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c261ea41-80ce-40ca-b4a5-cf7770fe4445",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c261ea41-80ce-40ca-b4a5-cf7770fe4445",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c261ea41-80ce-40ca-b4a5-cf7770fe4445",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c261ea41-80ce-40ca-b4a5-cf7770fe4445",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "00397ceb-fcdd-4e47-87ea-d5643e961357",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "00397ceb-fcdd-4e47-87ea-d5643e961357",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "00397ceb-fcdd-4e47-87ea-d5643e961357",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "00397ceb-fcdd-4e47-87ea-d5643e961357",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "00397ceb-fcdd-4e47-87ea-d5643e961357",
+    "SoLuong": 100,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "080e06f5-b7ce-477f-ae60-475f626f9cde",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "080e06f5-b7ce-477f-ae60-475f626f9cde",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "080e06f5-b7ce-477f-ae60-475f626f9cde",
+    "SoLuong": 98,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "080e06f5-b7ce-477f-ae60-475f626f9cde",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "080e06f5-b7ce-477f-ae60-475f626f9cde",
+    "SoLuong": 26,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c1d7237b-eaa4-48ee-9723-7ca4a8f446a9",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c1d7237b-eaa4-48ee-9723-7ca4a8f446a9",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c1d7237b-eaa4-48ee-9723-7ca4a8f446a9",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c1d7237b-eaa4-48ee-9723-7ca4a8f446a9",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c1d7237b-eaa4-48ee-9723-7ca4a8f446a9",
+    "SoLuong": 45,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "47a53665-3c61-4e12-9764-19ac9a609718",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "47a53665-3c61-4e12-9764-19ac9a609718",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "47a53665-3c61-4e12-9764-19ac9a609718",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "47a53665-3c61-4e12-9764-19ac9a609718",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "47a53665-3c61-4e12-9764-19ac9a609718",
+    "SoLuong": 97,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "da3865fe-bfb1-4665-891a-017ec9be4190",
+    "SoLuong": 65,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "da3865fe-bfb1-4665-891a-017ec9be4190",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "da3865fe-bfb1-4665-891a-017ec9be4190",
+    "SoLuong": 97,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "da3865fe-bfb1-4665-891a-017ec9be4190",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "da3865fe-bfb1-4665-891a-017ec9be4190",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "87aad6f8-4d53-4c03-a79d-ed6b9794c666",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "87aad6f8-4d53-4c03-a79d-ed6b9794c666",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "87aad6f8-4d53-4c03-a79d-ed6b9794c666",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "87aad6f8-4d53-4c03-a79d-ed6b9794c666",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "87aad6f8-4d53-4c03-a79d-ed6b9794c666",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0c91c044-c97a-4e4e-a0a9-03b59d8ad1da",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0c91c044-c97a-4e4e-a0a9-03b59d8ad1da",
+    "SoLuong": 56,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0c91c044-c97a-4e4e-a0a9-03b59d8ad1da",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0c91c044-c97a-4e4e-a0a9-03b59d8ad1da",
+    "SoLuong": 100,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0c91c044-c97a-4e4e-a0a9-03b59d8ad1da",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a940a0c5-10c1-49c9-81f3-f05b3986963d",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a940a0c5-10c1-49c9-81f3-f05b3986963d",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a940a0c5-10c1-49c9-81f3-f05b3986963d",
+    "SoLuong": 32,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a940a0c5-10c1-49c9-81f3-f05b3986963d",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a940a0c5-10c1-49c9-81f3-f05b3986963d",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "81a63247-dac3-4d02-b12a-00fb22a98978",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "81a63247-dac3-4d02-b12a-00fb22a98978",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "81a63247-dac3-4d02-b12a-00fb22a98978",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "81a63247-dac3-4d02-b12a-00fb22a98978",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "81a63247-dac3-4d02-b12a-00fb22a98978",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "caea9d12-a291-4ae8-85c9-42d82fb3e9f8",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "caea9d12-a291-4ae8-85c9-42d82fb3e9f8",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "caea9d12-a291-4ae8-85c9-42d82fb3e9f8",
+    "SoLuong": 43,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "caea9d12-a291-4ae8-85c9-42d82fb3e9f8",
+    "SoLuong": 50,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "caea9d12-a291-4ae8-85c9-42d82fb3e9f8",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3f84344a-af6b-45d3-a30d-39a5db0171b6",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3f84344a-af6b-45d3-a30d-39a5db0171b6",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3f84344a-af6b-45d3-a30d-39a5db0171b6",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3f84344a-af6b-45d3-a30d-39a5db0171b6",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3f84344a-af6b-45d3-a30d-39a5db0171b6",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a23652a6-7ae7-4515-b7d2-54932441cafb",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a23652a6-7ae7-4515-b7d2-54932441cafb",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a23652a6-7ae7-4515-b7d2-54932441cafb",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a23652a6-7ae7-4515-b7d2-54932441cafb",
+    "SoLuong": 25,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a23652a6-7ae7-4515-b7d2-54932441cafb",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "28b535e2-0c56-424f-88ad-6bec638ce41a",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "28b535e2-0c56-424f-88ad-6bec638ce41a",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "28b535e2-0c56-424f-88ad-6bec638ce41a",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "28b535e2-0c56-424f-88ad-6bec638ce41a",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "28b535e2-0c56-424f-88ad-6bec638ce41a",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a7ea76ba-5d00-425c-ba4a-cd34214b8954",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a7ea76ba-5d00-425c-ba4a-cd34214b8954",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a7ea76ba-5d00-425c-ba4a-cd34214b8954",
+    "SoLuong": 26,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a7ea76ba-5d00-425c-ba4a-cd34214b8954",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a7ea76ba-5d00-425c-ba4a-cd34214b8954",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cc20d2e1-04ed-4356-8642-6fe00dad3123",
+    "SoLuong": 39,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cc20d2e1-04ed-4356-8642-6fe00dad3123",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cc20d2e1-04ed-4356-8642-6fe00dad3123",
+    "SoLuong": 95,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cc20d2e1-04ed-4356-8642-6fe00dad3123",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cc20d2e1-04ed-4356-8642-6fe00dad3123",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "251bb74f-0546-4a77-b740-d4264951c0d6",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "251bb74f-0546-4a77-b740-d4264951c0d6",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "251bb74f-0546-4a77-b740-d4264951c0d6",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "251bb74f-0546-4a77-b740-d4264951c0d6",
+    "SoLuong": 94,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "251bb74f-0546-4a77-b740-d4264951c0d6",
+    "SoLuong": 91,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "950ead1e-9b4b-45d5-86e9-3327e0b03654",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "950ead1e-9b4b-45d5-86e9-3327e0b03654",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "950ead1e-9b4b-45d5-86e9-3327e0b03654",
+    "SoLuong": 30,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "950ead1e-9b4b-45d5-86e9-3327e0b03654",
+    "SoLuong": 99,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "950ead1e-9b4b-45d5-86e9-3327e0b03654",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4fca7d5a-d209-4fcf-9bee-e04adfed97d2",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4fca7d5a-d209-4fcf-9bee-e04adfed97d2",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4fca7d5a-d209-4fcf-9bee-e04adfed97d2",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4fca7d5a-d209-4fcf-9bee-e04adfed97d2",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4fca7d5a-d209-4fcf-9bee-e04adfed97d2",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2492c688-0bfb-4213-8e05-968d27572250",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2492c688-0bfb-4213-8e05-968d27572250",
+    "SoLuong": 79,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2492c688-0bfb-4213-8e05-968d27572250",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2492c688-0bfb-4213-8e05-968d27572250",
+    "SoLuong": 48,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2492c688-0bfb-4213-8e05-968d27572250",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e4fe2907-67d7-4443-a04d-d3e1f4fe477a",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e4fe2907-67d7-4443-a04d-d3e1f4fe477a",
+    "SoLuong": 23,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e4fe2907-67d7-4443-a04d-d3e1f4fe477a",
+    "SoLuong": 16,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e4fe2907-67d7-4443-a04d-d3e1f4fe477a",
+    "SoLuong": 45,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e4fe2907-67d7-4443-a04d-d3e1f4fe477a",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4224d4eb-060d-486d-876a-57535672ac4a",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4224d4eb-060d-486d-876a-57535672ac4a",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4224d4eb-060d-486d-876a-57535672ac4a",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4224d4eb-060d-486d-876a-57535672ac4a",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4224d4eb-060d-486d-876a-57535672ac4a",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "eca97831-9556-4868-890d-b97bad414f69",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "eca97831-9556-4868-890d-b97bad414f69",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "eca97831-9556-4868-890d-b97bad414f69",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "eca97831-9556-4868-890d-b97bad414f69",
+    "SoLuong": 20,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "eca97831-9556-4868-890d-b97bad414f69",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ec0dcc6f-91a1-4af8-bb78-57872e647e5d",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ec0dcc6f-91a1-4af8-bb78-57872e647e5d",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ec0dcc6f-91a1-4af8-bb78-57872e647e5d",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ec0dcc6f-91a1-4af8-bb78-57872e647e5d",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ec0dcc6f-91a1-4af8-bb78-57872e647e5d",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "dc9223ad-f610-4db3-adb8-c18d6e3c496b",
+    "SoLuong": 87,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "dc9223ad-f610-4db3-adb8-c18d6e3c496b",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "dc9223ad-f610-4db3-adb8-c18d6e3c496b",
+    "SoLuong": 42,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "dc9223ad-f610-4db3-adb8-c18d6e3c496b",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "dc9223ad-f610-4db3-adb8-c18d6e3c496b",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ef6afc46-6033-4bd3-8906-5b5debab2086",
+    "SoLuong": 76,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ef6afc46-6033-4bd3-8906-5b5debab2086",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ef6afc46-6033-4bd3-8906-5b5debab2086",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ef6afc46-6033-4bd3-8906-5b5debab2086",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ef6afc46-6033-4bd3-8906-5b5debab2086",
+    "SoLuong": 58,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1b0d2676-ce1a-464e-af4f-b8a36efac843",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1b0d2676-ce1a-464e-af4f-b8a36efac843",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1b0d2676-ce1a-464e-af4f-b8a36efac843",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1b0d2676-ce1a-464e-af4f-b8a36efac843",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1b0d2676-ce1a-464e-af4f-b8a36efac843",
+    "SoLuong": 26,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6710a313-aef5-4e7c-9094-d3a8909e1b46",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6710a313-aef5-4e7c-9094-d3a8909e1b46",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6710a313-aef5-4e7c-9094-d3a8909e1b46",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6710a313-aef5-4e7c-9094-d3a8909e1b46",
+    "SoLuong": 36,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6710a313-aef5-4e7c-9094-d3a8909e1b46",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b5ec12db-83f9-4c15-92bc-f769a70b7dcc",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b5ec12db-83f9-4c15-92bc-f769a70b7dcc",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b5ec12db-83f9-4c15-92bc-f769a70b7dcc",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b5ec12db-83f9-4c15-92bc-f769a70b7dcc",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b5ec12db-83f9-4c15-92bc-f769a70b7dcc",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f212a4e8-4a69-435f-917b-32a2bdd7e19d",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f212a4e8-4a69-435f-917b-32a2bdd7e19d",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f212a4e8-4a69-435f-917b-32a2bdd7e19d",
+    "SoLuong": 68,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f212a4e8-4a69-435f-917b-32a2bdd7e19d",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f212a4e8-4a69-435f-917b-32a2bdd7e19d",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0a89d6c0-c527-4148-94b2-043574bb3c97",
+    "SoLuong": 32,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0a89d6c0-c527-4148-94b2-043574bb3c97",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0a89d6c0-c527-4148-94b2-043574bb3c97",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0a89d6c0-c527-4148-94b2-043574bb3c97",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0a89d6c0-c527-4148-94b2-043574bb3c97",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "415d0d11-90c8-4281-8851-ae838c2234ca",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "415d0d11-90c8-4281-8851-ae838c2234ca",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "415d0d11-90c8-4281-8851-ae838c2234ca",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "415d0d11-90c8-4281-8851-ae838c2234ca",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "415d0d11-90c8-4281-8851-ae838c2234ca",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2dd5c7c5-5a53-409c-9497-bdd2570710af",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2dd5c7c5-5a53-409c-9497-bdd2570710af",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2dd5c7c5-5a53-409c-9497-bdd2570710af",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2dd5c7c5-5a53-409c-9497-bdd2570710af",
+    "SoLuong": 36,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2dd5c7c5-5a53-409c-9497-bdd2570710af",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "998bf7b5-824c-46b5-a8d4-721c27f4f7d8",
+    "SoLuong": 15,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "998bf7b5-824c-46b5-a8d4-721c27f4f7d8",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "998bf7b5-824c-46b5-a8d4-721c27f4f7d8",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "998bf7b5-824c-46b5-a8d4-721c27f4f7d8",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "998bf7b5-824c-46b5-a8d4-721c27f4f7d8",
+    "SoLuong": 44,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e1c1cd86-8856-42e8-9c39-bd69d15fea22",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e1c1cd86-8856-42e8-9c39-bd69d15fea22",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e1c1cd86-8856-42e8-9c39-bd69d15fea22",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e1c1cd86-8856-42e8-9c39-bd69d15fea22",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e1c1cd86-8856-42e8-9c39-bd69d15fea22",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ca02c5c7-37bd-43b3-b178-1ace7626240b",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ca02c5c7-37bd-43b3-b178-1ace7626240b",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ca02c5c7-37bd-43b3-b178-1ace7626240b",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ca02c5c7-37bd-43b3-b178-1ace7626240b",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ca02c5c7-37bd-43b3-b178-1ace7626240b",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1bac8b2c-e420-4305-8695-e41731fc9617",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1bac8b2c-e420-4305-8695-e41731fc9617",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1bac8b2c-e420-4305-8695-e41731fc9617",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1bac8b2c-e420-4305-8695-e41731fc9617",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1bac8b2c-e420-4305-8695-e41731fc9617",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "55899fd6-1e10-421f-b144-d72f9b708b8b",
+    "SoLuong": 61,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "55899fd6-1e10-421f-b144-d72f9b708b8b",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "55899fd6-1e10-421f-b144-d72f9b708b8b",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "55899fd6-1e10-421f-b144-d72f9b708b8b",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "55899fd6-1e10-421f-b144-d72f9b708b8b",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "50e5ea64-976e-4b1f-8ccf-25362a143a3b",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "50e5ea64-976e-4b1f-8ccf-25362a143a3b",
+    "SoLuong": 43,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "50e5ea64-976e-4b1f-8ccf-25362a143a3b",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "50e5ea64-976e-4b1f-8ccf-25362a143a3b",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "50e5ea64-976e-4b1f-8ccf-25362a143a3b",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "47485f50-e1b7-4fad-8777-5c143a9739df",
+    "SoLuong": 59,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "47485f50-e1b7-4fad-8777-5c143a9739df",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "47485f50-e1b7-4fad-8777-5c143a9739df",
+    "SoLuong": 58,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "47485f50-e1b7-4fad-8777-5c143a9739df",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "47485f50-e1b7-4fad-8777-5c143a9739df",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "67ae1734-009b-4525-bc2e-1d3a882987a6",
+    "SoLuong": 16,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "67ae1734-009b-4525-bc2e-1d3a882987a6",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "67ae1734-009b-4525-bc2e-1d3a882987a6",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "67ae1734-009b-4525-bc2e-1d3a882987a6",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "67ae1734-009b-4525-bc2e-1d3a882987a6",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5efde13c-1486-48cf-8416-f76bd5981be7",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5efde13c-1486-48cf-8416-f76bd5981be7",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5efde13c-1486-48cf-8416-f76bd5981be7",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5efde13c-1486-48cf-8416-f76bd5981be7",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5efde13c-1486-48cf-8416-f76bd5981be7",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6d7de0fb-5db1-46e2-ab19-6670c8f03b5c",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6d7de0fb-5db1-46e2-ab19-6670c8f03b5c",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6d7de0fb-5db1-46e2-ab19-6670c8f03b5c",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6d7de0fb-5db1-46e2-ab19-6670c8f03b5c",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6d7de0fb-5db1-46e2-ab19-6670c8f03b5c",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "be369742-da5d-4bbf-988a-a1d4e0f75075",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "be369742-da5d-4bbf-988a-a1d4e0f75075",
+    "SoLuong": 23,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "be369742-da5d-4bbf-988a-a1d4e0f75075",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "be369742-da5d-4bbf-988a-a1d4e0f75075",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "be369742-da5d-4bbf-988a-a1d4e0f75075",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4da173aa-6421-49a7-9e66-863b703244d8",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4da173aa-6421-49a7-9e66-863b703244d8",
+    "SoLuong": 56,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4da173aa-6421-49a7-9e66-863b703244d8",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4da173aa-6421-49a7-9e66-863b703244d8",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4da173aa-6421-49a7-9e66-863b703244d8",
+    "SoLuong": 13,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a869009b-227e-48a3-8452-676b2bb6a179",
+    "SoLuong": 58,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a869009b-227e-48a3-8452-676b2bb6a179",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a869009b-227e-48a3-8452-676b2bb6a179",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a869009b-227e-48a3-8452-676b2bb6a179",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a869009b-227e-48a3-8452-676b2bb6a179",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1e1b5197-a342-45db-b6e4-a6036f0bc348",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1e1b5197-a342-45db-b6e4-a6036f0bc348",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1e1b5197-a342-45db-b6e4-a6036f0bc348",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1e1b5197-a342-45db-b6e4-a6036f0bc348",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1e1b5197-a342-45db-b6e4-a6036f0bc348",
+    "SoLuong": 32,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8becd628-2fff-43d6-9de5-73d9146cece1",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8becd628-2fff-43d6-9de5-73d9146cece1",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8becd628-2fff-43d6-9de5-73d9146cece1",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8becd628-2fff-43d6-9de5-73d9146cece1",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8becd628-2fff-43d6-9de5-73d9146cece1",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9275fc83-8ca0-4c95-b618-2e5bbf0b1be7",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9275fc83-8ca0-4c95-b618-2e5bbf0b1be7",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9275fc83-8ca0-4c95-b618-2e5bbf0b1be7",
+    "SoLuong": 25,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9275fc83-8ca0-4c95-b618-2e5bbf0b1be7",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9275fc83-8ca0-4c95-b618-2e5bbf0b1be7",
+    "SoLuong": 34,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3add5649-1fc2-420c-90c7-adf6e644894a",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3add5649-1fc2-420c-90c7-adf6e644894a",
+    "SoLuong": 86,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3add5649-1fc2-420c-90c7-adf6e644894a",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3add5649-1fc2-420c-90c7-adf6e644894a",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3add5649-1fc2-420c-90c7-adf6e644894a",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "125e6639-6f89-4893-b986-c7df84cfa1eb",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "125e6639-6f89-4893-b986-c7df84cfa1eb",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "125e6639-6f89-4893-b986-c7df84cfa1eb",
+    "SoLuong": 23,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "125e6639-6f89-4893-b986-c7df84cfa1eb",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "125e6639-6f89-4893-b986-c7df84cfa1eb",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "353156f2-dcbc-4e05-b9d9-ac714969ca02",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "353156f2-dcbc-4e05-b9d9-ac714969ca02",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "353156f2-dcbc-4e05-b9d9-ac714969ca02",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "353156f2-dcbc-4e05-b9d9-ac714969ca02",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "353156f2-dcbc-4e05-b9d9-ac714969ca02",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "08ff93cd-f88b-4a2c-a039-a388d4183cb8",
+    "SoLuong": 20,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "08ff93cd-f88b-4a2c-a039-a388d4183cb8",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "08ff93cd-f88b-4a2c-a039-a388d4183cb8",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "08ff93cd-f88b-4a2c-a039-a388d4183cb8",
+    "SoLuong": 65,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "08ff93cd-f88b-4a2c-a039-a388d4183cb8",
+    "SoLuong": 32,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2119445e-7142-4c25-b62c-da2a896bd02f",
+    "SoLuong": 39,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2119445e-7142-4c25-b62c-da2a896bd02f",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2119445e-7142-4c25-b62c-da2a896bd02f",
+    "SoLuong": 10,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2119445e-7142-4c25-b62c-da2a896bd02f",
+    "SoLuong": 32,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2119445e-7142-4c25-b62c-da2a896bd02f",
+    "SoLuong": 65,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e79437aa-0668-47df-b915-054753270df3",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e79437aa-0668-47df-b915-054753270df3",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e79437aa-0668-47df-b915-054753270df3",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e79437aa-0668-47df-b915-054753270df3",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e79437aa-0668-47df-b915-054753270df3",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6b52c1a6-9d96-47cf-8d89-a6036185098c",
+    "SoLuong": 16,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6b52c1a6-9d96-47cf-8d89-a6036185098c",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6b52c1a6-9d96-47cf-8d89-a6036185098c",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6b52c1a6-9d96-47cf-8d89-a6036185098c",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6b52c1a6-9d96-47cf-8d89-a6036185098c",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f235f304-e1ff-426f-a857-d36a0e02e26e",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f235f304-e1ff-426f-a857-d36a0e02e26e",
+    "SoLuong": 61,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f235f304-e1ff-426f-a857-d36a0e02e26e",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f235f304-e1ff-426f-a857-d36a0e02e26e",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f235f304-e1ff-426f-a857-d36a0e02e26e",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "657aa831-57b2-4eca-ab77-910088961b03",
+    "SoLuong": 59,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "657aa831-57b2-4eca-ab77-910088961b03",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "657aa831-57b2-4eca-ab77-910088961b03",
+    "SoLuong": 42,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "657aa831-57b2-4eca-ab77-910088961b03",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "657aa831-57b2-4eca-ab77-910088961b03",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "75406bc5-b05d-4fdb-8a68-1dd77434250b",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "75406bc5-b05d-4fdb-8a68-1dd77434250b",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "75406bc5-b05d-4fdb-8a68-1dd77434250b",
+    "SoLuong": 15,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "75406bc5-b05d-4fdb-8a68-1dd77434250b",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "75406bc5-b05d-4fdb-8a68-1dd77434250b",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e52f1e94-8b0c-42b6-bc9b-6aaa3b3e8de3",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e52f1e94-8b0c-42b6-bc9b-6aaa3b3e8de3",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e52f1e94-8b0c-42b6-bc9b-6aaa3b3e8de3",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e52f1e94-8b0c-42b6-bc9b-6aaa3b3e8de3",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e52f1e94-8b0c-42b6-bc9b-6aaa3b3e8de3",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "eef7475a-be86-4f8d-96cb-624f347a0d02",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "eef7475a-be86-4f8d-96cb-624f347a0d02",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "eef7475a-be86-4f8d-96cb-624f347a0d02",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "eef7475a-be86-4f8d-96cb-624f347a0d02",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "eef7475a-be86-4f8d-96cb-624f347a0d02",
+    "SoLuong": 43,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "35a1bb8d-dfcd-44ef-833c-c0cc8cec085f",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "35a1bb8d-dfcd-44ef-833c-c0cc8cec085f",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "35a1bb8d-dfcd-44ef-833c-c0cc8cec085f",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "35a1bb8d-dfcd-44ef-833c-c0cc8cec085f",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "35a1bb8d-dfcd-44ef-833c-c0cc8cec085f",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "dd682177-3fef-4a0d-a099-ff6d3736a466",
+    "SoLuong": 29,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "dd682177-3fef-4a0d-a099-ff6d3736a466",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "dd682177-3fef-4a0d-a099-ff6d3736a466",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "dd682177-3fef-4a0d-a099-ff6d3736a466",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "dd682177-3fef-4a0d-a099-ff6d3736a466",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "61532563-d3fe-4452-9eaa-177e80227c95",
+    "SoLuong": 32,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "61532563-d3fe-4452-9eaa-177e80227c95",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "61532563-d3fe-4452-9eaa-177e80227c95",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "61532563-d3fe-4452-9eaa-177e80227c95",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "61532563-d3fe-4452-9eaa-177e80227c95",
+    "SoLuong": 45,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6d728836-fdc0-4979-9387-00e1f3ddd343",
+    "SoLuong": 36,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6d728836-fdc0-4979-9387-00e1f3ddd343",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6d728836-fdc0-4979-9387-00e1f3ddd343",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6d728836-fdc0-4979-9387-00e1f3ddd343",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6d728836-fdc0-4979-9387-00e1f3ddd343",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d2505108-4c24-4184-9865-c09e42d88990",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d2505108-4c24-4184-9865-c09e42d88990",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d2505108-4c24-4184-9865-c09e42d88990",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d2505108-4c24-4184-9865-c09e42d88990",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d2505108-4c24-4184-9865-c09e42d88990",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3f80405d-63f5-4976-89be-bb25b483baff",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3f80405d-63f5-4976-89be-bb25b483baff",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3f80405d-63f5-4976-89be-bb25b483baff",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3f80405d-63f5-4976-89be-bb25b483baff",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3f80405d-63f5-4976-89be-bb25b483baff",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9a3652d4-9cd8-4bf3-9c1e-c36ad70d1150",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9a3652d4-9cd8-4bf3-9c1e-c36ad70d1150",
+    "SoLuong": 92,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9a3652d4-9cd8-4bf3-9c1e-c36ad70d1150",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9a3652d4-9cd8-4bf3-9c1e-c36ad70d1150",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9a3652d4-9cd8-4bf3-9c1e-c36ad70d1150",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "09d96279-f7e3-4637-9ba5-ef0d00382286",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "09d96279-f7e3-4637-9ba5-ef0d00382286",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "09d96279-f7e3-4637-9ba5-ef0d00382286",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "09d96279-f7e3-4637-9ba5-ef0d00382286",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "09d96279-f7e3-4637-9ba5-ef0d00382286",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b1a64f54-2ed2-44fa-9a5a-7baebf65b6bc",
+    "SoLuong": 50,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b1a64f54-2ed2-44fa-9a5a-7baebf65b6bc",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b1a64f54-2ed2-44fa-9a5a-7baebf65b6bc",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b1a64f54-2ed2-44fa-9a5a-7baebf65b6bc",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b1a64f54-2ed2-44fa-9a5a-7baebf65b6bc",
+    "SoLuong": 73,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "28286762-1bf7-4673-8c88-0a154d14e21f",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "28286762-1bf7-4673-8c88-0a154d14e21f",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "28286762-1bf7-4673-8c88-0a154d14e21f",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "28286762-1bf7-4673-8c88-0a154d14e21f",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "28286762-1bf7-4673-8c88-0a154d14e21f",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c04b4bec-8629-4f8a-b03c-7554c10a610b",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c04b4bec-8629-4f8a-b03c-7554c10a610b",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c04b4bec-8629-4f8a-b03c-7554c10a610b",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c04b4bec-8629-4f8a-b03c-7554c10a610b",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c04b4bec-8629-4f8a-b03c-7554c10a610b",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4c757732-a4c9-4d35-ada3-1cc2ec7bbbf5",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4c757732-a4c9-4d35-ada3-1cc2ec7bbbf5",
+    "SoLuong": 79,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4c757732-a4c9-4d35-ada3-1cc2ec7bbbf5",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4c757732-a4c9-4d35-ada3-1cc2ec7bbbf5",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4c757732-a4c9-4d35-ada3-1cc2ec7bbbf5",
+    "SoLuong": 13,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a744744c-08aa-4558-a6a2-b6e80cef7e0b",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a744744c-08aa-4558-a6a2-b6e80cef7e0b",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a744744c-08aa-4558-a6a2-b6e80cef7e0b",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a744744c-08aa-4558-a6a2-b6e80cef7e0b",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a744744c-08aa-4558-a6a2-b6e80cef7e0b",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "976bad64-36a8-40f5-9cee-26e74be73d1d",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "976bad64-36a8-40f5-9cee-26e74be73d1d",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "976bad64-36a8-40f5-9cee-26e74be73d1d",
+    "SoLuong": 20,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "976bad64-36a8-40f5-9cee-26e74be73d1d",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "976bad64-36a8-40f5-9cee-26e74be73d1d",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "af953c0e-d140-4f79-a904-23d2bf03875a",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "af953c0e-d140-4f79-a904-23d2bf03875a",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "af953c0e-d140-4f79-a904-23d2bf03875a",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "af953c0e-d140-4f79-a904-23d2bf03875a",
+    "SoLuong": 13,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "af953c0e-d140-4f79-a904-23d2bf03875a",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "38f6af6e-fb34-43b5-a242-9ecf7e7e3956",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "38f6af6e-fb34-43b5-a242-9ecf7e7e3956",
+    "SoLuong": 15,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "38f6af6e-fb34-43b5-a242-9ecf7e7e3956",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "38f6af6e-fb34-43b5-a242-9ecf7e7e3956",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "38f6af6e-fb34-43b5-a242-9ecf7e7e3956",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "80df2a63-49a8-4adb-88fe-e9ac549dd3bc",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "80df2a63-49a8-4adb-88fe-e9ac549dd3bc",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "80df2a63-49a8-4adb-88fe-e9ac549dd3bc",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "80df2a63-49a8-4adb-88fe-e9ac549dd3bc",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "80df2a63-49a8-4adb-88fe-e9ac549dd3bc",
+    "SoLuong": 91,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5242a4d9-dc24-4c9d-ad49-91028ef86eaf",
+    "SoLuong": 65,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5242a4d9-dc24-4c9d-ad49-91028ef86eaf",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5242a4d9-dc24-4c9d-ad49-91028ef86eaf",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5242a4d9-dc24-4c9d-ad49-91028ef86eaf",
+    "SoLuong": 18,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5242a4d9-dc24-4c9d-ad49-91028ef86eaf",
+    "SoLuong": 30,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b15a4aac-93ee-4174-954b-ea0fe80b7078",
+    "SoLuong": 56,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b15a4aac-93ee-4174-954b-ea0fe80b7078",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b15a4aac-93ee-4174-954b-ea0fe80b7078",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b15a4aac-93ee-4174-954b-ea0fe80b7078",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b15a4aac-93ee-4174-954b-ea0fe80b7078",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "852fed7a-0f4b-4f87-a83c-31b9ef37c3d1",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "852fed7a-0f4b-4f87-a83c-31b9ef37c3d1",
+    "SoLuong": 36,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "852fed7a-0f4b-4f87-a83c-31b9ef37c3d1",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "852fed7a-0f4b-4f87-a83c-31b9ef37c3d1",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "852fed7a-0f4b-4f87-a83c-31b9ef37c3d1",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8df599d6-56e4-48eb-9aef-35ca96da9b3f",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8df599d6-56e4-48eb-9aef-35ca96da9b3f",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8df599d6-56e4-48eb-9aef-35ca96da9b3f",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8df599d6-56e4-48eb-9aef-35ca96da9b3f",
+    "SoLuong": 43,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8df599d6-56e4-48eb-9aef-35ca96da9b3f",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5d65e7cb-cfc8-4536-ad41-cd666fa63da0",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5d65e7cb-cfc8-4536-ad41-cd666fa63da0",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5d65e7cb-cfc8-4536-ad41-cd666fa63da0",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5d65e7cb-cfc8-4536-ad41-cd666fa63da0",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5d65e7cb-cfc8-4536-ad41-cd666fa63da0",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fcd13098-b97f-47a2-b443-1370a5722b9e",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fcd13098-b97f-47a2-b443-1370a5722b9e",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fcd13098-b97f-47a2-b443-1370a5722b9e",
+    "SoLuong": 69,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fcd13098-b97f-47a2-b443-1370a5722b9e",
+    "SoLuong": 56,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fcd13098-b97f-47a2-b443-1370a5722b9e",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d7e38869-52c9-4795-9a63-a64ec1197353",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d7e38869-52c9-4795-9a63-a64ec1197353",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d7e38869-52c9-4795-9a63-a64ec1197353",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d7e38869-52c9-4795-9a63-a64ec1197353",
+    "SoLuong": 87,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d7e38869-52c9-4795-9a63-a64ec1197353",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1e62f073-0f50-471c-9255-0b676f4d9682",
+    "SoLuong": 63,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1e62f073-0f50-471c-9255-0b676f4d9682",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1e62f073-0f50-471c-9255-0b676f4d9682",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1e62f073-0f50-471c-9255-0b676f4d9682",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1e62f073-0f50-471c-9255-0b676f4d9682",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8ea43e56-575e-48b4-a0b2-33c7b8b6620c",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8ea43e56-575e-48b4-a0b2-33c7b8b6620c",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8ea43e56-575e-48b4-a0b2-33c7b8b6620c",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8ea43e56-575e-48b4-a0b2-33c7b8b6620c",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8ea43e56-575e-48b4-a0b2-33c7b8b6620c",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fc579d3f-9a1c-499a-b217-4629e462bb0d",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fc579d3f-9a1c-499a-b217-4629e462bb0d",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fc579d3f-9a1c-499a-b217-4629e462bb0d",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fc579d3f-9a1c-499a-b217-4629e462bb0d",
+    "SoLuong": 63,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fc579d3f-9a1c-499a-b217-4629e462bb0d",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "370aead7-16c3-4a9a-9260-af256fa4986a",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "370aead7-16c3-4a9a-9260-af256fa4986a",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "370aead7-16c3-4a9a-9260-af256fa4986a",
+    "SoLuong": 98,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "370aead7-16c3-4a9a-9260-af256fa4986a",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "370aead7-16c3-4a9a-9260-af256fa4986a",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5a9623dc-e87a-4918-86fd-07b6f1eff170",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5a9623dc-e87a-4918-86fd-07b6f1eff170",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5a9623dc-e87a-4918-86fd-07b6f1eff170",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5a9623dc-e87a-4918-86fd-07b6f1eff170",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5a9623dc-e87a-4918-86fd-07b6f1eff170",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "aa0687a7-461c-45e9-a8ca-a0d88812741b",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "aa0687a7-461c-45e9-a8ca-a0d88812741b",
+    "SoLuong": 38,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "aa0687a7-461c-45e9-a8ca-a0d88812741b",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "aa0687a7-461c-45e9-a8ca-a0d88812741b",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "aa0687a7-461c-45e9-a8ca-a0d88812741b",
+    "SoLuong": 20,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7b88473e-1f2c-4915-9712-68404bd5602f",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7b88473e-1f2c-4915-9712-68404bd5602f",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7b88473e-1f2c-4915-9712-68404bd5602f",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7b88473e-1f2c-4915-9712-68404bd5602f",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7b88473e-1f2c-4915-9712-68404bd5602f",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c53f08d4-3f57-41ef-85b0-79dbf90504cb",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c53f08d4-3f57-41ef-85b0-79dbf90504cb",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c53f08d4-3f57-41ef-85b0-79dbf90504cb",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c53f08d4-3f57-41ef-85b0-79dbf90504cb",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c53f08d4-3f57-41ef-85b0-79dbf90504cb",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "258c311d-c5e1-49d0-9472-d24dbfa289be",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "258c311d-c5e1-49d0-9472-d24dbfa289be",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "258c311d-c5e1-49d0-9472-d24dbfa289be",
+    "SoLuong": 100,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "258c311d-c5e1-49d0-9472-d24dbfa289be",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "258c311d-c5e1-49d0-9472-d24dbfa289be",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b8c0ed00-907d-4633-8c51-f7d3d17a3c56",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b8c0ed00-907d-4633-8c51-f7d3d17a3c56",
+    "SoLuong": 42,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b8c0ed00-907d-4633-8c51-f7d3d17a3c56",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b8c0ed00-907d-4633-8c51-f7d3d17a3c56",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b8c0ed00-907d-4633-8c51-f7d3d17a3c56",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7eb0943d-5a1a-4a57-bfbf-f6bb5d4888bb",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7eb0943d-5a1a-4a57-bfbf-f6bb5d4888bb",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7eb0943d-5a1a-4a57-bfbf-f6bb5d4888bb",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7eb0943d-5a1a-4a57-bfbf-f6bb5d4888bb",
+    "SoLuong": 73,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7eb0943d-5a1a-4a57-bfbf-f6bb5d4888bb",
+    "SoLuong": 20,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5a7a57e5-c3ed-4333-8e5d-6c40eaad7f45",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5a7a57e5-c3ed-4333-8e5d-6c40eaad7f45",
+    "SoLuong": 56,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5a7a57e5-c3ed-4333-8e5d-6c40eaad7f45",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5a7a57e5-c3ed-4333-8e5d-6c40eaad7f45",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5a7a57e5-c3ed-4333-8e5d-6c40eaad7f45",
+    "SoLuong": 100,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "dbbb0052-b730-473d-8dba-82f6aa2ca62b",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "dbbb0052-b730-473d-8dba-82f6aa2ca62b",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "dbbb0052-b730-473d-8dba-82f6aa2ca62b",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "dbbb0052-b730-473d-8dba-82f6aa2ca62b",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "dbbb0052-b730-473d-8dba-82f6aa2ca62b",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a5a836ed-41ab-43a3-bfaf-400141037dd8",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a5a836ed-41ab-43a3-bfaf-400141037dd8",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a5a836ed-41ab-43a3-bfaf-400141037dd8",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a5a836ed-41ab-43a3-bfaf-400141037dd8",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a5a836ed-41ab-43a3-bfaf-400141037dd8",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "159d8a66-6dcd-47c1-a84a-b3e88091afa1",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "159d8a66-6dcd-47c1-a84a-b3e88091afa1",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "159d8a66-6dcd-47c1-a84a-b3e88091afa1",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "159d8a66-6dcd-47c1-a84a-b3e88091afa1",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "159d8a66-6dcd-47c1-a84a-b3e88091afa1",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bc522e61-77c9-4bd5-8eea-81884b58abf3",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bc522e61-77c9-4bd5-8eea-81884b58abf3",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bc522e61-77c9-4bd5-8eea-81884b58abf3",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bc522e61-77c9-4bd5-8eea-81884b58abf3",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bc522e61-77c9-4bd5-8eea-81884b58abf3",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "46e95597-abad-418d-ac46-3fc546257147",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "46e95597-abad-418d-ac46-3fc546257147",
+    "SoLuong": 45,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "46e95597-abad-418d-ac46-3fc546257147",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "46e95597-abad-418d-ac46-3fc546257147",
+    "SoLuong": 28,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "46e95597-abad-418d-ac46-3fc546257147",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "28d0a3b0-4ebf-431d-bb93-ab28beb66fd0",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "28d0a3b0-4ebf-431d-bb93-ab28beb66fd0",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "28d0a3b0-4ebf-431d-bb93-ab28beb66fd0",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "28d0a3b0-4ebf-431d-bb93-ab28beb66fd0",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "28d0a3b0-4ebf-431d-bb93-ab28beb66fd0",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9a3933e5-ebee-414e-8a89-64d26426d6df",
+    "SoLuong": 94,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9a3933e5-ebee-414e-8a89-64d26426d6df",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9a3933e5-ebee-414e-8a89-64d26426d6df",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9a3933e5-ebee-414e-8a89-64d26426d6df",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9a3933e5-ebee-414e-8a89-64d26426d6df",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1fafd1ac-57ac-4784-aeb3-5804dcfc4d29",
+    "SoLuong": 58,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1fafd1ac-57ac-4784-aeb3-5804dcfc4d29",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1fafd1ac-57ac-4784-aeb3-5804dcfc4d29",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1fafd1ac-57ac-4784-aeb3-5804dcfc4d29",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1fafd1ac-57ac-4784-aeb3-5804dcfc4d29",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3d1342aa-a46f-4b15-a82f-321e351c9bcc",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3d1342aa-a46f-4b15-a82f-321e351c9bcc",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3d1342aa-a46f-4b15-a82f-321e351c9bcc",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3d1342aa-a46f-4b15-a82f-321e351c9bcc",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3d1342aa-a46f-4b15-a82f-321e351c9bcc",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c49ed772-b767-4325-b06b-cc49325cf8b4",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c49ed772-b767-4325-b06b-cc49325cf8b4",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c49ed772-b767-4325-b06b-cc49325cf8b4",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c49ed772-b767-4325-b06b-cc49325cf8b4",
+    "SoLuong": 90,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c49ed772-b767-4325-b06b-cc49325cf8b4",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cdf9e0db-4d7d-4cae-b68e-49fef42e7f72",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cdf9e0db-4d7d-4cae-b68e-49fef42e7f72",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cdf9e0db-4d7d-4cae-b68e-49fef42e7f72",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cdf9e0db-4d7d-4cae-b68e-49fef42e7f72",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cdf9e0db-4d7d-4cae-b68e-49fef42e7f72",
+    "SoLuong": 59,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2ce37207-72b9-4668-8779-4acdd997834b",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2ce37207-72b9-4668-8779-4acdd997834b",
+    "SoLuong": 16,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2ce37207-72b9-4668-8779-4acdd997834b",
+    "SoLuong": 34,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2ce37207-72b9-4668-8779-4acdd997834b",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2ce37207-72b9-4668-8779-4acdd997834b",
+    "SoLuong": 26,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "170d8d0c-6c61-4de8-be16-221a9dcdaa0a",
+    "SoLuong": 64,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "170d8d0c-6c61-4de8-be16-221a9dcdaa0a",
+    "SoLuong": 20,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "170d8d0c-6c61-4de8-be16-221a9dcdaa0a",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "170d8d0c-6c61-4de8-be16-221a9dcdaa0a",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "170d8d0c-6c61-4de8-be16-221a9dcdaa0a",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ef3c58ac-f792-4eb3-a85d-d6ed365c3525",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ef3c58ac-f792-4eb3-a85d-d6ed365c3525",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ef3c58ac-f792-4eb3-a85d-d6ed365c3525",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ef3c58ac-f792-4eb3-a85d-d6ed365c3525",
+    "SoLuong": 25,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ef3c58ac-f792-4eb3-a85d-d6ed365c3525",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "863324cc-c010-4e73-a657-5182576b5645",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "863324cc-c010-4e73-a657-5182576b5645",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "863324cc-c010-4e73-a657-5182576b5645",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "863324cc-c010-4e73-a657-5182576b5645",
+    "SoLuong": 56,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "863324cc-c010-4e73-a657-5182576b5645",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b40647d6-bfdb-49fd-89eb-fdb767aeee98",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b40647d6-bfdb-49fd-89eb-fdb767aeee98",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b40647d6-bfdb-49fd-89eb-fdb767aeee98",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b40647d6-bfdb-49fd-89eb-fdb767aeee98",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b40647d6-bfdb-49fd-89eb-fdb767aeee98",
+    "SoLuong": 64,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "49712868-1cf1-479d-966e-7cf140211c5c",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "49712868-1cf1-479d-966e-7cf140211c5c",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "49712868-1cf1-479d-966e-7cf140211c5c",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "49712868-1cf1-479d-966e-7cf140211c5c",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "49712868-1cf1-479d-966e-7cf140211c5c",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4f63e53d-1a09-44aa-bb1a-5fa294673f33",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4f63e53d-1a09-44aa-bb1a-5fa294673f33",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4f63e53d-1a09-44aa-bb1a-5fa294673f33",
+    "SoLuong": 23,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4f63e53d-1a09-44aa-bb1a-5fa294673f33",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4f63e53d-1a09-44aa-bb1a-5fa294673f33",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5208defc-2ca2-4520-ba52-20ee27cef780",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5208defc-2ca2-4520-ba52-20ee27cef780",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5208defc-2ca2-4520-ba52-20ee27cef780",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5208defc-2ca2-4520-ba52-20ee27cef780",
+    "SoLuong": 25,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5208defc-2ca2-4520-ba52-20ee27cef780",
+    "SoLuong": 45,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e965e014-984b-4122-9248-51b709f35c88",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e965e014-984b-4122-9248-51b709f35c88",
+    "SoLuong": 25,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e965e014-984b-4122-9248-51b709f35c88",
+    "SoLuong": 44,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e965e014-984b-4122-9248-51b709f35c88",
+    "SoLuong": 97,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e965e014-984b-4122-9248-51b709f35c88",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "72ad52fa-bbc0-43a0-bec2-e148817adc7e",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "72ad52fa-bbc0-43a0-bec2-e148817adc7e",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "72ad52fa-bbc0-43a0-bec2-e148817adc7e",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "72ad52fa-bbc0-43a0-bec2-e148817adc7e",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "72ad52fa-bbc0-43a0-bec2-e148817adc7e",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6f9dc1ea-c03d-4c7e-90c5-3f73b9c949c4",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6f9dc1ea-c03d-4c7e-90c5-3f73b9c949c4",
+    "SoLuong": 97,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6f9dc1ea-c03d-4c7e-90c5-3f73b9c949c4",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6f9dc1ea-c03d-4c7e-90c5-3f73b9c949c4",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6f9dc1ea-c03d-4c7e-90c5-3f73b9c949c4",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e0f079b0-4655-46f7-94ab-b49c73bc4a91",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e0f079b0-4655-46f7-94ab-b49c73bc4a91",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e0f079b0-4655-46f7-94ab-b49c73bc4a91",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e0f079b0-4655-46f7-94ab-b49c73bc4a91",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e0f079b0-4655-46f7-94ab-b49c73bc4a91",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d4e008d4-78cb-41c1-b576-8f75c3044fb5",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d4e008d4-78cb-41c1-b576-8f75c3044fb5",
+    "SoLuong": 92,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d4e008d4-78cb-41c1-b576-8f75c3044fb5",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d4e008d4-78cb-41c1-b576-8f75c3044fb5",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d4e008d4-78cb-41c1-b576-8f75c3044fb5",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3e60e145-1c01-42f6-9505-bef8858ac177",
+    "SoLuong": 16,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3e60e145-1c01-42f6-9505-bef8858ac177",
+    "SoLuong": 84,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3e60e145-1c01-42f6-9505-bef8858ac177",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3e60e145-1c01-42f6-9505-bef8858ac177",
+    "SoLuong": 36,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3e60e145-1c01-42f6-9505-bef8858ac177",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "31ba2b5a-4ce0-4c25-b908-682bd9e5b14f",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "31ba2b5a-4ce0-4c25-b908-682bd9e5b14f",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "31ba2b5a-4ce0-4c25-b908-682bd9e5b14f",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "31ba2b5a-4ce0-4c25-b908-682bd9e5b14f",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "31ba2b5a-4ce0-4c25-b908-682bd9e5b14f",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fe4db017-814c-4294-8d60-d5c73aae3ff7",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fe4db017-814c-4294-8d60-d5c73aae3ff7",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fe4db017-814c-4294-8d60-d5c73aae3ff7",
+    "SoLuong": 45,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fe4db017-814c-4294-8d60-d5c73aae3ff7",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fe4db017-814c-4294-8d60-d5c73aae3ff7",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a1472547-58e7-43b1-a08d-ef507a245fa6",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a1472547-58e7-43b1-a08d-ef507a245fa6",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a1472547-58e7-43b1-a08d-ef507a245fa6",
+    "SoLuong": 97,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a1472547-58e7-43b1-a08d-ef507a245fa6",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a1472547-58e7-43b1-a08d-ef507a245fa6",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c9062a9c-5859-474b-a4a6-a6dbb1342df0",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c9062a9c-5859-474b-a4a6-a6dbb1342df0",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c9062a9c-5859-474b-a4a6-a6dbb1342df0",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c9062a9c-5859-474b-a4a6-a6dbb1342df0",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c9062a9c-5859-474b-a4a6-a6dbb1342df0",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "071257b4-e0cc-4d0e-b2b8-7c77a64b7077",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "071257b4-e0cc-4d0e-b2b8-7c77a64b7077",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "071257b4-e0cc-4d0e-b2b8-7c77a64b7077",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "071257b4-e0cc-4d0e-b2b8-7c77a64b7077",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "071257b4-e0cc-4d0e-b2b8-7c77a64b7077",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b34570b8-2a7a-44de-aacf-fe0f6b6615bc",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b34570b8-2a7a-44de-aacf-fe0f6b6615bc",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b34570b8-2a7a-44de-aacf-fe0f6b6615bc",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b34570b8-2a7a-44de-aacf-fe0f6b6615bc",
+    "SoLuong": 65,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b34570b8-2a7a-44de-aacf-fe0f6b6615bc",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9c132413-6f1e-4c52-be10-f537c30fd71a",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9c132413-6f1e-4c52-be10-f537c30fd71a",
+    "SoLuong": 36,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9c132413-6f1e-4c52-be10-f537c30fd71a",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9c132413-6f1e-4c52-be10-f537c30fd71a",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9c132413-6f1e-4c52-be10-f537c30fd71a",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2dcc1d51-d328-47fb-8669-3faa80a5e66a",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2dcc1d51-d328-47fb-8669-3faa80a5e66a",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2dcc1d51-d328-47fb-8669-3faa80a5e66a",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2dcc1d51-d328-47fb-8669-3faa80a5e66a",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2dcc1d51-d328-47fb-8669-3faa80a5e66a",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "639623b3-849b-4089-b9c5-75d5d63b9cb8",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "639623b3-849b-4089-b9c5-75d5d63b9cb8",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "639623b3-849b-4089-b9c5-75d5d63b9cb8",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "639623b3-849b-4089-b9c5-75d5d63b9cb8",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "639623b3-849b-4089-b9c5-75d5d63b9cb8",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ce94dbbc-0f87-424e-803b-fc7c7b662b40",
+    "SoLuong": 21,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ce94dbbc-0f87-424e-803b-fc7c7b662b40",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ce94dbbc-0f87-424e-803b-fc7c7b662b40",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ce94dbbc-0f87-424e-803b-fc7c7b662b40",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ce94dbbc-0f87-424e-803b-fc7c7b662b40",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a4896c21-efcb-4430-9e06-832ab1a5d851",
+    "SoLuong": 13,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a4896c21-efcb-4430-9e06-832ab1a5d851",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a4896c21-efcb-4430-9e06-832ab1a5d851",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a4896c21-efcb-4430-9e06-832ab1a5d851",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a4896c21-efcb-4430-9e06-832ab1a5d851",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6162cc10-b065-438b-b966-7d337472a654",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6162cc10-b065-438b-b966-7d337472a654",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6162cc10-b065-438b-b966-7d337472a654",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6162cc10-b065-438b-b966-7d337472a654",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6162cc10-b065-438b-b966-7d337472a654",
+    "SoLuong": 97,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0856424a-3fd3-42fd-8948-0c6cee2c4582",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0856424a-3fd3-42fd-8948-0c6cee2c4582",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0856424a-3fd3-42fd-8948-0c6cee2c4582",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0856424a-3fd3-42fd-8948-0c6cee2c4582",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0856424a-3fd3-42fd-8948-0c6cee2c4582",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0e32718b-199e-4638-b546-bea7e1786750",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0e32718b-199e-4638-b546-bea7e1786750",
+    "SoLuong": 10,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0e32718b-199e-4638-b546-bea7e1786750",
+    "SoLuong": 73,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0e32718b-199e-4638-b546-bea7e1786750",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0e32718b-199e-4638-b546-bea7e1786750",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "23b97266-2069-416f-ac0e-ac53f9d0d674",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "23b97266-2069-416f-ac0e-ac53f9d0d674",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "23b97266-2069-416f-ac0e-ac53f9d0d674",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "23b97266-2069-416f-ac0e-ac53f9d0d674",
+    "SoLuong": 87,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "23b97266-2069-416f-ac0e-ac53f9d0d674",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3261eb8a-c478-462a-a3b2-b6b4964472f8",
+    "SoLuong": 26,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3261eb8a-c478-462a-a3b2-b6b4964472f8",
+    "SoLuong": 73,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3261eb8a-c478-462a-a3b2-b6b4964472f8",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3261eb8a-c478-462a-a3b2-b6b4964472f8",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3261eb8a-c478-462a-a3b2-b6b4964472f8",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "533595f0-96e3-448e-af09-7a700fd8624b",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "533595f0-96e3-448e-af09-7a700fd8624b",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "533595f0-96e3-448e-af09-7a700fd8624b",
+    "SoLuong": 92,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "533595f0-96e3-448e-af09-7a700fd8624b",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "533595f0-96e3-448e-af09-7a700fd8624b",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bb597890-2561-4758-b7ff-09f5d4c70c56",
+    "SoLuong": 20,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bb597890-2561-4758-b7ff-09f5d4c70c56",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bb597890-2561-4758-b7ff-09f5d4c70c56",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bb597890-2561-4758-b7ff-09f5d4c70c56",
+    "SoLuong": 23,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bb597890-2561-4758-b7ff-09f5d4c70c56",
+    "SoLuong": 36,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0e2337e3-948a-4f0e-bb79-000748a23f16",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0e2337e3-948a-4f0e-bb79-000748a23f16",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0e2337e3-948a-4f0e-bb79-000748a23f16",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0e2337e3-948a-4f0e-bb79-000748a23f16",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0e2337e3-948a-4f0e-bb79-000748a23f16",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1e1be66c-1098-4bd5-b494-7ca8bfac33f1",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1e1be66c-1098-4bd5-b494-7ca8bfac33f1",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1e1be66c-1098-4bd5-b494-7ca8bfac33f1",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1e1be66c-1098-4bd5-b494-7ca8bfac33f1",
+    "SoLuong": 26,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1e1be66c-1098-4bd5-b494-7ca8bfac33f1",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7bb37de5-a555-4fc9-aeff-c5bfdc96ebaa",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7bb37de5-a555-4fc9-aeff-c5bfdc96ebaa",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7bb37de5-a555-4fc9-aeff-c5bfdc96ebaa",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7bb37de5-a555-4fc9-aeff-c5bfdc96ebaa",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7bb37de5-a555-4fc9-aeff-c5bfdc96ebaa",
+    "SoLuong": 26,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a2a7c97d-8235-4a7d-9ed5-6415df1a942d",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a2a7c97d-8235-4a7d-9ed5-6415df1a942d",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a2a7c97d-8235-4a7d-9ed5-6415df1a942d",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a2a7c97d-8235-4a7d-9ed5-6415df1a942d",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a2a7c97d-8235-4a7d-9ed5-6415df1a942d",
+    "SoLuong": 63,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "88fb5f77-b13b-471d-b430-c2a661c7b15b",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "88fb5f77-b13b-471d-b430-c2a661c7b15b",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "88fb5f77-b13b-471d-b430-c2a661c7b15b",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "88fb5f77-b13b-471d-b430-c2a661c7b15b",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "88fb5f77-b13b-471d-b430-c2a661c7b15b",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3b196eee-8e72-4fa3-84c0-328613de72de",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3b196eee-8e72-4fa3-84c0-328613de72de",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3b196eee-8e72-4fa3-84c0-328613de72de",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3b196eee-8e72-4fa3-84c0-328613de72de",
+    "SoLuong": 50,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3b196eee-8e72-4fa3-84c0-328613de72de",
+    "SoLuong": 59,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1261f039-39a9-45af-807c-29d240d3e7e8",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1261f039-39a9-45af-807c-29d240d3e7e8",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1261f039-39a9-45af-807c-29d240d3e7e8",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1261f039-39a9-45af-807c-29d240d3e7e8",
+    "SoLuong": 42,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1261f039-39a9-45af-807c-29d240d3e7e8",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e9eacd91-b57b-4611-8fb2-9cfd06a9d82a",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e9eacd91-b57b-4611-8fb2-9cfd06a9d82a",
+    "SoLuong": 90,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e9eacd91-b57b-4611-8fb2-9cfd06a9d82a",
+    "SoLuong": 42,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e9eacd91-b57b-4611-8fb2-9cfd06a9d82a",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e9eacd91-b57b-4611-8fb2-9cfd06a9d82a",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e4c04e0d-a55e-479a-88f2-17668438e760",
+    "SoLuong": 25,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e4c04e0d-a55e-479a-88f2-17668438e760",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e4c04e0d-a55e-479a-88f2-17668438e760",
+    "SoLuong": 100,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e4c04e0d-a55e-479a-88f2-17668438e760",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e4c04e0d-a55e-479a-88f2-17668438e760",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "aae5cabb-70d1-4e47-8b4e-b80a4fddf56a",
+    "SoLuong": 38,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "aae5cabb-70d1-4e47-8b4e-b80a4fddf56a",
+    "SoLuong": 25,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "aae5cabb-70d1-4e47-8b4e-b80a4fddf56a",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "aae5cabb-70d1-4e47-8b4e-b80a4fddf56a",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "aae5cabb-70d1-4e47-8b4e-b80a4fddf56a",
+    "SoLuong": 59,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fef88307-116f-409c-9954-12f07f6d0c85",
+    "SoLuong": 79,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fef88307-116f-409c-9954-12f07f6d0c85",
+    "SoLuong": 68,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fef88307-116f-409c-9954-12f07f6d0c85",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fef88307-116f-409c-9954-12f07f6d0c85",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fef88307-116f-409c-9954-12f07f6d0c85",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "390d8b6e-8f83-4db0-af27-da0cc41311d7",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "390d8b6e-8f83-4db0-af27-da0cc41311d7",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "390d8b6e-8f83-4db0-af27-da0cc41311d7",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "390d8b6e-8f83-4db0-af27-da0cc41311d7",
+    "SoLuong": 10,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "390d8b6e-8f83-4db0-af27-da0cc41311d7",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "563da1df-b646-4eaa-abbc-9f5293c98c2f",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "563da1df-b646-4eaa-abbc-9f5293c98c2f",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "563da1df-b646-4eaa-abbc-9f5293c98c2f",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "563da1df-b646-4eaa-abbc-9f5293c98c2f",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "563da1df-b646-4eaa-abbc-9f5293c98c2f",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e0e8e67e-b311-4d5f-9e65-e241e0e10fb4",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e0e8e67e-b311-4d5f-9e65-e241e0e10fb4",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e0e8e67e-b311-4d5f-9e65-e241e0e10fb4",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e0e8e67e-b311-4d5f-9e65-e241e0e10fb4",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e0e8e67e-b311-4d5f-9e65-e241e0e10fb4",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "44d3f154-0788-4c87-8132-be4b825ef782",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "44d3f154-0788-4c87-8132-be4b825ef782",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "44d3f154-0788-4c87-8132-be4b825ef782",
+    "SoLuong": 93,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "44d3f154-0788-4c87-8132-be4b825ef782",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "44d3f154-0788-4c87-8132-be4b825ef782",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "656becb1-d7ca-4c05-a4d0-400e17073fc8",
+    "SoLuong": 73,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "656becb1-d7ca-4c05-a4d0-400e17073fc8",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "656becb1-d7ca-4c05-a4d0-400e17073fc8",
+    "SoLuong": 62,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "656becb1-d7ca-4c05-a4d0-400e17073fc8",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "656becb1-d7ca-4c05-a4d0-400e17073fc8",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e00b5dea-1825-4ab8-9aa5-a94171e576f1",
+    "SoLuong": 26,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e00b5dea-1825-4ab8-9aa5-a94171e576f1",
+    "SoLuong": 56,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e00b5dea-1825-4ab8-9aa5-a94171e576f1",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e00b5dea-1825-4ab8-9aa5-a94171e576f1",
+    "SoLuong": 15,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e00b5dea-1825-4ab8-9aa5-a94171e576f1",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "277b6a66-4281-4b51-9830-bf0e4fec9950",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "277b6a66-4281-4b51-9830-bf0e4fec9950",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "277b6a66-4281-4b51-9830-bf0e4fec9950",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "277b6a66-4281-4b51-9830-bf0e4fec9950",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "277b6a66-4281-4b51-9830-bf0e4fec9950",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "87ddf9b7-fa13-46cb-80b9-b9256fb87a59",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "87ddf9b7-fa13-46cb-80b9-b9256fb87a59",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "87ddf9b7-fa13-46cb-80b9-b9256fb87a59",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "87ddf9b7-fa13-46cb-80b9-b9256fb87a59",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "87ddf9b7-fa13-46cb-80b9-b9256fb87a59",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "25b3e3cd-b216-4ea8-8d6f-7e3949c22625",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "25b3e3cd-b216-4ea8-8d6f-7e3949c22625",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "25b3e3cd-b216-4ea8-8d6f-7e3949c22625",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "25b3e3cd-b216-4ea8-8d6f-7e3949c22625",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "25b3e3cd-b216-4ea8-8d6f-7e3949c22625",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "357cc4ee-d6fd-4ff9-8e37-6624c18a475c",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "357cc4ee-d6fd-4ff9-8e37-6624c18a475c",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "357cc4ee-d6fd-4ff9-8e37-6624c18a475c",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "357cc4ee-d6fd-4ff9-8e37-6624c18a475c",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "357cc4ee-d6fd-4ff9-8e37-6624c18a475c",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "05819728-e7f2-4675-95cb-c4243c8b8ff8",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "05819728-e7f2-4675-95cb-c4243c8b8ff8",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "05819728-e7f2-4675-95cb-c4243c8b8ff8",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "05819728-e7f2-4675-95cb-c4243c8b8ff8",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "05819728-e7f2-4675-95cb-c4243c8b8ff8",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b0186fdb-6010-4ee7-9521-03ce14a5904b",
+    "SoLuong": 10,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b0186fdb-6010-4ee7-9521-03ce14a5904b",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b0186fdb-6010-4ee7-9521-03ce14a5904b",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b0186fdb-6010-4ee7-9521-03ce14a5904b",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b0186fdb-6010-4ee7-9521-03ce14a5904b",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9565962d-39aa-41d7-b21c-5751c402b03e",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9565962d-39aa-41d7-b21c-5751c402b03e",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9565962d-39aa-41d7-b21c-5751c402b03e",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9565962d-39aa-41d7-b21c-5751c402b03e",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9565962d-39aa-41d7-b21c-5751c402b03e",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "74c97dcc-35ff-45f6-a879-0dba6686692d",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "74c97dcc-35ff-45f6-a879-0dba6686692d",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "74c97dcc-35ff-45f6-a879-0dba6686692d",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "74c97dcc-35ff-45f6-a879-0dba6686692d",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "74c97dcc-35ff-45f6-a879-0dba6686692d",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "304e541b-30df-43f5-8fe3-3cc5c4e7d1ed",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "304e541b-30df-43f5-8fe3-3cc5c4e7d1ed",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "304e541b-30df-43f5-8fe3-3cc5c4e7d1ed",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "304e541b-30df-43f5-8fe3-3cc5c4e7d1ed",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "304e541b-30df-43f5-8fe3-3cc5c4e7d1ed",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0f5f0c0d-ec26-41cf-a1bb-1b0d4418b6c2",
+    "SoLuong": 95,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0f5f0c0d-ec26-41cf-a1bb-1b0d4418b6c2",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0f5f0c0d-ec26-41cf-a1bb-1b0d4418b6c2",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0f5f0c0d-ec26-41cf-a1bb-1b0d4418b6c2",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0f5f0c0d-ec26-41cf-a1bb-1b0d4418b6c2",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2a5db755-d0b3-40ee-844f-bf97a66eb6ff",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2a5db755-d0b3-40ee-844f-bf97a66eb6ff",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2a5db755-d0b3-40ee-844f-bf97a66eb6ff",
+    "SoLuong": 39,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2a5db755-d0b3-40ee-844f-bf97a66eb6ff",
+    "SoLuong": 43,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2a5db755-d0b3-40ee-844f-bf97a66eb6ff",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b502fb21-575e-48ec-9fd2-1fb04d902640",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b502fb21-575e-48ec-9fd2-1fb04d902640",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b502fb21-575e-48ec-9fd2-1fb04d902640",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b502fb21-575e-48ec-9fd2-1fb04d902640",
+    "SoLuong": 62,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b502fb21-575e-48ec-9fd2-1fb04d902640",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1cde7523-4b3a-4a51-9bff-9148efae6ec1",
+    "SoLuong": 51,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1cde7523-4b3a-4a51-9bff-9148efae6ec1",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1cde7523-4b3a-4a51-9bff-9148efae6ec1",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1cde7523-4b3a-4a51-9bff-9148efae6ec1",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1cde7523-4b3a-4a51-9bff-9148efae6ec1",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "db16d4d2-8b95-4ad8-95ff-fc545906af16",
+    "SoLuong": 72,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "db16d4d2-8b95-4ad8-95ff-fc545906af16",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "db16d4d2-8b95-4ad8-95ff-fc545906af16",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "db16d4d2-8b95-4ad8-95ff-fc545906af16",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "db16d4d2-8b95-4ad8-95ff-fc545906af16",
+    "SoLuong": 38,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "95f5b82e-618d-4986-9660-63ade86f834c",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "95f5b82e-618d-4986-9660-63ade86f834c",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "95f5b82e-618d-4986-9660-63ade86f834c",
+    "SoLuong": 39,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "95f5b82e-618d-4986-9660-63ade86f834c",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "95f5b82e-618d-4986-9660-63ade86f834c",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ee1ef942-0c52-43f3-9acc-a8d6d8c13df5",
+    "SoLuong": 38,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ee1ef942-0c52-43f3-9acc-a8d6d8c13df5",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ee1ef942-0c52-43f3-9acc-a8d6d8c13df5",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ee1ef942-0c52-43f3-9acc-a8d6d8c13df5",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ee1ef942-0c52-43f3-9acc-a8d6d8c13df5",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0f4b9d92-86d5-4a64-82ed-84bbb47a07a9",
+    "SoLuong": 44,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0f4b9d92-86d5-4a64-82ed-84bbb47a07a9",
+    "SoLuong": 44,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0f4b9d92-86d5-4a64-82ed-84bbb47a07a9",
+    "SoLuong": 32,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0f4b9d92-86d5-4a64-82ed-84bbb47a07a9",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0f4b9d92-86d5-4a64-82ed-84bbb47a07a9",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "37fa2274-d5fe-40fd-a03e-7b3bc254e3d1",
+    "SoLuong": 26,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "37fa2274-d5fe-40fd-a03e-7b3bc254e3d1",
+    "SoLuong": 32,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "37fa2274-d5fe-40fd-a03e-7b3bc254e3d1",
+    "SoLuong": 95,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "37fa2274-d5fe-40fd-a03e-7b3bc254e3d1",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "37fa2274-d5fe-40fd-a03e-7b3bc254e3d1",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ffdba533-24f3-4ea0-98c0-2d4b6cfc6e41",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ffdba533-24f3-4ea0-98c0-2d4b6cfc6e41",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ffdba533-24f3-4ea0-98c0-2d4b6cfc6e41",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ffdba533-24f3-4ea0-98c0-2d4b6cfc6e41",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ffdba533-24f3-4ea0-98c0-2d4b6cfc6e41",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "50cbc796-66cd-49fe-8ca1-4b88e203c5aa",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "50cbc796-66cd-49fe-8ca1-4b88e203c5aa",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "50cbc796-66cd-49fe-8ca1-4b88e203c5aa",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "50cbc796-66cd-49fe-8ca1-4b88e203c5aa",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "50cbc796-66cd-49fe-8ca1-4b88e203c5aa",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "026e6506-7f6f-4046-9b25-7df4a9389783",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "026e6506-7f6f-4046-9b25-7df4a9389783",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "026e6506-7f6f-4046-9b25-7df4a9389783",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "026e6506-7f6f-4046-9b25-7df4a9389783",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "026e6506-7f6f-4046-9b25-7df4a9389783",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3f6a0e6b-c5ea-43cc-82d2-47d0ccf416bd",
+    "SoLuong": 100,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3f6a0e6b-c5ea-43cc-82d2-47d0ccf416bd",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3f6a0e6b-c5ea-43cc-82d2-47d0ccf416bd",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3f6a0e6b-c5ea-43cc-82d2-47d0ccf416bd",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3f6a0e6b-c5ea-43cc-82d2-47d0ccf416bd",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a527d8f7-a143-4a01-b852-8bbd221a77ee",
+    "SoLuong": 26,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a527d8f7-a143-4a01-b852-8bbd221a77ee",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a527d8f7-a143-4a01-b852-8bbd221a77ee",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a527d8f7-a143-4a01-b852-8bbd221a77ee",
+    "SoLuong": 72,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a527d8f7-a143-4a01-b852-8bbd221a77ee",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "539dbbe1-49d8-4ee9-b0e4-3272a082258e",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "539dbbe1-49d8-4ee9-b0e4-3272a082258e",
+    "SoLuong": 23,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "539dbbe1-49d8-4ee9-b0e4-3272a082258e",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "539dbbe1-49d8-4ee9-b0e4-3272a082258e",
+    "SoLuong": 100,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "539dbbe1-49d8-4ee9-b0e4-3272a082258e",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c93b6390-c088-4f88-b552-e0ec381f8bf5",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c93b6390-c088-4f88-b552-e0ec381f8bf5",
+    "SoLuong": 56,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c93b6390-c088-4f88-b552-e0ec381f8bf5",
+    "SoLuong": 34,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c93b6390-c088-4f88-b552-e0ec381f8bf5",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c93b6390-c088-4f88-b552-e0ec381f8bf5",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "44c7f25e-227e-4c7e-ae17-dba38ef1fe6e",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "44c7f25e-227e-4c7e-ae17-dba38ef1fe6e",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "44c7f25e-227e-4c7e-ae17-dba38ef1fe6e",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "44c7f25e-227e-4c7e-ae17-dba38ef1fe6e",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "44c7f25e-227e-4c7e-ae17-dba38ef1fe6e",
+    "SoLuong": 100,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7149952e-ca35-4be5-bd2f-16bacdbe97ad",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7149952e-ca35-4be5-bd2f-16bacdbe97ad",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7149952e-ca35-4be5-bd2f-16bacdbe97ad",
+    "SoLuong": 89,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7149952e-ca35-4be5-bd2f-16bacdbe97ad",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7149952e-ca35-4be5-bd2f-16bacdbe97ad",
+    "SoLuong": 39,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "11317c9c-1b7d-4956-98c7-473b230eefa5",
+    "SoLuong": 13,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "11317c9c-1b7d-4956-98c7-473b230eefa5",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "11317c9c-1b7d-4956-98c7-473b230eefa5",
+    "SoLuong": 16,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "11317c9c-1b7d-4956-98c7-473b230eefa5",
+    "SoLuong": 65,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "11317c9c-1b7d-4956-98c7-473b230eefa5",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "609b97eb-3c04-43b3-944b-245e3c46f4fe",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "609b97eb-3c04-43b3-944b-245e3c46f4fe",
+    "SoLuong": 45,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "609b97eb-3c04-43b3-944b-245e3c46f4fe",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "609b97eb-3c04-43b3-944b-245e3c46f4fe",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "609b97eb-3c04-43b3-944b-245e3c46f4fe",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ae0e7a75-2a30-4744-b8f2-54faa8a190df",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ae0e7a75-2a30-4744-b8f2-54faa8a190df",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ae0e7a75-2a30-4744-b8f2-54faa8a190df",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ae0e7a75-2a30-4744-b8f2-54faa8a190df",
+    "SoLuong": 86,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ae0e7a75-2a30-4744-b8f2-54faa8a190df",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a497893f-1c35-4369-9d4e-71d50e1d5feb",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a497893f-1c35-4369-9d4e-71d50e1d5feb",
+    "SoLuong": 75,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a497893f-1c35-4369-9d4e-71d50e1d5feb",
+    "SoLuong": 36,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a497893f-1c35-4369-9d4e-71d50e1d5feb",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a497893f-1c35-4369-9d4e-71d50e1d5feb",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0677c56f-07b5-4a60-b5f3-703e94d05782",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0677c56f-07b5-4a60-b5f3-703e94d05782",
+    "SoLuong": 42,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0677c56f-07b5-4a60-b5f3-703e94d05782",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0677c56f-07b5-4a60-b5f3-703e94d05782",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0677c56f-07b5-4a60-b5f3-703e94d05782",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ca5fa2bc-b42d-4e9a-9725-ed1565fecc5f",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ca5fa2bc-b42d-4e9a-9725-ed1565fecc5f",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ca5fa2bc-b42d-4e9a-9725-ed1565fecc5f",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ca5fa2bc-b42d-4e9a-9725-ed1565fecc5f",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ca5fa2bc-b42d-4e9a-9725-ed1565fecc5f",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "69e21998-d4ee-4f68-9bd8-e034a7e0ef80",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "69e21998-d4ee-4f68-9bd8-e034a7e0ef80",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "69e21998-d4ee-4f68-9bd8-e034a7e0ef80",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "69e21998-d4ee-4f68-9bd8-e034a7e0ef80",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "69e21998-d4ee-4f68-9bd8-e034a7e0ef80",
+    "SoLuong": 90,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "eedf0895-d6f4-497d-9d5a-cede11be5292",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "eedf0895-d6f4-497d-9d5a-cede11be5292",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "eedf0895-d6f4-497d-9d5a-cede11be5292",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "eedf0895-d6f4-497d-9d5a-cede11be5292",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "eedf0895-d6f4-497d-9d5a-cede11be5292",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "35beda83-e673-4d64-97f6-44c2e274b413",
+    "SoLuong": 18,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "35beda83-e673-4d64-97f6-44c2e274b413",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "35beda83-e673-4d64-97f6-44c2e274b413",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "35beda83-e673-4d64-97f6-44c2e274b413",
+    "SoLuong": 44,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "35beda83-e673-4d64-97f6-44c2e274b413",
+    "SoLuong": 56,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "17fa743c-0b84-443b-940f-c26d505dbbd9",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "17fa743c-0b84-443b-940f-c26d505dbbd9",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "17fa743c-0b84-443b-940f-c26d505dbbd9",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "17fa743c-0b84-443b-940f-c26d505dbbd9",
+    "SoLuong": 34,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "17fa743c-0b84-443b-940f-c26d505dbbd9",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "edbafba4-dd22-4cda-870d-1d7597bf6120",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "edbafba4-dd22-4cda-870d-1d7597bf6120",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "edbafba4-dd22-4cda-870d-1d7597bf6120",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "edbafba4-dd22-4cda-870d-1d7597bf6120",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "edbafba4-dd22-4cda-870d-1d7597bf6120",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4d8663f2-eba0-46b6-a6d4-19b7f6e5bcba",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4d8663f2-eba0-46b6-a6d4-19b7f6e5bcba",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4d8663f2-eba0-46b6-a6d4-19b7f6e5bcba",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4d8663f2-eba0-46b6-a6d4-19b7f6e5bcba",
+    "SoLuong": 32,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4d8663f2-eba0-46b6-a6d4-19b7f6e5bcba",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b323f33d-ea12-4e5c-8636-e10ba0ba7429",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b323f33d-ea12-4e5c-8636-e10ba0ba7429",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b323f33d-ea12-4e5c-8636-e10ba0ba7429",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b323f33d-ea12-4e5c-8636-e10ba0ba7429",
+    "SoLuong": 94,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b323f33d-ea12-4e5c-8636-e10ba0ba7429",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1794b36d-b3cd-43bf-b347-d519bb5558fb",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1794b36d-b3cd-43bf-b347-d519bb5558fb",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1794b36d-b3cd-43bf-b347-d519bb5558fb",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1794b36d-b3cd-43bf-b347-d519bb5558fb",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1794b36d-b3cd-43bf-b347-d519bb5558fb",
+    "SoLuong": 13,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ba0fc4c9-f167-49d9-b9fe-cb5d43697796",
+    "SoLuong": 58,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ba0fc4c9-f167-49d9-b9fe-cb5d43697796",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ba0fc4c9-f167-49d9-b9fe-cb5d43697796",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ba0fc4c9-f167-49d9-b9fe-cb5d43697796",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ba0fc4c9-f167-49d9-b9fe-cb5d43697796",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "25d03fae-cf7d-46c0-81d7-60e724a4fe32",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "25d03fae-cf7d-46c0-81d7-60e724a4fe32",
+    "SoLuong": 76,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "25d03fae-cf7d-46c0-81d7-60e724a4fe32",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "25d03fae-cf7d-46c0-81d7-60e724a4fe32",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "25d03fae-cf7d-46c0-81d7-60e724a4fe32",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7785f481-5b8d-49e1-ac2d-47ce26f892dd",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7785f481-5b8d-49e1-ac2d-47ce26f892dd",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7785f481-5b8d-49e1-ac2d-47ce26f892dd",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7785f481-5b8d-49e1-ac2d-47ce26f892dd",
+    "SoLuong": 58,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7785f481-5b8d-49e1-ac2d-47ce26f892dd",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6b2340b4-b2dc-4cb5-9cf3-853a535c8013",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6b2340b4-b2dc-4cb5-9cf3-853a535c8013",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6b2340b4-b2dc-4cb5-9cf3-853a535c8013",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6b2340b4-b2dc-4cb5-9cf3-853a535c8013",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6b2340b4-b2dc-4cb5-9cf3-853a535c8013",
+    "SoLuong": 28,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d29576d7-7c6d-445e-bbe2-0d5d4482c8bf",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d29576d7-7c6d-445e-bbe2-0d5d4482c8bf",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d29576d7-7c6d-445e-bbe2-0d5d4482c8bf",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d29576d7-7c6d-445e-bbe2-0d5d4482c8bf",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d29576d7-7c6d-445e-bbe2-0d5d4482c8bf",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f4af29eb-80dd-44b1-a962-c6a873cfce74",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f4af29eb-80dd-44b1-a962-c6a873cfce74",
+    "SoLuong": 61,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f4af29eb-80dd-44b1-a962-c6a873cfce74",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f4af29eb-80dd-44b1-a962-c6a873cfce74",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f4af29eb-80dd-44b1-a962-c6a873cfce74",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "31e0c1bd-92f2-406c-a6fd-9cf39a79be0c",
+    "SoLuong": 21,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "31e0c1bd-92f2-406c-a6fd-9cf39a79be0c",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "31e0c1bd-92f2-406c-a6fd-9cf39a79be0c",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "31e0c1bd-92f2-406c-a6fd-9cf39a79be0c",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "31e0c1bd-92f2-406c-a6fd-9cf39a79be0c",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "72a131c7-a93c-404c-bd37-9ac5461d6d74",
+    "SoLuong": 34,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "72a131c7-a93c-404c-bd37-9ac5461d6d74",
+    "SoLuong": 72,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "72a131c7-a93c-404c-bd37-9ac5461d6d74",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "72a131c7-a93c-404c-bd37-9ac5461d6d74",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "72a131c7-a93c-404c-bd37-9ac5461d6d74",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "08b7b597-0c02-44db-be52-9cd5263927cc",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "08b7b597-0c02-44db-be52-9cd5263927cc",
+    "SoLuong": 69,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "08b7b597-0c02-44db-be52-9cd5263927cc",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "08b7b597-0c02-44db-be52-9cd5263927cc",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "08b7b597-0c02-44db-be52-9cd5263927cc",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "44feccde-d5e6-4e71-84f7-5910db740755",
+    "SoLuong": 75,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "44feccde-d5e6-4e71-84f7-5910db740755",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "44feccde-d5e6-4e71-84f7-5910db740755",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "44feccde-d5e6-4e71-84f7-5910db740755",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "44feccde-d5e6-4e71-84f7-5910db740755",
+    "SoLuong": 79,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e0f7d046-7ab3-4b55-80f8-3f4a628959c0",
+    "SoLuong": 42,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e0f7d046-7ab3-4b55-80f8-3f4a628959c0",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e0f7d046-7ab3-4b55-80f8-3f4a628959c0",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e0f7d046-7ab3-4b55-80f8-3f4a628959c0",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e0f7d046-7ab3-4b55-80f8-3f4a628959c0",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0cedf614-642f-45f1-960b-389b10062e13",
+    "SoLuong": 79,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0cedf614-642f-45f1-960b-389b10062e13",
+    "SoLuong": 58,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0cedf614-642f-45f1-960b-389b10062e13",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0cedf614-642f-45f1-960b-389b10062e13",
+    "SoLuong": 43,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0cedf614-642f-45f1-960b-389b10062e13",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0b110712-9d99-49bf-b539-cd84fc05cef5",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0b110712-9d99-49bf-b539-cd84fc05cef5",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0b110712-9d99-49bf-b539-cd84fc05cef5",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0b110712-9d99-49bf-b539-cd84fc05cef5",
+    "SoLuong": 27,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0b110712-9d99-49bf-b539-cd84fc05cef5",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "63195007-1d52-4844-af8b-bb3a1435fb24",
+    "SoLuong": 39,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "63195007-1d52-4844-af8b-bb3a1435fb24",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "63195007-1d52-4844-af8b-bb3a1435fb24",
+    "SoLuong": 95,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "63195007-1d52-4844-af8b-bb3a1435fb24",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "63195007-1d52-4844-af8b-bb3a1435fb24",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bf9090af-2b0b-4414-8387-42da9c057da0",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bf9090af-2b0b-4414-8387-42da9c057da0",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bf9090af-2b0b-4414-8387-42da9c057da0",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bf9090af-2b0b-4414-8387-42da9c057da0",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bf9090af-2b0b-4414-8387-42da9c057da0",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4da25fe8-1165-4474-88c2-f1ac2d21a3a6",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4da25fe8-1165-4474-88c2-f1ac2d21a3a6",
+    "SoLuong": 58,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4da25fe8-1165-4474-88c2-f1ac2d21a3a6",
+    "SoLuong": 84,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4da25fe8-1165-4474-88c2-f1ac2d21a3a6",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4da25fe8-1165-4474-88c2-f1ac2d21a3a6",
+    "SoLuong": 79,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "43cd70b9-6293-46f4-b2c5-acab7a579aba",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "43cd70b9-6293-46f4-b2c5-acab7a579aba",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "43cd70b9-6293-46f4-b2c5-acab7a579aba",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "43cd70b9-6293-46f4-b2c5-acab7a579aba",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "43cd70b9-6293-46f4-b2c5-acab7a579aba",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e9a10db1-ca12-4484-80d1-3e4984b81d66",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e9a10db1-ca12-4484-80d1-3e4984b81d66",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e9a10db1-ca12-4484-80d1-3e4984b81d66",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e9a10db1-ca12-4484-80d1-3e4984b81d66",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e9a10db1-ca12-4484-80d1-3e4984b81d66",
+    "SoLuong": 91,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3e5d314e-d530-4848-abe7-3a49702868e5",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3e5d314e-d530-4848-abe7-3a49702868e5",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3e5d314e-d530-4848-abe7-3a49702868e5",
+    "SoLuong": 39,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3e5d314e-d530-4848-abe7-3a49702868e5",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3e5d314e-d530-4848-abe7-3a49702868e5",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5aa2ab47-872b-400a-a677-66c064f197eb",
+    "SoLuong": 93,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5aa2ab47-872b-400a-a677-66c064f197eb",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5aa2ab47-872b-400a-a677-66c064f197eb",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5aa2ab47-872b-400a-a677-66c064f197eb",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5aa2ab47-872b-400a-a677-66c064f197eb",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "435fe2a3-60cb-446e-a08f-8d61b7927992",
+    "SoLuong": 29,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "435fe2a3-60cb-446e-a08f-8d61b7927992",
+    "SoLuong": 21,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "435fe2a3-60cb-446e-a08f-8d61b7927992",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "435fe2a3-60cb-446e-a08f-8d61b7927992",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "435fe2a3-60cb-446e-a08f-8d61b7927992",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fdba0f33-d736-4b9b-9851-aaec4a7e77c4",
+    "SoLuong": 89,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fdba0f33-d736-4b9b-9851-aaec4a7e77c4",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fdba0f33-d736-4b9b-9851-aaec4a7e77c4",
+    "SoLuong": 56,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fdba0f33-d736-4b9b-9851-aaec4a7e77c4",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fdba0f33-d736-4b9b-9851-aaec4a7e77c4",
+    "SoLuong": 72,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6ffad972-90ef-44bf-bd3d-832996ef04dd",
+    "SoLuong": 88,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6ffad972-90ef-44bf-bd3d-832996ef04dd",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6ffad972-90ef-44bf-bd3d-832996ef04dd",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6ffad972-90ef-44bf-bd3d-832996ef04dd",
+    "SoLuong": 27,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6ffad972-90ef-44bf-bd3d-832996ef04dd",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9ff1b131-1dde-4607-831e-c3eb089eead9",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9ff1b131-1dde-4607-831e-c3eb089eead9",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9ff1b131-1dde-4607-831e-c3eb089eead9",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9ff1b131-1dde-4607-831e-c3eb089eead9",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9ff1b131-1dde-4607-831e-c3eb089eead9",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "883e2022-47f1-403f-b775-f01184a7dd54",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "883e2022-47f1-403f-b775-f01184a7dd54",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "883e2022-47f1-403f-b775-f01184a7dd54",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "883e2022-47f1-403f-b775-f01184a7dd54",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "883e2022-47f1-403f-b775-f01184a7dd54",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a6129378-a2d6-4f47-84a3-f8a57c496c10",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a6129378-a2d6-4f47-84a3-f8a57c496c10",
+    "SoLuong": 94,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a6129378-a2d6-4f47-84a3-f8a57c496c10",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a6129378-a2d6-4f47-84a3-f8a57c496c10",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a6129378-a2d6-4f47-84a3-f8a57c496c10",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2da08b9f-91eb-49cb-9b43-cc5f8c199931",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2da08b9f-91eb-49cb-9b43-cc5f8c199931",
+    "SoLuong": 76,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2da08b9f-91eb-49cb-9b43-cc5f8c199931",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2da08b9f-91eb-49cb-9b43-cc5f8c199931",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2da08b9f-91eb-49cb-9b43-cc5f8c199931",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "abddebd9-f3d0-4e52-b11d-5d3e54b1b783",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "abddebd9-f3d0-4e52-b11d-5d3e54b1b783",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "abddebd9-f3d0-4e52-b11d-5d3e54b1b783",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "abddebd9-f3d0-4e52-b11d-5d3e54b1b783",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "abddebd9-f3d0-4e52-b11d-5d3e54b1b783",
+    "SoLuong": 100,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cc7622e7-dea4-4acb-b337-64220fcf85d2",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cc7622e7-dea4-4acb-b337-64220fcf85d2",
+    "SoLuong": 48,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cc7622e7-dea4-4acb-b337-64220fcf85d2",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cc7622e7-dea4-4acb-b337-64220fcf85d2",
+    "SoLuong": 29,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cc7622e7-dea4-4acb-b337-64220fcf85d2",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "670a9b96-457e-4a71-805a-6adffb88205f",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "670a9b96-457e-4a71-805a-6adffb88205f",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "670a9b96-457e-4a71-805a-6adffb88205f",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "670a9b96-457e-4a71-805a-6adffb88205f",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "670a9b96-457e-4a71-805a-6adffb88205f",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "121008b4-fee9-4b39-8f03-ffe6f4cdc0ff",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "121008b4-fee9-4b39-8f03-ffe6f4cdc0ff",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "121008b4-fee9-4b39-8f03-ffe6f4cdc0ff",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "121008b4-fee9-4b39-8f03-ffe6f4cdc0ff",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "121008b4-fee9-4b39-8f03-ffe6f4cdc0ff",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f4b5f412-9d53-4b15-ae85-6622f3a6f724",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f4b5f412-9d53-4b15-ae85-6622f3a6f724",
+    "SoLuong": 69,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f4b5f412-9d53-4b15-ae85-6622f3a6f724",
+    "SoLuong": 44,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f4b5f412-9d53-4b15-ae85-6622f3a6f724",
+    "SoLuong": 32,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f4b5f412-9d53-4b15-ae85-6622f3a6f724",
+    "SoLuong": 65,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6886e87a-cc36-4b78-82dc-ce4811dfa4db",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6886e87a-cc36-4b78-82dc-ce4811dfa4db",
+    "SoLuong": 23,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6886e87a-cc36-4b78-82dc-ce4811dfa4db",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6886e87a-cc36-4b78-82dc-ce4811dfa4db",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6886e87a-cc36-4b78-82dc-ce4811dfa4db",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9adc3326-2816-47b6-aae5-17dd8d0cbec2",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9adc3326-2816-47b6-aae5-17dd8d0cbec2",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9adc3326-2816-47b6-aae5-17dd8d0cbec2",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9adc3326-2816-47b6-aae5-17dd8d0cbec2",
+    "SoLuong": 64,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9adc3326-2816-47b6-aae5-17dd8d0cbec2",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "04c1a295-aa46-4076-aaae-c926b7ac7c4c",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "04c1a295-aa46-4076-aaae-c926b7ac7c4c",
+    "SoLuong": 79,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "04c1a295-aa46-4076-aaae-c926b7ac7c4c",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "04c1a295-aa46-4076-aaae-c926b7ac7c4c",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "04c1a295-aa46-4076-aaae-c926b7ac7c4c",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1e09fe52-f011-40b0-89c2-f6e49d5d3992",
+    "SoLuong": 65,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1e09fe52-f011-40b0-89c2-f6e49d5d3992",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1e09fe52-f011-40b0-89c2-f6e49d5d3992",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1e09fe52-f011-40b0-89c2-f6e49d5d3992",
+    "SoLuong": 86,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1e09fe52-f011-40b0-89c2-f6e49d5d3992",
+    "SoLuong": 94,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a891f0a9-28ca-4186-b913-578ce5d84b8a",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a891f0a9-28ca-4186-b913-578ce5d84b8a",
+    "SoLuong": 32,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a891f0a9-28ca-4186-b913-578ce5d84b8a",
+    "SoLuong": 13,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a891f0a9-28ca-4186-b913-578ce5d84b8a",
+    "SoLuong": 20,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a891f0a9-28ca-4186-b913-578ce5d84b8a",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ecbf6da2-62e7-44a3-a082-aa67c1811824",
+    "SoLuong": 13,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ecbf6da2-62e7-44a3-a082-aa67c1811824",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ecbf6da2-62e7-44a3-a082-aa67c1811824",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ecbf6da2-62e7-44a3-a082-aa67c1811824",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ecbf6da2-62e7-44a3-a082-aa67c1811824",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f46e8125-23e2-4dc4-bf22-2384c3de9c96",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f46e8125-23e2-4dc4-bf22-2384c3de9c96",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f46e8125-23e2-4dc4-bf22-2384c3de9c96",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f46e8125-23e2-4dc4-bf22-2384c3de9c96",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f46e8125-23e2-4dc4-bf22-2384c3de9c96",
+    "SoLuong": 25,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6ea6fca4-6e7f-4c66-9a8b-7ac21fee2b3b",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6ea6fca4-6e7f-4c66-9a8b-7ac21fee2b3b",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6ea6fca4-6e7f-4c66-9a8b-7ac21fee2b3b",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6ea6fca4-6e7f-4c66-9a8b-7ac21fee2b3b",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6ea6fca4-6e7f-4c66-9a8b-7ac21fee2b3b",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bc59b774-78d6-4178-9400-42b62b3c135e",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bc59b774-78d6-4178-9400-42b62b3c135e",
+    "SoLuong": 43,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bc59b774-78d6-4178-9400-42b62b3c135e",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bc59b774-78d6-4178-9400-42b62b3c135e",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bc59b774-78d6-4178-9400-42b62b3c135e",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e4d8dd59-41af-406c-aa2a-66b070b2b5ea",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e4d8dd59-41af-406c-aa2a-66b070b2b5ea",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e4d8dd59-41af-406c-aa2a-66b070b2b5ea",
+    "SoLuong": 63,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e4d8dd59-41af-406c-aa2a-66b070b2b5ea",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e4d8dd59-41af-406c-aa2a-66b070b2b5ea",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7be9f289-8581-4db6-8359-ff78cb2f52ce",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7be9f289-8581-4db6-8359-ff78cb2f52ce",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7be9f289-8581-4db6-8359-ff78cb2f52ce",
+    "SoLuong": 29,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7be9f289-8581-4db6-8359-ff78cb2f52ce",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7be9f289-8581-4db6-8359-ff78cb2f52ce",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9a377a28-29fd-49c7-a31f-13cf6f6c5e66",
+    "SoLuong": 93,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9a377a28-29fd-49c7-a31f-13cf6f6c5e66",
+    "SoLuong": 76,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9a377a28-29fd-49c7-a31f-13cf6f6c5e66",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9a377a28-29fd-49c7-a31f-13cf6f6c5e66",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9a377a28-29fd-49c7-a31f-13cf6f6c5e66",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ffb2be8a-1ce3-422a-aac4-cf6ec924d94c",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ffb2be8a-1ce3-422a-aac4-cf6ec924d94c",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ffb2be8a-1ce3-422a-aac4-cf6ec924d94c",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ffb2be8a-1ce3-422a-aac4-cf6ec924d94c",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ffb2be8a-1ce3-422a-aac4-cf6ec924d94c",
+    "SoLuong": 89,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "13dbbda8-625d-4e18-8dd9-a20a9828a09a",
+    "SoLuong": 97,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "13dbbda8-625d-4e18-8dd9-a20a9828a09a",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "13dbbda8-625d-4e18-8dd9-a20a9828a09a",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "13dbbda8-625d-4e18-8dd9-a20a9828a09a",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "13dbbda8-625d-4e18-8dd9-a20a9828a09a",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3e478920-daef-4dc2-abf3-25c33e0d4908",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3e478920-daef-4dc2-abf3-25c33e0d4908",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3e478920-daef-4dc2-abf3-25c33e0d4908",
+    "SoLuong": 21,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3e478920-daef-4dc2-abf3-25c33e0d4908",
+    "SoLuong": 79,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3e478920-daef-4dc2-abf3-25c33e0d4908",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9babe88e-5b49-4dbd-81b2-5b5613534ec6",
+    "SoLuong": 98,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9babe88e-5b49-4dbd-81b2-5b5613534ec6",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9babe88e-5b49-4dbd-81b2-5b5613534ec6",
+    "SoLuong": 28,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9babe88e-5b49-4dbd-81b2-5b5613534ec6",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9babe88e-5b49-4dbd-81b2-5b5613534ec6",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d43065f3-1f6e-489b-8045-7dfdf3dae1db",
+    "SoLuong": 100,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d43065f3-1f6e-489b-8045-7dfdf3dae1db",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d43065f3-1f6e-489b-8045-7dfdf3dae1db",
+    "SoLuong": 27,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d43065f3-1f6e-489b-8045-7dfdf3dae1db",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d43065f3-1f6e-489b-8045-7dfdf3dae1db",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "81497f45-8b75-4f7b-b1bc-73abbc61cc0d",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "81497f45-8b75-4f7b-b1bc-73abbc61cc0d",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "81497f45-8b75-4f7b-b1bc-73abbc61cc0d",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "81497f45-8b75-4f7b-b1bc-73abbc61cc0d",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "81497f45-8b75-4f7b-b1bc-73abbc61cc0d",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0428c1b3-a39a-4fa7-8a37-21f9bb6f0b28",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0428c1b3-a39a-4fa7-8a37-21f9bb6f0b28",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0428c1b3-a39a-4fa7-8a37-21f9bb6f0b28",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0428c1b3-a39a-4fa7-8a37-21f9bb6f0b28",
+    "SoLuong": 30,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0428c1b3-a39a-4fa7-8a37-21f9bb6f0b28",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "915b94a0-1ee4-4365-9e05-bcb9cccbb539",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "915b94a0-1ee4-4365-9e05-bcb9cccbb539",
+    "SoLuong": 20,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "915b94a0-1ee4-4365-9e05-bcb9cccbb539",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "915b94a0-1ee4-4365-9e05-bcb9cccbb539",
+    "SoLuong": 69,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "915b94a0-1ee4-4365-9e05-bcb9cccbb539",
+    "SoLuong": 97,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6821c51b-c8b4-4074-857e-b276bbbd4a8d",
+    "SoLuong": 58,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6821c51b-c8b4-4074-857e-b276bbbd4a8d",
+    "SoLuong": 73,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6821c51b-c8b4-4074-857e-b276bbbd4a8d",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6821c51b-c8b4-4074-857e-b276bbbd4a8d",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6821c51b-c8b4-4074-857e-b276bbbd4a8d",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "22db7672-5a29-45e1-9443-98032dfc7c21",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "22db7672-5a29-45e1-9443-98032dfc7c21",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "22db7672-5a29-45e1-9443-98032dfc7c21",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "22db7672-5a29-45e1-9443-98032dfc7c21",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "22db7672-5a29-45e1-9443-98032dfc7c21",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a9436736-e8e0-4163-96cc-8a3fdd517636",
+    "SoLuong": 100,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a9436736-e8e0-4163-96cc-8a3fdd517636",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a9436736-e8e0-4163-96cc-8a3fdd517636",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a9436736-e8e0-4163-96cc-8a3fdd517636",
+    "SoLuong": 42,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a9436736-e8e0-4163-96cc-8a3fdd517636",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0dda9738-968f-4b27-8570-5adae8e00fdb",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0dda9738-968f-4b27-8570-5adae8e00fdb",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0dda9738-968f-4b27-8570-5adae8e00fdb",
+    "SoLuong": 43,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0dda9738-968f-4b27-8570-5adae8e00fdb",
+    "SoLuong": 61,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0dda9738-968f-4b27-8570-5adae8e00fdb",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "87ba17cb-0e29-4025-af32-96e09f972e38",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "87ba17cb-0e29-4025-af32-96e09f972e38",
+    "SoLuong": 59,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "87ba17cb-0e29-4025-af32-96e09f972e38",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "87ba17cb-0e29-4025-af32-96e09f972e38",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "87ba17cb-0e29-4025-af32-96e09f972e38",
+    "SoLuong": 58,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8ff6b000-8247-4400-ac4a-5e94ee14b9ec",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8ff6b000-8247-4400-ac4a-5e94ee14b9ec",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8ff6b000-8247-4400-ac4a-5e94ee14b9ec",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8ff6b000-8247-4400-ac4a-5e94ee14b9ec",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8ff6b000-8247-4400-ac4a-5e94ee14b9ec",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c81ff0ad-c4ba-42d3-ab60-b8db78f90b98",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c81ff0ad-c4ba-42d3-ab60-b8db78f90b98",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c81ff0ad-c4ba-42d3-ab60-b8db78f90b98",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c81ff0ad-c4ba-42d3-ab60-b8db78f90b98",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c81ff0ad-c4ba-42d3-ab60-b8db78f90b98",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fbe91f9e-873b-4a9d-a576-95e1eab13564",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fbe91f9e-873b-4a9d-a576-95e1eab13564",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fbe91f9e-873b-4a9d-a576-95e1eab13564",
+    "SoLuong": 92,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fbe91f9e-873b-4a9d-a576-95e1eab13564",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fbe91f9e-873b-4a9d-a576-95e1eab13564",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e970ad45-61ec-4e7f-93a4-f664378f6de8",
+    "SoLuong": 18,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e970ad45-61ec-4e7f-93a4-f664378f6de8",
+    "SoLuong": 94,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e970ad45-61ec-4e7f-93a4-f664378f6de8",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e970ad45-61ec-4e7f-93a4-f664378f6de8",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e970ad45-61ec-4e7f-93a4-f664378f6de8",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ccbb58f0-f332-4a05-ada8-0d218f595657",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ccbb58f0-f332-4a05-ada8-0d218f595657",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ccbb58f0-f332-4a05-ada8-0d218f595657",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ccbb58f0-f332-4a05-ada8-0d218f595657",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ccbb58f0-f332-4a05-ada8-0d218f595657",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4026d6bb-594c-4903-bb31-0967ca04169c",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4026d6bb-594c-4903-bb31-0967ca04169c",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4026d6bb-594c-4903-bb31-0967ca04169c",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4026d6bb-594c-4903-bb31-0967ca04169c",
+    "SoLuong": 79,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4026d6bb-594c-4903-bb31-0967ca04169c",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "258edb86-ba77-4ed2-8aff-af5557c9f321",
+    "SoLuong": 43,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "258edb86-ba77-4ed2-8aff-af5557c9f321",
+    "SoLuong": 100,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "258edb86-ba77-4ed2-8aff-af5557c9f321",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "258edb86-ba77-4ed2-8aff-af5557c9f321",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "258edb86-ba77-4ed2-8aff-af5557c9f321",
+    "SoLuong": 32,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0fd181af-5159-48b8-a172-791c0585de6a",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0fd181af-5159-48b8-a172-791c0585de6a",
+    "SoLuong": 98,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0fd181af-5159-48b8-a172-791c0585de6a",
+    "SoLuong": 76,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0fd181af-5159-48b8-a172-791c0585de6a",
+    "SoLuong": 65,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0fd181af-5159-48b8-a172-791c0585de6a",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "edcc5c08-fbc7-4d4e-907c-cb0f5926d18d",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "edcc5c08-fbc7-4d4e-907c-cb0f5926d18d",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "edcc5c08-fbc7-4d4e-907c-cb0f5926d18d",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "edcc5c08-fbc7-4d4e-907c-cb0f5926d18d",
+    "SoLuong": 27,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "edcc5c08-fbc7-4d4e-907c-cb0f5926d18d",
+    "SoLuong": 94,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f421e979-b8ce-4111-b24c-affb1b90cd47",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f421e979-b8ce-4111-b24c-affb1b90cd47",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f421e979-b8ce-4111-b24c-affb1b90cd47",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f421e979-b8ce-4111-b24c-affb1b90cd47",
+    "SoLuong": 19,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f421e979-b8ce-4111-b24c-affb1b90cd47",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4a6d3a4d-16c9-4180-a59f-69c0023452b1",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4a6d3a4d-16c9-4180-a59f-69c0023452b1",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4a6d3a4d-16c9-4180-a59f-69c0023452b1",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4a6d3a4d-16c9-4180-a59f-69c0023452b1",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4a6d3a4d-16c9-4180-a59f-69c0023452b1",
+    "SoLuong": 79,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d12d35bb-a5be-4c3e-9f84-a7d099f25ec7",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d12d35bb-a5be-4c3e-9f84-a7d099f25ec7",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d12d35bb-a5be-4c3e-9f84-a7d099f25ec7",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d12d35bb-a5be-4c3e-9f84-a7d099f25ec7",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d12d35bb-a5be-4c3e-9f84-a7d099f25ec7",
+    "SoLuong": 32,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "40410e9b-bc45-42d6-8dd1-60db681dca1f",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "40410e9b-bc45-42d6-8dd1-60db681dca1f",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "40410e9b-bc45-42d6-8dd1-60db681dca1f",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "40410e9b-bc45-42d6-8dd1-60db681dca1f",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "40410e9b-bc45-42d6-8dd1-60db681dca1f",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "671a645b-e967-40c6-ad20-690765d82c2a",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "671a645b-e967-40c6-ad20-690765d82c2a",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "671a645b-e967-40c6-ad20-690765d82c2a",
+    "SoLuong": 94,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "671a645b-e967-40c6-ad20-690765d82c2a",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "671a645b-e967-40c6-ad20-690765d82c2a",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "96b14fbe-0f87-4252-9acc-a942dad0fb94",
+    "SoLuong": 28,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "96b14fbe-0f87-4252-9acc-a942dad0fb94",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "96b14fbe-0f87-4252-9acc-a942dad0fb94",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "96b14fbe-0f87-4252-9acc-a942dad0fb94",
+    "SoLuong": 23,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "96b14fbe-0f87-4252-9acc-a942dad0fb94",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5486075a-44c1-4a60-96d5-3c04eb67d1a4",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5486075a-44c1-4a60-96d5-3c04eb67d1a4",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5486075a-44c1-4a60-96d5-3c04eb67d1a4",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5486075a-44c1-4a60-96d5-3c04eb67d1a4",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5486075a-44c1-4a60-96d5-3c04eb67d1a4",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a4e8304e-d1fb-498c-beff-2519da469fbd",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a4e8304e-d1fb-498c-beff-2519da469fbd",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a4e8304e-d1fb-498c-beff-2519da469fbd",
+    "SoLuong": 39,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a4e8304e-d1fb-498c-beff-2519da469fbd",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a4e8304e-d1fb-498c-beff-2519da469fbd",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "832bce5a-0033-4a08-96a3-7362d3cafea6",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "832bce5a-0033-4a08-96a3-7362d3cafea6",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "832bce5a-0033-4a08-96a3-7362d3cafea6",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "832bce5a-0033-4a08-96a3-7362d3cafea6",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "832bce5a-0033-4a08-96a3-7362d3cafea6",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "53ca6eaf-311f-4488-afc9-b679d746ed95",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "53ca6eaf-311f-4488-afc9-b679d746ed95",
+    "SoLuong": 65,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "53ca6eaf-311f-4488-afc9-b679d746ed95",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "53ca6eaf-311f-4488-afc9-b679d746ed95",
+    "SoLuong": 32,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "53ca6eaf-311f-4488-afc9-b679d746ed95",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "faeb794e-c261-4ed7-abb9-19c0fe49296f",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "faeb794e-c261-4ed7-abb9-19c0fe49296f",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "faeb794e-c261-4ed7-abb9-19c0fe49296f",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "faeb794e-c261-4ed7-abb9-19c0fe49296f",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "faeb794e-c261-4ed7-abb9-19c0fe49296f",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0503df79-68f3-4314-b38b-61e75e3d756c",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0503df79-68f3-4314-b38b-61e75e3d756c",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0503df79-68f3-4314-b38b-61e75e3d756c",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0503df79-68f3-4314-b38b-61e75e3d756c",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0503df79-68f3-4314-b38b-61e75e3d756c",
+    "SoLuong": 62,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3bc969d6-1980-4cbc-a7e7-533e3eb32b78",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3bc969d6-1980-4cbc-a7e7-533e3eb32b78",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3bc969d6-1980-4cbc-a7e7-533e3eb32b78",
+    "SoLuong": 50,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3bc969d6-1980-4cbc-a7e7-533e3eb32b78",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3bc969d6-1980-4cbc-a7e7-533e3eb32b78",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "05914216-6d4a-4f54-8ecc-ddfe88cf2bb1",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "05914216-6d4a-4f54-8ecc-ddfe88cf2bb1",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "05914216-6d4a-4f54-8ecc-ddfe88cf2bb1",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "05914216-6d4a-4f54-8ecc-ddfe88cf2bb1",
+    "SoLuong": 97,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "05914216-6d4a-4f54-8ecc-ddfe88cf2bb1",
+    "SoLuong": 15,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1cf46486-c026-40f8-892e-e3346cf6c0eb",
+    "SoLuong": 36,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1cf46486-c026-40f8-892e-e3346cf6c0eb",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1cf46486-c026-40f8-892e-e3346cf6c0eb",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1cf46486-c026-40f8-892e-e3346cf6c0eb",
+    "SoLuong": 50,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1cf46486-c026-40f8-892e-e3346cf6c0eb",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5d4a1794-54c0-400f-afd1-3dcd530fa286",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5d4a1794-54c0-400f-afd1-3dcd530fa286",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5d4a1794-54c0-400f-afd1-3dcd530fa286",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5d4a1794-54c0-400f-afd1-3dcd530fa286",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5d4a1794-54c0-400f-afd1-3dcd530fa286",
+    "SoLuong": 87,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "015721dd-38f2-44d2-b31a-9b50d452d71a",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "015721dd-38f2-44d2-b31a-9b50d452d71a",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "015721dd-38f2-44d2-b31a-9b50d452d71a",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "015721dd-38f2-44d2-b31a-9b50d452d71a",
+    "SoLuong": 13,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "015721dd-38f2-44d2-b31a-9b50d452d71a",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4a1e3a76-be5b-4b4a-b8ab-255185e1ede3",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4a1e3a76-be5b-4b4a-b8ab-255185e1ede3",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4a1e3a76-be5b-4b4a-b8ab-255185e1ede3",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4a1e3a76-be5b-4b4a-b8ab-255185e1ede3",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4a1e3a76-be5b-4b4a-b8ab-255185e1ede3",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "438ae539-8abe-4788-a188-94c1cb41eb67",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "438ae539-8abe-4788-a188-94c1cb41eb67",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "438ae539-8abe-4788-a188-94c1cb41eb67",
+    "SoLuong": 84,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "438ae539-8abe-4788-a188-94c1cb41eb67",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "438ae539-8abe-4788-a188-94c1cb41eb67",
+    "SoLuong": 95,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "73125e44-5ca8-42e9-8db3-efb43b9f7b07",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "73125e44-5ca8-42e9-8db3-efb43b9f7b07",
+    "SoLuong": 45,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "73125e44-5ca8-42e9-8db3-efb43b9f7b07",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "73125e44-5ca8-42e9-8db3-efb43b9f7b07",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "73125e44-5ca8-42e9-8db3-efb43b9f7b07",
+    "SoLuong": 21,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e1b47902-3f58-4829-9a41-bc02159a45a5",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e1b47902-3f58-4829-9a41-bc02159a45a5",
+    "SoLuong": 65,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e1b47902-3f58-4829-9a41-bc02159a45a5",
+    "SoLuong": 73,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e1b47902-3f58-4829-9a41-bc02159a45a5",
+    "SoLuong": 65,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e1b47902-3f58-4829-9a41-bc02159a45a5",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "06069e18-1c69-416c-8b76-416d47f0f3c4",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "06069e18-1c69-416c-8b76-416d47f0f3c4",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "06069e18-1c69-416c-8b76-416d47f0f3c4",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "06069e18-1c69-416c-8b76-416d47f0f3c4",
+    "SoLuong": 28,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "06069e18-1c69-416c-8b76-416d47f0f3c4",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "87b509e9-6ffa-420f-bedc-38474a4929b6",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "87b509e9-6ffa-420f-bedc-38474a4929b6",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "87b509e9-6ffa-420f-bedc-38474a4929b6",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "87b509e9-6ffa-420f-bedc-38474a4929b6",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "87b509e9-6ffa-420f-bedc-38474a4929b6",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cb1e2f0c-af1a-4978-9610-2ffac1f06f2c",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cb1e2f0c-af1a-4978-9610-2ffac1f06f2c",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cb1e2f0c-af1a-4978-9610-2ffac1f06f2c",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cb1e2f0c-af1a-4978-9610-2ffac1f06f2c",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cb1e2f0c-af1a-4978-9610-2ffac1f06f2c",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4f66b9e6-292c-49f0-988b-2aac86aff8f5",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4f66b9e6-292c-49f0-988b-2aac86aff8f5",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4f66b9e6-292c-49f0-988b-2aac86aff8f5",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4f66b9e6-292c-49f0-988b-2aac86aff8f5",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4f66b9e6-292c-49f0-988b-2aac86aff8f5",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "eb4bde64-69d9-4fbf-a8c3-0438f914ef11",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "eb4bde64-69d9-4fbf-a8c3-0438f914ef11",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "eb4bde64-69d9-4fbf-a8c3-0438f914ef11",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "eb4bde64-69d9-4fbf-a8c3-0438f914ef11",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "eb4bde64-69d9-4fbf-a8c3-0438f914ef11",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f8a1c15b-18ef-46f7-9b1b-38af1a535569",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f8a1c15b-18ef-46f7-9b1b-38af1a535569",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f8a1c15b-18ef-46f7-9b1b-38af1a535569",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f8a1c15b-18ef-46f7-9b1b-38af1a535569",
+    "SoLuong": 51,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f8a1c15b-18ef-46f7-9b1b-38af1a535569",
+    "SoLuong": 72,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8b96dc54-c6d6-448f-b052-43dbcb3fb512",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8b96dc54-c6d6-448f-b052-43dbcb3fb512",
+    "SoLuong": 36,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8b96dc54-c6d6-448f-b052-43dbcb3fb512",
+    "SoLuong": 43,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8b96dc54-c6d6-448f-b052-43dbcb3fb512",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8b96dc54-c6d6-448f-b052-43dbcb3fb512",
+    "SoLuong": 86,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a5709695-ae98-4a92-96aa-fe94c329deab",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a5709695-ae98-4a92-96aa-fe94c329deab",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a5709695-ae98-4a92-96aa-fe94c329deab",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a5709695-ae98-4a92-96aa-fe94c329deab",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a5709695-ae98-4a92-96aa-fe94c329deab",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "964997c1-cfb2-4eb7-a73b-371f0c0deb65",
+    "SoLuong": 100,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "964997c1-cfb2-4eb7-a73b-371f0c0deb65",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "964997c1-cfb2-4eb7-a73b-371f0c0deb65",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "964997c1-cfb2-4eb7-a73b-371f0c0deb65",
+    "SoLuong": 90,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "964997c1-cfb2-4eb7-a73b-371f0c0deb65",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9c473fb1-d9aa-49fb-a238-d5d0caf2ff78",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9c473fb1-d9aa-49fb-a238-d5d0caf2ff78",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9c473fb1-d9aa-49fb-a238-d5d0caf2ff78",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9c473fb1-d9aa-49fb-a238-d5d0caf2ff78",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9c473fb1-d9aa-49fb-a238-d5d0caf2ff78",
+    "SoLuong": 87,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c78e2c3a-24a3-41ba-b812-d826efeffe97",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c78e2c3a-24a3-41ba-b812-d826efeffe97",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c78e2c3a-24a3-41ba-b812-d826efeffe97",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c78e2c3a-24a3-41ba-b812-d826efeffe97",
+    "SoLuong": 90,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c78e2c3a-24a3-41ba-b812-d826efeffe97",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b4e4478b-f596-486d-a723-87d469e511cc",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b4e4478b-f596-486d-a723-87d469e511cc",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b4e4478b-f596-486d-a723-87d469e511cc",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b4e4478b-f596-486d-a723-87d469e511cc",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b4e4478b-f596-486d-a723-87d469e511cc",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "28eb45b6-9c8c-4957-bb95-538e2e220204",
+    "SoLuong": 34,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "28eb45b6-9c8c-4957-bb95-538e2e220204",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "28eb45b6-9c8c-4957-bb95-538e2e220204",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "28eb45b6-9c8c-4957-bb95-538e2e220204",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "28eb45b6-9c8c-4957-bb95-538e2e220204",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9b9c201f-be2a-4b75-b9a6-f22e5f1a6cf6",
+    "SoLuong": 79,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9b9c201f-be2a-4b75-b9a6-f22e5f1a6cf6",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9b9c201f-be2a-4b75-b9a6-f22e5f1a6cf6",
+    "SoLuong": 79,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9b9c201f-be2a-4b75-b9a6-f22e5f1a6cf6",
+    "SoLuong": 56,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9b9c201f-be2a-4b75-b9a6-f22e5f1a6cf6",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "dd1caf1b-355d-47da-a3a5-bff1477a9988",
+    "SoLuong": 50,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "dd1caf1b-355d-47da-a3a5-bff1477a9988",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "dd1caf1b-355d-47da-a3a5-bff1477a9988",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "dd1caf1b-355d-47da-a3a5-bff1477a9988",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "dd1caf1b-355d-47da-a3a5-bff1477a9988",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ce93d108-710c-4b40-98a7-8c2b8bea6104",
+    "SoLuong": 59,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ce93d108-710c-4b40-98a7-8c2b8bea6104",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ce93d108-710c-4b40-98a7-8c2b8bea6104",
+    "SoLuong": 10,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ce93d108-710c-4b40-98a7-8c2b8bea6104",
+    "SoLuong": 94,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ce93d108-710c-4b40-98a7-8c2b8bea6104",
+    "SoLuong": 91,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bf6b1222-ac70-4eed-85c0-2b06eba96ebc",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bf6b1222-ac70-4eed-85c0-2b06eba96ebc",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bf6b1222-ac70-4eed-85c0-2b06eba96ebc",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bf6b1222-ac70-4eed-85c0-2b06eba96ebc",
+    "SoLuong": 50,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bf6b1222-ac70-4eed-85c0-2b06eba96ebc",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "11f31171-acac-4252-8b18-577883695a45",
+    "SoLuong": 88,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "11f31171-acac-4252-8b18-577883695a45",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "11f31171-acac-4252-8b18-577883695a45",
+    "SoLuong": 79,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "11f31171-acac-4252-8b18-577883695a45",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "11f31171-acac-4252-8b18-577883695a45",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "017d9726-b195-4278-aa53-bf26da0f842b",
+    "SoLuong": 43,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "017d9726-b195-4278-aa53-bf26da0f842b",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "017d9726-b195-4278-aa53-bf26da0f842b",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "017d9726-b195-4278-aa53-bf26da0f842b",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "017d9726-b195-4278-aa53-bf26da0f842b",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "58c79e81-e26d-41d3-9706-bc3d4311be80",
+    "SoLuong": 10,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "58c79e81-e26d-41d3-9706-bc3d4311be80",
+    "SoLuong": 29,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "58c79e81-e26d-41d3-9706-bc3d4311be80",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "58c79e81-e26d-41d3-9706-bc3d4311be80",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "58c79e81-e26d-41d3-9706-bc3d4311be80",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ec566d75-9fec-4c95-8bf1-b46eaab0bd8a",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ec566d75-9fec-4c95-8bf1-b46eaab0bd8a",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ec566d75-9fec-4c95-8bf1-b46eaab0bd8a",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ec566d75-9fec-4c95-8bf1-b46eaab0bd8a",
+    "SoLuong": 97,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ec566d75-9fec-4c95-8bf1-b46eaab0bd8a",
+    "SoLuong": 36,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7777253d-3e46-4f66-b45d-3b3d89678fc6",
+    "SoLuong": 59,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7777253d-3e46-4f66-b45d-3b3d89678fc6",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7777253d-3e46-4f66-b45d-3b3d89678fc6",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7777253d-3e46-4f66-b45d-3b3d89678fc6",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7777253d-3e46-4f66-b45d-3b3d89678fc6",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d4cec965-38a9-4d82-a8e7-154075203841",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d4cec965-38a9-4d82-a8e7-154075203841",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d4cec965-38a9-4d82-a8e7-154075203841",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d4cec965-38a9-4d82-a8e7-154075203841",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d4cec965-38a9-4d82-a8e7-154075203841",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "73e75b22-a2e7-4ad2-b655-b6678fe37023",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "73e75b22-a2e7-4ad2-b655-b6678fe37023",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "73e75b22-a2e7-4ad2-b655-b6678fe37023",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "73e75b22-a2e7-4ad2-b655-b6678fe37023",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "73e75b22-a2e7-4ad2-b655-b6678fe37023",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "77bc7b60-f613-4173-8710-f278aaa45ab5",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "77bc7b60-f613-4173-8710-f278aaa45ab5",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "77bc7b60-f613-4173-8710-f278aaa45ab5",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "77bc7b60-f613-4173-8710-f278aaa45ab5",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "77bc7b60-f613-4173-8710-f278aaa45ab5",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "57910f5a-7f42-4e67-b925-a50b0560c183",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "57910f5a-7f42-4e67-b925-a50b0560c183",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "57910f5a-7f42-4e67-b925-a50b0560c183",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "57910f5a-7f42-4e67-b925-a50b0560c183",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "57910f5a-7f42-4e67-b925-a50b0560c183",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "85ff8a4d-c728-4472-b440-a5a774b15d57",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "85ff8a4d-c728-4472-b440-a5a774b15d57",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "85ff8a4d-c728-4472-b440-a5a774b15d57",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "85ff8a4d-c728-4472-b440-a5a774b15d57",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "85ff8a4d-c728-4472-b440-a5a774b15d57",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9e082598-e6ac-4f26-91c2-b5f2ae8c34de",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9e082598-e6ac-4f26-91c2-b5f2ae8c34de",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9e082598-e6ac-4f26-91c2-b5f2ae8c34de",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9e082598-e6ac-4f26-91c2-b5f2ae8c34de",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9e082598-e6ac-4f26-91c2-b5f2ae8c34de",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cd7b6e5a-d6af-46b3-a088-e12d96f5f2e9",
+    "SoLuong": 32,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cd7b6e5a-d6af-46b3-a088-e12d96f5f2e9",
+    "SoLuong": 26,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cd7b6e5a-d6af-46b3-a088-e12d96f5f2e9",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cd7b6e5a-d6af-46b3-a088-e12d96f5f2e9",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cd7b6e5a-d6af-46b3-a088-e12d96f5f2e9",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8de8d66c-ed66-4abb-8c23-99c21c50b9fe",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8de8d66c-ed66-4abb-8c23-99c21c50b9fe",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8de8d66c-ed66-4abb-8c23-99c21c50b9fe",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8de8d66c-ed66-4abb-8c23-99c21c50b9fe",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8de8d66c-ed66-4abb-8c23-99c21c50b9fe",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d849b0cf-9042-48ec-a765-68d5179d5fc9",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d849b0cf-9042-48ec-a765-68d5179d5fc9",
+    "SoLuong": 88,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d849b0cf-9042-48ec-a765-68d5179d5fc9",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d849b0cf-9042-48ec-a765-68d5179d5fc9",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d849b0cf-9042-48ec-a765-68d5179d5fc9",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c8d8108c-cf87-42ef-89de-13751f925cd9",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c8d8108c-cf87-42ef-89de-13751f925cd9",
+    "SoLuong": 72,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c8d8108c-cf87-42ef-89de-13751f925cd9",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c8d8108c-cf87-42ef-89de-13751f925cd9",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c8d8108c-cf87-42ef-89de-13751f925cd9",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "dd5b80c7-b85c-4fc4-86bf-795efe2172c4",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "dd5b80c7-b85c-4fc4-86bf-795efe2172c4",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "dd5b80c7-b85c-4fc4-86bf-795efe2172c4",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "dd5b80c7-b85c-4fc4-86bf-795efe2172c4",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "dd5b80c7-b85c-4fc4-86bf-795efe2172c4",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "07aa3247-5361-4751-a529-041c83b6bddf",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "07aa3247-5361-4751-a529-041c83b6bddf",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "07aa3247-5361-4751-a529-041c83b6bddf",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "07aa3247-5361-4751-a529-041c83b6bddf",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "07aa3247-5361-4751-a529-041c83b6bddf",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "070a4f32-5818-41d3-9e26-8bf15097833c",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "070a4f32-5818-41d3-9e26-8bf15097833c",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "070a4f32-5818-41d3-9e26-8bf15097833c",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "070a4f32-5818-41d3-9e26-8bf15097833c",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "070a4f32-5818-41d3-9e26-8bf15097833c",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6bbb9e4c-94ee-4ab8-bfc7-bf9bf7c8d850",
+    "SoLuong": 65,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6bbb9e4c-94ee-4ab8-bfc7-bf9bf7c8d850",
+    "SoLuong": 65,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6bbb9e4c-94ee-4ab8-bfc7-bf9bf7c8d850",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6bbb9e4c-94ee-4ab8-bfc7-bf9bf7c8d850",
+    "SoLuong": 97,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6bbb9e4c-94ee-4ab8-bfc7-bf9bf7c8d850",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d5d71526-8824-4b15-ac04-a909b9433b5e",
+    "SoLuong": 26,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d5d71526-8824-4b15-ac04-a909b9433b5e",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d5d71526-8824-4b15-ac04-a909b9433b5e",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d5d71526-8824-4b15-ac04-a909b9433b5e",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d5d71526-8824-4b15-ac04-a909b9433b5e",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "80637d29-2f68-4102-b41b-5dc78935e381",
+    "SoLuong": 98,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "80637d29-2f68-4102-b41b-5dc78935e381",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "80637d29-2f68-4102-b41b-5dc78935e381",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "80637d29-2f68-4102-b41b-5dc78935e381",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "80637d29-2f68-4102-b41b-5dc78935e381",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "51412558-6c18-4713-be97-307e9e4a9f14",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "51412558-6c18-4713-be97-307e9e4a9f14",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "51412558-6c18-4713-be97-307e9e4a9f14",
+    "SoLuong": 76,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "51412558-6c18-4713-be97-307e9e4a9f14",
+    "SoLuong": 20,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "51412558-6c18-4713-be97-307e9e4a9f14",
+    "SoLuong": 86,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b7dd8ec6-e33b-4ec3-b9b4-03f14e07eca7",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b7dd8ec6-e33b-4ec3-b9b4-03f14e07eca7",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b7dd8ec6-e33b-4ec3-b9b4-03f14e07eca7",
+    "SoLuong": 32,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b7dd8ec6-e33b-4ec3-b9b4-03f14e07eca7",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b7dd8ec6-e33b-4ec3-b9b4-03f14e07eca7",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6857319a-380e-4cec-9819-a19f2fcadcd8",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6857319a-380e-4cec-9819-a19f2fcadcd8",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6857319a-380e-4cec-9819-a19f2fcadcd8",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6857319a-380e-4cec-9819-a19f2fcadcd8",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6857319a-380e-4cec-9819-a19f2fcadcd8",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c187b642-3892-4721-877d-1eba36c65946",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c187b642-3892-4721-877d-1eba36c65946",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c187b642-3892-4721-877d-1eba36c65946",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c187b642-3892-4721-877d-1eba36c65946",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c187b642-3892-4721-877d-1eba36c65946",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "543f87ef-7dca-4124-b15b-6d67fea6ea50",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "543f87ef-7dca-4124-b15b-6d67fea6ea50",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "543f87ef-7dca-4124-b15b-6d67fea6ea50",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "543f87ef-7dca-4124-b15b-6d67fea6ea50",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "543f87ef-7dca-4124-b15b-6d67fea6ea50",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0d25e70f-2d56-4a62-b824-c934198c4da9",
+    "SoLuong": 26,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0d25e70f-2d56-4a62-b824-c934198c4da9",
+    "SoLuong": 26,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0d25e70f-2d56-4a62-b824-c934198c4da9",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0d25e70f-2d56-4a62-b824-c934198c4da9",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0d25e70f-2d56-4a62-b824-c934198c4da9",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d581d742-508c-4b2a-8fca-1c9ec4979577",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d581d742-508c-4b2a-8fca-1c9ec4979577",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d581d742-508c-4b2a-8fca-1c9ec4979577",
+    "SoLuong": 48,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d581d742-508c-4b2a-8fca-1c9ec4979577",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d581d742-508c-4b2a-8fca-1c9ec4979577",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a09b867a-8e86-4010-802d-5bfc19c7f2cc",
+    "SoLuong": 42,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a09b867a-8e86-4010-802d-5bfc19c7f2cc",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a09b867a-8e86-4010-802d-5bfc19c7f2cc",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a09b867a-8e86-4010-802d-5bfc19c7f2cc",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a09b867a-8e86-4010-802d-5bfc19c7f2cc",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a0d9e27a-9fce-4498-89b5-11b9c6cc948d",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a0d9e27a-9fce-4498-89b5-11b9c6cc948d",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a0d9e27a-9fce-4498-89b5-11b9c6cc948d",
+    "SoLuong": 93,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a0d9e27a-9fce-4498-89b5-11b9c6cc948d",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a0d9e27a-9fce-4498-89b5-11b9c6cc948d",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "db199346-7692-4b85-bb08-6f2070e7f3ae",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "db199346-7692-4b85-bb08-6f2070e7f3ae",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "db199346-7692-4b85-bb08-6f2070e7f3ae",
+    "SoLuong": 42,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "db199346-7692-4b85-bb08-6f2070e7f3ae",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "db199346-7692-4b85-bb08-6f2070e7f3ae",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b51be254-76e5-4b97-8e5c-9101d1f6c5d2",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b51be254-76e5-4b97-8e5c-9101d1f6c5d2",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b51be254-76e5-4b97-8e5c-9101d1f6c5d2",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b51be254-76e5-4b97-8e5c-9101d1f6c5d2",
+    "SoLuong": 68,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b51be254-76e5-4b97-8e5c-9101d1f6c5d2",
+    "SoLuong": 100,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ceafc693-e066-48fc-b8c1-272fa65cf4b8",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ceafc693-e066-48fc-b8c1-272fa65cf4b8",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ceafc693-e066-48fc-b8c1-272fa65cf4b8",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ceafc693-e066-48fc-b8c1-272fa65cf4b8",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ceafc693-e066-48fc-b8c1-272fa65cf4b8",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "955d8b93-6427-436c-bf41-59033042312e",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "955d8b93-6427-436c-bf41-59033042312e",
+    "SoLuong": 34,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "955d8b93-6427-436c-bf41-59033042312e",
+    "SoLuong": 62,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "955d8b93-6427-436c-bf41-59033042312e",
+    "SoLuong": 43,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "955d8b93-6427-436c-bf41-59033042312e",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f169ef13-7aeb-488c-916e-88f30edc5f12",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f169ef13-7aeb-488c-916e-88f30edc5f12",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f169ef13-7aeb-488c-916e-88f30edc5f12",
+    "SoLuong": 62,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f169ef13-7aeb-488c-916e-88f30edc5f12",
+    "SoLuong": 79,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f169ef13-7aeb-488c-916e-88f30edc5f12",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c37213de-1f73-4fb4-b059-c1f6d980b6df",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c37213de-1f73-4fb4-b059-c1f6d980b6df",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c37213de-1f73-4fb4-b059-c1f6d980b6df",
+    "SoLuong": 29,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c37213de-1f73-4fb4-b059-c1f6d980b6df",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c37213de-1f73-4fb4-b059-c1f6d980b6df",
+    "SoLuong": 72,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "49551868-53a5-4f57-9fb3-dbdcdae13b4b",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "49551868-53a5-4f57-9fb3-dbdcdae13b4b",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "49551868-53a5-4f57-9fb3-dbdcdae13b4b",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "49551868-53a5-4f57-9fb3-dbdcdae13b4b",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "49551868-53a5-4f57-9fb3-dbdcdae13b4b",
+    "SoLuong": 56,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "93d45f82-1fc4-47bc-ade1-f62ecaa3db6c",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "93d45f82-1fc4-47bc-ade1-f62ecaa3db6c",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "93d45f82-1fc4-47bc-ade1-f62ecaa3db6c",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "93d45f82-1fc4-47bc-ade1-f62ecaa3db6c",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "93d45f82-1fc4-47bc-ade1-f62ecaa3db6c",
+    "SoLuong": 79,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8d78e182-9d70-4a4f-baab-8351c08c6957",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8d78e182-9d70-4a4f-baab-8351c08c6957",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8d78e182-9d70-4a4f-baab-8351c08c6957",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8d78e182-9d70-4a4f-baab-8351c08c6957",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8d78e182-9d70-4a4f-baab-8351c08c6957",
+    "SoLuong": 65,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3b318a0c-0a59-4534-819e-addae0eb0809",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3b318a0c-0a59-4534-819e-addae0eb0809",
+    "SoLuong": 86,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3b318a0c-0a59-4534-819e-addae0eb0809",
+    "SoLuong": 56,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3b318a0c-0a59-4534-819e-addae0eb0809",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3b318a0c-0a59-4534-819e-addae0eb0809",
+    "SoLuong": 39,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fa15fc94-62b4-4e26-b317-d669739fd45d",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fa15fc94-62b4-4e26-b317-d669739fd45d",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fa15fc94-62b4-4e26-b317-d669739fd45d",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fa15fc94-62b4-4e26-b317-d669739fd45d",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fa15fc94-62b4-4e26-b317-d669739fd45d",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6a91091b-98d5-4a91-805a-8dab4dd4e795",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6a91091b-98d5-4a91-805a-8dab4dd4e795",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6a91091b-98d5-4a91-805a-8dab4dd4e795",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6a91091b-98d5-4a91-805a-8dab4dd4e795",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6a91091b-98d5-4a91-805a-8dab4dd4e795",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "adcf710f-3379-4451-8e87-c0f266620eba",
+    "SoLuong": 64,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "adcf710f-3379-4451-8e87-c0f266620eba",
+    "SoLuong": 89,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "adcf710f-3379-4451-8e87-c0f266620eba",
+    "SoLuong": 79,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "adcf710f-3379-4451-8e87-c0f266620eba",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "adcf710f-3379-4451-8e87-c0f266620eba",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9e972c3a-4d4a-4f70-a549-b4c25a9d5c27",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9e972c3a-4d4a-4f70-a549-b4c25a9d5c27",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9e972c3a-4d4a-4f70-a549-b4c25a9d5c27",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9e972c3a-4d4a-4f70-a549-b4c25a9d5c27",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9e972c3a-4d4a-4f70-a549-b4c25a9d5c27",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e9f50064-f67b-4893-a3c7-1e3cca0390d0",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e9f50064-f67b-4893-a3c7-1e3cca0390d0",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e9f50064-f67b-4893-a3c7-1e3cca0390d0",
+    "SoLuong": 20,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e9f50064-f67b-4893-a3c7-1e3cca0390d0",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e9f50064-f67b-4893-a3c7-1e3cca0390d0",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f1a98e58-572e-4620-b210-36f3d5f8051c",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f1a98e58-572e-4620-b210-36f3d5f8051c",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f1a98e58-572e-4620-b210-36f3d5f8051c",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f1a98e58-572e-4620-b210-36f3d5f8051c",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f1a98e58-572e-4620-b210-36f3d5f8051c",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f9aedd50-129c-4cf5-a1b5-42a5d2e9bd24",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f9aedd50-129c-4cf5-a1b5-42a5d2e9bd24",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f9aedd50-129c-4cf5-a1b5-42a5d2e9bd24",
+    "SoLuong": 92,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f9aedd50-129c-4cf5-a1b5-42a5d2e9bd24",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f9aedd50-129c-4cf5-a1b5-42a5d2e9bd24",
+    "SoLuong": 65,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f9bfbf87-7645-4d87-96dc-0e6edf603446",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f9bfbf87-7645-4d87-96dc-0e6edf603446",
+    "SoLuong": 94,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f9bfbf87-7645-4d87-96dc-0e6edf603446",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f9bfbf87-7645-4d87-96dc-0e6edf603446",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f9bfbf87-7645-4d87-96dc-0e6edf603446",
+    "SoLuong": 32,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7c8e81e1-6a76-4392-9232-118b9670b000",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7c8e81e1-6a76-4392-9232-118b9670b000",
+    "SoLuong": 88,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7c8e81e1-6a76-4392-9232-118b9670b000",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7c8e81e1-6a76-4392-9232-118b9670b000",
+    "SoLuong": 13,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7c8e81e1-6a76-4392-9232-118b9670b000",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "17e04591-cfaa-4f6d-bf30-42c040e03bb8",
+    "SoLuong": 56,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "17e04591-cfaa-4f6d-bf30-42c040e03bb8",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "17e04591-cfaa-4f6d-bf30-42c040e03bb8",
+    "SoLuong": 99,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "17e04591-cfaa-4f6d-bf30-42c040e03bb8",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "17e04591-cfaa-4f6d-bf30-42c040e03bb8",
+    "SoLuong": 32,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2bd16871-b2c8-4247-bea9-43255edc4c99",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2bd16871-b2c8-4247-bea9-43255edc4c99",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2bd16871-b2c8-4247-bea9-43255edc4c99",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2bd16871-b2c8-4247-bea9-43255edc4c99",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2bd16871-b2c8-4247-bea9-43255edc4c99",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "08078a30-e055-4d5d-bd6f-c1f9df37e339",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "08078a30-e055-4d5d-bd6f-c1f9df37e339",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "08078a30-e055-4d5d-bd6f-c1f9df37e339",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "08078a30-e055-4d5d-bd6f-c1f9df37e339",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "08078a30-e055-4d5d-bd6f-c1f9df37e339",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1b427735-1744-4365-8361-79b477157264",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1b427735-1744-4365-8361-79b477157264",
+    "SoLuong": 87,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1b427735-1744-4365-8361-79b477157264",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1b427735-1744-4365-8361-79b477157264",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1b427735-1744-4365-8361-79b477157264",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "42973a02-7e5b-4fdb-bfa0-d2297c6ee302",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "42973a02-7e5b-4fdb-bfa0-d2297c6ee302",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "42973a02-7e5b-4fdb-bfa0-d2297c6ee302",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "42973a02-7e5b-4fdb-bfa0-d2297c6ee302",
+    "SoLuong": 99,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "42973a02-7e5b-4fdb-bfa0-d2297c6ee302",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e57fee17-2d9c-4911-a18f-9b2fc5fb30ee",
+    "SoLuong": 25,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e57fee17-2d9c-4911-a18f-9b2fc5fb30ee",
+    "SoLuong": 36,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e57fee17-2d9c-4911-a18f-9b2fc5fb30ee",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e57fee17-2d9c-4911-a18f-9b2fc5fb30ee",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e57fee17-2d9c-4911-a18f-9b2fc5fb30ee",
+    "SoLuong": 39,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2b52c073-9319-4ffc-bccc-1fdc24bfdcf8",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2b52c073-9319-4ffc-bccc-1fdc24bfdcf8",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2b52c073-9319-4ffc-bccc-1fdc24bfdcf8",
+    "SoLuong": 80,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2b52c073-9319-4ffc-bccc-1fdc24bfdcf8",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2b52c073-9319-4ffc-bccc-1fdc24bfdcf8",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "07f71f3d-96d8-45e0-a2c7-955e9614a96b",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "07f71f3d-96d8-45e0-a2c7-955e9614a96b",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "07f71f3d-96d8-45e0-a2c7-955e9614a96b",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "07f71f3d-96d8-45e0-a2c7-955e9614a96b",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "07f71f3d-96d8-45e0-a2c7-955e9614a96b",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7d83a15f-3203-4390-bff7-c944c45a20c1",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7d83a15f-3203-4390-bff7-c944c45a20c1",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7d83a15f-3203-4390-bff7-c944c45a20c1",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7d83a15f-3203-4390-bff7-c944c45a20c1",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7d83a15f-3203-4390-bff7-c944c45a20c1",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ca5697f0-ad85-4be7-919b-8e0c9e0575c7",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ca5697f0-ad85-4be7-919b-8e0c9e0575c7",
+    "SoLuong": 25,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ca5697f0-ad85-4be7-919b-8e0c9e0575c7",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ca5697f0-ad85-4be7-919b-8e0c9e0575c7",
+    "SoLuong": 92,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ca5697f0-ad85-4be7-919b-8e0c9e0575c7",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c5211215-4d43-46b4-a2aa-fc324789c384",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c5211215-4d43-46b4-a2aa-fc324789c384",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c5211215-4d43-46b4-a2aa-fc324789c384",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c5211215-4d43-46b4-a2aa-fc324789c384",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c5211215-4d43-46b4-a2aa-fc324789c384",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "75e4fe5e-cf41-4ada-acde-c6dd75aca1aa",
+    "SoLuong": 23,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "75e4fe5e-cf41-4ada-acde-c6dd75aca1aa",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "75e4fe5e-cf41-4ada-acde-c6dd75aca1aa",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "75e4fe5e-cf41-4ada-acde-c6dd75aca1aa",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "75e4fe5e-cf41-4ada-acde-c6dd75aca1aa",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d2f2de7e-bdbe-4e32-a5a8-cfae801b75a5",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d2f2de7e-bdbe-4e32-a5a8-cfae801b75a5",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d2f2de7e-bdbe-4e32-a5a8-cfae801b75a5",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d2f2de7e-bdbe-4e32-a5a8-cfae801b75a5",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d2f2de7e-bdbe-4e32-a5a8-cfae801b75a5",
+    "SoLuong": 79,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2bb299a4-ff1a-49cb-80e7-13d2f92d65d7",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2bb299a4-ff1a-49cb-80e7-13d2f92d65d7",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2bb299a4-ff1a-49cb-80e7-13d2f92d65d7",
+    "SoLuong": 20,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2bb299a4-ff1a-49cb-80e7-13d2f92d65d7",
+    "SoLuong": 79,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2bb299a4-ff1a-49cb-80e7-13d2f92d65d7",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c88ea147-632b-46f5-bec7-9ba30802abc5",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c88ea147-632b-46f5-bec7-9ba30802abc5",
+    "SoLuong": 97,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c88ea147-632b-46f5-bec7-9ba30802abc5",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c88ea147-632b-46f5-bec7-9ba30802abc5",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c88ea147-632b-46f5-bec7-9ba30802abc5",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "05be2bbf-e52a-4502-9ec9-d58aa3918065",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "05be2bbf-e52a-4502-9ec9-d58aa3918065",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "05be2bbf-e52a-4502-9ec9-d58aa3918065",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "05be2bbf-e52a-4502-9ec9-d58aa3918065",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "05be2bbf-e52a-4502-9ec9-d58aa3918065",
+    "SoLuong": 75,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d1813219-9523-495b-a493-ae91293287bf",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d1813219-9523-495b-a493-ae91293287bf",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d1813219-9523-495b-a493-ae91293287bf",
+    "SoLuong": 58,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d1813219-9523-495b-a493-ae91293287bf",
+    "SoLuong": 72,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d1813219-9523-495b-a493-ae91293287bf",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a10391b2-e68e-4184-9772-e432e921fbbf",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a10391b2-e68e-4184-9772-e432e921fbbf",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a10391b2-e68e-4184-9772-e432e921fbbf",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a10391b2-e68e-4184-9772-e432e921fbbf",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a10391b2-e68e-4184-9772-e432e921fbbf",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d575cc38-b174-414e-988d-29187c5ef801",
+    "SoLuong": 28,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d575cc38-b174-414e-988d-29187c5ef801",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d575cc38-b174-414e-988d-29187c5ef801",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d575cc38-b174-414e-988d-29187c5ef801",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d575cc38-b174-414e-988d-29187c5ef801",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cf777541-3d4b-4b3a-a732-cddd087f75bf",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cf777541-3d4b-4b3a-a732-cddd087f75bf",
+    "SoLuong": 65,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cf777541-3d4b-4b3a-a732-cddd087f75bf",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cf777541-3d4b-4b3a-a732-cddd087f75bf",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cf777541-3d4b-4b3a-a732-cddd087f75bf",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "583b0505-e8b7-4d64-b4a3-8d938b88693a",
+    "SoLuong": 56,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "583b0505-e8b7-4d64-b4a3-8d938b88693a",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "583b0505-e8b7-4d64-b4a3-8d938b88693a",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "583b0505-e8b7-4d64-b4a3-8d938b88693a",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "583b0505-e8b7-4d64-b4a3-8d938b88693a",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9c84e221-e599-4e76-a3ed-06e09717ed6e",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9c84e221-e599-4e76-a3ed-06e09717ed6e",
+    "SoLuong": 32,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9c84e221-e599-4e76-a3ed-06e09717ed6e",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9c84e221-e599-4e76-a3ed-06e09717ed6e",
+    "SoLuong": 36,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9c84e221-e599-4e76-a3ed-06e09717ed6e",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "897d1381-3d99-4a27-949a-ea276f000d01",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "897d1381-3d99-4a27-949a-ea276f000d01",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "897d1381-3d99-4a27-949a-ea276f000d01",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "897d1381-3d99-4a27-949a-ea276f000d01",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "897d1381-3d99-4a27-949a-ea276f000d01",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "82a30a8c-81c8-4f38-8bc1-a10399f7c3ab",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "82a30a8c-81c8-4f38-8bc1-a10399f7c3ab",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "82a30a8c-81c8-4f38-8bc1-a10399f7c3ab",
+    "SoLuong": 26,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "82a30a8c-81c8-4f38-8bc1-a10399f7c3ab",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "82a30a8c-81c8-4f38-8bc1-a10399f7c3ab",
+    "SoLuong": 69,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4bb628fa-c643-4fd5-8b84-aff399de2734",
+    "SoLuong": 87,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4bb628fa-c643-4fd5-8b84-aff399de2734",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4bb628fa-c643-4fd5-8b84-aff399de2734",
+    "SoLuong": 72,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4bb628fa-c643-4fd5-8b84-aff399de2734",
+    "SoLuong": 62,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4bb628fa-c643-4fd5-8b84-aff399de2734",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c774ff52-cf87-4a35-a29b-51962e1238ef",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c774ff52-cf87-4a35-a29b-51962e1238ef",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c774ff52-cf87-4a35-a29b-51962e1238ef",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c774ff52-cf87-4a35-a29b-51962e1238ef",
+    "SoLuong": 28,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c774ff52-cf87-4a35-a29b-51962e1238ef",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4d7a051f-9172-4a22-a7c6-c22407ecfd6f",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4d7a051f-9172-4a22-a7c6-c22407ecfd6f",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4d7a051f-9172-4a22-a7c6-c22407ecfd6f",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4d7a051f-9172-4a22-a7c6-c22407ecfd6f",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4d7a051f-9172-4a22-a7c6-c22407ecfd6f",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b50208f5-08dc-4ec0-aa4e-dbd107b7b228",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b50208f5-08dc-4ec0-aa4e-dbd107b7b228",
+    "SoLuong": 84,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b50208f5-08dc-4ec0-aa4e-dbd107b7b228",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b50208f5-08dc-4ec0-aa4e-dbd107b7b228",
+    "SoLuong": 75,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b50208f5-08dc-4ec0-aa4e-dbd107b7b228",
+    "SoLuong": 42,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "abdc18d0-da5d-4b7c-8744-1a45be16264b",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "abdc18d0-da5d-4b7c-8744-1a45be16264b",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "abdc18d0-da5d-4b7c-8744-1a45be16264b",
+    "SoLuong": 65,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "abdc18d0-da5d-4b7c-8744-1a45be16264b",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "abdc18d0-da5d-4b7c-8744-1a45be16264b",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5f84bfb1-b5e3-4df5-a911-84fa92762e8d",
+    "SoLuong": 45,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5f84bfb1-b5e3-4df5-a911-84fa92762e8d",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5f84bfb1-b5e3-4df5-a911-84fa92762e8d",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5f84bfb1-b5e3-4df5-a911-84fa92762e8d",
+    "SoLuong": 100,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5f84bfb1-b5e3-4df5-a911-84fa92762e8d",
+    "SoLuong": 95,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d0181afd-98f8-46f2-9ea0-20688060907c",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d0181afd-98f8-46f2-9ea0-20688060907c",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d0181afd-98f8-46f2-9ea0-20688060907c",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d0181afd-98f8-46f2-9ea0-20688060907c",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d0181afd-98f8-46f2-9ea0-20688060907c",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0a7f5149-b3da-419b-b761-b11abb4cc227",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0a7f5149-b3da-419b-b761-b11abb4cc227",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0a7f5149-b3da-419b-b761-b11abb4cc227",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0a7f5149-b3da-419b-b761-b11abb4cc227",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0a7f5149-b3da-419b-b761-b11abb4cc227",
+    "SoLuong": 88,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0810d205-be20-4f31-999f-c06cd7f26a1c",
+    "SoLuong": 39,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0810d205-be20-4f31-999f-c06cd7f26a1c",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0810d205-be20-4f31-999f-c06cd7f26a1c",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0810d205-be20-4f31-999f-c06cd7f26a1c",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0810d205-be20-4f31-999f-c06cd7f26a1c",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d7d1a949-771f-4f59-b7c7-06124c5d126d",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d7d1a949-771f-4f59-b7c7-06124c5d126d",
+    "SoLuong": 56,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d7d1a949-771f-4f59-b7c7-06124c5d126d",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d7d1a949-771f-4f59-b7c7-06124c5d126d",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d7d1a949-771f-4f59-b7c7-06124c5d126d",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "59fafe3e-5659-4fe2-aeb9-125452a61946",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "59fafe3e-5659-4fe2-aeb9-125452a61946",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "59fafe3e-5659-4fe2-aeb9-125452a61946",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "59fafe3e-5659-4fe2-aeb9-125452a61946",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "59fafe3e-5659-4fe2-aeb9-125452a61946",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cbdf1054-8882-49a2-a15f-006ae6403f28",
+    "SoLuong": 44,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cbdf1054-8882-49a2-a15f-006ae6403f28",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cbdf1054-8882-49a2-a15f-006ae6403f28",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cbdf1054-8882-49a2-a15f-006ae6403f28",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cbdf1054-8882-49a2-a15f-006ae6403f28",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2b843d0c-a65d-4e3f-a590-cc52c61a3732",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2b843d0c-a65d-4e3f-a590-cc52c61a3732",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2b843d0c-a65d-4e3f-a590-cc52c61a3732",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2b843d0c-a65d-4e3f-a590-cc52c61a3732",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2b843d0c-a65d-4e3f-a590-cc52c61a3732",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "71293d4a-b48f-4218-ae22-03b8495af8cc",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "71293d4a-b48f-4218-ae22-03b8495af8cc",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "71293d4a-b48f-4218-ae22-03b8495af8cc",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "71293d4a-b48f-4218-ae22-03b8495af8cc",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "71293d4a-b48f-4218-ae22-03b8495af8cc",
+    "SoLuong": 93,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a8d4fe9a-5506-4c57-a86f-f136852f032b",
+    "SoLuong": 23,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a8d4fe9a-5506-4c57-a86f-f136852f032b",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a8d4fe9a-5506-4c57-a86f-f136852f032b",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a8d4fe9a-5506-4c57-a86f-f136852f032b",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a8d4fe9a-5506-4c57-a86f-f136852f032b",
+    "SoLuong": 32,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8403692a-3a5a-4c00-b202-8151b5d808e4",
+    "SoLuong": 23,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8403692a-3a5a-4c00-b202-8151b5d808e4",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8403692a-3a5a-4c00-b202-8151b5d808e4",
+    "SoLuong": 28,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8403692a-3a5a-4c00-b202-8151b5d808e4",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8403692a-3a5a-4c00-b202-8151b5d808e4",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cbcbee87-36bd-43d9-b68c-11cf0f7ee434",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cbcbee87-36bd-43d9-b68c-11cf0f7ee434",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cbcbee87-36bd-43d9-b68c-11cf0f7ee434",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cbcbee87-36bd-43d9-b68c-11cf0f7ee434",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cbcbee87-36bd-43d9-b68c-11cf0f7ee434",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e46221ea-7e68-42c3-9f90-20cb960a9ee9",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e46221ea-7e68-42c3-9f90-20cb960a9ee9",
+    "SoLuong": 15,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e46221ea-7e68-42c3-9f90-20cb960a9ee9",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e46221ea-7e68-42c3-9f90-20cb960a9ee9",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e46221ea-7e68-42c3-9f90-20cb960a9ee9",
+    "SoLuong": 29,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "79dc9595-ebb8-46e8-a178-50f68d7c4e26",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "79dc9595-ebb8-46e8-a178-50f68d7c4e26",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "79dc9595-ebb8-46e8-a178-50f68d7c4e26",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "79dc9595-ebb8-46e8-a178-50f68d7c4e26",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "79dc9595-ebb8-46e8-a178-50f68d7c4e26",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6243cbca-4eac-47a1-90b2-32a1ef856350",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6243cbca-4eac-47a1-90b2-32a1ef856350",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6243cbca-4eac-47a1-90b2-32a1ef856350",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6243cbca-4eac-47a1-90b2-32a1ef856350",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6243cbca-4eac-47a1-90b2-32a1ef856350",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "14fbc483-c00f-49a0-9df5-194648ff757c",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "14fbc483-c00f-49a0-9df5-194648ff757c",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "14fbc483-c00f-49a0-9df5-194648ff757c",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "14fbc483-c00f-49a0-9df5-194648ff757c",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "14fbc483-c00f-49a0-9df5-194648ff757c",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "874ca5e5-d045-4e63-bdbd-8a5dcaba9924",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "874ca5e5-d045-4e63-bdbd-8a5dcaba9924",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "874ca5e5-d045-4e63-bdbd-8a5dcaba9924",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "874ca5e5-d045-4e63-bdbd-8a5dcaba9924",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "874ca5e5-d045-4e63-bdbd-8a5dcaba9924",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8217a1e9-c950-442f-be16-9dad6f8fac78",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8217a1e9-c950-442f-be16-9dad6f8fac78",
+    "SoLuong": 69,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8217a1e9-c950-442f-be16-9dad6f8fac78",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8217a1e9-c950-442f-be16-9dad6f8fac78",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8217a1e9-c950-442f-be16-9dad6f8fac78",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e45f1ab0-375c-43dc-9f5d-14075f7c02c9",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e45f1ab0-375c-43dc-9f5d-14075f7c02c9",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e45f1ab0-375c-43dc-9f5d-14075f7c02c9",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e45f1ab0-375c-43dc-9f5d-14075f7c02c9",
+    "SoLuong": 28,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e45f1ab0-375c-43dc-9f5d-14075f7c02c9",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3ae64186-4812-462d-9005-d928c78232df",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3ae64186-4812-462d-9005-d928c78232df",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3ae64186-4812-462d-9005-d928c78232df",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3ae64186-4812-462d-9005-d928c78232df",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3ae64186-4812-462d-9005-d928c78232df",
+    "SoLuong": 91,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d5cf8b4e-5c1b-45d8-9b7e-b1c53e73cd5c",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d5cf8b4e-5c1b-45d8-9b7e-b1c53e73cd5c",
+    "SoLuong": 99,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d5cf8b4e-5c1b-45d8-9b7e-b1c53e73cd5c",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d5cf8b4e-5c1b-45d8-9b7e-b1c53e73cd5c",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d5cf8b4e-5c1b-45d8-9b7e-b1c53e73cd5c",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a416f0f7-6097-42cd-b2f7-944b118d46c8",
+    "SoLuong": 23,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a416f0f7-6097-42cd-b2f7-944b118d46c8",
+    "SoLuong": 59,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a416f0f7-6097-42cd-b2f7-944b118d46c8",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a416f0f7-6097-42cd-b2f7-944b118d46c8",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a416f0f7-6097-42cd-b2f7-944b118d46c8",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ff896a08-c27d-4bbd-80ec-30a3435acc12",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ff896a08-c27d-4bbd-80ec-30a3435acc12",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ff896a08-c27d-4bbd-80ec-30a3435acc12",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ff896a08-c27d-4bbd-80ec-30a3435acc12",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ff896a08-c27d-4bbd-80ec-30a3435acc12",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cab31754-637d-4472-b52b-f03ae88fdabb",
+    "SoLuong": 58,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cab31754-637d-4472-b52b-f03ae88fdabb",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cab31754-637d-4472-b52b-f03ae88fdabb",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cab31754-637d-4472-b52b-f03ae88fdabb",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cab31754-637d-4472-b52b-f03ae88fdabb",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1914c053-1103-4fd4-9d1a-e517798bb01e",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1914c053-1103-4fd4-9d1a-e517798bb01e",
+    "SoLuong": 34,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1914c053-1103-4fd4-9d1a-e517798bb01e",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1914c053-1103-4fd4-9d1a-e517798bb01e",
+    "SoLuong": 21,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1914c053-1103-4fd4-9d1a-e517798bb01e",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6a0e1396-89de-4954-9169-7af9b297ddcc",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6a0e1396-89de-4954-9169-7af9b297ddcc",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6a0e1396-89de-4954-9169-7af9b297ddcc",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6a0e1396-89de-4954-9169-7af9b297ddcc",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6a0e1396-89de-4954-9169-7af9b297ddcc",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "65b29fda-4e26-4a96-b070-ce36ec8b6aec",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "65b29fda-4e26-4a96-b070-ce36ec8b6aec",
+    "SoLuong": 97,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "65b29fda-4e26-4a96-b070-ce36ec8b6aec",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "65b29fda-4e26-4a96-b070-ce36ec8b6aec",
+    "SoLuong": 73,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "65b29fda-4e26-4a96-b070-ce36ec8b6aec",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2c7bdc67-0045-4189-b8bf-e637ca0570bc",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2c7bdc67-0045-4189-b8bf-e637ca0570bc",
+    "SoLuong": 43,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2c7bdc67-0045-4189-b8bf-e637ca0570bc",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2c7bdc67-0045-4189-b8bf-e637ca0570bc",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2c7bdc67-0045-4189-b8bf-e637ca0570bc",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a725d2f7-0408-4dca-9269-558cb1153093",
+    "SoLuong": 19,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a725d2f7-0408-4dca-9269-558cb1153093",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a725d2f7-0408-4dca-9269-558cb1153093",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a725d2f7-0408-4dca-9269-558cb1153093",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a725d2f7-0408-4dca-9269-558cb1153093",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c836380c-8d79-4b9b-b7d9-7716bbc4d49c",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c836380c-8d79-4b9b-b7d9-7716bbc4d49c",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c836380c-8d79-4b9b-b7d9-7716bbc4d49c",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c836380c-8d79-4b9b-b7d9-7716bbc4d49c",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c836380c-8d79-4b9b-b7d9-7716bbc4d49c",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "dad54dee-32af-45b8-b77e-2ec5a8f64a05",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "dad54dee-32af-45b8-b77e-2ec5a8f64a05",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "dad54dee-32af-45b8-b77e-2ec5a8f64a05",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "dad54dee-32af-45b8-b77e-2ec5a8f64a05",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "dad54dee-32af-45b8-b77e-2ec5a8f64a05",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3984c1aa-1fae-477f-b7d3-5e15aeafcbf5",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3984c1aa-1fae-477f-b7d3-5e15aeafcbf5",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3984c1aa-1fae-477f-b7d3-5e15aeafcbf5",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3984c1aa-1fae-477f-b7d3-5e15aeafcbf5",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3984c1aa-1fae-477f-b7d3-5e15aeafcbf5",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bf9e7604-850b-421f-81a8-2e3368643523",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bf9e7604-850b-421f-81a8-2e3368643523",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bf9e7604-850b-421f-81a8-2e3368643523",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bf9e7604-850b-421f-81a8-2e3368643523",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bf9e7604-850b-421f-81a8-2e3368643523",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "93f59fae-5b88-4a2f-9914-332a575fa6dd",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "93f59fae-5b88-4a2f-9914-332a575fa6dd",
+    "SoLuong": 100,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "93f59fae-5b88-4a2f-9914-332a575fa6dd",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "93f59fae-5b88-4a2f-9914-332a575fa6dd",
+    "SoLuong": 59,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "93f59fae-5b88-4a2f-9914-332a575fa6dd",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4f46ddfe-c680-4093-89ad-1f77ae34122a",
+    "SoLuong": 73,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4f46ddfe-c680-4093-89ad-1f77ae34122a",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4f46ddfe-c680-4093-89ad-1f77ae34122a",
+    "SoLuong": 64,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4f46ddfe-c680-4093-89ad-1f77ae34122a",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4f46ddfe-c680-4093-89ad-1f77ae34122a",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d9d4a96c-68d3-4170-b454-b4316e913416",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d9d4a96c-68d3-4170-b454-b4316e913416",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d9d4a96c-68d3-4170-b454-b4316e913416",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d9d4a96c-68d3-4170-b454-b4316e913416",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d9d4a96c-68d3-4170-b454-b4316e913416",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e85d9757-c9c6-4b7f-97f3-552da4fc2e96",
+    "SoLuong": 48,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e85d9757-c9c6-4b7f-97f3-552da4fc2e96",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e85d9757-c9c6-4b7f-97f3-552da4fc2e96",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e85d9757-c9c6-4b7f-97f3-552da4fc2e96",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e85d9757-c9c6-4b7f-97f3-552da4fc2e96",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "69c365cd-5d3c-41fe-bbbc-fdf7c6207a01",
+    "SoLuong": 97,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "69c365cd-5d3c-41fe-bbbc-fdf7c6207a01",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "69c365cd-5d3c-41fe-bbbc-fdf7c6207a01",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "69c365cd-5d3c-41fe-bbbc-fdf7c6207a01",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "69c365cd-5d3c-41fe-bbbc-fdf7c6207a01",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8cdd1998-7212-49bf-bf60-984bf9c25200",
+    "SoLuong": 23,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8cdd1998-7212-49bf-bf60-984bf9c25200",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8cdd1998-7212-49bf-bf60-984bf9c25200",
+    "SoLuong": 13,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8cdd1998-7212-49bf-bf60-984bf9c25200",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8cdd1998-7212-49bf-bf60-984bf9c25200",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ff653791-b9c8-46d4-9c17-ac3d1f657580",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ff653791-b9c8-46d4-9c17-ac3d1f657580",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ff653791-b9c8-46d4-9c17-ac3d1f657580",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ff653791-b9c8-46d4-9c17-ac3d1f657580",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ff653791-b9c8-46d4-9c17-ac3d1f657580",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "907e3f0e-ae26-4ee6-8f3d-f79cc872ed45",
+    "SoLuong": 45,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "907e3f0e-ae26-4ee6-8f3d-f79cc872ed45",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "907e3f0e-ae26-4ee6-8f3d-f79cc872ed45",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "907e3f0e-ae26-4ee6-8f3d-f79cc872ed45",
+    "SoLuong": 25,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "907e3f0e-ae26-4ee6-8f3d-f79cc872ed45",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fe5a3af8-e359-40e7-9345-2b3777d6048e",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fe5a3af8-e359-40e7-9345-2b3777d6048e",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fe5a3af8-e359-40e7-9345-2b3777d6048e",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fe5a3af8-e359-40e7-9345-2b3777d6048e",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fe5a3af8-e359-40e7-9345-2b3777d6048e",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a0fcdac2-6df8-4cd7-9c8e-002997719a29",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a0fcdac2-6df8-4cd7-9c8e-002997719a29",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a0fcdac2-6df8-4cd7-9c8e-002997719a29",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a0fcdac2-6df8-4cd7-9c8e-002997719a29",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a0fcdac2-6df8-4cd7-9c8e-002997719a29",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2099e804-465d-4a46-a9cf-e8dbb3109cb7",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2099e804-465d-4a46-a9cf-e8dbb3109cb7",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2099e804-465d-4a46-a9cf-e8dbb3109cb7",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2099e804-465d-4a46-a9cf-e8dbb3109cb7",
+    "SoLuong": 86,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2099e804-465d-4a46-a9cf-e8dbb3109cb7",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "28b895d0-beb9-4b43-9bc9-bc36842f8355",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "28b895d0-beb9-4b43-9bc9-bc36842f8355",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "28b895d0-beb9-4b43-9bc9-bc36842f8355",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "28b895d0-beb9-4b43-9bc9-bc36842f8355",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "28b895d0-beb9-4b43-9bc9-bc36842f8355",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ba1d0a9f-b02d-4aa9-a9d3-3439d2e06cb4",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ba1d0a9f-b02d-4aa9-a9d3-3439d2e06cb4",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ba1d0a9f-b02d-4aa9-a9d3-3439d2e06cb4",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ba1d0a9f-b02d-4aa9-a9d3-3439d2e06cb4",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ba1d0a9f-b02d-4aa9-a9d3-3439d2e06cb4",
+    "SoLuong": 19,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ae63ddf4-d148-4177-96d0-4cda0b68c93d",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ae63ddf4-d148-4177-96d0-4cda0b68c93d",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ae63ddf4-d148-4177-96d0-4cda0b68c93d",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ae63ddf4-d148-4177-96d0-4cda0b68c93d",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ae63ddf4-d148-4177-96d0-4cda0b68c93d",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2e6737bd-896e-4309-9102-2166ed678c51",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2e6737bd-896e-4309-9102-2166ed678c51",
+    "SoLuong": 72,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2e6737bd-896e-4309-9102-2166ed678c51",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2e6737bd-896e-4309-9102-2166ed678c51",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2e6737bd-896e-4309-9102-2166ed678c51",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "10009cf5-eb43-4ec4-8016-4e14446b5f03",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "10009cf5-eb43-4ec4-8016-4e14446b5f03",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "10009cf5-eb43-4ec4-8016-4e14446b5f03",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "10009cf5-eb43-4ec4-8016-4e14446b5f03",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "10009cf5-eb43-4ec4-8016-4e14446b5f03",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b38e6142-6b29-4a26-a961-1d1f22214165",
+    "SoLuong": 34,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b38e6142-6b29-4a26-a961-1d1f22214165",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b38e6142-6b29-4a26-a961-1d1f22214165",
+    "SoLuong": 97,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b38e6142-6b29-4a26-a961-1d1f22214165",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b38e6142-6b29-4a26-a961-1d1f22214165",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "10317a5b-f745-47a8-860b-6f1ff999d49a",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "10317a5b-f745-47a8-860b-6f1ff999d49a",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "10317a5b-f745-47a8-860b-6f1ff999d49a",
+    "SoLuong": 18,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "10317a5b-f745-47a8-860b-6f1ff999d49a",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "10317a5b-f745-47a8-860b-6f1ff999d49a",
+    "SoLuong": 93,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b056950b-55ff-49ac-94cd-4c544d2d2fd1",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b056950b-55ff-49ac-94cd-4c544d2d2fd1",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b056950b-55ff-49ac-94cd-4c544d2d2fd1",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b056950b-55ff-49ac-94cd-4c544d2d2fd1",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b056950b-55ff-49ac-94cd-4c544d2d2fd1",
+    "SoLuong": 34,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "617206e9-79be-4da5-9d51-641ef05b2beb",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "617206e9-79be-4da5-9d51-641ef05b2beb",
+    "SoLuong": 48,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "617206e9-79be-4da5-9d51-641ef05b2beb",
+    "SoLuong": 84,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "617206e9-79be-4da5-9d51-641ef05b2beb",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "617206e9-79be-4da5-9d51-641ef05b2beb",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4e81d884-7e37-4ac7-8b23-553c9f2bd8bc",
+    "SoLuong": 51,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4e81d884-7e37-4ac7-8b23-553c9f2bd8bc",
+    "SoLuong": 98,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4e81d884-7e37-4ac7-8b23-553c9f2bd8bc",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4e81d884-7e37-4ac7-8b23-553c9f2bd8bc",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4e81d884-7e37-4ac7-8b23-553c9f2bd8bc",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7f193202-9d60-4a3a-b29d-b249a239bf0c",
+    "SoLuong": 43,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7f193202-9d60-4a3a-b29d-b249a239bf0c",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7f193202-9d60-4a3a-b29d-b249a239bf0c",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7f193202-9d60-4a3a-b29d-b249a239bf0c",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7f193202-9d60-4a3a-b29d-b249a239bf0c",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5f482e2c-aa97-40d7-82bc-c4cb7aa4b006",
+    "SoLuong": 65,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5f482e2c-aa97-40d7-82bc-c4cb7aa4b006",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5f482e2c-aa97-40d7-82bc-c4cb7aa4b006",
+    "SoLuong": 42,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5f482e2c-aa97-40d7-82bc-c4cb7aa4b006",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5f482e2c-aa97-40d7-82bc-c4cb7aa4b006",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2a7aa0ff-86f1-48c4-bf84-5da2858550d2",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2a7aa0ff-86f1-48c4-bf84-5da2858550d2",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2a7aa0ff-86f1-48c4-bf84-5da2858550d2",
+    "SoLuong": 36,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2a7aa0ff-86f1-48c4-bf84-5da2858550d2",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2a7aa0ff-86f1-48c4-bf84-5da2858550d2",
+    "SoLuong": 10,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6ffc7260-235a-4d2a-996d-4daba576924b",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6ffc7260-235a-4d2a-996d-4daba576924b",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6ffc7260-235a-4d2a-996d-4daba576924b",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6ffc7260-235a-4d2a-996d-4daba576924b",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6ffc7260-235a-4d2a-996d-4daba576924b",
+    "SoLuong": 13,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "850954b6-475f-4153-a6a9-1f36319c82d1",
+    "SoLuong": 10,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "850954b6-475f-4153-a6a9-1f36319c82d1",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "850954b6-475f-4153-a6a9-1f36319c82d1",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "850954b6-475f-4153-a6a9-1f36319c82d1",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "850954b6-475f-4153-a6a9-1f36319c82d1",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "927b6834-ef8e-4837-9adc-c025dcc48602",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "927b6834-ef8e-4837-9adc-c025dcc48602",
+    "SoLuong": 42,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "927b6834-ef8e-4837-9adc-c025dcc48602",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "927b6834-ef8e-4837-9adc-c025dcc48602",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "927b6834-ef8e-4837-9adc-c025dcc48602",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "62a5db4d-6703-4fdf-8787-e1682845b98e",
+    "SoLuong": 19,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "62a5db4d-6703-4fdf-8787-e1682845b98e",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "62a5db4d-6703-4fdf-8787-e1682845b98e",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "62a5db4d-6703-4fdf-8787-e1682845b98e",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "62a5db4d-6703-4fdf-8787-e1682845b98e",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ab3d06c0-4eeb-4bcc-bc92-e32eb39fd493",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ab3d06c0-4eeb-4bcc-bc92-e32eb39fd493",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ab3d06c0-4eeb-4bcc-bc92-e32eb39fd493",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ab3d06c0-4eeb-4bcc-bc92-e32eb39fd493",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ab3d06c0-4eeb-4bcc-bc92-e32eb39fd493",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "dd95c7ce-f35c-4522-a546-5c09fa4f54c7",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "dd95c7ce-f35c-4522-a546-5c09fa4f54c7",
+    "SoLuong": 58,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "dd95c7ce-f35c-4522-a546-5c09fa4f54c7",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "dd95c7ce-f35c-4522-a546-5c09fa4f54c7",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "dd95c7ce-f35c-4522-a546-5c09fa4f54c7",
+    "SoLuong": 54,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1373da48-7a2d-4149-becb-73c1d29a8778",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1373da48-7a2d-4149-becb-73c1d29a8778",
+    "SoLuong": 37,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1373da48-7a2d-4149-becb-73c1d29a8778",
+    "SoLuong": 62,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1373da48-7a2d-4149-becb-73c1d29a8778",
+    "SoLuong": 42,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1373da48-7a2d-4149-becb-73c1d29a8778",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "973ed4cf-3ae6-40fd-bc2c-3c5c499f702f",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "973ed4cf-3ae6-40fd-bc2c-3c5c499f702f",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "973ed4cf-3ae6-40fd-bc2c-3c5c499f702f",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "973ed4cf-3ae6-40fd-bc2c-3c5c499f702f",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "973ed4cf-3ae6-40fd-bc2c-3c5c499f702f",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bbc119f2-1d25-45de-a244-e6b904de5c79",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bbc119f2-1d25-45de-a244-e6b904de5c79",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bbc119f2-1d25-45de-a244-e6b904de5c79",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bbc119f2-1d25-45de-a244-e6b904de5c79",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bbc119f2-1d25-45de-a244-e6b904de5c79",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "01f477ea-1b4f-4295-920b-fd5b153344f4",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "01f477ea-1b4f-4295-920b-fd5b153344f4",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "01f477ea-1b4f-4295-920b-fd5b153344f4",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "01f477ea-1b4f-4295-920b-fd5b153344f4",
+    "SoLuong": 67,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "01f477ea-1b4f-4295-920b-fd5b153344f4",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4ca7cae4-525b-4028-b1ca-7cff3ca5a4cf",
+    "SoLuong": 32,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4ca7cae4-525b-4028-b1ca-7cff3ca5a4cf",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4ca7cae4-525b-4028-b1ca-7cff3ca5a4cf",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4ca7cae4-525b-4028-b1ca-7cff3ca5a4cf",
+    "SoLuong": 44,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4ca7cae4-525b-4028-b1ca-7cff3ca5a4cf",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "06d22dae-9701-4427-8e31-b015cb0eeda7",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "06d22dae-9701-4427-8e31-b015cb0eeda7",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "06d22dae-9701-4427-8e31-b015cb0eeda7",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "06d22dae-9701-4427-8e31-b015cb0eeda7",
+    "SoLuong": 45,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "06d22dae-9701-4427-8e31-b015cb0eeda7",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5014b88c-a69d-4a2c-a8e3-0a3288791c38",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5014b88c-a69d-4a2c-a8e3-0a3288791c38",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5014b88c-a69d-4a2c-a8e3-0a3288791c38",
+    "SoLuong": 28,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5014b88c-a69d-4a2c-a8e3-0a3288791c38",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5014b88c-a69d-4a2c-a8e3-0a3288791c38",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "24b01934-951d-4a27-bdd7-bc1ea7c97f7d",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "24b01934-951d-4a27-bdd7-bc1ea7c97f7d",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "24b01934-951d-4a27-bdd7-bc1ea7c97f7d",
+    "SoLuong": 76,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "24b01934-951d-4a27-bdd7-bc1ea7c97f7d",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "24b01934-951d-4a27-bdd7-bc1ea7c97f7d",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7178719f-3edf-4bf2-90e7-42f08ff455c1",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7178719f-3edf-4bf2-90e7-42f08ff455c1",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7178719f-3edf-4bf2-90e7-42f08ff455c1",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7178719f-3edf-4bf2-90e7-42f08ff455c1",
+    "SoLuong": 91,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7178719f-3edf-4bf2-90e7-42f08ff455c1",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cb7f7e66-cb4f-4941-9c71-4d5764b4edc4",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cb7f7e66-cb4f-4941-9c71-4d5764b4edc4",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cb7f7e66-cb4f-4941-9c71-4d5764b4edc4",
+    "SoLuong": 79,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cb7f7e66-cb4f-4941-9c71-4d5764b4edc4",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cb7f7e66-cb4f-4941-9c71-4d5764b4edc4",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0c2ddb72-c03f-4744-96fd-aec289361d8a",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0c2ddb72-c03f-4744-96fd-aec289361d8a",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0c2ddb72-c03f-4744-96fd-aec289361d8a",
+    "SoLuong": 43,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0c2ddb72-c03f-4744-96fd-aec289361d8a",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0c2ddb72-c03f-4744-96fd-aec289361d8a",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f673a2fe-f21b-4d37-8dc2-18bc637cacd6",
+    "SoLuong": 15,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f673a2fe-f21b-4d37-8dc2-18bc637cacd6",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f673a2fe-f21b-4d37-8dc2-18bc637cacd6",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f673a2fe-f21b-4d37-8dc2-18bc637cacd6",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f673a2fe-f21b-4d37-8dc2-18bc637cacd6",
+    "SoLuong": 51,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2f4700dc-c054-4452-a636-3fba37270d2d",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2f4700dc-c054-4452-a636-3fba37270d2d",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2f4700dc-c054-4452-a636-3fba37270d2d",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2f4700dc-c054-4452-a636-3fba37270d2d",
+    "SoLuong": 73,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2f4700dc-c054-4452-a636-3fba37270d2d",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a9229818-bec2-4abf-9435-333191d3198d",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a9229818-bec2-4abf-9435-333191d3198d",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a9229818-bec2-4abf-9435-333191d3198d",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a9229818-bec2-4abf-9435-333191d3198d",
+    "SoLuong": 97,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a9229818-bec2-4abf-9435-333191d3198d",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3ed8fb51-f0b7-4ec6-b705-d6dd0b4a80bc",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3ed8fb51-f0b7-4ec6-b705-d6dd0b4a80bc",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3ed8fb51-f0b7-4ec6-b705-d6dd0b4a80bc",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3ed8fb51-f0b7-4ec6-b705-d6dd0b4a80bc",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3ed8fb51-f0b7-4ec6-b705-d6dd0b4a80bc",
+    "SoLuong": 97,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e424fcbe-f675-49ac-bae0-ca215ab81ff0",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e424fcbe-f675-49ac-bae0-ca215ab81ff0",
+    "SoLuong": 19,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e424fcbe-f675-49ac-bae0-ca215ab81ff0",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e424fcbe-f675-49ac-bae0-ca215ab81ff0",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e424fcbe-f675-49ac-bae0-ca215ab81ff0",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f674a91c-5d01-4923-9ce5-ff668eaeb967",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f674a91c-5d01-4923-9ce5-ff668eaeb967",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f674a91c-5d01-4923-9ce5-ff668eaeb967",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f674a91c-5d01-4923-9ce5-ff668eaeb967",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f674a91c-5d01-4923-9ce5-ff668eaeb967",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c3730821-26e9-40af-93b5-3d6a0fa914b2",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c3730821-26e9-40af-93b5-3d6a0fa914b2",
+    "SoLuong": 53,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c3730821-26e9-40af-93b5-3d6a0fa914b2",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c3730821-26e9-40af-93b5-3d6a0fa914b2",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c3730821-26e9-40af-93b5-3d6a0fa914b2",
+    "SoLuong": 72,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cf7965c1-cf87-46cc-8b26-541c831894aa",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cf7965c1-cf87-46cc-8b26-541c831894aa",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cf7965c1-cf87-46cc-8b26-541c831894aa",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cf7965c1-cf87-46cc-8b26-541c831894aa",
+    "SoLuong": 20,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cf7965c1-cf87-46cc-8b26-541c831894aa",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f43e85a2-f39a-4a53-9bdc-cd5001803cca",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f43e85a2-f39a-4a53-9bdc-cd5001803cca",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f43e85a2-f39a-4a53-9bdc-cd5001803cca",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f43e85a2-f39a-4a53-9bdc-cd5001803cca",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f43e85a2-f39a-4a53-9bdc-cd5001803cca",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "088b2f85-07e5-4e3b-bc0a-3f4167f8ba99",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "088b2f85-07e5-4e3b-bc0a-3f4167f8ba99",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "088b2f85-07e5-4e3b-bc0a-3f4167f8ba99",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "088b2f85-07e5-4e3b-bc0a-3f4167f8ba99",
+    "SoLuong": 34,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "088b2f85-07e5-4e3b-bc0a-3f4167f8ba99",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fae38614-c258-4910-9d62-2ffe18a80142",
+    "SoLuong": 60,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fae38614-c258-4910-9d62-2ffe18a80142",
+    "SoLuong": 89,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fae38614-c258-4910-9d62-2ffe18a80142",
+    "SoLuong": 100,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fae38614-c258-4910-9d62-2ffe18a80142",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fae38614-c258-4910-9d62-2ffe18a80142",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c47f07e2-8e6c-49ca-90e4-ebe08731387f",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c47f07e2-8e6c-49ca-90e4-ebe08731387f",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c47f07e2-8e6c-49ca-90e4-ebe08731387f",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c47f07e2-8e6c-49ca-90e4-ebe08731387f",
+    "SoLuong": 10,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c47f07e2-8e6c-49ca-90e4-ebe08731387f",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d6576b61-ee03-4b94-9ca4-8a2f4c5b2b67",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d6576b61-ee03-4b94-9ca4-8a2f4c5b2b67",
+    "SoLuong": 64,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d6576b61-ee03-4b94-9ca4-8a2f4c5b2b67",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d6576b61-ee03-4b94-9ca4-8a2f4c5b2b67",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d6576b61-ee03-4b94-9ca4-8a2f4c5b2b67",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a5947f1b-d2af-4e0a-908b-285593e57100",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a5947f1b-d2af-4e0a-908b-285593e57100",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a5947f1b-d2af-4e0a-908b-285593e57100",
+    "SoLuong": 59,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a5947f1b-d2af-4e0a-908b-285593e57100",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a5947f1b-d2af-4e0a-908b-285593e57100",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "015660bd-aed8-4c14-ac63-dc8e33c9f645",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "015660bd-aed8-4c14-ac63-dc8e33c9f645",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "015660bd-aed8-4c14-ac63-dc8e33c9f645",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "015660bd-aed8-4c14-ac63-dc8e33c9f645",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "015660bd-aed8-4c14-ac63-dc8e33c9f645",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5e1d3f9a-2845-4bda-b5e7-e0878308b10f",
+    "SoLuong": 58,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5e1d3f9a-2845-4bda-b5e7-e0878308b10f",
+    "SoLuong": 99,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5e1d3f9a-2845-4bda-b5e7-e0878308b10f",
+    "SoLuong": 89,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5e1d3f9a-2845-4bda-b5e7-e0878308b10f",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5e1d3f9a-2845-4bda-b5e7-e0878308b10f",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b0abdaab-7167-43b1-9072-515bf295161c",
+    "SoLuong": 72,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b0abdaab-7167-43b1-9072-515bf295161c",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b0abdaab-7167-43b1-9072-515bf295161c",
+    "SoLuong": 97,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b0abdaab-7167-43b1-9072-515bf295161c",
+    "SoLuong": 25,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b0abdaab-7167-43b1-9072-515bf295161c",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "10d1b4de-d3a0-4549-a3b0-c905a13a6217",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "10d1b4de-d3a0-4549-a3b0-c905a13a6217",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "10d1b4de-d3a0-4549-a3b0-c905a13a6217",
+    "SoLuong": 26,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "10d1b4de-d3a0-4549-a3b0-c905a13a6217",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "10d1b4de-d3a0-4549-a3b0-c905a13a6217",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c5773bc7-65f3-424a-b0cc-d8970acb2927",
+    "SoLuong": 30,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c5773bc7-65f3-424a-b0cc-d8970acb2927",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c5773bc7-65f3-424a-b0cc-d8970acb2927",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c5773bc7-65f3-424a-b0cc-d8970acb2927",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c5773bc7-65f3-424a-b0cc-d8970acb2927",
+    "SoLuong": 65,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "452686bf-ac5a-479a-9d95-2631c6a136f5",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "452686bf-ac5a-479a-9d95-2631c6a136f5",
+    "SoLuong": 51,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "452686bf-ac5a-479a-9d95-2631c6a136f5",
+    "SoLuong": 59,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "452686bf-ac5a-479a-9d95-2631c6a136f5",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "452686bf-ac5a-479a-9d95-2631c6a136f5",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fdfc0ebe-5067-4732-83ac-7ea9dd4dec50",
+    "SoLuong": 43,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fdfc0ebe-5067-4732-83ac-7ea9dd4dec50",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fdfc0ebe-5067-4732-83ac-7ea9dd4dec50",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fdfc0ebe-5067-4732-83ac-7ea9dd4dec50",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fdfc0ebe-5067-4732-83ac-7ea9dd4dec50",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "10dd3abd-23d2-44e8-a64c-2b614a2de310",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "10dd3abd-23d2-44e8-a64c-2b614a2de310",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "10dd3abd-23d2-44e8-a64c-2b614a2de310",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "10dd3abd-23d2-44e8-a64c-2b614a2de310",
+    "SoLuong": 97,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "10dd3abd-23d2-44e8-a64c-2b614a2de310",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4962fa68-f478-4c4a-9a41-e4a35a4ec522",
+    "SoLuong": 42,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4962fa68-f478-4c4a-9a41-e4a35a4ec522",
+    "SoLuong": 49,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4962fa68-f478-4c4a-9a41-e4a35a4ec522",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4962fa68-f478-4c4a-9a41-e4a35a4ec522",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4962fa68-f478-4c4a-9a41-e4a35a4ec522",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "625a73e9-8ee2-4b7b-a5b2-a7d1ef8bddcf",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "625a73e9-8ee2-4b7b-a5b2-a7d1ef8bddcf",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "625a73e9-8ee2-4b7b-a5b2-a7d1ef8bddcf",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "625a73e9-8ee2-4b7b-a5b2-a7d1ef8bddcf",
+    "SoLuong": 93,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "625a73e9-8ee2-4b7b-a5b2-a7d1ef8bddcf",
+    "SoLuong": 65,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a2e5c034-5085-4d0b-9862-46784eaa4ad8",
+    "SoLuong": 90,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a2e5c034-5085-4d0b-9862-46784eaa4ad8",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a2e5c034-5085-4d0b-9862-46784eaa4ad8",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a2e5c034-5085-4d0b-9862-46784eaa4ad8",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a2e5c034-5085-4d0b-9862-46784eaa4ad8",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ab82862c-d95d-4232-8195-32e79d7a1c2f",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ab82862c-d95d-4232-8195-32e79d7a1c2f",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ab82862c-d95d-4232-8195-32e79d7a1c2f",
+    "SoLuong": 13,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ab82862c-d95d-4232-8195-32e79d7a1c2f",
+    "SoLuong": 22,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ab82862c-d95d-4232-8195-32e79d7a1c2f",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3906d7e6-5be4-4e33-9f24-930de2e62220",
+    "SoLuong": 97,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3906d7e6-5be4-4e33-9f24-930de2e62220",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3906d7e6-5be4-4e33-9f24-930de2e62220",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3906d7e6-5be4-4e33-9f24-930de2e62220",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3906d7e6-5be4-4e33-9f24-930de2e62220",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d7db0b85-d45e-46dc-9a72-ac2b6637e5fb",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d7db0b85-d45e-46dc-9a72-ac2b6637e5fb",
+    "SoLuong": 25,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d7db0b85-d45e-46dc-9a72-ac2b6637e5fb",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d7db0b85-d45e-46dc-9a72-ac2b6637e5fb",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d7db0b85-d45e-46dc-9a72-ac2b6637e5fb",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0e8b403a-e093-46f1-9a24-4d1b8bae5943",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0e8b403a-e093-46f1-9a24-4d1b8bae5943",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0e8b403a-e093-46f1-9a24-4d1b8bae5943",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0e8b403a-e093-46f1-9a24-4d1b8bae5943",
+    "SoLuong": 28,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0e8b403a-e093-46f1-9a24-4d1b8bae5943",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "299a38f6-24e4-4af0-960d-b631638e550d",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "299a38f6-24e4-4af0-960d-b631638e550d",
+    "SoLuong": 58,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "299a38f6-24e4-4af0-960d-b631638e550d",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "299a38f6-24e4-4af0-960d-b631638e550d",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "299a38f6-24e4-4af0-960d-b631638e550d",
+    "SoLuong": 20,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "83827bf3-49f9-492f-8df2-3468ced37a5b",
+    "SoLuong": 51,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "83827bf3-49f9-492f-8df2-3468ced37a5b",
+    "SoLuong": 70,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "83827bf3-49f9-492f-8df2-3468ced37a5b",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "83827bf3-49f9-492f-8df2-3468ced37a5b",
+    "SoLuong": 71,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "83827bf3-49f9-492f-8df2-3468ced37a5b",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ab86ea26-01c5-49df-bdd0-9570b8d9951f",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ab86ea26-01c5-49df-bdd0-9570b8d9951f",
+    "SoLuong": 62,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ab86ea26-01c5-49df-bdd0-9570b8d9951f",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ab86ea26-01c5-49df-bdd0-9570b8d9951f",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ab86ea26-01c5-49df-bdd0-9570b8d9951f",
+    "SoLuong": 36,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a432ec70-7a82-4abc-b293-1dc24ce25bfb",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a432ec70-7a82-4abc-b293-1dc24ce25bfb",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a432ec70-7a82-4abc-b293-1dc24ce25bfb",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a432ec70-7a82-4abc-b293-1dc24ce25bfb",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a432ec70-7a82-4abc-b293-1dc24ce25bfb",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ef61e910-c1d7-4955-90e0-e6aa8967ca8a",
+    "SoLuong": 20,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ef61e910-c1d7-4955-90e0-e6aa8967ca8a",
+    "SoLuong": 57,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ef61e910-c1d7-4955-90e0-e6aa8967ca8a",
+    "SoLuong": 36,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ef61e910-c1d7-4955-90e0-e6aa8967ca8a",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ef61e910-c1d7-4955-90e0-e6aa8967ca8a",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3369ea90-3122-4c45-baa6-a667dabd3507",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3369ea90-3122-4c45-baa6-a667dabd3507",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3369ea90-3122-4c45-baa6-a667dabd3507",
+    "SoLuong": 72,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3369ea90-3122-4c45-baa6-a667dabd3507",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3369ea90-3122-4c45-baa6-a667dabd3507",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ea2af822-d3a7-4213-a3bc-b6df93538c5c",
+    "SoLuong": 59,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ea2af822-d3a7-4213-a3bc-b6df93538c5c",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ea2af822-d3a7-4213-a3bc-b6df93538c5c",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ea2af822-d3a7-4213-a3bc-b6df93538c5c",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ea2af822-d3a7-4213-a3bc-b6df93538c5c",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b746ceaf-7bc3-4f9d-b3f8-e0af87734080",
+    "SoLuong": 56,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b746ceaf-7bc3-4f9d-b3f8-e0af87734080",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b746ceaf-7bc3-4f9d-b3f8-e0af87734080",
+    "SoLuong": 21,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b746ceaf-7bc3-4f9d-b3f8-e0af87734080",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b746ceaf-7bc3-4f9d-b3f8-e0af87734080",
+    "SoLuong": 43,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4f0c7b30-74f1-47c9-971b-16b424914344",
+    "SoLuong": 32,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4f0c7b30-74f1-47c9-971b-16b424914344",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4f0c7b30-74f1-47c9-971b-16b424914344",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4f0c7b30-74f1-47c9-971b-16b424914344",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4f0c7b30-74f1-47c9-971b-16b424914344",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a83f89f7-fc2d-4e47-b499-e9ebf293aa1f",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a83f89f7-fc2d-4e47-b499-e9ebf293aa1f",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a83f89f7-fc2d-4e47-b499-e9ebf293aa1f",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a83f89f7-fc2d-4e47-b499-e9ebf293aa1f",
+    "SoLuong": 95,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a83f89f7-fc2d-4e47-b499-e9ebf293aa1f",
+    "SoLuong": 21,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d298ef7a-1100-4c7f-a177-2e1f6d6dbf04",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d298ef7a-1100-4c7f-a177-2e1f6d6dbf04",
+    "SoLuong": 43,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d298ef7a-1100-4c7f-a177-2e1f6d6dbf04",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d298ef7a-1100-4c7f-a177-2e1f6d6dbf04",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d298ef7a-1100-4c7f-a177-2e1f6d6dbf04",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "21b51623-5c3f-4bdd-9b55-fd95e1d6ffae",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "21b51623-5c3f-4bdd-9b55-fd95e1d6ffae",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "21b51623-5c3f-4bdd-9b55-fd95e1d6ffae",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "21b51623-5c3f-4bdd-9b55-fd95e1d6ffae",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "21b51623-5c3f-4bdd-9b55-fd95e1d6ffae",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c2021759-5b5c-4eee-966b-cf3d5f67e70a",
+    "SoLuong": 43,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c2021759-5b5c-4eee-966b-cf3d5f67e70a",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c2021759-5b5c-4eee-966b-cf3d5f67e70a",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c2021759-5b5c-4eee-966b-cf3d5f67e70a",
+    "SoLuong": 70,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c2021759-5b5c-4eee-966b-cf3d5f67e70a",
+    "SoLuong": 43,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "881bab36-0ae6-4610-bdb7-57e93cdf624a",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "881bab36-0ae6-4610-bdb7-57e93cdf624a",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "881bab36-0ae6-4610-bdb7-57e93cdf624a",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "881bab36-0ae6-4610-bdb7-57e93cdf624a",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "881bab36-0ae6-4610-bdb7-57e93cdf624a",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d6093a59-4afc-4c4b-a722-570bbb87030c",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d6093a59-4afc-4c4b-a722-570bbb87030c",
+    "SoLuong": 32,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d6093a59-4afc-4c4b-a722-570bbb87030c",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d6093a59-4afc-4c4b-a722-570bbb87030c",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d6093a59-4afc-4c4b-a722-570bbb87030c",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c35bc26d-488a-4175-89a4-018c9df89c40",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c35bc26d-488a-4175-89a4-018c9df89c40",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c35bc26d-488a-4175-89a4-018c9df89c40",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c35bc26d-488a-4175-89a4-018c9df89c40",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c35bc26d-488a-4175-89a4-018c9df89c40",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "de8ba3b0-3573-42e5-9a90-db6755dc6e17",
+    "SoLuong": 12,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "de8ba3b0-3573-42e5-9a90-db6755dc6e17",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "de8ba3b0-3573-42e5-9a90-db6755dc6e17",
+    "SoLuong": 100,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "de8ba3b0-3573-42e5-9a90-db6755dc6e17",
+    "SoLuong": 13,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "de8ba3b0-3573-42e5-9a90-db6755dc6e17",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b905f497-4c9d-4269-bc76-ffb578e00dae",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b905f497-4c9d-4269-bc76-ffb578e00dae",
+    "SoLuong": 63,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b905f497-4c9d-4269-bc76-ffb578e00dae",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b905f497-4c9d-4269-bc76-ffb578e00dae",
+    "SoLuong": 59,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b905f497-4c9d-4269-bc76-ffb578e00dae",
+    "SoLuong": 19,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8ef278d6-7685-455a-bd11-3107f8be07f4",
+    "SoLuong": 36,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8ef278d6-7685-455a-bd11-3107f8be07f4",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8ef278d6-7685-455a-bd11-3107f8be07f4",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8ef278d6-7685-455a-bd11-3107f8be07f4",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8ef278d6-7685-455a-bd11-3107f8be07f4",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bb68503c-4866-4b69-88f1-0e01a81eecc0",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bb68503c-4866-4b69-88f1-0e01a81eecc0",
+    "SoLuong": 93,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bb68503c-4866-4b69-88f1-0e01a81eecc0",
+    "SoLuong": 93,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bb68503c-4866-4b69-88f1-0e01a81eecc0",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bb68503c-4866-4b69-88f1-0e01a81eecc0",
+    "SoLuong": 98,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a5c6cb5c-3e04-4115-a07f-94182fdf10c0",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a5c6cb5c-3e04-4115-a07f-94182fdf10c0",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a5c6cb5c-3e04-4115-a07f-94182fdf10c0",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a5c6cb5c-3e04-4115-a07f-94182fdf10c0",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a5c6cb5c-3e04-4115-a07f-94182fdf10c0",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "390c9685-2f17-4d62-8d7d-40f5a1b678dc",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "390c9685-2f17-4d62-8d7d-40f5a1b678dc",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "390c9685-2f17-4d62-8d7d-40f5a1b678dc",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "390c9685-2f17-4d62-8d7d-40f5a1b678dc",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "390c9685-2f17-4d62-8d7d-40f5a1b678dc",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4a77a2b9-dcbe-4c82-adb3-c6c39d87a560",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4a77a2b9-dcbe-4c82-adb3-c6c39d87a560",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4a77a2b9-dcbe-4c82-adb3-c6c39d87a560",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4a77a2b9-dcbe-4c82-adb3-c6c39d87a560",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4a77a2b9-dcbe-4c82-adb3-c6c39d87a560",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "d0313d78-74b7-4833-8e66-4237bc0e0bcf",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "d0313d78-74b7-4833-8e66-4237bc0e0bcf",
+    "SoLuong": 21,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "d0313d78-74b7-4833-8e66-4237bc0e0bcf",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "d0313d78-74b7-4833-8e66-4237bc0e0bcf",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "d0313d78-74b7-4833-8e66-4237bc0e0bcf",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2c11cbc5-c18d-4b0f-82d1-aa70d6c74bd8",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2c11cbc5-c18d-4b0f-82d1-aa70d6c74bd8",
+    "SoLuong": 64,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2c11cbc5-c18d-4b0f-82d1-aa70d6c74bd8",
+    "SoLuong": 97,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2c11cbc5-c18d-4b0f-82d1-aa70d6c74bd8",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2c11cbc5-c18d-4b0f-82d1-aa70d6c74bd8",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "159f82a1-0125-42b5-8f3b-3befd81bbab0",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "159f82a1-0125-42b5-8f3b-3befd81bbab0",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "159f82a1-0125-42b5-8f3b-3befd81bbab0",
+    "SoLuong": 81,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "159f82a1-0125-42b5-8f3b-3befd81bbab0",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "159f82a1-0125-42b5-8f3b-3befd81bbab0",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "625cd003-4c29-4f16-8912-f7cfd304ab82",
+    "SoLuong": 21,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "625cd003-4c29-4f16-8912-f7cfd304ab82",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "625cd003-4c29-4f16-8912-f7cfd304ab82",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "625cd003-4c29-4f16-8912-f7cfd304ab82",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "625cd003-4c29-4f16-8912-f7cfd304ab82",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "90a238d6-1464-4f81-9a68-f08053f3c8db",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "90a238d6-1464-4f81-9a68-f08053f3c8db",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "90a238d6-1464-4f81-9a68-f08053f3c8db",
+    "SoLuong": 87,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "90a238d6-1464-4f81-9a68-f08053f3c8db",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "90a238d6-1464-4f81-9a68-f08053f3c8db",
+    "SoLuong": 14,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "73fb11f7-1668-45e2-9fb6-4cf94195ba11",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "73fb11f7-1668-45e2-9fb6-4cf94195ba11",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "73fb11f7-1668-45e2-9fb6-4cf94195ba11",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "73fb11f7-1668-45e2-9fb6-4cf94195ba11",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "73fb11f7-1668-45e2-9fb6-4cf94195ba11",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7687354d-db88-4dc0-9a63-629117df2121",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7687354d-db88-4dc0-9a63-629117df2121",
+    "SoLuong": 65,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7687354d-db88-4dc0-9a63-629117df2121",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7687354d-db88-4dc0-9a63-629117df2121",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7687354d-db88-4dc0-9a63-629117df2121",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "af665c95-3e44-4e98-b70a-7e1e66c717a1",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "af665c95-3e44-4e98-b70a-7e1e66c717a1",
+    "SoLuong": 60,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "af665c95-3e44-4e98-b70a-7e1e66c717a1",
+    "SoLuong": 85,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "af665c95-3e44-4e98-b70a-7e1e66c717a1",
+    "SoLuong": 44,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "af665c95-3e44-4e98-b70a-7e1e66c717a1",
+    "SoLuong": 19,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "857a03fd-ec0b-4786-9ec8-1c78aa8e26ac",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "857a03fd-ec0b-4786-9ec8-1c78aa8e26ac",
+    "SoLuong": 72,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "857a03fd-ec0b-4786-9ec8-1c78aa8e26ac",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "857a03fd-ec0b-4786-9ec8-1c78aa8e26ac",
+    "SoLuong": 62,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "857a03fd-ec0b-4786-9ec8-1c78aa8e26ac",
+    "SoLuong": 36,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5898e22d-95e0-453e-92a0-ac0465b1a9de",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5898e22d-95e0-453e-92a0-ac0465b1a9de",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5898e22d-95e0-453e-92a0-ac0465b1a9de",
+    "SoLuong": 51,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5898e22d-95e0-453e-92a0-ac0465b1a9de",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5898e22d-95e0-453e-92a0-ac0465b1a9de",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a1a74f2c-fa62-4a12-bd59-9afbf8f6c253",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a1a74f2c-fa62-4a12-bd59-9afbf8f6c253",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a1a74f2c-fa62-4a12-bd59-9afbf8f6c253",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a1a74f2c-fa62-4a12-bd59-9afbf8f6c253",
+    "SoLuong": 95,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a1a74f2c-fa62-4a12-bd59-9afbf8f6c253",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b1e98bc8-1b13-475a-b1ab-4e03ebd4b214",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b1e98bc8-1b13-475a-b1ab-4e03ebd4b214",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b1e98bc8-1b13-475a-b1ab-4e03ebd4b214",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b1e98bc8-1b13-475a-b1ab-4e03ebd4b214",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b1e98bc8-1b13-475a-b1ab-4e03ebd4b214",
+    "SoLuong": 77,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "be06c020-e628-4004-b9ed-8868eab1d198",
+    "SoLuong": 68,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "be06c020-e628-4004-b9ed-8868eab1d198",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "be06c020-e628-4004-b9ed-8868eab1d198",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "be06c020-e628-4004-b9ed-8868eab1d198",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "be06c020-e628-4004-b9ed-8868eab1d198",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "29144865-89f0-4410-82d8-ae2cad85768d",
+    "SoLuong": 46,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "29144865-89f0-4410-82d8-ae2cad85768d",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "29144865-89f0-4410-82d8-ae2cad85768d",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "29144865-89f0-4410-82d8-ae2cad85768d",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "29144865-89f0-4410-82d8-ae2cad85768d",
+    "SoLuong": 43,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b67a9958-77ea-46d8-b878-217ef35eec70",
+    "SoLuong": 26,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b67a9958-77ea-46d8-b878-217ef35eec70",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b67a9958-77ea-46d8-b878-217ef35eec70",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b67a9958-77ea-46d8-b878-217ef35eec70",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b67a9958-77ea-46d8-b878-217ef35eec70",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c01722f7-2c84-426d-ad7d-b80b5e00b875",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c01722f7-2c84-426d-ad7d-b80b5e00b875",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c01722f7-2c84-426d-ad7d-b80b5e00b875",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c01722f7-2c84-426d-ad7d-b80b5e00b875",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c01722f7-2c84-426d-ad7d-b80b5e00b875",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2a366376-51e0-4c2c-958b-e8fad86ca92c",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2a366376-51e0-4c2c-958b-e8fad86ca92c",
+    "SoLuong": 30,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2a366376-51e0-4c2c-958b-e8fad86ca92c",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2a366376-51e0-4c2c-958b-e8fad86ca92c",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2a366376-51e0-4c2c-958b-e8fad86ca92c",
+    "SoLuong": 68,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3ea7b9f1-619e-46f6-b375-b54aa3b2617b",
+    "SoLuong": 41,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3ea7b9f1-619e-46f6-b375-b54aa3b2617b",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3ea7b9f1-619e-46f6-b375-b54aa3b2617b",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3ea7b9f1-619e-46f6-b375-b54aa3b2617b",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3ea7b9f1-619e-46f6-b375-b54aa3b2617b",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7ba3b2ff-92e3-4e8a-b8da-e3e41a009407",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7ba3b2ff-92e3-4e8a-b8da-e3e41a009407",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7ba3b2ff-92e3-4e8a-b8da-e3e41a009407",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7ba3b2ff-92e3-4e8a-b8da-e3e41a009407",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7ba3b2ff-92e3-4e8a-b8da-e3e41a009407",
+    "SoLuong": 76,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "bf7e18c6-6058-4cfd-b2de-904940dc21ce",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "bf7e18c6-6058-4cfd-b2de-904940dc21ce",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "bf7e18c6-6058-4cfd-b2de-904940dc21ce",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "bf7e18c6-6058-4cfd-b2de-904940dc21ce",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "bf7e18c6-6058-4cfd-b2de-904940dc21ce",
+    "SoLuong": 63,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "86d21168-6a34-4771-a440-3aa186ad086f",
+    "SoLuong": 92,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "86d21168-6a34-4771-a440-3aa186ad086f",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "86d21168-6a34-4771-a440-3aa186ad086f",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "86d21168-6a34-4771-a440-3aa186ad086f",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "86d21168-6a34-4771-a440-3aa186ad086f",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "4686110a-09cb-4fbf-b426-dac80e912573",
+    "SoLuong": 27,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "4686110a-09cb-4fbf-b426-dac80e912573",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "4686110a-09cb-4fbf-b426-dac80e912573",
+    "SoLuong": 23,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "4686110a-09cb-4fbf-b426-dac80e912573",
+    "SoLuong": 20,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "4686110a-09cb-4fbf-b426-dac80e912573",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "60eade02-dab2-4946-9926-e7d513de1c55",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "60eade02-dab2-4946-9926-e7d513de1c55",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "60eade02-dab2-4946-9926-e7d513de1c55",
+    "SoLuong": 96,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "60eade02-dab2-4946-9926-e7d513de1c55",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "60eade02-dab2-4946-9926-e7d513de1c55",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8e1e278e-5614-42a7-8ea5-be6d3ed0d8e6",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8e1e278e-5614-42a7-8ea5-be6d3ed0d8e6",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8e1e278e-5614-42a7-8ea5-be6d3ed0d8e6",
+    "SoLuong": 80,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8e1e278e-5614-42a7-8ea5-be6d3ed0d8e6",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8e1e278e-5614-42a7-8ea5-be6d3ed0d8e6",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5ee6e60c-09dd-4de2-8995-be947fcd1d8f",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5ee6e60c-09dd-4de2-8995-be947fcd1d8f",
+    "SoLuong": 85,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5ee6e60c-09dd-4de2-8995-be947fcd1d8f",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5ee6e60c-09dd-4de2-8995-be947fcd1d8f",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5ee6e60c-09dd-4de2-8995-be947fcd1d8f",
+    "SoLuong": 97,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a5a50563-0add-4bc6-8014-78d965df6bd6",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a5a50563-0add-4bc6-8014-78d965df6bd6",
+    "SoLuong": 88,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a5a50563-0add-4bc6-8014-78d965df6bd6",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a5a50563-0add-4bc6-8014-78d965df6bd6",
+    "SoLuong": 44,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a5a50563-0add-4bc6-8014-78d965df6bd6",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7d6f37ab-2197-46d5-a4d4-710ad5e65497",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7d6f37ab-2197-46d5-a4d4-710ad5e65497",
+    "SoLuong": 20,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7d6f37ab-2197-46d5-a4d4-710ad5e65497",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7d6f37ab-2197-46d5-a4d4-710ad5e65497",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7d6f37ab-2197-46d5-a4d4-710ad5e65497",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a4f6cc8e-1c00-4369-804b-1e71277c33e0",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a4f6cc8e-1c00-4369-804b-1e71277c33e0",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a4f6cc8e-1c00-4369-804b-1e71277c33e0",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a4f6cc8e-1c00-4369-804b-1e71277c33e0",
+    "SoLuong": 35,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a4f6cc8e-1c00-4369-804b-1e71277c33e0",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0ab353c4-eded-4c18-a38f-ee7d14251c9f",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0ab353c4-eded-4c18-a38f-ee7d14251c9f",
+    "SoLuong": 61,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0ab353c4-eded-4c18-a38f-ee7d14251c9f",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0ab353c4-eded-4c18-a38f-ee7d14251c9f",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0ab353c4-eded-4c18-a38f-ee7d14251c9f",
+    "SoLuong": 28,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a999856e-154c-4e4e-9975-3dae481f0fa0",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a999856e-154c-4e4e-9975-3dae481f0fa0",
+    "SoLuong": 15,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a999856e-154c-4e4e-9975-3dae481f0fa0",
+    "SoLuong": 94,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a999856e-154c-4e4e-9975-3dae481f0fa0",
+    "SoLuong": 39,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a999856e-154c-4e4e-9975-3dae481f0fa0",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "80a6fd32-208b-4699-8f50-0e2b5873ceb7",
+    "SoLuong": 51,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "80a6fd32-208b-4699-8f50-0e2b5873ceb7",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "80a6fd32-208b-4699-8f50-0e2b5873ceb7",
+    "SoLuong": 29,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "80a6fd32-208b-4699-8f50-0e2b5873ceb7",
+    "SoLuong": 63,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "80a6fd32-208b-4699-8f50-0e2b5873ceb7",
+    "SoLuong": 54,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3d40c0f5-f789-4953-bb26-f264c957011d",
+    "SoLuong": 29,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3d40c0f5-f789-4953-bb26-f264c957011d",
+    "SoLuong": 58,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3d40c0f5-f789-4953-bb26-f264c957011d",
+    "SoLuong": 99,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3d40c0f5-f789-4953-bb26-f264c957011d",
+    "SoLuong": 81,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3d40c0f5-f789-4953-bb26-f264c957011d",
+    "SoLuong": 57,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "958a7d7b-d4c8-4b27-a641-8fd07341a34b",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "958a7d7b-d4c8-4b27-a641-8fd07341a34b",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "958a7d7b-d4c8-4b27-a641-8fd07341a34b",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "958a7d7b-d4c8-4b27-a641-8fd07341a34b",
+    "SoLuong": 69,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "958a7d7b-d4c8-4b27-a641-8fd07341a34b",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "21ba59d3-ceb0-46d7-8da7-7c54b1799b9b",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "21ba59d3-ceb0-46d7-8da7-7c54b1799b9b",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "21ba59d3-ceb0-46d7-8da7-7c54b1799b9b",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "21ba59d3-ceb0-46d7-8da7-7c54b1799b9b",
+    "SoLuong": 85,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "21ba59d3-ceb0-46d7-8da7-7c54b1799b9b",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ff7fc0de-c360-45ec-9ae3-d652a83eab50",
+    "SoLuong": 32,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ff7fc0de-c360-45ec-9ae3-d652a83eab50",
+    "SoLuong": 68,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ff7fc0de-c360-45ec-9ae3-d652a83eab50",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ff7fc0de-c360-45ec-9ae3-d652a83eab50",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ff7fc0de-c360-45ec-9ae3-d652a83eab50",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f322b3e4-f4ca-4a33-b931-133301704bfe",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f322b3e4-f4ca-4a33-b931-133301704bfe",
+    "SoLuong": 40,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f322b3e4-f4ca-4a33-b931-133301704bfe",
+    "SoLuong": 31,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f322b3e4-f4ca-4a33-b931-133301704bfe",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f322b3e4-f4ca-4a33-b931-133301704bfe",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "53801803-4ab6-474f-b5c6-a1215fe50937",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "53801803-4ab6-474f-b5c6-a1215fe50937",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "53801803-4ab6-474f-b5c6-a1215fe50937",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "53801803-4ab6-474f-b5c6-a1215fe50937",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "53801803-4ab6-474f-b5c6-a1215fe50937",
+    "SoLuong": 11,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "77e45d4d-d7de-4abd-b6c7-cd2ccc8fc439",
+    "SoLuong": 30,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "77e45d4d-d7de-4abd-b6c7-cd2ccc8fc439",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "77e45d4d-d7de-4abd-b6c7-cd2ccc8fc439",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "77e45d4d-d7de-4abd-b6c7-cd2ccc8fc439",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "77e45d4d-d7de-4abd-b6c7-cd2ccc8fc439",
+    "SoLuong": 98,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b226317b-d28f-4ed8-83ae-8116823821e7",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b226317b-d28f-4ed8-83ae-8116823821e7",
+    "SoLuong": 90,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b226317b-d28f-4ed8-83ae-8116823821e7",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b226317b-d28f-4ed8-83ae-8116823821e7",
+    "SoLuong": 16,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b226317b-d28f-4ed8-83ae-8116823821e7",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "22bbbc46-ccc4-4df8-a9b3-f0aa8b079dc4",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "22bbbc46-ccc4-4df8-a9b3-f0aa8b079dc4",
+    "SoLuong": 74,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "22bbbc46-ccc4-4df8-a9b3-f0aa8b079dc4",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "22bbbc46-ccc4-4df8-a9b3-f0aa8b079dc4",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "22bbbc46-ccc4-4df8-a9b3-f0aa8b079dc4",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "616f19b2-d54e-46b7-8e2c-9c14d78869bc",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "616f19b2-d54e-46b7-8e2c-9c14d78869bc",
+    "SoLuong": 48,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "616f19b2-d54e-46b7-8e2c-9c14d78869bc",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "616f19b2-d54e-46b7-8e2c-9c14d78869bc",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "616f19b2-d54e-46b7-8e2c-9c14d78869bc",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "8245749d-d3f7-46f7-88b6-033430bd187d",
+    "SoLuong": 14,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "8245749d-d3f7-46f7-88b6-033430bd187d",
+    "SoLuong": 56,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "8245749d-d3f7-46f7-88b6-033430bd187d",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "8245749d-d3f7-46f7-88b6-033430bd187d",
+    "SoLuong": 22,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "8245749d-d3f7-46f7-88b6-033430bd187d",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "52bd7008-9aa8-489f-bd95-4c84abe743d4",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "52bd7008-9aa8-489f-bd95-4c84abe743d4",
+    "SoLuong": 28,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "52bd7008-9aa8-489f-bd95-4c84abe743d4",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "52bd7008-9aa8-489f-bd95-4c84abe743d4",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "52bd7008-9aa8-489f-bd95-4c84abe743d4",
+    "SoLuong": 13,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9ff5ccef-8b05-446a-85c2-0fd65bd80f8d",
+    "SoLuong": 21,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9ff5ccef-8b05-446a-85c2-0fd65bd80f8d",
+    "SoLuong": 76,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9ff5ccef-8b05-446a-85c2-0fd65bd80f8d",
+    "SoLuong": 65,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9ff5ccef-8b05-446a-85c2-0fd65bd80f8d",
+    "SoLuong": 18,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9ff5ccef-8b05-446a-85c2-0fd65bd80f8d",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "aca21d98-a98a-41ed-ab61-47dcb1ec93a1",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "aca21d98-a98a-41ed-ab61-47dcb1ec93a1",
+    "SoLuong": 68,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "aca21d98-a98a-41ed-ab61-47dcb1ec93a1",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "aca21d98-a98a-41ed-ab61-47dcb1ec93a1",
+    "SoLuong": 41,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "aca21d98-a98a-41ed-ab61-47dcb1ec93a1",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "f11cf52c-dba2-405d-a6ff-752d5591aa3a",
+    "SoLuong": 22,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "f11cf52c-dba2-405d-a6ff-752d5591aa3a",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "f11cf52c-dba2-405d-a6ff-752d5591aa3a",
+    "SoLuong": 74,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "f11cf52c-dba2-405d-a6ff-752d5591aa3a",
+    "SoLuong": 89,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "f11cf52c-dba2-405d-a6ff-752d5591aa3a",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c7b8513e-b15f-402a-9b2f-5b83debe6d90",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c7b8513e-b15f-402a-9b2f-5b83debe6d90",
+    "SoLuong": 28,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c7b8513e-b15f-402a-9b2f-5b83debe6d90",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c7b8513e-b15f-402a-9b2f-5b83debe6d90",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c7b8513e-b15f-402a-9b2f-5b83debe6d90",
+    "SoLuong": 38,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "45f60ca8-ec6f-4e8b-b983-3c9ab298256d",
+    "SoLuong": 67,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "45f60ca8-ec6f-4e8b-b983-3c9ab298256d",
+    "SoLuong": 25,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "45f60ca8-ec6f-4e8b-b983-3c9ab298256d",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "45f60ca8-ec6f-4e8b-b983-3c9ab298256d",
+    "SoLuong": 34,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "45f60ca8-ec6f-4e8b-b983-3c9ab298256d",
+    "SoLuong": 58,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9f958f1b-29f1-4975-a708-22a18c4d398a",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9f958f1b-29f1-4975-a708-22a18c4d398a",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9f958f1b-29f1-4975-a708-22a18c4d398a",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9f958f1b-29f1-4975-a708-22a18c4d398a",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9f958f1b-29f1-4975-a708-22a18c4d398a",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "527125c4-7484-4138-b897-27c728fa6c81",
+    "SoLuong": 80,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "527125c4-7484-4138-b897-27c728fa6c81",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "527125c4-7484-4138-b897-27c728fa6c81",
+    "SoLuong": 75,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "527125c4-7484-4138-b897-27c728fa6c81",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "527125c4-7484-4138-b897-27c728fa6c81",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fbcc0d50-5d7a-4046-8648-12400746e3ee",
+    "SoLuong": 13,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fbcc0d50-5d7a-4046-8648-12400746e3ee",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fbcc0d50-5d7a-4046-8648-12400746e3ee",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fbcc0d50-5d7a-4046-8648-12400746e3ee",
+    "SoLuong": 95,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fbcc0d50-5d7a-4046-8648-12400746e3ee",
+    "SoLuong": 32,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a13a2587-f15d-4a54-bfb1-3839a7d88627",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a13a2587-f15d-4a54-bfb1-3839a7d88627",
+    "SoLuong": 25,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a13a2587-f15d-4a54-bfb1-3839a7d88627",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a13a2587-f15d-4a54-bfb1-3839a7d88627",
+    "SoLuong": 69,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a13a2587-f15d-4a54-bfb1-3839a7d88627",
+    "SoLuong": 62,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b913643d-6379-4f36-9489-e86605d20ab9",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b913643d-6379-4f36-9489-e86605d20ab9",
+    "SoLuong": 47,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b913643d-6379-4f36-9489-e86605d20ab9",
+    "SoLuong": 69,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b913643d-6379-4f36-9489-e86605d20ab9",
+    "SoLuong": 52,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b913643d-6379-4f36-9489-e86605d20ab9",
+    "SoLuong": 73,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "31cadb01-f1a5-4645-aa0d-26e3da3c3a4f",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "31cadb01-f1a5-4645-aa0d-26e3da3c3a4f",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "31cadb01-f1a5-4645-aa0d-26e3da3c3a4f",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "31cadb01-f1a5-4645-aa0d-26e3da3c3a4f",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "31cadb01-f1a5-4645-aa0d-26e3da3c3a4f",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "56299597-8a70-4e6d-b03c-0902d18a8a65",
+    "SoLuong": 59,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "56299597-8a70-4e6d-b03c-0902d18a8a65",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "56299597-8a70-4e6d-b03c-0902d18a8a65",
+    "SoLuong": 100,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "56299597-8a70-4e6d-b03c-0902d18a8a65",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "56299597-8a70-4e6d-b03c-0902d18a8a65",
+    "SoLuong": 55,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9813cb8e-8fa5-4340-b459-288b9d975b65",
+    "SoLuong": 82,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9813cb8e-8fa5-4340-b459-288b9d975b65",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9813cb8e-8fa5-4340-b459-288b9d975b65",
+    "SoLuong": 89,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9813cb8e-8fa5-4340-b459-288b9d975b65",
+    "SoLuong": 20,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9813cb8e-8fa5-4340-b459-288b9d975b65",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b25ee138-d7ff-49fb-ac8a-fdac8ab230a0",
+    "SoLuong": 39,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b25ee138-d7ff-49fb-ac8a-fdac8ab230a0",
+    "SoLuong": 26,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b25ee138-d7ff-49fb-ac8a-fdac8ab230a0",
+    "SoLuong": 27,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b25ee138-d7ff-49fb-ac8a-fdac8ab230a0",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b25ee138-d7ff-49fb-ac8a-fdac8ab230a0",
+    "SoLuong": 92,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9c114564-9380-4060-ab49-efab87fcc111",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9c114564-9380-4060-ab49-efab87fcc111",
+    "SoLuong": 13,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9c114564-9380-4060-ab49-efab87fcc111",
+    "SoLuong": 44,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9c114564-9380-4060-ab49-efab87fcc111",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9c114564-9380-4060-ab49-efab87fcc111",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e3fe1dd8-38a1-48d4-9794-7b5ca1fda9ea",
+    "SoLuong": 62,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e3fe1dd8-38a1-48d4-9794-7b5ca1fda9ea",
+    "SoLuong": 93,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e3fe1dd8-38a1-48d4-9794-7b5ca1fda9ea",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e3fe1dd8-38a1-48d4-9794-7b5ca1fda9ea",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e3fe1dd8-38a1-48d4-9794-7b5ca1fda9ea",
+    "SoLuong": 60,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "b004b0bb-1338-45d7-b593-480509456f44",
+    "SoLuong": 71,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "b004b0bb-1338-45d7-b593-480509456f44",
+    "SoLuong": 34,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "b004b0bb-1338-45d7-b593-480509456f44",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "b004b0bb-1338-45d7-b593-480509456f44",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "b004b0bb-1338-45d7-b593-480509456f44",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "64c1e15c-0bcc-4834-b7cd-57072ebe68b1",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "64c1e15c-0bcc-4834-b7cd-57072ebe68b1",
+    "SoLuong": 79,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "64c1e15c-0bcc-4834-b7cd-57072ebe68b1",
+    "SoLuong": 29,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "64c1e15c-0bcc-4834-b7cd-57072ebe68b1",
+    "SoLuong": 77,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "64c1e15c-0bcc-4834-b7cd-57072ebe68b1",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "0d650717-20dc-473c-ac4f-8cf4682fe9aa",
+    "SoLuong": 39,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "0d650717-20dc-473c-ac4f-8cf4682fe9aa",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "0d650717-20dc-473c-ac4f-8cf4682fe9aa",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "0d650717-20dc-473c-ac4f-8cf4682fe9aa",
+    "SoLuong": 40,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "0d650717-20dc-473c-ac4f-8cf4682fe9aa",
+    "SoLuong": 97,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "086d3ffb-64c7-4f1d-ab8f-13c219e90c4b",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "086d3ffb-64c7-4f1d-ab8f-13c219e90c4b",
+    "SoLuong": 61,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "086d3ffb-64c7-4f1d-ab8f-13c219e90c4b",
+    "SoLuong": 31,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "086d3ffb-64c7-4f1d-ab8f-13c219e90c4b",
+    "SoLuong": 19,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "086d3ffb-64c7-4f1d-ab8f-13c219e90c4b",
+    "SoLuong": 28,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fc822fec-fc61-4550-8331-4a32b168fe19",
+    "SoLuong": 63,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fc822fec-fc61-4550-8331-4a32b168fe19",
+    "SoLuong": 83,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fc822fec-fc61-4550-8331-4a32b168fe19",
+    "SoLuong": 84,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fc822fec-fc61-4550-8331-4a32b168fe19",
+    "SoLuong": 61,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fc822fec-fc61-4550-8331-4a32b168fe19",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1dd0dfc4-347d-490c-85f7-ad154756cd77",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1dd0dfc4-347d-490c-85f7-ad154756cd77",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1dd0dfc4-347d-490c-85f7-ad154756cd77",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1dd0dfc4-347d-490c-85f7-ad154756cd77",
+    "SoLuong": 83,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1dd0dfc4-347d-490c-85f7-ad154756cd77",
+    "SoLuong": 67,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e6f99167-9b44-4c59-ac67-b6ca0fe1d1b8",
+    "SoLuong": 61,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e6f99167-9b44-4c59-ac67-b6ca0fe1d1b8",
+    "SoLuong": 53,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e6f99167-9b44-4c59-ac67-b6ca0fe1d1b8",
+    "SoLuong": 24,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e6f99167-9b44-4c59-ac67-b6ca0fe1d1b8",
+    "SoLuong": 86,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e6f99167-9b44-4c59-ac67-b6ca0fe1d1b8",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fd976450-6f90-4a17-9792-98c21f3a238d",
+    "SoLuong": 35,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fd976450-6f90-4a17-9792-98c21f3a238d",
+    "SoLuong": 17,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fd976450-6f90-4a17-9792-98c21f3a238d",
+    "SoLuong": 34,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fd976450-6f90-4a17-9792-98c21f3a238d",
+    "SoLuong": 10,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fd976450-6f90-4a17-9792-98c21f3a238d",
+    "SoLuong": 26,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "33fc50e1-fea0-4834-99d8-096d490bc52f",
+    "SoLuong": 66,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "33fc50e1-fea0-4834-99d8-096d490bc52f",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "33fc50e1-fea0-4834-99d8-096d490bc52f",
+    "SoLuong": 57,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "33fc50e1-fea0-4834-99d8-096d490bc52f",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "33fc50e1-fea0-4834-99d8-096d490bc52f",
+    "SoLuong": 89,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7f7d52ff-626e-4b6d-95cf-7f3a8b782a23",
+    "SoLuong": 38,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7f7d52ff-626e-4b6d-95cf-7f3a8b782a23",
+    "SoLuong": 37,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7f7d52ff-626e-4b6d-95cf-7f3a8b782a23",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7f7d52ff-626e-4b6d-95cf-7f3a8b782a23",
+    "SoLuong": 68,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7f7d52ff-626e-4b6d-95cf-7f3a8b782a23",
+    "SoLuong": 99,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1e63260c-91b2-4bc4-8dd8-e8459ad579a5",
+    "SoLuong": 65,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1e63260c-91b2-4bc4-8dd8-e8459ad579a5",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1e63260c-91b2-4bc4-8dd8-e8459ad579a5",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1e63260c-91b2-4bc4-8dd8-e8459ad579a5",
+    "SoLuong": 78,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1e63260c-91b2-4bc4-8dd8-e8459ad579a5",
+    "SoLuong": 48,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "c4b626bc-690c-4823-a1a4-9ad212e95ef7",
+    "SoLuong": 48,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "c4b626bc-690c-4823-a1a4-9ad212e95ef7",
+    "SoLuong": 89,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "c4b626bc-690c-4823-a1a4-9ad212e95ef7",
+    "SoLuong": 73,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "c4b626bc-690c-4823-a1a4-9ad212e95ef7",
+    "SoLuong": 31,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "c4b626bc-690c-4823-a1a4-9ad212e95ef7",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "6c5b17af-207d-463c-8400-74f5f398a98c",
+    "SoLuong": 59,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "6c5b17af-207d-463c-8400-74f5f398a98c",
+    "SoLuong": 91,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "6c5b17af-207d-463c-8400-74f5f398a98c",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "6c5b17af-207d-463c-8400-74f5f398a98c",
+    "SoLuong": 50,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "6c5b17af-207d-463c-8400-74f5f398a98c",
+    "SoLuong": 46,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "2f5a8e7a-1662-4dc6-93a8-3a1fcfb82eb0",
+    "SoLuong": 23,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "2f5a8e7a-1662-4dc6-93a8-3a1fcfb82eb0",
+    "SoLuong": 45,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "2f5a8e7a-1662-4dc6-93a8-3a1fcfb82eb0",
+    "SoLuong": 30,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "2f5a8e7a-1662-4dc6-93a8-3a1fcfb82eb0",
+    "SoLuong": 36,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "2f5a8e7a-1662-4dc6-93a8-3a1fcfb82eb0",
+    "SoLuong": 18,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ca74dd9b-6b52-4aa1-89ed-a733fbf59fd0",
+    "SoLuong": 49,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ca74dd9b-6b52-4aa1-89ed-a733fbf59fd0",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ca74dd9b-6b52-4aa1-89ed-a733fbf59fd0",
+    "SoLuong": 84,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ca74dd9b-6b52-4aa1-89ed-a733fbf59fd0",
+    "SoLuong": 42,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ca74dd9b-6b52-4aa1-89ed-a733fbf59fd0",
+    "SoLuong": 18,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "445cf07e-b51b-4799-9e6c-36a6673e0de8",
+    "SoLuong": 82,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "445cf07e-b51b-4799-9e6c-36a6673e0de8",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "445cf07e-b51b-4799-9e6c-36a6673e0de8",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "445cf07e-b51b-4799-9e6c-36a6673e0de8",
+    "SoLuong": 96,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "445cf07e-b51b-4799-9e6c-36a6673e0de8",
+    "SoLuong": 59,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "cba6da0c-71b7-41ef-9c6d-deb8dbb69a37",
+    "SoLuong": 78,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "cba6da0c-71b7-41ef-9c6d-deb8dbb69a37",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "cba6da0c-71b7-41ef-9c6d-deb8dbb69a37",
+    "SoLuong": 87,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "cba6da0c-71b7-41ef-9c6d-deb8dbb69a37",
+    "SoLuong": 10,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "cba6da0c-71b7-41ef-9c6d-deb8dbb69a37",
+    "SoLuong": 66,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "76729a0e-9190-4f5c-b929-510ed4417225",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "76729a0e-9190-4f5c-b929-510ed4417225",
+    "SoLuong": 32,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "76729a0e-9190-4f5c-b929-510ed4417225",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "76729a0e-9190-4f5c-b929-510ed4417225",
+    "SoLuong": 38,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "76729a0e-9190-4f5c-b929-510ed4417225",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "34659bea-4e6f-4a85-a58a-97f0620f4c58",
+    "SoLuong": 13,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "34659bea-4e6f-4a85-a58a-97f0620f4c58",
+    "SoLuong": 46,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "34659bea-4e6f-4a85-a58a-97f0620f4c58",
+    "SoLuong": 38,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "34659bea-4e6f-4a85-a58a-97f0620f4c58",
+    "SoLuong": 81,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "34659bea-4e6f-4a85-a58a-97f0620f4c58",
+    "SoLuong": 27,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "1da1e033-5ff3-46c4-b100-68bd309c74c1",
+    "SoLuong": 94,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "1da1e033-5ff3-46c4-b100-68bd309c74c1",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "1da1e033-5ff3-46c4-b100-68bd309c74c1",
+    "SoLuong": 86,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "1da1e033-5ff3-46c4-b100-68bd309c74c1",
+    "SoLuong": 71,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "1da1e033-5ff3-46c4-b100-68bd309c74c1",
+    "SoLuong": 98,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7da4af89-3482-48c4-bca6-5f9d3e14cab2",
+    "SoLuong": 41,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7da4af89-3482-48c4-bca6-5f9d3e14cab2",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7da4af89-3482-48c4-bca6-5f9d3e14cab2",
+    "SoLuong": 95,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7da4af89-3482-48c4-bca6-5f9d3e14cab2",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7da4af89-3482-48c4-bca6-5f9d3e14cab2",
+    "SoLuong": 17,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "5c2a33ea-e29a-4115-8838-d2f288959237",
+    "SoLuong": 27,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "5c2a33ea-e29a-4115-8838-d2f288959237",
+    "SoLuong": 96,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "5c2a33ea-e29a-4115-8838-d2f288959237",
+    "SoLuong": 11,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "5c2a33ea-e29a-4115-8838-d2f288959237",
+    "SoLuong": 84,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "5c2a33ea-e29a-4115-8838-d2f288959237",
+    "SoLuong": 56,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e14283c8-5f2d-432e-ae52-93de989fd5a1",
+    "SoLuong": 28,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e14283c8-5f2d-432e-ae52-93de989fd5a1",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e14283c8-5f2d-432e-ae52-93de989fd5a1",
+    "SoLuong": 33,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e14283c8-5f2d-432e-ae52-93de989fd5a1",
+    "SoLuong": 64,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e14283c8-5f2d-432e-ae52-93de989fd5a1",
+    "SoLuong": 90,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ebd3a804-7390-4412-96ff-39730a1143e3",
+    "SoLuong": 98,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ebd3a804-7390-4412-96ff-39730a1143e3",
+    "SoLuong": 45,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ebd3a804-7390-4412-96ff-39730a1143e3",
+    "SoLuong": 88,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ebd3a804-7390-4412-96ff-39730a1143e3",
+    "SoLuong": 34,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ebd3a804-7390-4412-96ff-39730a1143e3",
+    "SoLuong": 13,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "9ea1ff06-39ed-4783-91e9-f3d9847db896",
+    "SoLuong": 20,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "9ea1ff06-39ed-4783-91e9-f3d9847db896",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "9ea1ff06-39ed-4783-91e9-f3d9847db896",
+    "SoLuong": 38,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "9ea1ff06-39ed-4783-91e9-f3d9847db896",
+    "SoLuong": 90,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "9ea1ff06-39ed-4783-91e9-f3d9847db896",
+    "SoLuong": 88,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "930cd4ea-3229-4889-b2d5-9b0ba9917f81",
+    "SoLuong": 87,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "930cd4ea-3229-4889-b2d5-9b0ba9917f81",
+    "SoLuong": 91,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "930cd4ea-3229-4889-b2d5-9b0ba9917f81",
+    "SoLuong": 52,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "930cd4ea-3229-4889-b2d5-9b0ba9917f81",
+    "SoLuong": 12,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "930cd4ea-3229-4889-b2d5-9b0ba9917f81",
+    "SoLuong": 55,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e8c1b414-7bf1-41e3-a8b7-28aa1a6b46c4",
+    "SoLuong": 77,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e8c1b414-7bf1-41e3-a8b7-28aa1a6b46c4",
+    "SoLuong": 58,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e8c1b414-7bf1-41e3-a8b7-28aa1a6b46c4",
+    "SoLuong": 74,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e8c1b414-7bf1-41e3-a8b7-28aa1a6b46c4",
+    "SoLuong": 92,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e8c1b414-7bf1-41e3-a8b7-28aa1a6b46c4",
+    "SoLuong": 49,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "e482a310-f46c-4cdd-9756-110536c852fc",
+    "SoLuong": 52,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "e482a310-f46c-4cdd-9756-110536c852fc",
+    "SoLuong": 91,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "e482a310-f46c-4cdd-9756-110536c852fc",
+    "SoLuong": 58,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "e482a310-f46c-4cdd-9756-110536c852fc",
+    "SoLuong": 90,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "e482a310-f46c-4cdd-9756-110536c852fc",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "05730f01-6b98-410a-b417-17862583bb99",
+    "SoLuong": 26,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "05730f01-6b98-410a-b417-17862583bb99",
+    "SoLuong": 24,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "05730f01-6b98-410a-b417-17862583bb99",
+    "SoLuong": 16,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "05730f01-6b98-410a-b417-17862583bb99",
+    "SoLuong": 83,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "05730f01-6b98-410a-b417-17862583bb99",
+    "SoLuong": 33,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "899ba285-85b7-4449-aee6-c5b23a2f52c1",
+    "SoLuong": 29,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "899ba285-85b7-4449-aee6-c5b23a2f52c1",
+    "SoLuong": 70,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "899ba285-85b7-4449-aee6-c5b23a2f52c1",
+    "SoLuong": 11,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "899ba285-85b7-4449-aee6-c5b23a2f52c1",
+    "SoLuong": 23,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "899ba285-85b7-4449-aee6-c5b23a2f52c1",
+    "SoLuong": 13,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "7a06162a-cd29-4be5-a3fa-ab529b8c3eef",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "7a06162a-cd29-4be5-a3fa-ab529b8c3eef",
+    "SoLuong": 28,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "7a06162a-cd29-4be5-a3fa-ab529b8c3eef",
+    "SoLuong": 33,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "7a06162a-cd29-4be5-a3fa-ab529b8c3eef",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "7a06162a-cd29-4be5-a3fa-ab529b8c3eef",
+    "SoLuong": 79,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a7063673-7d93-4b31-97b5-1137c6b91987",
+    "SoLuong": 50,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a7063673-7d93-4b31-97b5-1137c6b91987",
+    "SoLuong": 20,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a7063673-7d93-4b31-97b5-1137c6b91987",
+    "SoLuong": 88,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a7063673-7d93-4b31-97b5-1137c6b91987",
+    "SoLuong": 86,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a7063673-7d93-4b31-97b5-1137c6b91987",
+    "SoLuong": 78,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "473555e0-9cb4-48bc-bbc6-75d15eb01cf9",
+    "SoLuong": 75,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "473555e0-9cb4-48bc-bbc6-75d15eb01cf9",
+    "SoLuong": 15,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "473555e0-9cb4-48bc-bbc6-75d15eb01cf9",
+    "SoLuong": 58,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "473555e0-9cb4-48bc-bbc6-75d15eb01cf9",
+    "SoLuong": 53,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "473555e0-9cb4-48bc-bbc6-75d15eb01cf9",
+    "SoLuong": 10,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "de1654c6-3fff-4faa-89b1-3c5f44c83d2f",
+    "SoLuong": 82,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "de1654c6-3fff-4faa-89b1-3c5f44c83d2f",
+    "SoLuong": 17,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "de1654c6-3fff-4faa-89b1-3c5f44c83d2f",
+    "SoLuong": 24,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "de1654c6-3fff-4faa-89b1-3c5f44c83d2f",
+    "SoLuong": 66,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "de1654c6-3fff-4faa-89b1-3c5f44c83d2f",
+    "SoLuong": 64,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "3682ca9a-b397-4640-b94d-1a2d874b051e",
+    "SoLuong": 100,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "3682ca9a-b397-4640-b94d-1a2d874b051e",
+    "SoLuong": 99,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "3682ca9a-b397-4640-b94d-1a2d874b051e",
+    "SoLuong": 44,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "3682ca9a-b397-4640-b94d-1a2d874b051e",
+    "SoLuong": 93,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "3682ca9a-b397-4640-b94d-1a2d874b051e",
+    "SoLuong": 79,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "fda29c5a-fee5-437c-b87b-51ca3827ced6",
+    "SoLuong": 16,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "fda29c5a-fee5-437c-b87b-51ca3827ced6",
+    "SoLuong": 47,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "fda29c5a-fee5-437c-b87b-51ca3827ced6",
+    "SoLuong": 47,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "fda29c5a-fee5-437c-b87b-51ca3827ced6",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "fda29c5a-fee5-437c-b87b-51ca3827ced6",
+    "SoLuong": 12,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "a2d6dc68-23d6-4ee1-9572-b8afa4ce2733",
+    "SoLuong": 45,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "a2d6dc68-23d6-4ee1-9572-b8afa4ce2733",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "a2d6dc68-23d6-4ee1-9572-b8afa4ce2733",
+    "SoLuong": 73,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "a2d6dc68-23d6-4ee1-9572-b8afa4ce2733",
+    "SoLuong": 54,
+    "TrangThaiSP": "CON_HANG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "a2d6dc68-23d6-4ee1-9572-b8afa4ce2733",
+    "SoLuong": 14,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "S",
+    "MaSP": "ec32ba57-4035-4559-8e6b-809288052bd3",
+    "SoLuong": 55,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "M",
+    "MaSP": "ec32ba57-4035-4559-8e6b-809288052bd3",
+    "SoLuong": 40,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "L",
+    "MaSP": "ec32ba57-4035-4559-8e6b-809288052bd3",
+    "SoLuong": 100,
+    "TrangThaiSP": "HET_HANG"
+  },
+  {
+    "KichCo": "XL",
+    "MaSP": "ec32ba57-4035-4559-8e6b-809288052bd3",
+    "SoLuong": 35,
+    "TrangThaiSP": "TAM_NGUNG"
+  },
+  {
+    "KichCo": "XXL",
+    "MaSP": "ec32ba57-4035-4559-8e6b-809288052bd3",
+    "SoLuong": 37,
+    "TrangThaiSP": "CON_HANG"
+  }
+            ],
+            skipDuplicates: true,
+        }),
+
+        // prisma.dANHMUC.createMany({
+        //     data: [
+        //         {
+        //             TenDM: 'Áo khoác Bomber',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo khoác chống nắng',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo khoác gió',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo khoác hoodie',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo khoác jean',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo khoác kaki',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo khoác sơ mi',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo khoác thể thao',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo sơ mi tay dài',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo sơ mi tay ngắn',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo thun ba lỗ',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo thun cổ polo tay ngắn',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo thun cổ tròn tay ngắn',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Áo thun tay dài',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Balo Essential',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'PHU_KIEN',
+        //         },
+        //         {
+        //             TenDM: 'Balo Smart',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'PHU_KIEN',
+        //         },
+        //         {
+        //             TenDM: 'Dây nịt da bò',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'PHU_KIEN',
+        //         },
+        //         {
+        //             TenDM: 'Găng tay',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'PHU_KIEN',
+        //         },
+        //         {
+        //             TenDM: 'Nón baseball cap',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'PHU_KIEN',
+        //         },
+        //         {
+        //             TenDM: 'Nón Dat Hat',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'AO',
+        //         },
+        //         {
+        //             TenDM: 'Quần jean jogger',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Quần jean loose fit',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Quần jean slim fit',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Quần jogger',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Quần kaki',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Quần lót lụa băng',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Quần lót seamless',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Quần lót sợi tự nhiên',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Quần short boxer',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Quần short dù',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Quần short thun',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Quần tây',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'QUAN',
+        //         },
+        //         {
+        //             TenDM: 'Túi cross',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'PHU_KIEN',
+        //         },
+        //         {
+        //             TenDM: 'Túi hip sack',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'PHU_KIEN',
+        //         },
+        //         {
+        //             TenDM: 'Ví đứng',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'PHU_KIEN',
+        //         },
+        //         {
+        //             TenDM: 'Ví ngang',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'PHU_KIEN',
+        //         },
+        //         {
+        //             TenDM: 'Vớ cổ ngắn',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'PHU_KIEN',
+        //         },
+        //         {
+        //             TenDM: 'Vớ lưới',
+        //             TrangThai: 'ACTIVE',
+        //             Loai: 'PHU_KIEN',
+        //         }
+        //     ],
+        //     skipDuplicates: true,
+        // }),
+        /*prisma.sANPHAM.createMany({
+            data: [
+{
         "MoTa": "Vải Pique (92% Polyester 8% Spandex) co giãn thoáng mát chống nắng hiệu quả | Thiết kế bomber trẻ trung đứng form item must-have cho tủ đồ năng động | Đã đẹp còn đa năng hãy cẩn thận với những lời mượn tạm từ bạn bè",
         "TenSP": "Áo Khoác Bomber Vải Pique Co Giãn No Style M45 Xám Ghi",
         "HinhAnh": [
@@ -213,7 +22894,7 @@ async function main() {
         "GiaBan": 906100.0,
         "GiaMua": 697000,
         "TrangThai": "ACTIVE",
-        "MaDM": "48e61f5c-e4ae-4022-83c8-355b1178cd49",
+        "MaDM": "d565cf39-8d97-4bfa-8489-71c68a07a8f5",
         "MauSac": "Xám Ghi"
     },
     {
@@ -229,7 +22910,7 @@ async function main() {
         "GiaBan": 906100.0,
         "GiaMua": 697000,
         "TrangThai": "ACTIVE",
-        "MaDM": "48e61f5c-e4ae-4022-83c8-355b1178cd49",
+        "MaDM": "d565cf39-8d97-4bfa-8489-71c68a07a8f5",
         "MauSac": "Đen"
     },
     {
@@ -245,7 +22926,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "48e61f5c-e4ae-4022-83c8-355b1178cd49",
+        "MaDM": "d565cf39-8d97-4bfa-8489-71c68a07a8f5",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -261,7 +22942,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "48e61f5c-e4ae-4022-83c8-355b1178cd49",
+        "MaDM": "d565cf39-8d97-4bfa-8489-71c68a07a8f5",
         "MauSac": "Đen"
     },
     {
@@ -277,7 +22958,7 @@ async function main() {
         "GiaBan": 776100.0,
         "GiaMua": 597000,
         "TrangThai": "ACTIVE",
-        "MaDM": "48e61f5c-e4ae-4022-83c8-355b1178cd49",
+        "MaDM": "d565cf39-8d97-4bfa-8489-71c68a07a8f5",
         "MauSac": "Đen"
     },
     {
@@ -293,7 +22974,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "48e61f5c-e4ae-4022-83c8-355b1178cd49",
+        "MaDM": "d565cf39-8d97-4bfa-8489-71c68a07a8f5",
         "MauSac": "Xanh Dương"
     },
     {
@@ -309,7 +22990,7 @@ async function main() {
         "GiaBan": 776100.0,
         "GiaMua": 597000,
         "TrangThai": "ACTIVE",
-        "MaDM": "48e61f5c-e4ae-4022-83c8-355b1178cd49",
+        "MaDM": "d565cf39-8d97-4bfa-8489-71c68a07a8f5",
         "MauSac": "Xanh Đen"
     },
     {
@@ -325,7 +23006,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "48e61f5c-e4ae-4022-83c8-355b1178cd49",
+        "MaDM": "d565cf39-8d97-4bfa-8489-71c68a07a8f5",
         "MauSac": "Xám"
     },
     {
@@ -341,7 +23022,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -357,7 +23038,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Đen"
     },
     {
@@ -373,7 +23054,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám Đậm"
     },
     {
@@ -389,7 +23070,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám Nhạt"
     },
     {
@@ -405,7 +23086,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Hồng"
     },
     {
@@ -421,7 +23102,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Đen"
     },
     {
@@ -437,7 +23118,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Be"
     },
     {
@@ -453,7 +23134,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Đen"
     },
     {
@@ -469,7 +23150,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Đỏ Cam"
     },
     {
@@ -485,7 +23166,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -501,7 +23182,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Trắng"
     },
     {
@@ -517,7 +23198,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xanh Đen"
     },
     {
@@ -533,7 +23214,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Kem"
     },
     {
@@ -549,7 +23230,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám Trắng"
     },
     {
@@ -565,7 +23246,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám"
     },
     {
@@ -581,7 +23262,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xanh Đen"
     },
     {
@@ -597,7 +23278,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Đen"
     },
     {
@@ -613,7 +23294,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xanh Đen"
     },
     {
@@ -629,7 +23310,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám"
     },
     {
@@ -645,7 +23326,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám Đen"
     },
     {
@@ -661,7 +23342,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Đen"
     },
     {
@@ -677,7 +23358,7 @@ async function main() {
         "GiaBan": 452270.0,
         "GiaMua": 347900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -693,7 +23374,7 @@ async function main() {
         "GiaBan": 506870.0,
         "GiaMua": 389900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám Đậm"
     },
     {
@@ -709,7 +23390,7 @@ async function main() {
         "GiaBan": 506870.0,
         "GiaMua": 389900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám Rêu"
     },
     {
@@ -725,7 +23406,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám Nhạt"
     },
     {
@@ -741,7 +23422,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Nâu"
     },
     {
@@ -757,7 +23438,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Kem"
     },
     {
@@ -773,7 +23454,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Đen"
     },
     {
@@ -789,7 +23470,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Be"
     },
     {
@@ -805,7 +23486,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám Rêu"
     },
     {
@@ -821,7 +23502,7 @@ async function main() {
         "GiaBan": 543270.0,
         "GiaMua": 417900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -837,7 +23518,7 @@ async function main() {
         "GiaBan": 452270.0,
         "GiaMua": 347900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Nâu Đất"
     },
     {
@@ -853,7 +23534,7 @@ async function main() {
         "GiaBan": 506870.0,
         "GiaMua": 389900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám"
     },
     {
@@ -869,7 +23550,7 @@ async function main() {
         "GiaBan": 506870.0,
         "GiaMua": 389900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Đen"
     },
     {
@@ -885,7 +23566,7 @@ async function main() {
         "GiaBan": 506870.0,
         "GiaMua": 389900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Trắng"
     },
     {
@@ -901,7 +23582,7 @@ async function main() {
         "GiaBan": 506870.0,
         "GiaMua": 389900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Be"
     },
     {
@@ -917,7 +23598,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xanh Đen"
     },
     {
@@ -933,7 +23614,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám Nhạt"
     },
     {
@@ -949,7 +23630,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -965,7 +23646,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -981,7 +23662,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -997,7 +23678,7 @@ async function main() {
         "GiaBan": 543270.0,
         "GiaMua": 417900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xanh Bích"
     },
     {
@@ -1013,7 +23694,7 @@ async function main() {
         "GiaBan": 452270.0,
         "GiaMua": 347900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Nâu"
     },
     {
@@ -1029,7 +23710,7 @@ async function main() {
         "GiaBan": 452270.0,
         "GiaMua": 347900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xám Đậm"
     },
     {
@@ -1045,7 +23726,7 @@ async function main() {
         "GiaBan": 506870.0,
         "GiaMua": 389900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -1061,7 +23742,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Trắng"
     },
     {
@@ -1077,7 +23758,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Be"
     },
     {
@@ -1093,7 +23774,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9fa6a914-2dce-4f41-a79f-97bf728030e6",
+        "MaDM": "b2a7eb4d-4b15-4c3c-833e-3650005ed93e",
         "MauSac": "Xanh Bích"
     },
     {
@@ -1109,7 +23790,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "bf4dc586-0ebe-4132-b08e-7bb452b82a34",
+        "MaDM": "89a6b0f0-074d-4cbf-9cd0-c179791ab126",
         "MauSac": "Xanh Đen"
     },
     {
@@ -1125,7 +23806,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "bf4dc586-0ebe-4132-b08e-7bb452b82a34",
+        "MaDM": "89a6b0f0-074d-4cbf-9cd0-c179791ab126",
         "MauSac": "Đen"
     },
     {
@@ -1141,7 +23822,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "bf4dc586-0ebe-4132-b08e-7bb452b82a34",
+        "MaDM": "89a6b0f0-074d-4cbf-9cd0-c179791ab126",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -1157,7 +23838,7 @@ async function main() {
         "GiaBan": 434460.0,
         "GiaMua": 334200,
         "TrangThai": "ACTIVE",
-        "MaDM": "bf4dc586-0ebe-4132-b08e-7bb452b82a34",
+        "MaDM": "89a6b0f0-074d-4cbf-9cd0-c179791ab126",
         "MauSac": "Trắng"
     },
     {
@@ -1173,7 +23854,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "bf4dc586-0ebe-4132-b08e-7bb452b82a34",
+        "MaDM": "89a6b0f0-074d-4cbf-9cd0-c179791ab126",
         "MauSac": "Kem"
     },
     {
@@ -1189,7 +23870,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "bf4dc586-0ebe-4132-b08e-7bb452b82a34",
+        "MaDM": "89a6b0f0-074d-4cbf-9cd0-c179791ab126",
         "MauSac": "Nâu Đỏ"
     },
     {
@@ -1205,7 +23886,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "bf4dc586-0ebe-4132-b08e-7bb452b82a34",
+        "MaDM": "89a6b0f0-074d-4cbf-9cd0-c179791ab126",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -1221,7 +23902,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "bf4dc586-0ebe-4132-b08e-7bb452b82a34",
+        "MaDM": "89a6b0f0-074d-4cbf-9cd0-c179791ab126",
         "MauSac": "Xám Trắng"
     },
     {
@@ -1237,7 +23918,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "bf4dc586-0ebe-4132-b08e-7bb452b82a34",
+        "MaDM": "89a6b0f0-074d-4cbf-9cd0-c179791ab126",
         "MauSac": "Be"
     },
     {
@@ -1253,7 +23934,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "bf4dc586-0ebe-4132-b08e-7bb452b82a34",
+        "MaDM": "89a6b0f0-074d-4cbf-9cd0-c179791ab126",
         "MauSac": "Xanh Đen"
     },
     {
@@ -1269,7 +23950,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5ca2ff75-ff72-4d05-b2a8-6894a9b28fd5",
+        "MaDM": "acc5caf9-1a1b-4cf7-b835-dd30892185b0",
         "MauSac": "Nâu Đất"
     },
     {
@@ -1285,7 +23966,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5ca2ff75-ff72-4d05-b2a8-6894a9b28fd5",
+        "MaDM": "acc5caf9-1a1b-4cf7-b835-dd30892185b0",
         "MauSac": "Xanh Đen"
     },
     {
@@ -1301,7 +23982,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5ca2ff75-ff72-4d05-b2a8-6894a9b28fd5",
+        "MaDM": "acc5caf9-1a1b-4cf7-b835-dd30892185b0",
         "MauSac": "Đen"
     },
     {
@@ -1317,7 +23998,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5ca2ff75-ff72-4d05-b2a8-6894a9b28fd5",
+        "MaDM": "acc5caf9-1a1b-4cf7-b835-dd30892185b0",
         "MauSac": "Be"
     },
     {
@@ -1333,7 +24014,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5ca2ff75-ff72-4d05-b2a8-6894a9b28fd5",
+        "MaDM": "acc5caf9-1a1b-4cf7-b835-dd30892185b0",
         "MauSac": "Xám"
     },
     {
@@ -1349,7 +24030,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "5ca2ff75-ff72-4d05-b2a8-6894a9b28fd5",
+        "MaDM": "acc5caf9-1a1b-4cf7-b835-dd30892185b0",
         "MauSac": "Đen"
     },
     {
@@ -1365,7 +24046,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "5ca2ff75-ff72-4d05-b2a8-6894a9b28fd5",
+        "MaDM": "acc5caf9-1a1b-4cf7-b835-dd30892185b0",
         "MauSac": "Be"
     },
     {
@@ -1381,7 +24062,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "5ca2ff75-ff72-4d05-b2a8-6894a9b28fd5",
+        "MaDM": "acc5caf9-1a1b-4cf7-b835-dd30892185b0",
         "MauSac": "Xám Rêu"
     },
     {
@@ -1397,7 +24078,7 @@ async function main() {
         "GiaBan": 464880.0,
         "GiaMua": 357600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Xanh Dương"
     },
     {
@@ -1413,7 +24094,7 @@ async function main() {
         "GiaBan": 464880.0,
         "GiaMua": 357600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Xanh Nhạt"
     },
     {
@@ -1429,7 +24110,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Xanh Nhạt"
     },
     {
@@ -1445,7 +24126,7 @@ async function main() {
         "GiaBan": 464880.0,
         "GiaMua": 357600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -1461,7 +24142,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Đen"
     },
     {
@@ -1477,7 +24158,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -1493,7 +24174,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -1509,7 +24190,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Nâu"
     },
     {
@@ -1525,7 +24206,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Be"
     },
     {
@@ -1541,7 +24222,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Xanh Đen"
     },
     {
@@ -1557,7 +24238,7 @@ async function main() {
         "GiaBan": 776100.0,
         "GiaMua": 597000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Xanh Dương"
     },
     {
@@ -1573,7 +24254,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -1589,7 +24270,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e86ba613-470b-4036-b920-15ea0b78347d",
+        "MaDM": "87dbd126-160e-41b9-af6d-4ee1a8749007",
         "MauSac": "Xanh Dương"
     },
     {
@@ -1605,7 +24286,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Xám"
     },
     {
@@ -1621,7 +24302,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -1637,7 +24318,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Đen"
     },
     {
@@ -1653,7 +24334,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Kem"
     },
     {
@@ -1669,7 +24350,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Vàng"
     },
     {
@@ -1685,7 +24366,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -1701,7 +24382,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Xanh Dương"
     },
     {
@@ -1717,7 +24398,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Kem"
     },
     {
@@ -1733,7 +24414,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Đen"
     },
     {
@@ -1749,7 +24430,7 @@ async function main() {
         "GiaBan": 543270.0,
         "GiaMua": 417900,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -1765,7 +24446,7 @@ async function main() {
         "GiaBan": 543270.0,
         "GiaMua": 417900,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Nâu"
     },
     {
@@ -1781,7 +24462,7 @@ async function main() {
         "GiaBan": 750100.0,
         "GiaMua": 577000,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -1797,7 +24478,7 @@ async function main() {
         "GiaBan": 750100.0,
         "GiaMua": 577000,
         "TrangThai": "ACTIVE",
-        "MaDM": "fd669233-3cc3-4dc2-a107-821bda169e16",
+        "MaDM": "0aa83acd-02bd-4c80-8823-4c2b92fa459d",
         "MauSac": "Be"
     },
     {
@@ -1813,7 +24494,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cabee181-cfbe-45b9-a463-fe2cdc6887a1",
+        "MaDM": "6c8239e0-250c-4619-8495-e8602cae55f3",
         "MauSac": "Xanh Đen"
     },
     {
@@ -1829,7 +24510,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cabee181-cfbe-45b9-a463-fe2cdc6887a1",
+        "MaDM": "6c8239e0-250c-4619-8495-e8602cae55f3",
         "MauSac": "Nâu"
     },
     {
@@ -1845,7 +24526,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cabee181-cfbe-45b9-a463-fe2cdc6887a1",
+        "MaDM": "6c8239e0-250c-4619-8495-e8602cae55f3",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -1861,7 +24542,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cabee181-cfbe-45b9-a463-fe2cdc6887a1",
+        "MaDM": "6c8239e0-250c-4619-8495-e8602cae55f3",
         "MauSac": "Nâu"
     },
     {
@@ -1877,7 +24558,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cabee181-cfbe-45b9-a463-fe2cdc6887a1",
+        "MaDM": "6c8239e0-250c-4619-8495-e8602cae55f3",
         "MauSac": "Đen"
     },
     {
@@ -1893,7 +24574,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cabee181-cfbe-45b9-a463-fe2cdc6887a1",
+        "MaDM": "6c8239e0-250c-4619-8495-e8602cae55f3",
         "MauSac": "Xám"
     },
     {
@@ -1909,7 +24590,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cabee181-cfbe-45b9-a463-fe2cdc6887a1",
+        "MaDM": "6c8239e0-250c-4619-8495-e8602cae55f3",
         "MauSac": "Xám"
     },
     {
@@ -1925,7 +24606,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cabee181-cfbe-45b9-a463-fe2cdc6887a1",
+        "MaDM": "6c8239e0-250c-4619-8495-e8602cae55f3",
         "MauSac": "Be"
     },
     {
@@ -1941,7 +24622,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cabee181-cfbe-45b9-a463-fe2cdc6887a1",
+        "MaDM": "6c8239e0-250c-4619-8495-e8602cae55f3",
         "MauSac": "Đen"
     },
     {
@@ -1957,7 +24638,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cabee181-cfbe-45b9-a463-fe2cdc6887a1",
+        "MaDM": "6c8239e0-250c-4619-8495-e8602cae55f3",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -1973,7 +24654,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "867c367e-fe7d-4aba-8dc4-c6fb16d90c23",
+        "MaDM": "9a39dead-6e27-4bc4-89a9-fa7b93fd7776",
         "MauSac": "Đen"
     },
     {
@@ -1989,7 +24670,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "867c367e-fe7d-4aba-8dc4-c6fb16d90c23",
+        "MaDM": "9a39dead-6e27-4bc4-89a9-fa7b93fd7776",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -2005,7 +24686,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "867c367e-fe7d-4aba-8dc4-c6fb16d90c23",
+        "MaDM": "9a39dead-6e27-4bc4-89a9-fa7b93fd7776",
         "MauSac": "Đỏ"
     },
     {
@@ -2021,7 +24702,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "867c367e-fe7d-4aba-8dc4-c6fb16d90c23",
+        "MaDM": "9a39dead-6e27-4bc4-89a9-fa7b93fd7776",
         "MauSac": "Xanh Đen"
     },
     {
@@ -2037,7 +24718,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "867c367e-fe7d-4aba-8dc4-c6fb16d90c23",
+        "MaDM": "9a39dead-6e27-4bc4-89a9-fa7b93fd7776",
         "MauSac": "Xám Chì"
     },
     {
@@ -2053,7 +24734,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "867c367e-fe7d-4aba-8dc4-c6fb16d90c23",
+        "MaDM": "9a39dead-6e27-4bc4-89a9-fa7b93fd7776",
         "MauSac": "Kem"
     },
     {
@@ -2069,7 +24750,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "867c367e-fe7d-4aba-8dc4-c6fb16d90c23",
+        "MaDM": "9a39dead-6e27-4bc4-89a9-fa7b93fd7776",
         "MauSac": "Đen"
     },
     {
@@ -2085,7 +24766,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Trắng"
     },
     {
@@ -2101,7 +24782,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Dương"
     },
     {
@@ -2117,7 +24798,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -2133,7 +24814,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Đen"
     },
     {
@@ -2149,7 +24830,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xám Trắng"
     },
     {
@@ -2165,7 +24846,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Trắng"
     },
     {
@@ -2181,7 +24862,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Đen"
     },
     {
@@ -2197,7 +24878,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Nâu"
     },
     {
@@ -2213,7 +24894,7 @@ async function main() {
         "GiaBan": 444080.0,
         "GiaMua": 341600,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Đen"
     },
     {
@@ -2229,7 +24910,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Dương"
     },
     {
@@ -2245,7 +24926,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Nhạt"
     },
     {
@@ -2261,7 +24942,7 @@ async function main() {
         "GiaBan": 555100.0,
         "GiaMua": 427000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Đen"
     },
     {
@@ -2277,7 +24958,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Đen"
     },
     {
@@ -2293,7 +24974,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -2309,7 +24990,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Hồng"
     },
     {
@@ -2325,7 +25006,7 @@ async function main() {
         "GiaBan": 252070.0,
         "GiaMua": 193900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Đen"
     },
     {
@@ -2341,7 +25022,7 @@ async function main() {
         "GiaBan": 415870.0,
         "GiaMua": 319900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -2357,7 +25038,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Trắng"
     },
     {
@@ -2373,7 +25054,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Nâu"
     },
     {
@@ -2389,7 +25070,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Đen"
     },
     {
@@ -2405,7 +25086,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xám"
     },
     {
@@ -2421,7 +25102,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Nâu"
     },
     {
@@ -2437,7 +25118,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Trắng"
     },
     {
@@ -2453,7 +25134,7 @@ async function main() {
         "GiaBan": 444080.0,
         "GiaMua": 341600,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Dương"
     },
     {
@@ -2469,7 +25150,7 @@ async function main() {
         "GiaBan": 444080.0,
         "GiaMua": 341600,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Nhạt"
     },
     {
@@ -2485,7 +25166,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Đỏ Đô"
     },
     {
@@ -2501,7 +25182,7 @@ async function main() {
         "GiaBan": 252070.0,
         "GiaMua": 193900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Đen"
     },
     {
@@ -2517,7 +25198,7 @@ async function main() {
         "GiaBan": 252070.0,
         "GiaMua": 193900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Dương Nhạt"
     },
     {
@@ -2533,7 +25214,7 @@ async function main() {
         "GiaBan": 252070.0,
         "GiaMua": 193900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Trắng"
     },
     {
@@ -2549,7 +25230,7 @@ async function main() {
         "GiaBan": 452270.0,
         "GiaMua": 347900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Trắng"
     },
     {
@@ -2565,7 +25246,7 @@ async function main() {
         "GiaBan": 452270.0,
         "GiaMua": 347900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Đen"
     },
     {
@@ -2581,7 +25262,7 @@ async function main() {
         "GiaBan": 452270.0,
         "GiaMua": 347900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Đen"
     },
     {
@@ -2597,7 +25278,7 @@ async function main() {
         "GiaBan": 452270.0,
         "GiaMua": 347900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Trắng"
     },
     {
@@ -2613,7 +25294,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Đen"
     },
     {
@@ -2629,7 +25310,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Trắng"
     },
     {
@@ -2645,7 +25326,7 @@ async function main() {
         "GiaBan": 415870.0,
         "GiaMua": 319900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Dương"
     },
     {
@@ -2661,7 +25342,7 @@ async function main() {
         "GiaBan": 415870.0,
         "GiaMua": 319900,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Nhạt"
     },
     {
@@ -2677,7 +25358,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -2693,7 +25374,7 @@ async function main() {
         "GiaBan": 444080.0,
         "GiaMua": 341600,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xám Nhạt"
     },
     {
@@ -2709,7 +25390,7 @@ async function main() {
         "GiaBan": 444080.0,
         "GiaMua": 341600,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Nâu"
     },
     {
@@ -2725,7 +25406,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Trắng"
     },
     {
@@ -2741,7 +25422,7 @@ async function main() {
         "GiaBan": 444080.0,
         "GiaMua": 341600,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Đen"
     },
     {
@@ -2757,7 +25438,7 @@ async function main() {
         "GiaBan": 444080.0,
         "GiaMua": 341600,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -2773,7 +25454,7 @@ async function main() {
         "GiaBan": 444080.0,
         "GiaMua": 341600,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Be"
     },
     {
@@ -2789,7 +25470,7 @@ async function main() {
         "GiaBan": 444080.0,
         "GiaMua": 341600,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xám Đậm"
     },
     {
@@ -2805,7 +25486,7 @@ async function main() {
         "GiaBan": 555100.0,
         "GiaMua": 427000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Trắng"
     },
     {
@@ -2821,7 +25502,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Đen"
     },
     {
@@ -2837,7 +25518,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "cbe51b41-2b8c-4db2-ac0b-49bf6eca4c79",
+        "MaDM": "82cda475-98c5-43f9-aa36-e7f6ec02e30b",
         "MauSac": "Xám"
     },
     {
@@ -2853,7 +25534,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xanh Dương"
     },
     {
@@ -2869,7 +25550,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Trắng"
     },
     {
@@ -2885,7 +25566,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -2901,7 +25582,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Nâu"
     },
     {
@@ -2917,7 +25598,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Be"
     },
     {
@@ -2933,7 +25614,7 @@ async function main() {
         "GiaBan": 267280.0,
         "GiaMua": 205600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Trắng"
     },
     {
@@ -2949,7 +25630,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -2965,7 +25646,7 @@ async function main() {
         "GiaBan": 267280.0,
         "GiaMua": 205600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xanh Đen"
     },
     {
@@ -2981,7 +25662,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xám Trắng"
     },
     {
@@ -2997,7 +25678,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -3013,7 +25694,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Hồng"
     },
     {
@@ -3029,7 +25710,7 @@ async function main() {
         "GiaBan": 267280.0,
         "GiaMua": 205600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3045,7 +25726,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3061,7 +25742,7 @@ async function main() {
         "GiaBan": 267280.0,
         "GiaMua": 205600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xám"
     },
     {
@@ -3077,7 +25758,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3093,7 +25774,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xanh nhạt"
     },
     {
@@ -3109,7 +25790,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xanh dương"
     },
     {
@@ -3125,7 +25806,7 @@ async function main() {
         "GiaBan": 267280.0,
         "GiaMua": 205600,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Be"
     },
     {
@@ -3141,7 +25822,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Nâu"
     },
     {
@@ -3157,7 +25838,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Nâu"
     },
     {
@@ -3173,7 +25854,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -3189,7 +25870,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Be"
     },
     {
@@ -3205,7 +25886,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đỏ Đô"
     },
     {
@@ -3221,7 +25902,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3237,7 +25918,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Trắng"
     },
     {
@@ -3253,7 +25934,7 @@ async function main() {
         "GiaBan": 555100.0,
         "GiaMua": 427000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Trắng Xám"
     },
     {
@@ -3269,7 +25950,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3285,7 +25966,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3301,7 +25982,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Trắng"
     },
     {
@@ -3317,7 +25998,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xanh Đá"
     },
     {
@@ -3333,7 +26014,7 @@ async function main() {
         "GiaBan": 297570.0,
         "GiaMua": 228900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -3349,7 +26030,7 @@ async function main() {
         "GiaBan": 252070.0,
         "GiaMua": 193900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3365,7 +26046,7 @@ async function main() {
         "GiaBan": 261170.0,
         "GiaMua": 200900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Trắng Xanh"
     },
     {
@@ -3381,7 +26062,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3397,7 +26078,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3413,7 +26094,7 @@ async function main() {
         "GiaBan": 278460.0,
         "GiaMua": 214200,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Cam"
     },
     {
@@ -3429,7 +26110,7 @@ async function main() {
         "GiaBan": 278460.0,
         "GiaMua": 214200,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Cam"
     },
     {
@@ -3445,7 +26126,7 @@ async function main() {
         "GiaBan": 309660.0,
         "GiaMua": 238200,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xám"
     },
     {
@@ -3461,7 +26142,7 @@ async function main() {
         "GiaBan": 555100.0,
         "GiaMua": 427000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -3477,7 +26158,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Xám"
     },
     {
@@ -3493,7 +26174,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Trắng Kem"
     },
     {
@@ -3509,7 +26190,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3525,7 +26206,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3541,7 +26222,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Kem"
     },
     {
@@ -3557,7 +26238,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Đen"
     },
     {
@@ -3573,7 +26254,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Trắng"
     },
     {
@@ -3589,7 +26270,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Nâu"
     },
     {
@@ -3605,7 +26286,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "9cc8fa06-357a-4b5b-aaff-7cc3bb2a72d0",
+        "MaDM": "343251d3-98f3-4600-85bb-9c50e8dc4757",
         "MauSac": "Kem"
     },
     {
@@ -3621,7 +26302,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đen"
     },
     {
@@ -3637,7 +26318,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xám Xanh"
     },
     {
@@ -3653,7 +26334,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đỏ"
     },
     {
@@ -3669,7 +26350,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Trắng"
     },
     {
@@ -3685,7 +26366,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đen"
     },
     {
@@ -3701,7 +26382,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xám Trắng"
     },
     {
@@ -3717,7 +26398,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xám"
     },
     {
@@ -3733,7 +26414,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xanh Đen"
     },
     {
@@ -3749,7 +26430,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đen"
     },
     {
@@ -3765,7 +26446,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -3781,7 +26462,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Trắng"
     },
     {
@@ -3797,7 +26478,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Nâu"
     },
     {
@@ -3813,7 +26494,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Be"
     },
     {
@@ -3829,7 +26510,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xám"
     },
     {
@@ -3845,7 +26526,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Trắng"
     },
     {
@@ -3861,7 +26542,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Trắng"
     },
     {
@@ -3877,7 +26558,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đen"
     },
     {
@@ -3893,7 +26574,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đen"
     },
     {
@@ -3909,7 +26590,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xanh Bích"
     },
     {
@@ -3925,7 +26606,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xám"
     },
     {
@@ -3941,7 +26622,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đỏ"
     },
     {
@@ -3957,7 +26638,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Trắng"
     },
     {
@@ -3973,7 +26654,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xám Đậm"
     },
     {
@@ -3989,7 +26670,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Nâu"
     },
     {
@@ -4005,7 +26686,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xanh Dương"
     },
     {
@@ -4021,7 +26702,7 @@ async function main() {
         "GiaBan": 88270.0,
         "GiaMua": 67900,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xanh Đen"
     },
     {
@@ -4037,7 +26718,7 @@ async function main() {
         "GiaBan": 88270.0,
         "GiaMua": 67900,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xám Chì"
     },
     {
@@ -4053,7 +26734,7 @@ async function main() {
         "GiaBan": 88270.0,
         "GiaMua": 67900,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Kem"
     },
     {
@@ -4069,7 +26750,7 @@ async function main() {
         "GiaBan": 88270.0,
         "GiaMua": 67900,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xám"
     },
     {
@@ -4085,7 +26766,7 @@ async function main() {
         "GiaBan": 88270.0,
         "GiaMua": 67900,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Trắng"
     },
     {
@@ -4101,7 +26782,7 @@ async function main() {
         "GiaBan": 206570.0,
         "GiaMua": 158900,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đen"
     },
     {
@@ -4117,7 +26798,7 @@ async function main() {
         "GiaBan": 206570.0,
         "GiaMua": 158900,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Trắng"
     },
     {
@@ -4133,7 +26814,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xám"
     },
     {
@@ -4149,7 +26830,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Trắng"
     },
     {
@@ -4165,7 +26846,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xám Đậm"
     },
     {
@@ -4181,7 +26862,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đen"
     },
     {
@@ -4197,7 +26878,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Trắng"
     },
     {
@@ -4213,7 +26894,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xám"
     },
     {
@@ -4229,7 +26910,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xanh Bích"
     },
     {
@@ -4245,7 +26926,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đen"
     },
     {
@@ -4261,7 +26942,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xanh Bích"
     },
     {
@@ -4277,7 +26958,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Trắng"
     },
     {
@@ -4293,7 +26974,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Xanh Bích"
     },
     {
@@ -4309,7 +26990,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đỏ"
     },
     {
@@ -4325,7 +27006,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Đen"
     },
     {
@@ -4341,7 +27022,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Be"
     },
     {
@@ -4357,7 +27038,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Nâu"
     },
     {
@@ -4373,7 +27054,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "f44d1314-a3aa-4628-8dd2-0b01597ca223",
+        "MaDM": "7f51e40a-8601-4f63-8d21-9ae4b0bae822",
         "MauSac": "Trắng"
     },
     {
@@ -4389,7 +27070,7 @@ async function main() {
         "GiaBan": 184080.0,
         "GiaMua": 141600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đen"
     },
     {
@@ -4405,7 +27086,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đen"
     },
     {
@@ -4421,7 +27102,7 @@ async function main() {
         "GiaBan": 184080.0,
         "GiaMua": 141600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Trắng"
     },
     {
@@ -4437,7 +27118,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Trắng"
     },
     {
@@ -4453,7 +27134,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đen Trắng"
     },
     {
@@ -4469,7 +27150,7 @@ async function main() {
         "GiaBan": 184080.0,
         "GiaMua": 141600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xám Ghi"
     },
     {
@@ -4485,7 +27166,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Be"
     },
     {
@@ -4501,7 +27182,7 @@ async function main() {
         "GiaBan": 184080.0,
         "GiaMua": 141600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -4517,7 +27198,7 @@ async function main() {
         "GiaBan": 184080.0,
         "GiaMua": 141600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Be"
     },
     {
@@ -4533,7 +27214,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Trắng"
     },
     {
@@ -4549,7 +27230,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Trắng Xám"
     },
     {
@@ -4565,7 +27246,7 @@ async function main() {
         "GiaBan": 184080.0,
         "GiaMua": 141600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xanh Xám"
     },
     {
@@ -4581,7 +27262,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Nâu"
     },
     {
@@ -4597,7 +27278,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -4613,7 +27294,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Trắng"
     },
     {
@@ -4629,7 +27310,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đen"
     },
     {
@@ -4645,7 +27326,7 @@ async function main() {
         "GiaBan": 184080.0,
         "GiaMua": 141600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Hồng"
     },
     {
@@ -4661,7 +27342,7 @@ async function main() {
         "GiaBan": 321100.0,
         "GiaMua": 247000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xám Đen"
     },
     {
@@ -4677,7 +27358,7 @@ async function main() {
         "GiaBan": 297570.0,
         "GiaMua": 228900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xanh Đen"
     },
     {
@@ -4693,7 +27374,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đen Xám"
     },
     {
@@ -4709,7 +27390,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xám Đậm"
     },
     {
@@ -4725,7 +27406,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Trắng"
     },
     {
@@ -4741,7 +27422,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Trắng Đỏ"
     },
     {
@@ -4757,7 +27438,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xám"
     },
     {
@@ -4773,7 +27454,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đen"
     },
     {
@@ -4789,7 +27470,7 @@ async function main() {
         "GiaBan": 184080.0,
         "GiaMua": 141600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Nâu"
     },
     {
@@ -4805,7 +27486,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Kem"
     },
     {
@@ -4821,7 +27502,7 @@ async function main() {
         "GiaBan": 321100.0,
         "GiaMua": 247000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đen Xám"
     },
     {
@@ -4837,7 +27518,7 @@ async function main() {
         "GiaBan": 321100.0,
         "GiaMua": 247000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Nâu Kem"
     },
     {
@@ -4853,7 +27534,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xanh Đen"
     },
     {
@@ -4869,7 +27550,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xám"
     },
     {
@@ -4885,7 +27566,7 @@ async function main() {
         "GiaBan": 297570.0,
         "GiaMua": 228900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đỏ Cam"
     },
     {
@@ -4901,7 +27582,7 @@ async function main() {
         "GiaBan": 297570.0,
         "GiaMua": 228900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đen"
     },
     {
@@ -4917,7 +27598,7 @@ async function main() {
         "GiaBan": 297570.0,
         "GiaMua": 228900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đỏ Đô"
     },
     {
@@ -4933,7 +27614,7 @@ async function main() {
         "GiaBan": 297570.0,
         "GiaMua": 228900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xám Chì"
     },
     {
@@ -4949,7 +27630,7 @@ async function main() {
         "GiaBan": 297570.0,
         "GiaMua": 228900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Trắng"
     },
     {
@@ -4965,7 +27646,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Be"
     },
     {
@@ -4981,7 +27662,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Trắng"
     },
     {
@@ -4997,7 +27678,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đen"
     },
     {
@@ -5013,7 +27694,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Kem"
     },
     {
@@ -5029,7 +27710,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Trắng"
     },
     {
@@ -5045,7 +27726,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xám"
     },
     {
@@ -5061,7 +27742,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Nâu"
     },
     {
@@ -5077,7 +27758,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đỏ Đô"
     },
     {
@@ -5093,7 +27774,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Đỏ Cam"
     },
     {
@@ -5109,7 +27790,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Nâu"
     },
     {
@@ -5125,7 +27806,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Nâu Cafe"
     },
     {
@@ -5141,7 +27822,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "e1809622-c506-4ac9-927b-ff7cc7439699",
+        "MaDM": "55b763ad-ff9d-43b8-9599-4c0a69199766",
         "MauSac": "Xám Chì"
     },
     {
@@ -5157,7 +27838,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Đen"
     },
     {
@@ -5173,7 +27854,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Trắng"
     },
     {
@@ -5189,7 +27870,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Đen"
     },
     {
@@ -5205,7 +27886,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Hồng"
     },
     {
@@ -5221,7 +27902,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Đỏ"
     },
     {
@@ -5237,7 +27918,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xám Ghi"
     },
     {
@@ -5253,7 +27934,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Trắng"
     },
     {
@@ -5269,7 +27950,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Be"
     },
     {
@@ -5285,7 +27966,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xám"
     },
     {
@@ -5301,7 +27982,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Đen"
     },
     {
@@ -5317,7 +27998,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Đen"
     },
     {
@@ -5333,7 +28014,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xanh Dương"
     },
     {
@@ -5349,7 +28030,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -5365,7 +28046,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -5381,7 +28062,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -5397,7 +28078,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xám"
     },
     {
@@ -5413,7 +28094,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Nâu"
     },
     {
@@ -5429,7 +28110,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xanh Xám"
     },
     {
@@ -5445,7 +28126,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xám"
     },
     {
@@ -5461,7 +28142,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -5477,7 +28158,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Be Đậm"
     },
     {
@@ -5493,7 +28174,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Đen"
     },
     {
@@ -5509,7 +28190,7 @@ async function main() {
         "GiaBan": 230100.0,
         "GiaMua": 177000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xanh Đen"
     },
     {
@@ -5525,7 +28206,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -5541,7 +28222,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xanh Đậu"
     },
     {
@@ -5557,7 +28238,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Trắng"
     },
     {
@@ -5573,7 +28254,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Kem"
     },
     {
@@ -5589,7 +28270,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Hồng"
     },
     {
@@ -5605,7 +28286,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xanh Đá"
     },
     {
@@ -5621,7 +28302,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xanh Đen"
     },
     {
@@ -5637,7 +28318,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Trắng"
     },
     {
@@ -5653,7 +28334,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Đỏ"
     },
     {
@@ -5669,7 +28350,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xám Trắng"
     },
     {
@@ -5685,7 +28366,7 @@ async function main() {
         "GiaBan": 230100.0,
         "GiaMua": 177000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xám"
     },
     {
@@ -5701,7 +28382,7 @@ async function main() {
         "GiaBan": 230100.0,
         "GiaMua": 177000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Trắng"
     },
     {
@@ -5717,7 +28398,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xám"
     },
     {
@@ -5733,7 +28414,7 @@ async function main() {
         "GiaBan": 230100.0,
         "GiaMua": 177000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Đen"
     },
     {
@@ -5749,7 +28430,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xanh Dương"
     },
     {
@@ -5765,7 +28446,7 @@ async function main() {
         "GiaBan": 230100.0,
         "GiaMua": 177000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Trắng"
     },
     {
@@ -5781,7 +28462,7 @@ async function main() {
         "GiaBan": 230100.0,
         "GiaMua": 177000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Hồng"
     },
     {
@@ -5797,7 +28478,7 @@ async function main() {
         "GiaBan": 230100.0,
         "GiaMua": 177000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xám Đậm"
     },
     {
@@ -5813,7 +28494,7 @@ async function main() {
         "GiaBan": 113100.0,
         "GiaMua": 87000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Đen"
     },
     {
@@ -5829,7 +28510,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Trắng"
     },
     {
@@ -5845,7 +28526,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xám Đậm"
     },
     {
@@ -5861,7 +28542,7 @@ async function main() {
         "GiaBan": 113100.0,
         "GiaMua": 87000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Be"
     },
     {
@@ -5877,7 +28558,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Xám"
     },
     {
@@ -5893,7 +28574,7 @@ async function main() {
         "GiaBan": 230100.0,
         "GiaMua": 177000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Đen"
     },
     {
@@ -5909,7 +28590,7 @@ async function main() {
         "GiaBan": 204100.0,
         "GiaMua": 157000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1b28bb7b-beb3-4d04-ba02-b984315b3c26",
+        "MaDM": "f4130e8f-aaa0-4eb3-be7c-01ba18482065",
         "MauSac": "Đen"
     },
     {
@@ -5925,7 +28606,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đen"
     },
     {
@@ -5941,7 +28622,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Be"
     },
     {
@@ -5957,7 +28638,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đen"
     },
     {
@@ -5973,7 +28654,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đỏ"
     },
     {
@@ -5989,7 +28670,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xám"
     },
     {
@@ -6005,7 +28686,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xanh Xám"
     },
     {
@@ -6021,7 +28702,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xám"
     },
     {
@@ -6037,7 +28718,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đen"
     },
     {
@@ -6053,7 +28734,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Nâu"
     },
     {
@@ -6069,7 +28750,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xám"
     },
     {
@@ -6085,7 +28766,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đen"
     },
     {
@@ -6101,7 +28782,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xám Ghi"
     },
     {
@@ -6117,7 +28798,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đen"
     },
     {
@@ -6133,7 +28814,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xanh Đen"
     },
     {
@@ -6149,7 +28830,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Trắng"
     },
     {
@@ -6165,7 +28846,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đen"
     },
     {
@@ -6181,7 +28862,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Nâu"
     },
     {
@@ -6197,7 +28878,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Trắng"
     },
     {
@@ -6213,7 +28894,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xám"
     },
     {
@@ -6229,7 +28910,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xanh Đen"
     },
     {
@@ -6245,7 +28926,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Trắng"
     },
     {
@@ -6261,7 +28942,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đen"
     },
     {
@@ -6277,7 +28958,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Be"
     },
     {
@@ -6293,7 +28974,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xám"
     },
     {
@@ -6309,7 +28990,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -6325,7 +29006,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -6341,7 +29022,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xám"
     },
     {
@@ -6357,7 +29038,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xanh Lam"
     },
     {
@@ -6373,7 +29054,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -6389,7 +29070,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Trắng"
     },
     {
@@ -6405,7 +29086,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xám"
     },
     {
@@ -6421,7 +29102,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Nâu"
     },
     {
@@ -6437,7 +29118,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đen"
     },
     {
@@ -6453,7 +29134,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đen"
     },
     {
@@ -6469,7 +29150,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Kem"
     },
     {
@@ -6485,7 +29166,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Trắng"
     },
     {
@@ -6501,7 +29182,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -6517,7 +29198,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -6533,7 +29214,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đen"
     },
     {
@@ -6549,7 +29230,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đỏ"
     },
     {
@@ -6565,7 +29246,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Đen"
     },
     {
@@ -6581,7 +29262,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Nâu"
     },
     {
@@ -6597,7 +29278,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xám Xi Măng"
     },
     {
@@ -6613,7 +29294,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xám"
     },
     {
@@ -6629,7 +29310,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xanh Đen"
     },
     {
@@ -6645,7 +29326,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Be"
     },
     {
@@ -6661,7 +29342,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Xám"
     },
     {
@@ -6677,7 +29358,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "7cb9376a-a172-47b5-b0a3-2ee4cb238385",
+        "MaDM": "b480964f-6237-4aa6-a1a7-47bf9f0bc89a",
         "MauSac": "Be"
     },
     {
@@ -6693,7 +29374,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Đen"
     },
     {
@@ -6709,7 +29390,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Đen"
     },
     {
@@ -6725,7 +29406,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Đen"
     },
     {
@@ -6741,7 +29422,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Xanh Đậu"
     },
     {
@@ -6757,7 +29438,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Đen"
     },
     {
@@ -6773,7 +29454,7 @@ async function main() {
         "GiaBan": 297570.0,
         "GiaMua": 228900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Đen"
     },
     {
@@ -6789,7 +29470,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Xám"
     },
     {
@@ -6805,7 +29486,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Đen"
     },
     {
@@ -6821,7 +29502,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Nâu"
     },
     {
@@ -6837,7 +29518,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Xanh Dương"
     },
     {
@@ -6853,7 +29534,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Kem"
     },
     {
@@ -6869,7 +29550,7 @@ async function main() {
         "GiaBan": 324870.0,
         "GiaMua": 249900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Đen"
     },
     {
@@ -6885,7 +29566,7 @@ async function main() {
         "GiaBan": 406770.0,
         "GiaMua": 312900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Đen"
     },
     {
@@ -6901,7 +29582,7 @@ async function main() {
         "GiaBan": 297570.0,
         "GiaMua": 228900,
         "TrangThai": "ACTIVE",
-        "MaDM": "45c483e4-6bd7-489c-9e45-ac11451ca94b",
+        "MaDM": "8bd53eca-538b-437c-89e1-26aa9f0dc4b4",
         "MauSac": "Đen"
     },
     {
@@ -6917,7 +29598,7 @@ async function main() {
         "GiaBan": 452270.0,
         "GiaMua": 347900,
         "TrangThai": "ACTIVE",
-        "MaDM": "31aa893c-320f-4be1-a0e7-a99ec34c2e99",
+        "MaDM": "86a46658-f518-4589-873f-b9ba4b8fc583",
         "MauSac": "Đen"
     },
     {
@@ -6933,7 +29614,7 @@ async function main() {
         "GiaBan": 816270.0,
         "GiaMua": 627900,
         "TrangThai": "ACTIVE",
-        "MaDM": "31aa893c-320f-4be1-a0e7-a99ec34c2e99",
+        "MaDM": "86a46658-f518-4589-873f-b9ba4b8fc583",
         "MauSac": "Đen"
     },
     {
@@ -6949,7 +29630,7 @@ async function main() {
         "GiaBan": 634270.0,
         "GiaMua": 487900,
         "TrangThai": "ACTIVE",
-        "MaDM": "31aa893c-320f-4be1-a0e7-a99ec34c2e99",
+        "MaDM": "86a46658-f518-4589-873f-b9ba4b8fc583",
         "MauSac": "Đen"
     },
     {
@@ -6965,7 +29646,7 @@ async function main() {
         "GiaBan": 204880.0,
         "GiaMua": 157600,
         "TrangThai": "ACTIVE",
-        "MaDM": "52c06c3f-a9b0-4d6b-8d2d-81b1cf4bb92f",
+        "MaDM": "2252341e-9e47-4996-bc64-ce7492b1ec92",
         "MauSac": "Đen"
     },
     {
@@ -6981,7 +29662,7 @@ async function main() {
         "GiaBan": 296400.0,
         "GiaMua": 228000,
         "TrangThai": "ACTIVE",
-        "MaDM": "52c06c3f-a9b0-4d6b-8d2d-81b1cf4bb92f",
+        "MaDM": "2252341e-9e47-4996-bc64-ce7492b1ec92",
         "MauSac": "Đen"
     },
     {
@@ -6997,7 +29678,7 @@ async function main() {
         "GiaBan": 296400.0,
         "GiaMua": 228000,
         "TrangThai": "ACTIVE",
-        "MaDM": "52c06c3f-a9b0-4d6b-8d2d-81b1cf4bb92f",
+        "MaDM": "2252341e-9e47-4996-bc64-ce7492b1ec92",
         "MauSac": "Đen"
     },
     {
@@ -7013,7 +29694,7 @@ async function main() {
         "GiaBan": 296400.0,
         "GiaMua": 228000,
         "TrangThai": "ACTIVE",
-        "MaDM": "52c06c3f-a9b0-4d6b-8d2d-81b1cf4bb92f",
+        "MaDM": "2252341e-9e47-4996-bc64-ce7492b1ec92",
         "MauSac": "Đen"
     },
     {
@@ -7029,7 +29710,7 @@ async function main() {
         "GiaBan": 296400.0,
         "GiaMua": 228000,
         "TrangThai": "ACTIVE",
-        "MaDM": "52c06c3f-a9b0-4d6b-8d2d-81b1cf4bb92f",
+        "MaDM": "2252341e-9e47-4996-bc64-ce7492b1ec92",
         "MauSac": "Đen Nâu"
     },
     {
@@ -7045,7 +29726,7 @@ async function main() {
         "GiaBan": 296400.0,
         "GiaMua": 228000,
         "TrangThai": "ACTIVE",
-        "MaDM": "52c06c3f-a9b0-4d6b-8d2d-81b1cf4bb92f",
+        "MaDM": "2252341e-9e47-4996-bc64-ce7492b1ec92",
         "MauSac": "Đen"
     },
     {
@@ -7061,7 +29742,7 @@ async function main() {
         "GiaBan": 296400.0,
         "GiaMua": 228000,
         "TrangThai": "ACTIVE",
-        "MaDM": "52c06c3f-a9b0-4d6b-8d2d-81b1cf4bb92f",
+        "MaDM": "2252341e-9e47-4996-bc64-ce7492b1ec92",
         "MauSac": "Đen Nâu"
     },
     {
@@ -7077,7 +29758,7 @@ async function main() {
         "GiaBan": 296400.0,
         "GiaMua": 228000,
         "TrangThai": "ACTIVE",
-        "MaDM": "52c06c3f-a9b0-4d6b-8d2d-81b1cf4bb92f",
+        "MaDM": "2252341e-9e47-4996-bc64-ce7492b1ec92",
         "MauSac": "Đen"
     },
     {
@@ -7093,7 +29774,7 @@ async function main() {
         "GiaBan": 296400.0,
         "GiaMua": 228000,
         "TrangThai": "ACTIVE",
-        "MaDM": "52c06c3f-a9b0-4d6b-8d2d-81b1cf4bb92f",
+        "MaDM": "2252341e-9e47-4996-bc64-ce7492b1ec92",
         "MauSac": "Đen"
     },
     {
@@ -7109,7 +29790,7 @@ async function main() {
         "GiaBan": 808080.0,
         "GiaMua": 621600,
         "TrangThai": "ACTIVE",
-        "MaDM": "52c06c3f-a9b0-4d6b-8d2d-81b1cf4bb92f",
+        "MaDM": "2252341e-9e47-4996-bc64-ce7492b1ec92",
         "MauSac": "Đen"
     },
     {
@@ -7125,7 +29806,7 @@ async function main() {
         "GiaBan": 74100.0,
         "GiaMua": 57000,
         "TrangThai": "ACTIVE",
-        "MaDM": "94ef4c7a-315d-489d-9f9e-93acd479f318",
+        "MaDM": "e87612d7-3360-4272-b787-cf4b89eb7b76",
         "MauSac": "Xám"
     },
     {
@@ -7141,7 +29822,7 @@ async function main() {
         "GiaBan": 29835.0,
         "GiaMua": 22950,
         "TrangThai": "ACTIVE",
-        "MaDM": "94ef4c7a-315d-489d-9f9e-93acd479f318",
+        "MaDM": "e87612d7-3360-4272-b787-cf4b89eb7b76",
         "MauSac": "Đen"
     },
     {
@@ -7157,7 +29838,7 @@ async function main() {
         "GiaBan": 74100.0,
         "GiaMua": 57000,
         "TrangThai": "ACTIVE",
-        "MaDM": "94ef4c7a-315d-489d-9f9e-93acd479f318",
+        "MaDM": "e87612d7-3360-4272-b787-cf4b89eb7b76",
         "MauSac": "Đen"
     },
     {
@@ -7173,7 +29854,7 @@ async function main() {
         "GiaBan": 63700.0,
         "GiaMua": 49000,
         "TrangThai": "ACTIVE",
-        "MaDM": "94ef4c7a-315d-489d-9f9e-93acd479f318",
+        "MaDM": "e87612d7-3360-4272-b787-cf4b89eb7b76",
         "MauSac": "Đen"
     },
     {
@@ -7189,7 +29870,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "94ef4c7a-315d-489d-9f9e-93acd479f318",
+        "MaDM": "e87612d7-3360-4272-b787-cf4b89eb7b76",
         "MauSac": "Đen"
     },
     {
@@ -7205,7 +29886,7 @@ async function main() {
         "GiaBan": 29835.0,
         "GiaMua": 22950,
         "TrangThai": "ACTIVE",
-        "MaDM": "94ef4c7a-315d-489d-9f9e-93acd479f318",
+        "MaDM": "e87612d7-3360-4272-b787-cf4b89eb7b76",
         "MauSac": "Xám"
     },
     {
@@ -7221,7 +29902,7 @@ async function main() {
         "GiaBan": 99060.0,
         "GiaMua": 76200,
         "TrangThai": "ACTIVE",
-        "MaDM": "94ef4c7a-315d-489d-9f9e-93acd479f318",
+        "MaDM": "e87612d7-3360-4272-b787-cf4b89eb7b76",
         "MauSac": "Đen Đỏ"
     },
     {
@@ -7237,7 +29918,7 @@ async function main() {
         "GiaBan": 114660.0,
         "GiaMua": 88200,
         "TrangThai": "ACTIVE",
-        "MaDM": "94ef4c7a-315d-489d-9f9e-93acd479f318",
+        "MaDM": "e87612d7-3360-4272-b787-cf4b89eb7b76",
         "MauSac": "Đen"
     },
     {
@@ -7253,7 +29934,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Đen"
     },
     {
@@ -7269,7 +29950,7 @@ async function main() {
         "GiaBan": 165100.0,
         "GiaMua": 127000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Đen"
     },
     {
@@ -7285,7 +29966,7 @@ async function main() {
         "GiaBan": 165100.0,
         "GiaMua": 127000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Nâu"
     },
     {
@@ -7301,7 +29982,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Xanh đen"
     },
     {
@@ -7317,7 +29998,7 @@ async function main() {
         "GiaBan": 191100.0,
         "GiaMua": 147000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Xám"
     },
     {
@@ -7333,7 +30014,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Be"
     },
     {
@@ -7349,7 +30030,7 @@ async function main() {
         "GiaBan": 191100.0,
         "GiaMua": 147000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Cam"
     },
     {
@@ -7365,7 +30046,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Xanh Đá"
     },
     {
@@ -7381,7 +30062,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Nâu đậm"
     },
     {
@@ -7397,7 +30078,7 @@ async function main() {
         "GiaBan": 191100.0,
         "GiaMua": 147000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Đen"
     },
     {
@@ -7413,7 +30094,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Xám Nhạt"
     },
     {
@@ -7429,7 +30110,7 @@ async function main() {
         "GiaBan": 191100.0,
         "GiaMua": 147000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Đen"
     },
     {
@@ -7445,7 +30126,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Xám đậm"
     },
     {
@@ -7461,7 +30142,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Đỏ"
     },
     {
@@ -7477,7 +30158,7 @@ async function main() {
         "GiaBan": 191100.0,
         "GiaMua": 147000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -7493,7 +30174,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Xanh rêu"
     },
     {
@@ -7509,7 +30190,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -7525,7 +30206,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Vàng Nâu"
     },
     {
@@ -7541,7 +30222,7 @@ async function main() {
         "GiaBan": 177060.0,
         "GiaMua": 136200,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Đen"
     },
     {
@@ -7557,7 +30238,7 @@ async function main() {
         "GiaBan": 177060.0,
         "GiaMua": 136200,
         "TrangThai": "ACTIVE",
-        "MaDM": "727b09db-7129-44f2-b544-957de5481aeb",
+        "MaDM": "8b9b9c9a-8fae-48c6-a2d0-b22d33449f0e",
         "MauSac": "Xám"
     },
     {
@@ -7573,7 +30254,7 @@ async function main() {
         "GiaBan": 191100.0,
         "GiaMua": 147000,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Đen"
     },
     {
@@ -7589,7 +30270,7 @@ async function main() {
         "GiaBan": 162435.0,
         "GiaMua": 124950,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Xám Trắng"
     },
     {
@@ -7605,7 +30286,7 @@ async function main() {
         "GiaBan": 162435.0,
         "GiaMua": 124950,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Xanh Đen"
     },
     {
@@ -7621,7 +30302,7 @@ async function main() {
         "GiaBan": 191100.0,
         "GiaMua": 147000,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Be"
     },
     {
@@ -7637,7 +30318,7 @@ async function main() {
         "GiaBan": 191100.0,
         "GiaMua": 147000,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Xám Trắng"
     },
     {
@@ -7653,7 +30334,7 @@ async function main() {
         "GiaBan": 191100.0,
         "GiaMua": 147000,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Xám Đậm"
     },
     {
@@ -7669,7 +30350,7 @@ async function main() {
         "GiaBan": 113100.0,
         "GiaMua": 87000,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Xám Đen"
     },
     {
@@ -7685,7 +30366,7 @@ async function main() {
         "GiaBan": 191100.0,
         "GiaMua": 147000,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Xanh Ngọc"
     },
     {
@@ -7701,7 +30382,7 @@ async function main() {
         "GiaBan": 191100.0,
         "GiaMua": 147000,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Trắng"
     },
     {
@@ -7717,7 +30398,7 @@ async function main() {
         "GiaBan": 113100.0,
         "GiaMua": 87000,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Đen"
     },
     {
@@ -7733,7 +30414,7 @@ async function main() {
         "GiaBan": 113100.0,
         "GiaMua": 87000,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Trắng"
     },
     {
@@ -7749,7 +30430,7 @@ async function main() {
         "GiaBan": 113100.0,
         "GiaMua": 87000,
         "TrangThai": "ACTIVE",
-        "MaDM": "272d2f63-d08f-48b2-a556-10efc4fa5f6e",
+        "MaDM": "a171b394-6577-4763-989a-ff45acdea808",
         "MauSac": "Xanh Đen"
     },
     {
@@ -7765,7 +30446,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "90295d0a-4eee-48ef-85c8-e181dfc56293",
+        "MaDM": "ad858f24-bebe-4e86-9175-5c59b1e1a196",
         "MauSac": "Xanh Dương"
     },
     {
@@ -7781,7 +30462,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "90295d0a-4eee-48ef-85c8-e181dfc56293",
+        "MaDM": "ad858f24-bebe-4e86-9175-5c59b1e1a196",
         "MauSac": "Xanh Trắng"
     },
     {
@@ -7797,7 +30478,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "90295d0a-4eee-48ef-85c8-e181dfc56293",
+        "MaDM": "ad858f24-bebe-4e86-9175-5c59b1e1a196",
         "MauSac": "Đen"
     },
     {
@@ -7813,7 +30494,7 @@ async function main() {
         "GiaBan": 620100.0,
         "GiaMua": 477000,
         "TrangThai": "ACTIVE",
-        "MaDM": "90295d0a-4eee-48ef-85c8-e181dfc56293",
+        "MaDM": "ad858f24-bebe-4e86-9175-5c59b1e1a196",
         "MauSac": "Đen"
     },
     {
@@ -7829,7 +30510,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "90295d0a-4eee-48ef-85c8-e181dfc56293",
+        "MaDM": "ad858f24-bebe-4e86-9175-5c59b1e1a196",
         "MauSac": "Xanh Xám"
     },
     {
@@ -7845,7 +30526,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "b6a28006-2d76-4055-914c-5f7d70c87bfc",
+        "MaDM": "b82b5e08-8cfd-4df5-b6c2-b150bb039fe2",
         "MauSac": "Xanh Xám"
     },
     {
@@ -7861,7 +30542,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "b6a28006-2d76-4055-914c-5f7d70c87bfc",
+        "MaDM": "b82b5e08-8cfd-4df5-b6c2-b150bb039fe2",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -7877,7 +30558,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "b6a28006-2d76-4055-914c-5f7d70c87bfc",
+        "MaDM": "b82b5e08-8cfd-4df5-b6c2-b150bb039fe2",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -7893,7 +30574,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "b6a28006-2d76-4055-914c-5f7d70c87bfc",
+        "MaDM": "b82b5e08-8cfd-4df5-b6c2-b150bb039fe2",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -7909,7 +30590,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "b6a28006-2d76-4055-914c-5f7d70c87bfc",
+        "MaDM": "b82b5e08-8cfd-4df5-b6c2-b150bb039fe2",
         "MauSac": "Đen"
     },
     {
@@ -7925,7 +30606,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "b6a28006-2d76-4055-914c-5f7d70c87bfc",
+        "MaDM": "b82b5e08-8cfd-4df5-b6c2-b150bb039fe2",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -7941,7 +30622,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "b6a28006-2d76-4055-914c-5f7d70c87bfc",
+        "MaDM": "b82b5e08-8cfd-4df5-b6c2-b150bb039fe2",
         "MauSac": "Xám"
     },
     {
@@ -7957,7 +30638,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "b6a28006-2d76-4055-914c-5f7d70c87bfc",
+        "MaDM": "b82b5e08-8cfd-4df5-b6c2-b150bb039fe2",
         "MauSac": "Xanh Trắng"
     },
     {
@@ -7973,7 +30654,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": ""
     },
     {
@@ -7989,7 +30670,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Đen"
     },
     {
@@ -8005,7 +30686,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Dương"
     },
     {
@@ -8021,7 +30702,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -8037,7 +30718,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -8053,7 +30734,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xám"
     },
     {
@@ -8069,7 +30750,7 @@ async function main() {
         "GiaBan": 620100.0,
         "GiaMua": 477000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Đen"
     },
     {
@@ -8085,7 +30766,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": ""
     },
     {
@@ -8101,7 +30782,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Trắng"
     },
     {
@@ -8117,7 +30798,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Đen"
     },
     {
@@ -8133,7 +30814,7 @@ async function main() {
         "GiaBan": 340080.0,
         "GiaMua": 261600,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Trắng"
     },
     {
@@ -8149,7 +30830,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -8165,7 +30846,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Dương"
     },
     {
@@ -8181,7 +30862,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Đen"
     },
     {
@@ -8197,7 +30878,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Nhạt"
     },
     {
@@ -8213,7 +30894,7 @@ async function main() {
         "GiaBan": 464100.0,
         "GiaMua": 357000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Nhạt"
     },
     {
@@ -8229,7 +30910,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Nhạt"
     },
     {
@@ -8245,7 +30926,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Dương"
     },
     {
@@ -8261,7 +30942,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -8277,7 +30958,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Dương"
     },
     {
@@ -8293,7 +30974,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -8309,7 +30990,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -8325,7 +31006,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "1f0cd19a-dd11-4c6a-83fb-f5409c8c0f47",
+        "MaDM": "e85230f8-c961-4420-a502-e6ab7bb34615",
         "MauSac": "Xanh Nhạt"
     },
     {
@@ -8341,7 +31022,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xám Chì"
     },
     {
@@ -8357,7 +31038,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Đen"
     },
     {
@@ -8373,7 +31054,7 @@ async function main() {
         "GiaBan": 356460.0,
         "GiaMua": 274200,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Đen"
     },
     {
@@ -8389,7 +31070,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Đen"
     },
     {
@@ -8405,7 +31086,7 @@ async function main() {
         "GiaBan": 402480.0,
         "GiaMua": 309600,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Nâu"
     },
     {
@@ -8421,7 +31102,7 @@ async function main() {
         "GiaBan": 620100.0,
         "GiaMua": 477000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Đen"
     },
     {
@@ -8437,7 +31118,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Đen"
     },
     {
@@ -8453,7 +31134,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xám Đậm"
     },
     {
@@ -8469,7 +31150,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Đen"
     },
     {
@@ -8485,7 +31166,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -8501,7 +31182,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Đen"
     },
     {
@@ -8517,7 +31198,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -8533,7 +31214,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -8549,7 +31230,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -8565,7 +31246,7 @@ async function main() {
         "GiaBan": 402480.0,
         "GiaMua": 309600,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xám"
     },
     {
@@ -8581,7 +31262,7 @@ async function main() {
         "GiaBan": 402480.0,
         "GiaMua": 309600,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Đen"
     },
     {
@@ -8597,7 +31278,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Kem"
     },
     {
@@ -8613,7 +31294,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xám"
     },
     {
@@ -8629,7 +31310,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Xám"
     },
     {
@@ -8645,7 +31326,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -8661,7 +31342,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Be"
     },
     {
@@ -8677,7 +31358,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Nâu"
     },
     {
@@ -8693,7 +31374,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Trắng"
     },
     {
@@ -8709,7 +31390,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -8725,7 +31406,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Đen"
     },
     {
@@ -8741,7 +31422,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xám Xanh"
     },
     {
@@ -8757,7 +31438,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -8773,7 +31454,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Nâu"
     },
     {
@@ -8789,7 +31470,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -8805,7 +31486,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Be"
     },
     {
@@ -8821,7 +31502,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Nâu"
     },
     {
@@ -8837,7 +31518,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Nâu Rêu"
     },
     {
@@ -8853,7 +31534,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Đen"
     },
     {
@@ -8869,7 +31550,7 @@ async function main() {
         "GiaBan": 252070.0,
         "GiaMua": 193900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Kem"
     },
     {
@@ -8885,7 +31566,7 @@ async function main() {
         "GiaBan": 252070.0,
         "GiaMua": 193900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -8901,7 +31582,7 @@ async function main() {
         "GiaBan": 388570.0,
         "GiaMua": 298900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -8917,7 +31598,7 @@ async function main() {
         "GiaBan": 388570.0,
         "GiaMua": 298900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Đen"
     },
     {
@@ -8933,7 +31614,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Đen Đỏ"
     },
     {
@@ -8949,7 +31630,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Đen Xanh"
     },
     {
@@ -8965,7 +31646,7 @@ async function main() {
         "GiaBan": 361270.0,
         "GiaMua": 277900,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Đen Rêu"
     },
     {
@@ -8981,7 +31662,7 @@ async function main() {
         "GiaBan": 594100.0,
         "GiaMua": 457000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -8997,7 +31678,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xám"
     },
     {
@@ -9013,7 +31694,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Đen"
     },
     {
@@ -9029,7 +31710,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xám Nâu"
     },
     {
@@ -9045,7 +31726,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Nâu"
     },
     {
@@ -9061,7 +31742,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xám Xanh"
     },
     {
@@ -9077,7 +31758,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -9093,7 +31774,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "ded15e90-8df0-4db6-9ff7-617ee4f95499",
+        "MaDM": "08af286a-23d4-48dd-b751-bfcd1d62e0cc",
         "MauSac": "Xám"
     },
     {
@@ -9109,7 +31790,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Xám"
     },
     {
@@ -9125,7 +31806,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Kem"
     },
     {
@@ -9141,7 +31822,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Xám Đen"
     },
     {
@@ -9157,7 +31838,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Be"
     },
     {
@@ -9173,7 +31854,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Đen"
     },
     {
@@ -9189,7 +31870,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Đen"
     },
     {
@@ -9205,7 +31886,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -9221,7 +31902,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -9237,7 +31918,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -9253,7 +31934,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Đen"
     },
     {
@@ -9269,7 +31950,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Xám"
     },
     {
@@ -9285,7 +31966,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Nâu"
     },
     {
@@ -9301,7 +31982,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Đen"
     },
     {
@@ -9317,7 +31998,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Nâu"
     },
     {
@@ -9333,7 +32014,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Xám"
     },
     {
@@ -9349,7 +32030,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -9365,7 +32046,7 @@ async function main() {
         "GiaBan": 646100.0,
         "GiaMua": 497000,
         "TrangThai": "ACTIVE",
-        "MaDM": "0f91b13c-5aab-4cf0-ae76-4a6b215c8b3d",
+        "MaDM": "e856c18c-db8e-4b0d-8b22-e4fe235e1952",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -9381,7 +32062,7 @@ async function main() {
         "GiaBan": 85085.0,
         "GiaMua": 65450,
         "TrangThai": "ACTIVE",
-        "MaDM": "a935b62c-784b-4702-b27b-64cc2b7a5df1",
+        "MaDM": "74ed773d-2a30-4132-8ca0-17da752f921d",
         "MauSac": "Xanh Xám"
     },
     {
@@ -9397,7 +32078,7 @@ async function main() {
         "GiaBan": 100100.0,
         "GiaMua": 77000,
         "TrangThai": "ACTIVE",
-        "MaDM": "a935b62c-784b-4702-b27b-64cc2b7a5df1",
+        "MaDM": "74ed773d-2a30-4132-8ca0-17da752f921d",
         "MauSac": "Đen"
     },
     {
@@ -9413,7 +32094,7 @@ async function main() {
         "GiaBan": 100100.0,
         "GiaMua": 77000,
         "TrangThai": "ACTIVE",
-        "MaDM": "a935b62c-784b-4702-b27b-64cc2b7a5df1",
+        "MaDM": "74ed773d-2a30-4132-8ca0-17da752f921d",
         "MauSac": "Xanh Xám"
     },
     {
@@ -9429,7 +32110,7 @@ async function main() {
         "GiaBan": 100100.0,
         "GiaMua": 77000,
         "TrangThai": "ACTIVE",
-        "MaDM": "a935b62c-784b-4702-b27b-64cc2b7a5df1",
+        "MaDM": "74ed773d-2a30-4132-8ca0-17da752f921d",
         "MauSac": "Xanh Đen"
     },
     {
@@ -9445,7 +32126,7 @@ async function main() {
         "GiaBan": 85085.0,
         "GiaMua": 65450,
         "TrangThai": "ACTIVE",
-        "MaDM": "a935b62c-784b-4702-b27b-64cc2b7a5df1",
+        "MaDM": "74ed773d-2a30-4132-8ca0-17da752f921d",
         "MauSac": "Đen"
     },
     {
@@ -9461,7 +32142,7 @@ async function main() {
         "GiaBan": 100100.0,
         "GiaMua": 77000,
         "TrangThai": "ACTIVE",
-        "MaDM": "a935b62c-784b-4702-b27b-64cc2b7a5df1",
+        "MaDM": "74ed773d-2a30-4132-8ca0-17da752f921d",
         "MauSac": "Xám"
     },
     {
@@ -9477,7 +32158,7 @@ async function main() {
         "GiaBan": 100100.0,
         "GiaMua": 77000,
         "TrangThai": "ACTIVE",
-        "MaDM": "a935b62c-784b-4702-b27b-64cc2b7a5df1",
+        "MaDM": "74ed773d-2a30-4132-8ca0-17da752f921d",
         "MauSac": "Xanh Đen"
     },
     {
@@ -9493,7 +32174,7 @@ async function main() {
         "GiaBan": 100100.0,
         "GiaMua": 77000,
         "TrangThai": "ACTIVE",
-        "MaDM": "a935b62c-784b-4702-b27b-64cc2b7a5df1",
+        "MaDM": "74ed773d-2a30-4132-8ca0-17da752f921d",
         "MauSac": "Xám"
     },
     {
@@ -9509,7 +32190,7 @@ async function main() {
         "GiaBan": 351000.0,
         "GiaMua": 270000,
         "TrangThai": "ACTIVE",
-        "MaDM": "c2c731ec-5db5-4ee2-9e6f-2d01d2c365b2",
+        "MaDM": "d2680326-699d-4d91-8a0e-6fc3432c6d70",
         "MauSac": "Free Color"
     },
     {
@@ -9525,7 +32206,7 @@ async function main() {
         "GiaBan": 351000.0,
         "GiaMua": 270000,
         "TrangThai": "ACTIVE",
-        "MaDM": "c2c731ec-5db5-4ee2-9e6f-2d01d2c365b2",
+        "MaDM": "d2680326-699d-4d91-8a0e-6fc3432c6d70",
         "MauSac": "Free Color"
     },
     {
@@ -9541,7 +32222,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "c2c731ec-5db5-4ee2-9e6f-2d01d2c365b2",
+        "MaDM": "d2680326-699d-4d91-8a0e-6fc3432c6d70",
         "MauSac": "Xám Trắng"
     },
     {
@@ -9557,7 +32238,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "c2c731ec-5db5-4ee2-9e6f-2d01d2c365b2",
+        "MaDM": "d2680326-699d-4d91-8a0e-6fc3432c6d70",
         "MauSac": "Đen"
     },
     {
@@ -9573,7 +32254,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "c2c731ec-5db5-4ee2-9e6f-2d01d2c365b2",
+        "MaDM": "d2680326-699d-4d91-8a0e-6fc3432c6d70",
         "MauSac": "Đen"
     },
     {
@@ -9589,7 +32270,7 @@ async function main() {
         "GiaBan": 109395.0,
         "GiaMua": 84150,
         "TrangThai": "ACTIVE",
-        "MaDM": "c2c731ec-5db5-4ee2-9e6f-2d01d2c365b2",
+        "MaDM": "d2680326-699d-4d91-8a0e-6fc3432c6d70",
         "MauSac": "Xám"
     },
     {
@@ -9605,7 +32286,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "c2c731ec-5db5-4ee2-9e6f-2d01d2c365b2",
+        "MaDM": "d2680326-699d-4d91-8a0e-6fc3432c6d70",
         "MauSac": "Xám Trắng"
     },
     {
@@ -9621,7 +32302,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "c2c731ec-5db5-4ee2-9e6f-2d01d2c365b2",
+        "MaDM": "d2680326-699d-4d91-8a0e-6fc3432c6d70",
         "MauSac": "Đen"
     },
     {
@@ -9637,7 +32318,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "c2c731ec-5db5-4ee2-9e6f-2d01d2c365b2",
+        "MaDM": "d2680326-699d-4d91-8a0e-6fc3432c6d70",
         "MauSac": "Xám"
     },
     {
@@ -9653,7 +32334,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "c2c731ec-5db5-4ee2-9e6f-2d01d2c365b2",
+        "MaDM": "d2680326-699d-4d91-8a0e-6fc3432c6d70",
         "MauSac": "Xám Trắng"
     },
     {
@@ -9669,7 +32350,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "c2c731ec-5db5-4ee2-9e6f-2d01d2c365b2",
+        "MaDM": "d2680326-699d-4d91-8a0e-6fc3432c6d70",
         "MauSac": "Free Color"
     },
     {
@@ -9685,7 +32366,7 @@ async function main() {
         "GiaBan": 298350.0,
         "GiaMua": 229500,
         "TrangThai": "ACTIVE",
-        "MaDM": "3e250d29-f8a5-4d30-aba7-4d36ef32869c",
+        "MaDM": "8a6f73dc-8af7-44d3-932d-68e5f94cee7d",
         "MauSac": "Đen"
     },
     {
@@ -9701,7 +32382,7 @@ async function main() {
         "GiaBan": 298350.0,
         "GiaMua": 229500,
         "TrangThai": "ACTIVE",
-        "MaDM": "3e250d29-f8a5-4d30-aba7-4d36ef32869c",
+        "MaDM": "8a6f73dc-8af7-44d3-932d-68e5f94cee7d",
         "MauSac": "Xám"
     },
     {
@@ -9717,7 +32398,7 @@ async function main() {
         "GiaBan": 109395.0,
         "GiaMua": 84150,
         "TrangThai": "ACTIVE",
-        "MaDM": "3e250d29-f8a5-4d30-aba7-4d36ef32869c",
+        "MaDM": "8a6f73dc-8af7-44d3-932d-68e5f94cee7d",
         "MauSac": "Đen"
     },
     {
@@ -9733,7 +32414,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "3e250d29-f8a5-4d30-aba7-4d36ef32869c",
+        "MaDM": "8a6f73dc-8af7-44d3-932d-68e5f94cee7d",
         "MauSac": "Xám"
     },
     {
@@ -9749,7 +32430,7 @@ async function main() {
         "GiaBan": 126100.0,
         "GiaMua": 97000,
         "TrangThai": "ACTIVE",
-        "MaDM": "3e250d29-f8a5-4d30-aba7-4d36ef32869c",
+        "MaDM": "8a6f73dc-8af7-44d3-932d-68e5f94cee7d",
         "MauSac": "Đen"
     },
     {
@@ -9765,7 +32446,7 @@ async function main() {
         "GiaBan": 128700.0,
         "GiaMua": 99000,
         "TrangThai": "ACTIVE",
-        "MaDM": "3e250d29-f8a5-4d30-aba7-4d36ef32869c",
+        "MaDM": "8a6f73dc-8af7-44d3-932d-68e5f94cee7d",
         "MauSac": "Xám"
     },
     {
@@ -9781,7 +32462,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "3e250d29-f8a5-4d30-aba7-4d36ef32869c",
+        "MaDM": "8a6f73dc-8af7-44d3-932d-68e5f94cee7d",
         "MauSac": "Xám"
     },
     {
@@ -9797,7 +32478,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "3e250d29-f8a5-4d30-aba7-4d36ef32869c",
+        "MaDM": "8a6f73dc-8af7-44d3-932d-68e5f94cee7d",
         "MauSac": "Đen"
     },
     {
@@ -9813,7 +32494,7 @@ async function main() {
         "GiaBan": 173680.0,
         "GiaMua": 133600,
         "TrangThai": "ACTIVE",
-        "MaDM": "dae9648f-ed9f-41ed-b659-5dc7114e0b3f",
+        "MaDM": "c5559a29-ab4a-4526-b180-237b42308619",
         "MauSac": "Xám Nhạt"
     },
     {
@@ -9829,7 +32510,7 @@ async function main() {
         "GiaBan": 173680.0,
         "GiaMua": 133600,
         "TrangThai": "ACTIVE",
-        "MaDM": "dae9648f-ed9f-41ed-b659-5dc7114e0b3f",
+        "MaDM": "c5559a29-ab4a-4526-b180-237b42308619",
         "MauSac": "Xám"
     },
     {
@@ -9845,7 +32526,7 @@ async function main() {
         "GiaBan": 173680.0,
         "GiaMua": 133600,
         "TrangThai": "ACTIVE",
-        "MaDM": "dae9648f-ed9f-41ed-b659-5dc7114e0b3f",
+        "MaDM": "c5559a29-ab4a-4526-b180-237b42308619",
         "MauSac": "Vàng"
     },
     {
@@ -9861,7 +32542,7 @@ async function main() {
         "GiaBan": 173680.0,
         "GiaMua": 133600,
         "TrangThai": "ACTIVE",
-        "MaDM": "dae9648f-ed9f-41ed-b659-5dc7114e0b3f",
+        "MaDM": "c5559a29-ab4a-4526-b180-237b42308619",
         "MauSac": "Đen"
     },
     {
@@ -9877,7 +32558,7 @@ async function main() {
         "GiaBan": 173680.0,
         "GiaMua": 133600,
         "TrangThai": "ACTIVE",
-        "MaDM": "dae9648f-ed9f-41ed-b659-5dc7114e0b3f",
+        "MaDM": "c5559a29-ab4a-4526-b180-237b42308619",
         "MauSac": "Xanh Bích"
     },
     {
@@ -9893,7 +32574,7 @@ async function main() {
         "GiaBan": 173680.0,
         "GiaMua": 133600,
         "TrangThai": "ACTIVE",
-        "MaDM": "dae9648f-ed9f-41ed-b659-5dc7114e0b3f",
+        "MaDM": "c5559a29-ab4a-4526-b180-237b42308619",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -9909,7 +32590,7 @@ async function main() {
         "GiaBan": 173680.0,
         "GiaMua": 133600,
         "TrangThai": "ACTIVE",
-        "MaDM": "dae9648f-ed9f-41ed-b659-5dc7114e0b3f",
+        "MaDM": "c5559a29-ab4a-4526-b180-237b42308619",
         "MauSac": "Cam"
     },
     {
@@ -9925,7 +32606,7 @@ async function main() {
         "GiaBan": 173680.0,
         "GiaMua": 133600,
         "TrangThai": "ACTIVE",
-        "MaDM": "dae9648f-ed9f-41ed-b659-5dc7114e0b3f",
+        "MaDM": "c5559a29-ab4a-4526-b180-237b42308619",
         "MauSac": "Đỏ"
     },
     {
@@ -9941,7 +32622,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "dae9648f-ed9f-41ed-b659-5dc7114e0b3f",
+        "MaDM": "c5559a29-ab4a-4526-b180-237b42308619",
         "MauSac": "Đen"
     },
     {
@@ -9957,7 +32638,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "dae9648f-ed9f-41ed-b659-5dc7114e0b3f",
+        "MaDM": "c5559a29-ab4a-4526-b180-237b42308619",
         "MauSac": "Be"
     },
     {
@@ -9973,7 +32654,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "dae9648f-ed9f-41ed-b659-5dc7114e0b3f",
+        "MaDM": "c5559a29-ab4a-4526-b180-237b42308619",
         "MauSac": "Trắng"
     },
     {
@@ -9989,7 +32670,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Đen"
     },
     {
@@ -10005,7 +32686,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Xanh Đen"
     },
     {
@@ -10021,7 +32702,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -10037,7 +32718,7 @@ async function main() {
         "GiaBan": 295100.0,
         "GiaMua": 227000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Nâu"
     },
     {
@@ -10053,7 +32734,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Đen"
     },
     {
@@ -10069,7 +32750,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Nâu Nhạt"
     },
     {
@@ -10085,7 +32766,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -10101,7 +32782,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -10117,7 +32798,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Nâu"
     },
     {
@@ -10133,7 +32814,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Xám"
     },
     {
@@ -10149,7 +32830,7 @@ async function main() {
         "GiaBan": 256100.0,
         "GiaMua": 197000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Đen"
     },
     {
@@ -10165,7 +32846,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Xám Nhạt"
     },
     {
@@ -10181,7 +32862,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Xám Be"
     },
     {
@@ -10197,7 +32878,7 @@ async function main() {
         "GiaBan": 360100.0,
         "GiaMua": 277000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Đen"
     },
     {
@@ -10213,7 +32894,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Nâu"
     },
     {
@@ -10229,7 +32910,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Xám Chì"
     },
     {
@@ -10245,7 +32926,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Xám Rêu"
     },
     {
@@ -10261,7 +32942,7 @@ async function main() {
         "GiaBan": 373100.0,
         "GiaMua": 287000,
         "TrangThai": "ACTIVE",
-        "MaDM": "743f04c5-761d-4327-9042-4018f92dd75c",
+        "MaDM": "0ddd431a-b490-45f1-af03-0b2c6f3eabeb",
         "MauSac": "Đen"
     },
     {
@@ -10277,7 +32958,7 @@ async function main() {
         "GiaBan": 217100.0,
         "GiaMua": 167000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Đen"
     },
     {
@@ -10293,7 +32974,7 @@ async function main() {
         "GiaBan": 217100.0,
         "GiaMua": 167000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xanh Đen"
     },
     {
@@ -10309,7 +32990,7 @@ async function main() {
         "GiaBan": 217100.0,
         "GiaMua": 167000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Be"
     },
     {
@@ -10325,7 +33006,7 @@ async function main() {
         "GiaBan": 217100.0,
         "GiaMua": 167000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Nâu Rêu"
     },
     {
@@ -10341,7 +33022,7 @@ async function main() {
         "GiaBan": 217100.0,
         "GiaMua": 167000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xanh Dương"
     },
     {
@@ -10357,7 +33038,7 @@ async function main() {
         "GiaBan": 217100.0,
         "GiaMua": 167000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xanh Rêu"
     },
     {
@@ -10373,7 +33054,7 @@ async function main() {
         "GiaBan": 217100.0,
         "GiaMua": 167000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Hồng"
     },
     {
@@ -10389,7 +33070,7 @@ async function main() {
         "GiaBan": 217100.0,
         "GiaMua": 167000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Nâu"
     },
     {
@@ -10405,7 +33086,7 @@ async function main() {
         "GiaBan": 298480.0,
         "GiaMua": 229600,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Đen"
     },
     {
@@ -10421,7 +33102,7 @@ async function main() {
         "GiaBan": 298480.0,
         "GiaMua": 229600,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Be"
     },
     {
@@ -10437,7 +33118,7 @@ async function main() {
         "GiaBan": 298480.0,
         "GiaMua": 229600,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xám"
     },
     {
@@ -10453,7 +33134,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Đen"
     },
     {
@@ -10469,7 +33150,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Kem"
     },
     {
@@ -10485,7 +33166,7 @@ async function main() {
         "GiaBan": 334100.0,
         "GiaMua": 257000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -10501,7 +33182,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Đen"
     },
     {
@@ -10517,7 +33198,7 @@ async function main() {
         "GiaBan": 298480.0,
         "GiaMua": 229600,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xám Trắng"
     },
     {
@@ -10533,7 +33214,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Nâu"
     },
     {
@@ -10549,7 +33230,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Be"
     },
     {
@@ -10565,7 +33246,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Trắng"
     },
     {
@@ -10581,7 +33262,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Đen"
     },
     {
@@ -10597,7 +33278,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Be"
     },
     {
@@ -10613,7 +33294,7 @@ async function main() {
         "GiaBan": 298480.0,
         "GiaMua": 229600,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xanh Đen"
     },
     {
@@ -10629,7 +33310,7 @@ async function main() {
         "GiaBan": 298480.0,
         "GiaMua": 229600,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Kem"
     },
     {
@@ -10645,7 +33326,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Đen"
     },
     {
@@ -10661,7 +33342,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Trắng"
     },
     {
@@ -10677,7 +33358,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xanh Lá"
     },
     {
@@ -10693,7 +33374,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xám Trắng"
     },
     {
@@ -10709,7 +33390,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Đen"
     },
     {
@@ -10725,7 +33406,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Nâu"
     },
     {
@@ -10741,7 +33422,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xám Nhạt"
     },
     {
@@ -10757,7 +33438,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Nâu"
     },
     {
@@ -10773,7 +33454,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Đỏ Đô"
     },
     {
@@ -10789,7 +33470,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xanh Đậm"
     },
     {
@@ -10805,7 +33486,7 @@ async function main() {
         "GiaBan": 298480.0,
         "GiaMua": 229600,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Trắng"
     },
     {
@@ -10821,7 +33502,7 @@ async function main() {
         "GiaBan": 298480.0,
         "GiaMua": 229600,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xám Ghi"
     },
     {
@@ -10837,7 +33518,7 @@ async function main() {
         "GiaBan": 298480.0,
         "GiaMua": 229600,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -10853,7 +33534,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xanh Xám"
     },
     {
@@ -10869,7 +33550,7 @@ async function main() {
         "GiaBan": 386100.0,
         "GiaMua": 297000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Nâu"
     },
     {
@@ -10885,7 +33566,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Đen"
     },
     {
@@ -10901,7 +33582,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Be"
     },
     {
@@ -10917,7 +33598,7 @@ async function main() {
         "GiaBan": 425100.0,
         "GiaMua": 327000,
         "TrangThai": "ACTIVE",
-        "MaDM": "01cfe9e2-55a9-4cc9-91d9-553b51815f21",
+        "MaDM": "0625d9ef-ad42-4741-bd57-c3e7c8d8ce13",
         "MauSac": "Xám Rêu"
     },
     {
@@ -10933,7 +33614,7 @@ async function main() {
         "GiaBan": 451100.0,
         "GiaMua": 347000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Đen"
     },
     {
@@ -10949,7 +33630,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Đen"
     },
     {
@@ -10965,7 +33646,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Đen"
     },
     {
@@ -10981,7 +33662,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Đen"
     },
     {
@@ -10997,7 +33678,7 @@ async function main() {
         "GiaBan": 451100.0,
         "GiaMua": 347000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Xám"
     },
     {
@@ -11013,7 +33694,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Đen"
     },
     {
@@ -11029,7 +33710,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Xám Trắng"
     },
     {
@@ -11045,7 +33726,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Xanh Đen"
     },
     {
@@ -11061,7 +33742,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Đen"
     },
     {
@@ -11077,7 +33758,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Kem"
     },
     {
@@ -11093,7 +33774,7 @@ async function main() {
         "GiaBan": 516100.0,
         "GiaMua": 397000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Nâu"
     },
     {
@@ -11109,7 +33790,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Xám"
     },
     {
@@ -11125,7 +33806,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Xám"
     },
     {
@@ -11141,7 +33822,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Kem"
     },
     {
@@ -11157,7 +33838,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Be"
     },
     {
@@ -11173,7 +33854,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Xám Nhạt"
     },
     {
@@ -11189,7 +33870,7 @@ async function main() {
         "GiaBan": 724100.0,
         "GiaMua": 557000,
         "TrangThai": "ACTIVE",
-        "MaDM": "e853be9f-b4f4-419b-9ae7-c16e9e9145a6",
+        "MaDM": "f80b54a1-a0eb-4435-9267-5f366f504ebd",
         "MauSac": "Nâu"
     },
     {
@@ -11205,7 +33886,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "d7353535-1077-4030-a042-fc114e641624",
+        "MaDM": "aebcc529-b8cd-42fe-8edf-1d51b321d4cf",
         "MauSac": "Đen"
     },
     {
@@ -11221,7 +33902,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "d7353535-1077-4030-a042-fc114e641624",
+        "MaDM": "aebcc529-b8cd-42fe-8edf-1d51b321d4cf",
         "MauSac": "Đen"
     },
     {
@@ -11237,7 +33918,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "d7353535-1077-4030-a042-fc114e641624",
+        "MaDM": "aebcc529-b8cd-42fe-8edf-1d51b321d4cf",
         "MauSac": "Đen"
     },
     {
@@ -11253,7 +33934,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "d7353535-1077-4030-a042-fc114e641624",
+        "MaDM": "aebcc529-b8cd-42fe-8edf-1d51b321d4cf",
         "MauSac": "Đen"
     },
     {
@@ -11269,7 +33950,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "d7353535-1077-4030-a042-fc114e641624",
+        "MaDM": "aebcc529-b8cd-42fe-8edf-1d51b321d4cf",
         "MauSac": "Đen"
     },
     {
@@ -11285,7 +33966,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "d7353535-1077-4030-a042-fc114e641624",
+        "MaDM": "aebcc529-b8cd-42fe-8edf-1d51b321d4cf",
         "MauSac": "Xanh Đen"
     },
     {
@@ -11301,7 +33982,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "d7353535-1077-4030-a042-fc114e641624",
+        "MaDM": "aebcc529-b8cd-42fe-8edf-1d51b321d4cf",
         "MauSac": "Đen"
     },
     {
@@ -11317,7 +33998,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "d7353535-1077-4030-a042-fc114e641624",
+        "MaDM": "aebcc529-b8cd-42fe-8edf-1d51b321d4cf",
         "MauSac": "Đen"
     },
     {
@@ -11333,7 +34014,7 @@ async function main() {
         "GiaBan": 270270.0,
         "GiaMua": 207900,
         "TrangThai": "ACTIVE",
-        "MaDM": "d7353535-1077-4030-a042-fc114e641624",
+        "MaDM": "aebcc529-b8cd-42fe-8edf-1d51b321d4cf",
         "MauSac": "Đen"
     },
     {
@@ -11349,7 +34030,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "d7353535-1077-4030-a042-fc114e641624",
+        "MaDM": "aebcc529-b8cd-42fe-8edf-1d51b321d4cf",
         "MauSac": "Đen"
     },
     {
@@ -11365,7 +34046,7 @@ async function main() {
         "GiaBan": 634270.0,
         "GiaMua": 487900,
         "TrangThai": "ACTIVE",
-        "MaDM": "d7353535-1077-4030-a042-fc114e641624",
+        "MaDM": "aebcc529-b8cd-42fe-8edf-1d51b321d4cf",
         "MauSac": "Đen"
     },
     {
@@ -11381,7 +34062,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "0bc7c8d6-6857-432f-ac30-5f72d894672f",
+        "MaDM": "61967c08-23f6-4103-ae84-02863675620f",
         "MauSac": "Đỏ"
     },
     {
@@ -11397,7 +34078,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "0bc7c8d6-6857-432f-ac30-5f72d894672f",
+        "MaDM": "61967c08-23f6-4103-ae84-02863675620f",
         "MauSac": "Vàng"
     },
     {
@@ -11413,7 +34094,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "0bc7c8d6-6857-432f-ac30-5f72d894672f",
+        "MaDM": "61967c08-23f6-4103-ae84-02863675620f",
         "MauSac": "Xanh Dương"
     },
     {
@@ -11429,7 +34110,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "0bc7c8d6-6857-432f-ac30-5f72d894672f",
+        "MaDM": "61967c08-23f6-4103-ae84-02863675620f",
         "MauSac": "Đen"
     },
     {
@@ -11445,7 +34126,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "0bc7c8d6-6857-432f-ac30-5f72d894672f",
+        "MaDM": "61967c08-23f6-4103-ae84-02863675620f",
         "MauSac": "Đen"
     },
     {
@@ -11461,7 +34142,7 @@ async function main() {
         "GiaBan": 179270.0,
         "GiaMua": 137900,
         "TrangThai": "ACTIVE",
-        "MaDM": "0bc7c8d6-6857-432f-ac30-5f72d894672f",
+        "MaDM": "61967c08-23f6-4103-ae84-02863675620f",
         "MauSac": "Đen"
     },
     {
@@ -11477,7 +34158,7 @@ async function main() {
         "GiaBan": 233870.0,
         "GiaMua": 179900,
         "TrangThai": "ACTIVE",
-        "MaDM": "0bc7c8d6-6857-432f-ac30-5f72d894672f",
+        "MaDM": "61967c08-23f6-4103-ae84-02863675620f",
         "MauSac": "Đen"
     },
     {
@@ -11493,7 +34174,7 @@ async function main() {
         "GiaBan": 163280.0,
         "GiaMua": 125600,
         "TrangThai": "ACTIVE",
-        "MaDM": "4636b715-3d32-4ed5-a959-61da4f3bfc4b",
+        "MaDM": "6df81a09-8260-45bb-945c-310cb2405133",
         "MauSac": "Đen"
     },
     {
@@ -11509,7 +34190,7 @@ async function main() {
         "GiaBan": 204880.0,
         "GiaMua": 157600,
         "TrangThai": "ACTIVE",
-        "MaDM": "4636b715-3d32-4ed5-a959-61da4f3bfc4b",
+        "MaDM": "6df81a09-8260-45bb-945c-310cb2405133",
         "MauSac": "Đen"
     },
     {
@@ -11525,7 +34206,7 @@ async function main() {
         "GiaBan": 204880.0,
         "GiaMua": 157600,
         "TrangThai": "ACTIVE",
-        "MaDM": "4636b715-3d32-4ed5-a959-61da4f3bfc4b",
+        "MaDM": "6df81a09-8260-45bb-945c-310cb2405133",
         "MauSac": "Xanh Đen"
     },
     {
@@ -11541,7 +34222,7 @@ async function main() {
         "GiaBan": 204880.0,
         "GiaMua": 157600,
         "TrangThai": "ACTIVE",
-        "MaDM": "4636b715-3d32-4ed5-a959-61da4f3bfc4b",
+        "MaDM": "6df81a09-8260-45bb-945c-310cb2405133",
         "MauSac": "Xám"
     },
     {
@@ -11557,7 +34238,7 @@ async function main() {
         "GiaBan": 163280.0,
         "GiaMua": 125600,
         "TrangThai": "ACTIVE",
-        "MaDM": "4636b715-3d32-4ed5-a959-61da4f3bfc4b",
+        "MaDM": "6df81a09-8260-45bb-945c-310cb2405133",
         "MauSac": "Đen"
     },
     {
@@ -11573,7 +34254,7 @@ async function main() {
         "GiaBan": 163280.0,
         "GiaMua": 125600,
         "TrangThai": "ACTIVE",
-        "MaDM": "4636b715-3d32-4ed5-a959-61da4f3bfc4b",
+        "MaDM": "6df81a09-8260-45bb-945c-310cb2405133",
         "MauSac": "Đen"
     },
     {
@@ -11589,7 +34270,7 @@ async function main() {
         "GiaBan": 371280.0,
         "GiaMua": 285600,
         "TrangThai": "ACTIVE",
-        "MaDM": "4636b715-3d32-4ed5-a959-61da4f3bfc4b",
+        "MaDM": "6df81a09-8260-45bb-945c-310cb2405133",
         "MauSac": "Đen"
     },
     {
@@ -11605,7 +34286,7 @@ async function main() {
         "GiaBan": 204880.0,
         "GiaMua": 157600,
         "TrangThai": "ACTIVE",
-        "MaDM": "4636b715-3d32-4ed5-a959-61da4f3bfc4b",
+        "MaDM": "6df81a09-8260-45bb-945c-310cb2405133",
         "MauSac": "Nâu"
     },
     {
@@ -11621,7 +34302,7 @@ async function main() {
         "GiaBan": 371280.0,
         "GiaMua": 285600,
         "TrangThai": "ACTIVE",
-        "MaDM": "4636b715-3d32-4ed5-a959-61da4f3bfc4b",
+        "MaDM": "6df81a09-8260-45bb-945c-310cb2405133",
         "MauSac": "Be"
     },
     {
@@ -11637,7 +34318,7 @@ async function main() {
         "GiaBan": 163280.0,
         "GiaMua": 125600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11653,7 +34334,7 @@ async function main() {
         "GiaBan": 204880.0,
         "GiaMua": 157600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11669,7 +34350,7 @@ async function main() {
         "GiaBan": 163280.0,
         "GiaMua": 125600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11685,7 +34366,7 @@ async function main() {
         "GiaBan": 204880.0,
         "GiaMua": 157600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Xanh Đen"
     },
     {
@@ -11701,7 +34382,7 @@ async function main() {
         "GiaBan": 204880.0,
         "GiaMua": 157600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Xám"
     },
     {
@@ -11717,7 +34398,7 @@ async function main() {
         "GiaBan": 204880.0,
         "GiaMua": 157600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Nâu"
     },
     {
@@ -11733,7 +34414,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11749,7 +34430,7 @@ async function main() {
         "GiaBan": 371280.0,
         "GiaMua": 285600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11765,7 +34446,7 @@ async function main() {
         "GiaBan": 308880.0,
         "GiaMua": 237600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11781,7 +34462,7 @@ async function main() {
         "GiaBan": 308880.0,
         "GiaMua": 237600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11797,7 +34478,7 @@ async function main() {
         "GiaBan": 308880.0,
         "GiaMua": 237600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Xanh Đen"
     },
     {
@@ -11813,7 +34494,7 @@ async function main() {
         "GiaBan": 308880.0,
         "GiaMua": 237600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11829,7 +34510,7 @@ async function main() {
         "GiaBan": 412880.0,
         "GiaMua": 317600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11845,7 +34526,7 @@ async function main() {
         "GiaBan": 177060.0,
         "GiaMua": 136200,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen Xám"
     },
     {
@@ -11861,7 +34542,7 @@ async function main() {
         "GiaBan": 177060.0,
         "GiaMua": 136200,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen Xám"
     },
     {
@@ -11877,7 +34558,7 @@ async function main() {
         "GiaBan": 255060.0,
         "GiaMua": 196200,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen Xám"
     },
     {
@@ -11893,7 +34574,7 @@ async function main() {
         "GiaBan": 255060.0,
         "GiaMua": 196200,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11909,7 +34590,7 @@ async function main() {
         "GiaBan": 808080.0,
         "GiaMua": 621600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11925,7 +34606,7 @@ async function main() {
         "GiaBan": 308880.0,
         "GiaMua": 237600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11941,7 +34622,7 @@ async function main() {
         "GiaBan": 808080.0,
         "GiaMua": 621600,
         "TrangThai": "ACTIVE",
-        "MaDM": "6b9ff7e8-73a2-497a-8544-a1b193371ae1",
+        "MaDM": "1e8b7956-b512-45f0-825f-1173c6a0902c",
         "MauSac": "Đen"
     },
     {
@@ -11957,7 +34638,7 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Đen"
     },
     {
@@ -11973,7 +34654,7 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Xám Đậm"
     },
     {
@@ -11989,7 +34670,7 @@ async function main() {
         "GiaBan": 48100.0,
         "GiaMua": 37000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Xám"
     },
     {
@@ -12005,7 +34686,7 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Xám Nhạt"
     },
     {
@@ -12021,7 +34702,7 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Xám"
     },
     {
@@ -12037,7 +34718,7 @@ async function main() {
         "GiaBan": 48100.0,
         "GiaMua": 37000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Trắng"
     },
     {
@@ -12053,7 +34734,7 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Đen"
     },
     {
@@ -12069,7 +34750,7 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Trắng"
     },
     {
@@ -12085,7 +34766,7 @@ async function main() {
         "GiaBan": 48100.0,
         "GiaMua": 37000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Đen"
     },
     {
@@ -12101,7 +34782,7 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Trắng"
     },
     {
@@ -12117,7 +34798,7 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Nâu"
     },
     {
@@ -12133,7 +34814,7 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Đỏ"
     },
     {
@@ -12149,7 +34830,7 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "5b239079-263e-475c-9845-12713690e259",
+        "MaDM": "89a32707-9964-4979-9e24-355d7c189122",
         "MauSac": "Nâu Đậm"
     },
     {
@@ -12165,7 +34846,7 @@ async function main() {
         "GiaBan": 48100.0,
         "GiaMua": 37000,
         "TrangThai": "ACTIVE",
-        "MaDM": "494b8ea8-1a64-4d2d-a7b8-9ec3c115b75c",
+        "MaDM": "60157e91-100f-46c4-8640-3f33e23b678e",
         "MauSac": "Xám"
     },
     {
@@ -12181,7 +34862,7 @@ async function main() {
         "GiaBan": 40885.0,
         "GiaMua": 31450,
         "TrangThai": "ACTIVE",
-        "MaDM": "494b8ea8-1a64-4d2d-a7b8-9ec3c115b75c",
+        "MaDM": "60157e91-100f-46c4-8640-3f33e23b678e",
         "MauSac": "Đen"
     },
     {
@@ -12197,7 +34878,7 @@ async function main() {
         "GiaBan": 48100.0,
         "GiaMua": 37000,
         "TrangThai": "ACTIVE",
-        "MaDM": "494b8ea8-1a64-4d2d-a7b8-9ec3c115b75c",
+        "MaDM": "60157e91-100f-46c4-8640-3f33e23b678e",
         "MauSac": "Trắng"
     },
     {
@@ -12213,7 +34894,7 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "494b8ea8-1a64-4d2d-a7b8-9ec3c115b75c",
+        "MaDM": "60157e91-100f-46c4-8640-3f33e23b678e",
         "MauSac": "Đen"
     },
     {
@@ -12229,12 +34910,12 @@ async function main() {
         "GiaBan": 35100.0,
         "GiaMua": 27000,
         "TrangThai": "ACTIVE",
-        "MaDM": "494b8ea8-1a64-4d2d-a7b8-9ec3c115b75c",
+        "MaDM": "60157e91-100f-46c4-8640-3f33e23b678e",
         "MauSac": "Trắng"
     }
 ],
             skipDuplicates: true,
-        })
+        })*/
     
     ]);
   // Thêm các lệnh tạo dữ liệu khác ở đây
