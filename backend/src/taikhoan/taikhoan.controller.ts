@@ -11,7 +11,7 @@ import {
 import { TaikhoanService } from './taikhoan.service';
 import { TaiKhoanDto } from './dto/taikhoan.dto';
 import { TAIKHOAN } from './taikhoan.service';
-import { Roles } from './factory_function/role';
+import { Roles } from 'src/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
 

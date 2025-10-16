@@ -2,7 +2,7 @@ import { Controller, Get, Param, Put, Body, Post } from '@nestjs/common';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 import { PhieuNhapHangDto } from './dto/phieunhaphang.dto';
 import { PhieuNhapHangService } from './phieunhaphang.service';
-import { Roles } from 'src/taikhoan/factory_function/role';
+import { Roles } from 'src/role';
 
 @Controller('phieunhaphang')
 export class PhieuNhapHangController {
