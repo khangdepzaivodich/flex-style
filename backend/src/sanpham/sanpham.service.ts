@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { Prisma } from '@prisma/client';
+import { LoaiDanhMuc, Prisma } from '@prisma/client';
 import { SanPhamDto } from './dto/sanpham.dto';
 
 // Define SANPHAM type locally - make sure it matches Prisma schema exactly
@@ -23,28 +23,76 @@ export class SanphamService {
   constructor(private prisma: PrismaService) {}
 
   // Lay san pham theo ID
-  async sanpham(id: string): Promise<SANPHAM | null> {
-    return this.prisma.sANPHAM.findUnique({ where: { MaSP: id } });
+  async sanpham(tenSP: string): Promise<SANPHAM | null> {
+    const decodedTenSP = decodeURIComponent(tenSP);
+    return this.prisma.sANPHAM.findFirst({
+      where: { TenSP: decodedTenSP },
+      include: {
+        CHITIETSANPHAM: {
+          select: { MaCTSP: true, SoLuong: true, KichCo: true },
+        },
+      },
+    });
   }
 
   // Lay tat ca san pham
   async sanphams(params: {
     skip?: number;
     take?: number;
-    cursor?: { MaSP: string };
-    where?: any;
-    orderBy?: any;
+    includeSizes?: boolean;
+    includeTenDM?: string;
+    loaiDM?: string;
+    // cursor?: { MaSP: string };
+    // where?: any;
+    // orderBy?: any;
   }): Promise<SANPHAM[]> {
-    const { skip, take, cursor, where, orderBy } = params;
-    return this.prisma.sANPHAM.findMany({
+    const {
+      skip = 0,
+      take = 50,
+      includeSizes = false,
+      includeTenDM = '',
+      loaiDM = '',
+    } = params;
+    const tenCacDM = includeTenDM
+      ? decodeURIComponent(includeTenDM)
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+    const whereClause: any = {};
+    if (tenCacDM.length > 0) {
+      whereClause.DANHMUC = {
+        TenDM: { in: tenCacDM },
+        LoaiDanhMuc: loaiDM ? (loaiDM as LoaiDanhMuc) : undefined,
+      };
+    }
+
+    const items = await this.prisma.sANPHAM.findMany({
       skip,
       take,
-      cursor,
-      where,
-      orderBy,
+      where: Object.keys(whereClause).length ? whereClause : undefined,
+      include: includeSizes
+        ? {
+            CHITIETSANPHAM: {
+              select: { MaCTSP: true, SoLuong: true },
+            },
+          }
+        : undefined,
     });
-  }
 
+    return items;
+  }
+  async findRelated(tenSP: string): Promise<SANPHAM[]> {
+    const product = await this.prisma.sANPHAM.findFirst({
+      where: { TenSP: tenSP },
+    });
+    const relatedProducts = await this.prisma.sANPHAM.findMany({
+      where: {
+        MaDM: product?.MaDM,
+      },
+    });
+    return relatedProducts;
+  }
   // Tao san pham moi
   async createSanpham(data: SanPhamDto): Promise<SANPHAM> {
     // Ep ve kieu Prisma payload

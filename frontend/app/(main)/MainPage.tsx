@@ -4,17 +4,13 @@ import { ProductCard } from "@/components/product-card";
 import { getFeaturedProducts } from "@/lib/data";
 import { ArrowRight, Truck, Shield, RotateCcw, Headphones } from "lucide-react";
 import Link from "next/link";
-import type { Product } from "@/lib/types";
+import type { Product, ChitietSanPham } from "@/lib/types";
 
 export default function ProductsPage({
   initialProducts,
-  details,
 }: {
   initialProducts: Product[];
-  details: any;
 }) {
-  // const featuredProducts = getFeaturedProducts();
-
   return (
     <div className="flex flex-col">
       {/* Hero Section */}

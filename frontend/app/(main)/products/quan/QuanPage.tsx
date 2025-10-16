@@ -3,7 +3,6 @@
 import { useState, useMemo } from "react";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Sparkles } from "lucide-react";
 import { Category, Product } from "@/lib/types";
@@ -22,9 +21,14 @@ export default function QuanPage({
   const [products, setProducts] = useState<Product[]>(initialProducts);
 
   const addMore = async () => {
-    const currentLength = products.length;
+    const currentLength = products.filter((product) => {
+      const category = categories.find((cat) => cat.MaDM === product.MaDM);
+      return category?.Loai === "QUAN";
+    }).length;
     const res = await fetch(
-      `http://localhost:8080/api/sanpham?skip=${currentLength}&take=50`,
+      `http://localhost:8080/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&loaiDM=QUAN&includeTenDM=${
+        categories.find((cat) => cat.MaDM === selectedCategory)?.TenDM || ""
+      }`,
       { cache: "no-store" }
     );
     const data = await res.json();
@@ -145,17 +149,10 @@ export default function QuanPage({
 
       {/* Products Grid */}
       {quanProducts.length > 0 ? (
-        <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {quanProducts.map((product) => (
-              <ProductCard key={product.MaSP} product={product} />
-            ))}
-          </div>
-          <div className="mt-8 text-center">
-            <Button variant="outline" onClick={addMore}>
-              Xem thêm
-            </Button>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {quanProducts.map((product) => (
+            <ProductCard key={product.MaSP} product={product} />
+          ))}
         </div>
       ) : (
         <div className="text-center py-12">
@@ -170,7 +167,11 @@ export default function QuanPage({
           </Button>
         </div>
       )}
-
+      <div className="mt-8 text-center">
+        <Button variant="outline" onClick={addMore}>
+          Xem thêm
+        </Button>
+      </div>
       <Separator className="my-12" />
 
       {/* Newsletter Section */}

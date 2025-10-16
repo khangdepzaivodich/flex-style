@@ -24,6 +24,7 @@ export class ChitietsanphamController {
   }
 
   // Lay chi tiet san pham theo ID
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.chitietsanphamService.chitietsanpham({ MaCTSP: id });
