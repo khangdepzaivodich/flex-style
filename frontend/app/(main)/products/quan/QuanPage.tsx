@@ -42,9 +42,7 @@ export default function QuanPage({
 
     if (selectedCategory !== "all") {
       filtered = filtered.filter(
-        (product) =>
-          categories.find((cat) => cat.MaDM === product.MaDM)?.TenDM ===
-          selectedCategory
+        (product) => product.MaDM === selectedCategory
       );
     }
 
@@ -147,10 +145,17 @@ export default function QuanPage({
 
       {/* Products Grid */}
       {quanProducts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {quanProducts.map((product) => (
-            <ProductCard key={product.MaSP} product={product} />
-          ))}
+        <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {quanProducts.map((product) => (
+              <ProductCard key={product.MaSP} product={product} />
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Button variant="outline" onClick={addMore}>
+              Xem thêm
+            </Button>
+          </div>
         </div>
       ) : (
         <div className="text-center py-12">
@@ -165,11 +170,7 @@ export default function QuanPage({
           </Button>
         </div>
       )}
-      <div className="mt-8 text-center">
-        <Button variant="outline" onClick={addMore}>
-          Xem thêm
-        </Button>
-      </div>
+
       <Separator className="my-12" />
 
       {/* Newsletter Section */}
