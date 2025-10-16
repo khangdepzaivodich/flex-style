@@ -14,7 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { MapPin, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import PayPal from "@/components/paypal";
-
+import { VNPAY } from "@/components/vnpay";
 export default function CheckoutPage() {
   const { items, total } = useCart();
   const { user } = useAuth();
@@ -378,10 +378,21 @@ export default function CheckoutPage() {
             {/* Payment Methods */}
             <h3 className="mb-3 font-semibold">Chọn phương thức thanh toán:</h3>
             <div className="flex flex-wrap gap-3 mb-5 ">
-              {PayPal({
-                value: usdTotal.toFixed(2),
-                reference_id: invoiceData.orderId,
-              })}
+              <div>
+                {PayPal({
+                  value: usdTotal.toFixed(2),
+                  reference_id: invoiceData.orderId,
+                })}
+              </div>
+              <div>
+                <VNPAY
+                  amount={finalTotal}
+                  orderId={invoiceData.orderId}
+                  onPaymentResult={(result) => {
+                    console.log("Kết quả thanh toán VNPay:", result);
+                  }}
+                />
+              </div>
             </div>
 
             {/* Confirm Buttons */}

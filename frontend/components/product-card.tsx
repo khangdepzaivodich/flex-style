@@ -57,6 +57,7 @@ export function ProductCard({ product }: ProductCardProps) {
             />
           </div>
         )}
+
         {discountPercentage > 0 && (
           <Badge className="absolute top-2 left-2 bg-destructive text-destructive-foreground">
             -{discountPercentage}%

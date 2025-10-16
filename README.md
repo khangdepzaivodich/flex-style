@@ -226,8 +226,8 @@ npm i
 npm run dev
 ``` -->
 
-## 15. Liên hệ / Hỗ trợ
-Cứ tiếp tục hỏi trong chat này nếu bạn cần thêm các script tự động, Docker hoá hoặc CI/CD.
+<!-- ## 15. Liên hệ / Hỗ trợ
+Cứ tiếp tục hỏi trong chat này nếu bạn cần thêm các script tự động, Docker hoá hoặc CI/CD. -->
 
 ---
 Chúc bạn setup thành công 🚀

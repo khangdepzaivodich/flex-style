@@ -5,17 +5,17 @@ import { VnpayService } from 'nestjs-vnpay';
 export class VNPAYService {
     constructor(private readonly vnpayService: VnpayService) {}
 
-    async createPaymentUrl(orderdata: any, ipAddr: string){
+    async createPaymentUrl(amount: number, orderId: string, ipAddr: string) {
         return this.vnpayService.buildPaymentUrl({
-            vnp_Amount: orderdata.amount,
-            vnp_OrderInfo: `Thanh toan don hang ${orderdata.orderId}`,
-            vnp_TxnRef: orderdata.orderId,
+            vnp_Amount: amount,
+            vnp_OrderInfo: `Thanh toan don hang ${orderId}`,
+            vnp_TxnRef: orderId,
             vnp_IpAddr: ipAddr,
-            vnp_ReturnUrl: "https://example.com/returnUrl" // Add this property, ensure orderdata.returnUrl is set
+            vnp_ReturnUrl: `http://localhost:3000/checkout/success`, // Thay đổi URL trả về theo frontend của bạn
         });
     }
-    
-    async validateResponse(query: any) {
+
+    async verifyReturnUrl(query: any) {
         return this.vnpayService.verifyReturnUrl(query);
     }
 }
