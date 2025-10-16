@@ -20,7 +20,11 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="relative aspect-square overflow-hidden">
         <Link href={`/products/${product.TenSP}`}>
           <Image
-            src={"https:" + product.HinhAnh[0] || "/placeholder.svg"}
+            src={
+              product.HinhAnh && product.HinhAnh.length > 0
+                ? "https:" + product.HinhAnh[0]
+                : "/placeholder.svg"
+            }
             alt={product.TenSP}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"

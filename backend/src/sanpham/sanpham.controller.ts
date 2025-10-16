@@ -16,10 +16,16 @@ export class SanphamController {
 
   // Lay tat ca san pham
   @Get()
-  async findAll(@Query('skip') skip?: string, @Query('take') take?: string) {
+  async findAll(
+    @Query('skip') skip?: string,
+    @Query('take') take?: string,
+    @Query('type') type?: string,
+  ) {
+    const where = type ? { type } : undefined;
     return await this.sanphamService.sanphams({
       skip: skip ? Number(skip) : undefined,
       take: take ? Number(take) : undefined,
+      where,
     });
   }
 
