@@ -1,9 +1,12 @@
 import ProductsPage from "./PhuKienPage";
 
 async function getProducts() {
-  const res = await fetch("http://localhost:8080/api/sanpham?skip=0&take=150", {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    "http://localhost:8080/api/sanpham?skip=0&take=150&includeSizes=true&loaiDM=PHU_KIEN",
+    {
+      cache: "no-store",
+    }
+  );
   if (!res.ok) throw new Error("Failed to fetch products");
   return res.json();
 }

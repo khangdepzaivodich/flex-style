@@ -8,6 +8,7 @@ export interface Product {
   TrangThai: string;
   MaDM: string;
   MauSac: string;
+  CHITIETSANPHAM?: ChitietSanPham[];
 }
 
 export interface Category {
@@ -17,15 +18,25 @@ export interface Category {
   Loai: string;
 }
 
-export interface CartItem {
-  id: string;
-  productId: string;
-  name: string;
-  price: number;
-  image: string;
-  size: string;
-  color: string;
-  quantity: number;
+export interface ChitietSanPham {
+  MaCTSP: string;
+  KichCo: string;
+  MaSP: string;
+  SoLuong: number;
+  TrangThaiSP: string;
+  SANPHAM: {
+    MaSP: string;
+    created_at: string;
+    updated_at: string;
+    MoTa: string;
+    TenSP: string;
+    HinhAnh: string[];
+    GiaBan: number;
+    GiaMua: number;
+    TrangThai: string;
+    MaDM: string;
+    MauSac: string;
+  };
 }
 
 export type UserRole =
