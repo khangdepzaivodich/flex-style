@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, use } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User, UserRole, Permission } from "@/lib/types";
 // import { hasPermission, hasAnyPermission, canAccessRoute } from "@/lib/rbac";
@@ -47,6 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             },
             isLoading: false,
           });
+          //thêm thông tin tài khoản vào db
         } else {
           setState({
             user: null,
@@ -89,7 +90,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
   const OauthLogin = async (provider: string) => {
     if (provider === "gg") {
-      supabase.auth.signInWithOAuth({
+      const response =supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
@@ -97,26 +98,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
     } else if (provider === "fb") {
       supabase.auth.signInWithOAuth({
-        provider: "google",
+        provider: "facebook",
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
         },
       });
     }
   };
+  
   const register = async (
     email: string,
     password: string,
     name: string
   ): Promise<boolean> => {
     try {
+      
       setState((prev) => ({ ...prev, isLoading: true }));
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: { data: { name } },
       });
-      if (error || !data.user) {
+      const response = await fetch(`http://localhost:8080/api/taikhoan/dangky`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Username: name
+        }),
+      });
+      if (error || !data.user || !response.ok) {
         setState((prev) => ({ ...prev, isLoading: false }));
         return false;
       }
