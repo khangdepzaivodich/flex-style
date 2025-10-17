@@ -34,13 +34,11 @@ export default function SlugPage({
   product: Product;
   relatedProducts: Product[];
 }) {
-  const { addItem } = useCart();
-
+  const { addItem, items } = useCart();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
-  console.log(product);
   const discountPercentage = product.GiaBan
     ? Math.round(((product.GiaBan - product.GiaBan) / product.GiaBan) * 100)
     : 0;
@@ -52,7 +50,7 @@ export default function SlugPage({
     }
 
     addItem({
-      productId: product.MaSP,
+      productId: String(product.MaSP),
       name: product.TenSP,
       price: product.GiaBan,
       image: product.HinhAnh[0],
@@ -60,7 +58,7 @@ export default function SlugPage({
       color: product.MauSac,
       quantity,
     });
-
+    console.log(items);
     alert("Đã thêm sản phẩm vào giỏ hàng!");
   };
 
@@ -73,7 +71,25 @@ export default function SlugPage({
       (prev) => (prev - 1 + product.HinhAnh.length) % product.HinhAnh.length
     );
   };
-
+  const copyToClipboard = async (text: string) => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+      alert("Liên kết đã được sao chép vào bộ nhớ tạm!");
+    } catch {
+      alert("Không thể sao chép liên kết. Vui lòng sao chép thủ công.");
+    }
+  };
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb */}
@@ -264,10 +280,23 @@ export default function SlugPage({
               size="lg"
               className="w-full"
               onClick={handleAddToCart}
-              disabled={!product.inStock}
+              disabled={
+                !product.CHITIETSANPHAM.filter(
+                  (s) => s.KichCo === selectedSize
+                )[0] ||
+                product.CHITIETSANPHAM.filter(
+                  (s) => s.KichCo === selectedSize
+                )[0].SoLuong <= 0
+              }
             >
               <ShoppingCart className="h-5 w-5 mr-2" />
-              {product.inStock ? "Thêm vào giỏ hàng" : "Hết hàng"}
+              {!product.CHITIETSANPHAM.filter(
+                (s) => s.KichCo === selectedSize
+              )[0] ||
+              product.CHITIETSANPHAM.filter((s) => s.KichCo === selectedSize)[0]
+                .SoLuong <= 0
+                ? "Hết hàng"
+                : "Thêm vào giỏ hàng"}
             </Button>
 
             <div className="flex space-x-3">
@@ -284,7 +313,11 @@ export default function SlugPage({
                 />
                 Yêu thích
               </Button>
-              <Button variant="outline" size="lg">
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => copyToClipboard(window.location.href)}
+              >
                 <Share2 className="h-5 w-5 mr-2" />
                 Chia sẻ
               </Button>
@@ -307,7 +340,7 @@ export default function SlugPage({
               <div>
                 <p className="font-semibold text-sm">Đổi trả dễ dàng</p>
                 <p className="text-xs text-muted-foreground">
-                  Trong vòng 30 ngày
+                  Trong vòng 7 ngày
                 </p>
               </div>
             </div>
@@ -337,16 +370,22 @@ export default function SlugPage({
             <Card>
               <CardContent className="p-6">
                 <div className="prose max-w-none">
-                  <p className="text-muted-foreground leading-relaxed mb-4">
-                    {product.description}
-                  </p>
                   <h4 className="font-semibold mb-2">Đặc điểm nổi bật:</h4>
+
                   <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                    <li>Chất liệu cao cấp, bền đẹp theo thời gian</li>
-                    <li>Thiết kế hiện đại, phù hợp nhiều dịp</li>
-                    <li>Form dáng chuẩn, tôn dáng người mặc</li>
-                    <li>Dễ dàng phối đồ với nhiều trang phục khác</li>
-                    <li>Chăm sóc đơn giản, giặt máy được</li>
+                    {product.MoTa ? (
+                      product.MoTa.split(" | ").map((line, index) => (
+                        <li key={index}>{line}</li>
+                      ))
+                    ) : (
+                      <>
+                        <li>Chất liệu cao cấp, bền đẹp theo thời gian</li>
+                        <li>Thiết kế hiện đại, phù hợp nhiều dịp</li>
+                        <li>Form dáng chuẩn, tôn dáng người mặc</li>
+                        <li>Dễ dàng phối đồ với nhiều trang phục khác</li>
+                        <li>Chăm sóc đơn giản, giặt máy được</li>
+                      </>
+                    )}
                   </ul>
                 </div>
               </CardContent>

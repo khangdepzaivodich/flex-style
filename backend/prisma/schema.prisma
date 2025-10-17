@@ -103,6 +103,7 @@ model SANPHAM {
   CHITIETSANPHAM CHITIETSANPHAM[]
   PHANHOI        PHANHOI[]
   DANHMUC        DANHMUC          @relation(fields: [MaDM], references: [MaDM])
+  slug           String
 }
 
 model SUKIENUUDAI {

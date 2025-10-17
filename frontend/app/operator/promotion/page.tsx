@@ -53,7 +53,6 @@ export default function Promotion() {
         id={idEdit}
         onClose={() => setOpenChange(false)}
         onSave={(data) => {
-          console.log("Saved data:", data);
           setOpenChange(false);
           setIdEdit(null);
         }}

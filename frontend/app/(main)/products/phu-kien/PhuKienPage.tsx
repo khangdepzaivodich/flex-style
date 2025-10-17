@@ -5,7 +5,7 @@ import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Gem } from "lucide-react";
-import { Category, Product } from "@/lib/types";
+import { v4 as uuidv4 } from "uuid";
 export default function PhuKienPage({
   initialProducts,
   categories,
@@ -147,7 +147,7 @@ export default function PhuKienPage({
       {phuKienProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {phuKienProducts.map((product) => (
-            <ProductCard key={product.MaSP} product={product} />
+            <ProductCard key={uuidv4()} product={product} />
           ))}
         </div>
       ) : (
