@@ -34,8 +34,8 @@ export function LoginForm({
     setError(null);
 
     const lg = await login(email, password);
-    if (lg) router.push("/");
-    else setError("Thông tin đăng nhập sai");
+    if (lg.success) router.push("/");
+    else setError(lg.error.message || "Đăng nhập thất bại");
 
     setIsLoading(false);
   };

@@ -181,7 +181,7 @@ model PHIEUNHAPHANG {
   MaCTSP     String
   MaNCC      String
   TrangThai  TrangThaiPhieuNhapHang
-  MaTKNVQL   String?
+  MaTKNVQL   String
   MaTKNVXN   String?
   NoiDung    String
 
