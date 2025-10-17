@@ -79,11 +79,10 @@ model PHANHOI {
   MaPH       String   @id @default(uuid())
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
-  NoiDung    String
   MaTKKH     String
   MaSP       String
   SoSao      Int
-  BinhLuan   String?
+  BinhLuan   String
   SANPHAM    SANPHAM  @relation(fields: [MaSP], references: [MaSP])
   TAIKHOAN   TAIKHOAN @relation(fields: [MaTKKH], references: [MaTK])
 }

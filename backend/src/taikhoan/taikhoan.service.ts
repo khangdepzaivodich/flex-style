@@ -19,17 +19,21 @@ export interface TAIKHOAN {
 @Injectable()
 export class TaikhoanService {
   constructor(private readonly prisma: PrismaService) {}
-
   // Dang ky tai khoan moi
   async dangKy(data: TaiKhoanDto): Promise<TAIKHOAN> {
-    if ('VAITRO' in data) {
-      throw new Error('Không thể thay đổi vai trò của khách hàng');
+    console.log(data);
+    const existingUser = await this.prisma.tAIKHOAN.findFirst({
+      where: { Username: data.Username },
+    });
+    console.log(existingUser);
+    if (existingUser) {
+      throw new Error('Tài khoản đã tồn tại');
     }
-    const { VAITRO, ...cleanData } = data;
     return this.prisma.tAIKHOAN.create({
       data: {
-        ...cleanData,
+        ...data,
         VAITRO: 'KH',
+        Status: 'ACTIVE',
       },
     });
   }
