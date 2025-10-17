@@ -8,7 +8,8 @@ export interface Product {
   TrangThai: string;
   MaDM: string;
   MauSac: string;
-  CHITIETSANPHAM?: ChitietSanPham[];
+  CHITIETSANPHAM: ChitietSanPham[];
+  slug: string;
 }
 
 export interface Category {
@@ -38,7 +39,16 @@ export interface ChitietSanPham {
     MauSac: string;
   };
 }
-
+export interface CartItem {
+  id: string;
+  productId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  size: string;
+  color: string;
+  image: string;
+}
 export type UserRole =
   | "customer"
   | "admin"

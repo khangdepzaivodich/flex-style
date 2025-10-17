@@ -35,15 +35,15 @@ export class SanphamController {
     return res;
   }
 
-  // Lay san pham theo tenSP
-  @Get(':tenSP')
-  async findOne(@Param('tenSP') tenSP: string) {
-    return await this.sanphamService.sanpham(tenSP);
+  // Lay san pham theo slug
+  @Get(':slug')
+  async findOne(@Param('slug') slug: string) {
+    return await this.sanphamService.sanpham(slug);
   }
 
-  @Get('related/:tenSP')
-  async findRelated(@Param('tenSP') tenSP: string) {
-    return await this.sanphamService.findRelated(tenSP);
+  @Get('related/:slug')
+  async findRelated(@Param('slug') slug: string) {
+    return await this.sanphamService.findRelated(slug);
   }
 
   // Tao san pham moi

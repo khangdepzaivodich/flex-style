@@ -1,8 +1,6 @@
 import type { Product } from "./types";
 export function getProductBySlug(slug: string): Product | undefined {
   const tenSP = decodeURIComponent(slug);
-  console.log(tenSP);
-  console.log("session: " + sessionStorage.getItem("selectedProduct"));
   return sessionStorage.getItem("selectedProduct") == tenSP
     ? JSON.parse(sessionStorage.getItem("selectedProduct") || "")
     : undefined;

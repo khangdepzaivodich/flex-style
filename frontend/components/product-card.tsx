@@ -14,11 +14,12 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const router = useRouter();
+
   const discountPercentage = product.GiaBan
     ? Math.round(((product.GiaBan - product.GiaBan) / product.GiaBan) * 100)
     : 0;
   const handleClick = () => {
-    router.push(`/products/${product.TenSP}`);
+    router.push(`/products/${product.slug}`);
   };
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -27,7 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
           (acc, item) => acc + item.SoLuong,
           0
         ) ? (
-          <Link href={`/products/${product.TenSP}`}>
+          <Link href={`/products/${product.slug}`}>
             <Image
               src={
                 product.HinhAnh && product.HinhAnh.length > 0

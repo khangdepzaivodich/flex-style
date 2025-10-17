@@ -48,4 +48,7 @@ export class SanPhamDto {
     message: 'Màu sắc không hợp lệ',
   })
   MauSac: string;
+  @IsString({ message: 'Slug phải là chuỗi ký tự.' })
+  @IsNotEmpty({ message: 'Slug không được để trống.' })
+  slug: string;
 }

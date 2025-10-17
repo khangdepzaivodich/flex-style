@@ -1,12 +1,14 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import SlugPage from "./SlugPage";
+
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>; // Type cho async params (Next.js 15)
 };
-async function getRelatedProducts(tenSP: string) {
+
+async function getRelatedProducts(slug: string) {
   const res = await fetch(
-    `http://localhost:8080/api/sanpham/related/${tenSP}`,
+    `http://localhost:8080/api/sanpham/related/${slug}`, // Dùng trực tiếp slug (đã encoded)
     {
       cache: "no-store",
     }
@@ -14,23 +16,48 @@ async function getRelatedProducts(tenSP: string) {
   if (!res.ok) {
     throw new Error("Failed to fetch related products");
   }
-  return res.json();
+  const data = await res.json();
+  if (!data || !Array.isArray(data.data)) {
+    // Validation cơ bản
+    throw new Error("Invalid related products data");
+  }
+  return data;
 }
+
 export default async function Page({ params }: Props) {
-  const { slug } = params;
+  const { slug } = await params;
+  const trimmedSlug = slug.trim();
+
   try {
-    const res = await fetch(`http://localhost:8080/api/sanpham/${slug}`, {
-      cache: "no-store",
-    });
-    const product = await res.json();
-    const relatedProducts = await getRelatedProducts(slug);
-    console.log(product.data);
-    console.log(relatedProducts);
+    const res = await fetch(
+      `http://localhost:8080/api/sanpham/${trimmedSlug}`,
+      {
+        cache: "no-store",
+      }
+    );
+
+    if (!res.ok) {
+      if (res.status === 404) {
+        notFound();
+      }
+      throw new Error(`Failed to fetch product: ${res.status}`);
+    }
+
+    const productData = await res.json();
+    if (!productData || !productData.data) {
+      throw new Error("Invalid product data");
+    }
+
+    const relatedProducts = await getRelatedProducts(trimmedSlug);
+
     return (
-      <SlugPage product={product.data} relatedProducts={relatedProducts.data} />
+      <SlugPage
+        product={productData.data}
+        relatedProducts={relatedProducts.data}
+      />
     );
   } catch (error) {
     console.error("Error fetching product:", error);
-    return notFound();
+    notFound(); // Fallback chung
   }
 }

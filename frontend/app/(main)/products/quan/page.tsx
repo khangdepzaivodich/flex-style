@@ -19,8 +19,6 @@ async function getCategories() {
 export default async function QuanCarousel() {
   const products = await getProducts();
   const categories = await getCategories();
-  console.log(products);
-  console.log(categories);
 
   return (
     <div>

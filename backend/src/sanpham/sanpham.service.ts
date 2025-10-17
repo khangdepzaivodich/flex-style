@@ -16,6 +16,7 @@ export interface SANPHAM {
   TrangThai: 'ACTIVE' | 'INACTIVE';
   MaDM: string;
   MauSac: string;
+  slug: string;
 }
 
 @Injectable()
@@ -23,10 +24,9 @@ export class SanphamService {
   constructor(private prisma: PrismaService) {}
 
   // Lay san pham theo ID
-  async sanpham(tenSP: string): Promise<SANPHAM | null> {
-    const decodedTenSP = decodeURIComponent(tenSP);
+  async sanpham(slug: string): Promise<SANPHAM | null> {
     return this.prisma.sANPHAM.findFirst({
-      where: { TenSP: decodedTenSP },
+      where: { slug: slug },
       include: {
         CHITIETSANPHAM: {
           select: { MaCTSP: true, SoLuong: true, KichCo: true },
@@ -87,8 +87,14 @@ export class SanphamService {
       where: { TenSP: tenSP },
     });
     const relatedProducts = await this.prisma.sANPHAM.findMany({
+      take: 10,
       where: {
         MaDM: product?.MaDM,
+      },
+      include: {
+        CHITIETSANPHAM: {
+          select: { MaCTSP: true, SoLuong: true },
+        },
       },
     });
     return relatedProducts;
@@ -107,6 +113,7 @@ export class SanphamService {
       DANHMUC: {
         connect: { MaDM: data.MaDM },
       },
+      slug: data.slug,
     };
     return this.prisma.sANPHAM.create({ data: payload });
   }
@@ -129,6 +136,7 @@ export class SanphamService {
       DANHMUC: {
         connect: { MaDM: data.MaDM },
       },
+      slug: data.slug,
     };
 
     try {
