@@ -3,11 +3,6 @@ import { IsString, IsOptional, IsEnum } from 'class-validator';
 // Define enums locally since Prisma exports are not working properly
 enum VaiTro {
   KH = 'KH',
-  NCC = 'NCC', 
-  QLDN = 'QLDN',
-  NVVH = 'NVVH',
-  NVCSKH = 'NVCSKH',
-  ADMIN = 'ADMIN'
 }
 
 enum TrangThai {

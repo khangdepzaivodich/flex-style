@@ -11,7 +11,7 @@ interface AuthState {
 }
 
 interface AuthContextType extends AuthState {
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<any>;
   register: (email: string, password: string, name: string) => Promise<boolean>;
   OauthLogin: (provider: string) => void;
   logout: () => void;
@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<any> => {
     try {
       setState((prev) => ({ ...prev, isLoading: true }));
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -70,7 +70,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       if (error || !data.user) {
         setState((prev) => ({ ...prev, isLoading: false }));
-        return false;
+        return { success: false, error: error };
       }
       setState({
         user: {
@@ -81,11 +81,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         },
         isLoading: false,
       });
-      return true;
+      return { success: true };
     } catch (error) {
       setState((prev) => ({ ...prev, isLoading: false }));
-      console.error("Login error:", error);
-      return false;
+      return { success: false, error: error };
     }
   };
   const OauthLogin = async (provider: string) => {

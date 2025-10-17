@@ -14,6 +14,7 @@ import { TAIKHOAN } from './taikhoan.service';
 import { Roles } from 'src/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
+import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
 
 // Define enums locally
 enum TrangThai {
@@ -114,7 +115,7 @@ export class TaikhoanController {
   @Post('ncc/dangky')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  async dangKyNCC(@Body() data: TaiKhoanDto): Promise<TAIKHOAN> {
+  async dangKyNCC(@Body() data: TaiKhoanNghiepVuDto): Promise<TAIKHOAN> {
     return this.taikhoanService.dangKyNCC(data);
   }
 
@@ -162,7 +163,7 @@ export class TaikhoanController {
   @Post('ql/dangky')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  async dangKyQL(@Body() data: TaiKhoanDto): Promise<TAIKHOAN> {
+  async dangKyQL(@Body() data: TaiKhoanNghiepVuDto): Promise<TAIKHOAN> {
     return this.taikhoanService.dangKyQL(data);
   }
 
@@ -210,11 +211,11 @@ export class TaikhoanController {
   @Post('nv/dangky')
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  async dangKyNV(@Body() data: TaiKhoanDto): Promise<TAIKHOAN> {
-    if (data.VAITRO === 'NVVH' || data.VAITRO === 'NVCSKH') {
+  async dangKyNV(@Body() data: TaiKhoanNghiepVuDto): Promise<TAIKHOAN> {
+    // if (data.VAITRO === 'NVVH' || data.VAITRO === 'NVCSKH') {
+      // }
+      // throw new Error('Vai trò không hợp lệ cho nhân viên');
       return this.taikhoanService.dangKyNV(data);
-    }
-    throw new Error('Vai trò không hợp lệ cho nhân viên');
   }
 
   @Get('nv')
