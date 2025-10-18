@@ -11,9 +11,9 @@ export interface TAIKHOAN {
   created_at: Date;
   updated_at: Date;
   Username: string | null; // Use null to match Prisma
-  MatKhau: string | null;  // Use null to match Prisma
+  MatKhau: string | null; // Use null to match Prisma
   Status: TrangThai;
-  Avatar: string | null;   // Use null to match Prisma
+  Avatar: string | null; // Use null to match Prisma
   VAITRO: VaiTro;
 }
 @Injectable()

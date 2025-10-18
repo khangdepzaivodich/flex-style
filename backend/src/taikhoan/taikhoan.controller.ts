@@ -11,23 +11,23 @@ import {
 import { TaikhoanService } from './taikhoan.service';
 import { TaiKhoanDto } from './dto/taikhoan.dto';
 import { TAIKHOAN } from './taikhoan.service';
-import { Roles } from './factory_function/role';
+import { Roles } from '../factory_function/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
 
 // Define enums locally
 enum TrangThai {
   ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE'
+  INACTIVE = 'INACTIVE',
 }
 
 enum VaiTro {
   KH = 'KH',
-  NCC = 'NCC', 
+  NCC = 'NCC',
   QLDN = 'QLDN',
   NVVH = 'NVVH',
   NVCSKH = 'NVCSKH',
-  ADMIN = 'ADMIN'
+  ADMIN = 'ADMIN',
 }
 
 @Controller('taikhoan')

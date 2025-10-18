@@ -1,14 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
 import { SanPhamDto } from './dto/sanpham.dto';
 
-// Define SANPHAM type locally - make sure it matches Prisma schema exactly
 export interface SANPHAM {
   MaSP: string;
   created_at: Date;
   updated_at: Date;
-  MoTa: string | null; // Use null to match Prisma
+  MoTa: string | null;
   TenSP: string;
   HinhAnh: string[];
   GiaBan: number;
@@ -22,12 +25,12 @@ export interface SANPHAM {
 export class SanphamService {
   constructor(private prisma: PrismaService) {}
 
-  // Lay san pham theo ID
+  // Lấy sản phẩm theo ID
   async sanpham(id: string): Promise<SANPHAM | null> {
     return this.prisma.sANPHAM.findUnique({ where: { MaSP: id } });
   }
 
-  // Lay tat ca san pham
+  // Lấy danh sách sản phẩm
   async sanphams(params: {
     skip?: number;
     take?: number;
@@ -45,30 +48,41 @@ export class SanphamService {
     });
   }
 
-  // Tao san pham moi
+  // Tạo sản phẩm mới (TrangThai luôn ACTIVE)
   async createSanpham(data: SanPhamDto): Promise<SANPHAM> {
-    // Ep ve kieu Prisma payload
+    if ('TrangThai' in data) {
+      throw new BadRequestException(
+        'Không được phép chỉ định trạng thái khi tạo sản phẩm ở endpoint này',
+      );
+    }
+
     const payload: Prisma.SANPHAMCreateInput = {
       TenSP: data.TenSP,
       MoTa: data.MoTa,
       HinhAnh: data.HinhAnh,
       GiaBan: data.GiaBan,
       GiaMua: data.GiaMua,
-      TrangThai: data.TrangThai,
+      TrangThai: 'ACTIVE',
       MauSac: data.MauSac,
       DANHMUC: {
         connect: { MaDM: data.MaDM },
       },
     };
+
     return this.prisma.sANPHAM.create({ data: payload });
   }
 
-  // Cap nhat san pham
+  // Cập nhật sản phẩm
   async updateSanPham(params: {
     where: { MaSP: string };
     data: SanPhamDto;
   }): Promise<SANPHAM> {
     const { where, data } = params;
+    if ('TrangThai' in data) {
+      throw new BadRequestException(
+        'Không được phép thay đổi trạng thái sản phẩm ở endpoint này',
+      );
+    }
 
     const payload: Prisma.SANPHAMUpdateInput = {
       TenSP: data.TenSP,
@@ -76,7 +90,6 @@ export class SanphamService {
       HinhAnh: data.HinhAnh,
       GiaBan: data.GiaBan,
       GiaMua: data.GiaMua,
-      TrangThai: data.TrangThai,
       MauSac: data.MauSac,
       DANHMUC: {
         connect: { MaDM: data.MaDM },
@@ -96,15 +109,18 @@ export class SanphamService {
     }
   }
 
-  // Xoa san pham
-  async deleteSanpham(where: { MaSP: string }): Promise<SANPHAM> {
+  // 🔹 Service riêng để cập nhật trạng thái sản phẩm
+  async updateTrangThaiSanPham(
+    MaSP: string,
+    trangThai: 'ACTIVE' | 'INACTIVE',
+  ): Promise<SANPHAM> {
     try {
-      return await this.prisma.sANPHAM.delete({ where });
-    } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
+      return await this.prisma.sANPHAM.update({
+        where: { MaSP },
+        data: { TrangThai: trangThai },
+      });
+    } catch (error: any) {
+      if (error.code === 'P2025') {
         throw new NotFoundException('Sản phẩm không tồn tại');
       }
       throw error;
