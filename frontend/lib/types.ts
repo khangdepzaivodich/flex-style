@@ -39,6 +39,18 @@ export interface ChitietSanPham {
     MauSac: string;
   };
 }
+
+export interface PhanHoi {
+  MaPH: string;
+  created_at: string;
+  updated_at: string;
+  MaTKKH: string;
+  MaSP: string;
+  SoSao: number;
+  BinhLuan: string;
+  Username?: string;
+}
+
 export interface CartItem {
   id: string;
   productId: string;
@@ -49,6 +61,16 @@ export interface CartItem {
   color: string;
   image: string;
 }
+export interface SuKienUuDai {
+  MaSK: string;
+  TenSK: string;
+  MoTa: string;
+  NgayPH: Date;
+  NgayKT: Date;
+  PhanTramGiam: number;
+  TrangThai: string;
+}
+
 export type UserRole =
   | "customer"
   | "admin"

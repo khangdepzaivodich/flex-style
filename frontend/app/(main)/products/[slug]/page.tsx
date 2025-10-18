@@ -23,6 +23,16 @@ async function getRelatedProducts(slug: string) {
   }
   return data;
 }
+async function getReply(slug: string) {
+  const res = await fetch(`http://localhost:8080/api/phanhoi?slug=${slug}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch related reply");
+  }
+  const data = await res.json();
+  return data;
+}
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
@@ -49,11 +59,14 @@ export default async function Page({ params }: Props) {
     }
 
     const relatedProducts = await getRelatedProducts(trimmedSlug);
+    const feedbacks = await getReply(trimmedSlug);
 
     return (
       <SlugPage
         product={productData.data}
         relatedProducts={relatedProducts.data}
+        feedbacks={feedbacks.data.feedbacks}
+        feedbacksCustomer={feedbacks.data.feedbacksCustomer}
       />
     );
   } catch (error) {
