@@ -1,3 +1,4 @@
+"use client";
 import {
   PayPalButtons,
   PayPalScriptProvider,
@@ -34,7 +35,6 @@ export default function PayPal({ value, reference_id }: PayPalProps) {
       );
 
       const orderData = await response.json();
-      console.log("Order created:", orderData);
 
       if (!orderData?.data?.id)
         throw new Error("Failed to create PayPal order");
@@ -56,18 +56,21 @@ export default function PayPal({ value, reference_id }: PayPalProps) {
     );
 
     const details = await response.json();
-    console.log("Capture result:", details);
 
     alert("Thanh toán thành công! " + details?.payer?.name?.given_name);
     clearCart();
     window.location.href = `/checkout/success?orderID=${reference_id}`;
   };
-
+  const styles: PayPalButtonsComponentProps["style"] = {
+    shape: "rect",
+    layout: "vertical",
+  };
   return (
     <PayPalScriptProvider options={initialOptions}>
       <PayPalButtons
         createOrder={createOrder}
         onApprove={onApprove}
+        style={styles}
         fundingSource="paypal"
       />
     </PayPalScriptProvider>

@@ -1,0 +1,13 @@
+import type { Product } from "./types";
+export function getProductBySlug(slug: string): Product | undefined {
+  const tenSP = decodeURIComponent(slug);
+  return sessionStorage.getItem("selectedProduct") == tenSP
+    ? JSON.parse(sessionStorage.getItem("selectedProduct") || "")
+    : undefined;
+}
+export function formatPrice(price: number): string {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(price);
+}

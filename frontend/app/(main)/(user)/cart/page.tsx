@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/contexts/cart-context";
-import { formatPrice } from "@/lib/data";
+import { formatPrice } from "@/lib/help";
 
 export default function CartPage() {
   const { items, total, itemCount, updateQuantity, removeItem, clearCart } =
@@ -72,7 +72,7 @@ export default function CartPage() {
                   {/* Product Image */}
                   <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-muted flex-shrink-0">
                     <Image
-                      src={item.image || "/placeholder.svg"}
+                      src={"https:" + item.image || "/placeholder.svg"}
                       alt={item.name}
                       fill
                       className="object-cover"

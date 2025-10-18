@@ -1,15 +1,11 @@
-import type { Product, Category } from "./types";
-import productsData from "../data/products.json";
-
-export const categories: Category[] = productsData.categories;
-export const products: Product[] = productsData.products;
+import type { Product } from "./types";
 
 export function getProductById(id: string): Product | undefined {
   return products.find((product) => product.id === id);
 }
 
 export function getProductBySlug(slug: string): Product | undefined {
-  return products.find((product) => product.slug === slug);
+  return products.find((product) => product.TenSP === slug);
 }
 
 export function getProductsByCategory(categoryId: string): Product[] {
@@ -24,18 +20,10 @@ export function searchProducts(query: string): Product[] {
   const lowercaseQuery = query.toLowerCase();
   return products.filter(
     (product) =>
-      product.name.toLowerCase().includes(lowercaseQuery) ||
-      product.description.toLowerCase().includes(lowercaseQuery)
+      product.TenSP.toLowerCase().includes(lowercaseQuery) ||
+      product.TenSP.toLowerCase().includes(lowercaseQuery)
   );
 }
-
-export function formatPrice(price: number): string {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(price);
-}
-
 import type { Order } from "./types";
 
 // Sample order data

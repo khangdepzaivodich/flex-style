@@ -4,7 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { Prisma } from '@prisma/client';
+import { LoaiDanhMuc, Prisma } from '@prisma/client';
 import { SanPhamDto } from './dto/sanpham.dto';
 
 export interface SANPHAM {
@@ -19,36 +19,90 @@ export interface SANPHAM {
   TrangThai: 'ACTIVE' | 'INACTIVE';
   MaDM: string;
   MauSac: string;
+  slug: string;
 }
 
 @Injectable()
 export class SanphamService {
   constructor(private prisma: PrismaService) {}
 
-  // Lấy sản phẩm theo ID
-  async sanpham(id: string): Promise<SANPHAM | null> {
-    return this.prisma.sANPHAM.findUnique({ where: { MaSP: id } });
+  // Lay san pham theo ID
+  async sanpham(slug: string): Promise<SANPHAM | null> {
+    return this.prisma.sANPHAM.findFirst({
+      where: { slug: slug },
+      include: {
+        CHITIETSANPHAM: {
+          select: { MaCTSP: true, SoLuong: true, KichCo: true },
+        },
+      },
+    });
   }
 
   // Lấy danh sách sản phẩm
   async sanphams(params: {
     skip?: number;
     take?: number;
-    cursor?: { MaSP: string };
-    where?: any;
-    orderBy?: any;
+    includeSizes?: boolean;
+    includeTenDM?: string;
+    loaiDM?: string;
+    // cursor?: { MaSP: string };
+    // where?: any;
+    // orderBy?: any;
   }): Promise<SANPHAM[]> {
-    const { skip, take, cursor, where, orderBy } = params;
-    return this.prisma.sANPHAM.findMany({
+    const {
+      skip = 0,
+      take = 50,
+      includeSizes = false,
+      includeTenDM = '',
+      loaiDM = '',
+    } = params;
+    const tenCacDM = includeTenDM
+      ? decodeURIComponent(includeTenDM)
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+    const whereClause: any = {};
+    if (tenCacDM.length > 0) {
+      whereClause.DANHMUC = {
+        TenDM: { in: tenCacDM },
+        LoaiDanhMuc: loaiDM ? (loaiDM as LoaiDanhMuc) : undefined,
+      };
+    }
+
+    const items = await this.prisma.sANPHAM.findMany({
       skip,
       take,
-      cursor,
-      where,
-      orderBy,
+      where: Object.keys(whereClause).length ? whereClause : undefined,
+      include: includeSizes
+        ? {
+            CHITIETSANPHAM: {
+              select: { MaCTSP: true, SoLuong: true },
+            },
+          }
+        : undefined,
     });
-  }
 
-  // Tạo sản phẩm mới (TrangThai luôn ACTIVE)
+    return items;
+  }
+  async findRelated(tenSP: string): Promise<SANPHAM[]> {
+    const product = await this.prisma.sANPHAM.findFirst({
+      where: { TenSP: tenSP },
+    });
+    const relatedProducts = await this.prisma.sANPHAM.findMany({
+      take: 10,
+      where: {
+        MaDM: product?.MaDM,
+      },
+      include: {
+        CHITIETSANPHAM: {
+          select: { MaCTSP: true, SoLuong: true },
+        },
+      },
+    });
+    return relatedProducts;
+  }
+  // Tao san pham moi
   async createSanpham(data: SanPhamDto): Promise<SANPHAM> {
     if ('TrangThai' in data) {
       throw new BadRequestException(
@@ -67,6 +121,7 @@ export class SanphamService {
       DANHMUC: {
         connect: { MaDM: data.MaDM },
       },
+      slug: data.slug,
     };
 
     return this.prisma.sANPHAM.create({ data: payload });
@@ -94,6 +149,7 @@ export class SanphamService {
       DANHMUC: {
         connect: { MaDM: data.MaDM },
       },
+      slug: data.slug,
     };
 
     try {

@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, use } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User, UserRole, Permission } from "@/lib/types";
 // import { hasPermission, hasAnyPermission, canAccessRoute } from "@/lib/rbac";
@@ -11,7 +11,7 @@ interface AuthState {
 }
 
 interface AuthContextType extends AuthState {
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<any>;
   register: (email: string, password: string, name: string) => Promise<boolean>;
   OauthLogin: (provider: string) => void;
   logout: () => void;
@@ -47,6 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             },
             isLoading: false,
           });
+          //thêm thông tin tài khoản vào db
         } else {
           setState({
             user: null,
@@ -60,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<any> => {
     try {
       setState((prev) => ({ ...prev, isLoading: true }));
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -69,7 +70,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       if (error || !data.user) {
         setState((prev) => ({ ...prev, isLoading: false }));
-        return false;
+        return { success: false, error: error };
       }
       setState({
         user: {
@@ -80,16 +81,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         },
         isLoading: false,
       });
-      return true;
+      return { success: true };
     } catch (error) {
       setState((prev) => ({ ...prev, isLoading: false }));
-      console.error("Login error:", error);
-      return false;
+      return { success: false, error: error };
     }
   };
   const OauthLogin = async (provider: string) => {
     if (provider === "gg") {
-      supabase.auth.signInWithOAuth({
+      const response =supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
@@ -97,26 +97,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
     } else if (provider === "fb") {
       supabase.auth.signInWithOAuth({
-        provider: "google",
+        provider: "facebook",
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
         },
       });
     }
   };
+  
   const register = async (
     email: string,
     password: string,
     name: string
   ): Promise<boolean> => {
     try {
+      
       setState((prev) => ({ ...prev, isLoading: true }));
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: { data: { name } },
       });
-      if (error || !data.user) {
+      const response = await fetch(`http://localhost:8080/api/taikhoan/dangky`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Username: name
+        }),
+      });
+      if (error || !data.user || !response.ok) {
         setState((prev) => ({ ...prev, isLoading: false }));
         return false;
       }

@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/sheet";
 import { ProductCard } from "@/components/product-card";
 import type { Category, Product } from "@/lib/types";
+import { v4 as uuidv4 } from "uuid";
 
 export default function ProductsPage({
   initialProducts,
@@ -37,6 +38,7 @@ export default function ProductsPage({
   const [priceRange, setPriceRange] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("newest");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [hasMore, setHasMore] = useState(true);
 
   const filteredProducts = useMemo(() => {
     let filtered = products;
@@ -103,16 +105,23 @@ export default function ProductsPage({
         selectedCategories.filter((id) => id !== categoryId)
       );
     }
+    setHasMore(true);
   };
   const addMore = async () => {
-    const currentLength = products.length;
+    const currentLength = products.filter((product) => {
+      return selectedCategories.includes(product.MaDM);
+    }).length;
     const res = await fetch(
-      `http://localhost:8080/api/sanpham?skip=${currentLength}&take=15`,
+      `http://localhost:8080/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&includeTenDM=${categories
+        .filter((cat) => selectedCategories.includes(cat.MaDM))
+        .map((cat) => cat.TenDM)
+        .join(",")}`,
       { cache: "no-store" }
     );
     const data = await res.json();
     const newProducts = data.data || [];
     setProducts((prev) => [...prev, ...newProducts]);
+    if (newProducts.length < 10) setHasMore(false);
   };
 
   const FilterContent = () => (
@@ -267,7 +276,7 @@ export default function ProductsPage({
               }
             >
               {filteredProducts.map((product) => (
-                <ProductCard key={product.MaSP} product={product} />
+                <ProductCard key={product.MaSP + uuidv4()} product={product} />
               ))}
             </div>
           ) : (
@@ -291,11 +300,19 @@ export default function ProductsPage({
               </Button>
             </div>
           )}
-          <div className="mt-8 text-center">
-            <Button variant="outline" onClick={addMore}>
-              Xem thêm
-            </Button>
-          </div>
+          {hasMore ? (
+            <div className="mt-8 text-center">
+              <Button variant="outline" onClick={addMore}>
+                Xem thêm
+              </Button>
+            </div>
+          ) : (
+            <div className="mt-8 text-center">
+              <p className="text-sm text-muted-foreground">
+                Không còn sản phẩm nào để hiển thị
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

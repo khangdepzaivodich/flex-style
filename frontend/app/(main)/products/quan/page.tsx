@@ -1,9 +1,12 @@
 import ProductsPage from "./QuanPage";
 
 async function getProducts() {
-  const res = await fetch("http://localhost:8080/api/sanpham?skip=0&take=50", {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    "http://localhost:8080/api/sanpham?skip=0&take=50&includeSizes=true&loaiDM=QUAN",
+    {
+      cache: "no-store",
+    }
+  );
   if (!res.ok) throw new Error("Failed to fetch products");
   return res.json();
 }
@@ -16,8 +19,6 @@ async function getCategories() {
 export default async function QuanCarousel() {
   const products = await getProducts();
   const categories = await getCategories();
-  console.log(products);
-  console.log(categories);
 
   return (
     <div>

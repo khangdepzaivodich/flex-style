@@ -22,20 +22,31 @@ export class SanphamController {
   async findAll(
     @Query('skip') skip?: string,
     @Query('take') take?: string,
-    @Query('type') type?: string,
+    @Query('includeSizes') includeSizes?: string,
+    @Query('includeTenDM') includeTenDM?: string,
+    @Query('loaiDM') loaiDM?: string,
   ) {
-    const where = type ? { type } : undefined;
-    return await this.sanphamService.sanphams({
-      skip: skip ? Number(skip) : undefined,
-      take: take ? Number(take) : undefined,
-      where,
+    // Decode cho an toàn với dấu cách
+
+    const res = await this.sanphamService.sanphams({
+      skip: skip ? Number(skip) : 0,
+      take: take ? Number(take) : 50,
+      includeSizes: includeSizes === 'true',
+      includeTenDM: includeTenDM,
+      loaiDM: loaiDM,
     });
+    return res;
   }
 
-  // Lấy sản phẩm theo ID
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.sanphamService.sanpham(id);
+  // Lay san pham theo slug
+  @Get(':slug')
+  async findOne(@Param('slug') slug: string) {
+    return await this.sanphamService.sanpham(slug);
+  }
+
+  @Get('related/:slug')
+  async findRelated(@Param('slug') slug: string) {
+    return await this.sanphamService.findRelated(slug);
   }
 
   // Tạo sản phẩm
