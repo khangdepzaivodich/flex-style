@@ -49,7 +49,9 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <Image src={"/logo.png"} alt="Logo" width={80} height={100} />
-            <span className="text-2xl font-bold">FlexStyle</span>
+            <span className="text-2xl font-bold hidden md:block">
+              FlexStyle
+            </span>
           </Link>
 
           {/* Desktop Navigation */}

@@ -1,16 +1,19 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/product-card";
-import { getFeaturedProducts } from "@/lib/data";
 import { ArrowRight, Truck, Shield, RotateCcw, Headphones } from "lucide-react";
 import Link from "next/link";
-import type { Product, ChitietSanPham } from "@/lib/types";
+import type { Product } from "@/lib/types";
+import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 
 export default function ProductsPage({
   initialProducts,
 }: {
   initialProducts: Product[];
 }) {
+  const { suKienUuDais } = useSuKienUuDai();
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}

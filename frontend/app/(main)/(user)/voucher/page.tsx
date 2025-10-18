@@ -137,7 +137,7 @@ export default function VoucherPage() {
       </div>
 
       {/* Voucher Input */}
-      {/* <Card className="mb-12">
+      <Card className="mb-12">
         <CardHeader>
           <CardTitle className="text-center">Nhập Mã Voucher</CardTitle>
         </CardHeader>
@@ -155,7 +155,7 @@ export default function VoucherPage() {
             Nhập mã voucher để kiểm tra tính hợp lệ và điều kiện áp dụng
           </p>
         </CardContent>
-      </Card> */}
+      </Card>
 
       {/* Active Vouchers */}
       <div className="mb-16">

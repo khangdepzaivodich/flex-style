@@ -25,14 +25,18 @@ import { ProductCard } from "@/components/product-card";
 import { formatPrice } from "@/lib/help";
 import { useCart } from "@/contexts/cart-context";
 
-import type { Product } from "@/lib/types";
+import type { Product, PhanHoi } from "@/lib/types";
 
 export default function SlugPage({
   product,
   relatedProducts,
+  feedbacks,
+  feedbacksCustomer,
 }: {
   product: Product;
   relatedProducts: Product[];
+  feedbacks: PhanHoi[];
+  feedbacksCustomer: string[];
 }) {
   const { addItem, items } = useCart();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -58,7 +62,7 @@ export default function SlugPage({
       color: product.MauSac,
       quantity,
     });
-    console.log(items);
+
     alert("Đã thêm sản phẩm vào giỏ hàng!");
   };
 
@@ -186,7 +190,12 @@ export default function SlugPage({
                   <Star
                     key={i}
                     className={`h-4 w-4 ${
-                      i < Math.floor(product.rating)
+                      i <
+                      Math.floor(
+                        feedbacks
+                          .map((fb) => fb.SoSao)
+                          .reduce((a, b) => a + b, 0) / feedbacks.length
+                      )
                         ? "fill-yellow-400 text-yellow-400"
                         : "text-gray-300"
                     }`}
@@ -194,7 +203,7 @@ export default function SlugPage({
                 ))}
               </div>
               <span className="text-sm text-muted-foreground">
-                {product.rating} ({product.reviews} đánh giá)
+                ( {feedbacks.length} đánh giá)
               </span>
             </div>
 
@@ -290,17 +299,20 @@ export default function SlugPage({
               }
             >
               <ShoppingCart className="h-5 w-5 mr-2" />
-              {!product.CHITIETSANPHAM.filter(
-                (s) => s.KichCo === selectedSize
-              )[0] ||
-              product.CHITIETSANPHAM.filter((s) => s.KichCo === selectedSize)[0]
-                .SoLuong <= 0
-                ? "Hết hàng"
-                : "Thêm vào giỏ hàng"}
+              {selectedSize
+                ? !product.CHITIETSANPHAM.filter(
+                    (s) => s.KichCo === selectedSize
+                  )[0] ||
+                  product.CHITIETSANPHAM.filter(
+                    (s) => s.KichCo === selectedSize
+                  )[0].SoLuong <= 0
+                  ? "Hết hàng"
+                  : "Thêm vào giỏ hàng"
+                : "Chọn kích thước để thêm vào giỏ hàng"}
             </Button>
 
             <div className="flex space-x-3">
-              <Button
+              {/* <Button
                 variant="outline"
                 size="lg"
                 className="flex-1 bg-transparent"
@@ -312,10 +324,11 @@ export default function SlugPage({
                   }`}
                 />
                 Yêu thích
-              </Button>
+              </Button> */}
               <Button
                 variant="outline"
                 size="lg"
+                className="flex-1 bg-transparent"
                 onClick={() => copyToClipboard(window.location.href)}
               >
                 <Share2 className="h-5 w-5 mr-2" />
@@ -362,7 +375,7 @@ export default function SlugPage({
             <TabsTrigger value="description">Mô tả chi tiết</TabsTrigger>
             <TabsTrigger value="specifications">Thông số</TabsTrigger>
             <TabsTrigger value="reviews">
-              Đánh giá ({product.reviews})
+              Đánh giá ({feedbacks.length})
             </TabsTrigger>
           </TabsList>
 
@@ -438,13 +451,20 @@ export default function SlugPage({
                   {/* Review Summary */}
                   <div className="flex items-center space-x-6">
                     <div className="text-center">
-                      <div className="text-3xl font-bold">{product.rating}</div>
+                      <div className="text-3xl font-bold">
+                        {feedbacks.length ? feedbacks.length : 0}
+                      </div>
                       <div className="flex items-center justify-center mb-1">
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
                             className={`h-4 w-4 ${
-                              i < Math.floor(product.rating)
+                              i <
+                              Math.floor(
+                                feedbacks
+                                  .map((fb) => fb.SoSao)
+                                  .reduce((a, b) => a + b, 0) / feedbacks.length
+                              )
                                 ? "fill-yellow-400 text-yellow-400"
                                 : "text-gray-300"
                             }`}
@@ -452,7 +472,7 @@ export default function SlugPage({
                         ))}
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        {product.reviews} đánh giá
+                        {feedbacks.length} đánh giá
                       </div>
                     </div>
                     <div className="flex-1">
@@ -465,7 +485,14 @@ export default function SlugPage({
                           <div className="flex-1 h-2 bg-muted rounded-full">
                             <div
                               className="h-2 bg-yellow-400 rounded-full"
-                              style={{ width: `${Math.random() * 80 + 10}%` }}
+                              style={{
+                                width: `${
+                                  (feedbacks.filter((fb) => fb.SoSao === stars)
+                                    .length /
+                                    feedbacks.length) *
+                                  100
+                                }%`,
+                              }}
                             />
                           </div>
                         </div>
@@ -477,34 +504,21 @@ export default function SlugPage({
 
                   {/* Sample Reviews */}
                   <div className="space-y-4">
-                    {[
-                      {
-                        name: "Nguyễn Văn A",
-                        rating: 5,
-                        date: "2 ngày trước",
-                        comment:
-                          "Sản phẩm rất đẹp, chất lượng tốt. Giao hàng nhanh, đóng gói cẩn thận.",
-                      },
-                      {
-                        name: "Trần Thị B",
-                        rating: 4,
-                        date: "1 tuần trước",
-                        comment:
-                          "Mặc rất thoải mái, form dáng đẹp. Chỉ có điều màu sắc hơi khác so với hình ảnh một chút.",
-                      },
-                    ].map((review, index) => (
+                    {feedbacks.map((review, index) => (
                       <div
                         key={index}
                         className="border-b pb-4 last:border-b-0"
                       >
                         <div className="flex items-center space-x-2 mb-2">
-                          <span className="font-semibold">{review.name}</span>
+                          <span className="font-semibold">
+                            {feedbacksCustomer[index] || "Khách hàng"}
+                          </span>
                           <div className="flex items-center">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
                                 className={`h-3 w-3 ${
-                                  i < review.rating
+                                  i < review.SoSao
                                     ? "fill-yellow-400 text-yellow-400"
                                     : "text-gray-300"
                                 }`}
@@ -512,11 +526,11 @@ export default function SlugPage({
                             ))}
                           </div>
                           <span className="text-sm text-muted-foreground">
-                            {review.date}
+                            {review.created_at.split("T")[0]}
                           </span>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          {review.comment}
+                          {review.BinhLuan}
                         </p>
                       </div>
                     ))}

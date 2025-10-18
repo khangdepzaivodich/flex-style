@@ -1,11 +1,15 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { DonhangRepository } from 'src/repositories/donhang.repository';
-import { 
-  CreateDonhangDto, 
-  UpdateDonhangStatusDto, 
+import {
+  CreateDonhangDto,
+  UpdateDonhangStatusDto,
   DonhangResponseDto,
   DonhangListResponseDto,
-  TrangThaiDonHang
+  TrangThaiDonHang,
 } from './dto/donhang.dto';
 
 @Injectable()
@@ -17,8 +21,10 @@ export class DonhangService {
    */
   async createOrder(createDto: CreateDonhangDto): Promise<DonhangResponseDto> {
     // Lấy thông tin chi tiết sản phẩm
-    const productDetail = await this.donhangRepository.getProductDetail(createDto.MaCTSP);
-    
+    const productDetail = await this.donhangRepository.getProductDetail(
+      createDto.MaCTSP,
+    );
+
     if (!productDetail) {
       throw new NotFoundException('Không tìm thấy sản phẩm');
     }
@@ -26,12 +32,15 @@ export class DonhangService {
     // Kiểm tra số lượng trong kho
     if (productDetail.SoLuong < createDto.SoLuong) {
       throw new BadRequestException(
-        `Không đủ hàng trong kho. Số lượng còn lại: ${productDetail.SoLuong}`
+        `Không đủ hàng trong kho. Số lượng còn lại: ${productDetail.SoLuong}`,
       );
     }
 
     // Kiểm tra trạng thái sản phẩm
-    if (productDetail.TrangThaiSP === 'HET_HANG' || productDetail.TrangThaiSP === 'TAM_NGUNG') {
+    if (
+      productDetail.TrangThaiSP === 'HET_HANG' ||
+      productDetail.TrangThaiSP === 'TAM_NGUNG'
+    ) {
       throw new BadRequestException('Sản phẩm hiện không khả dụng');
     }
 
@@ -41,8 +50,10 @@ export class DonhangService {
 
     // Áp dụng voucher nếu có
     if (createDto.MaVoucher) {
-      const voucher = await this.donhangRepository.getVoucher(createDto.MaVoucher);
-      
+      const voucher = await this.donhangRepository.getVoucher(
+        createDto.MaVoucher,
+      );
+
       if (!voucher) {
         throw new NotFoundException('Không tìm thấy voucher');
       }
@@ -52,21 +63,27 @@ export class DonhangService {
       }
 
       // Kiểm tra điều kiện áp dụng voucher
-      if (voucher.Loai == "GiamGia") {
-        if (voucher.Dieukien != null && voucher.SoTien != null && tongTien < voucher.Dieukien) {
+      if (voucher.Loai == 'GiamGia') {
+        if (
+          voucher.Dieukien != null &&
+          voucher.SoTien != null &&
+          tongTien < voucher.Dieukien
+        ) {
           throw new BadRequestException(
-            `Đơn hàng phải đạt tối thiểu ${voucher.Dieukien.toLocaleString('vi-VN')}đ để sử dụng voucher này`
+            `Đơn hàng phải đạt tối thiểu ${voucher.Dieukien.toLocaleString('vi-VN')}đ để sử dụng voucher này`,
           );
         }
 
         // Kiểm tra thời gian voucher
         const now = new Date();
         if (now < voucher.NgayBatDau || now > voucher.NgayKetThuc) {
-          throw new BadRequestException('Voucher đã hết hạn hoặc chưa đến thời gian sử dụng');
+          throw new BadRequestException(
+            'Voucher đã hết hạn hoặc chưa đến thời gian sử dụng',
+          );
         }
 
         discount += voucher.SoTien || 0;
-      } else if (voucher.Loai == "FreeShip") {
+      } else if (voucher.Loai == 'FreeShip') {
         // Giả sử phí vận chuyển cố định là 30,000 VND
         const shippingFee = 30000;
         discount += shippingFee;
@@ -75,8 +92,10 @@ export class DonhangService {
 
     // Áp dụng sự kiện ưu đãi nếu có
     if (createDto.MaSK) {
-      const promotion = await this.donhangRepository.getPromotion(createDto.MaSK);
-      
+      const promotion = await this.donhangRepository.getPromotion(
+        createDto.MaSK,
+      );
+
       if (!promotion) {
         throw new NotFoundException('Không tìm thấy sự kiện ưu đãi');
       }
@@ -88,7 +107,9 @@ export class DonhangService {
       // Kiểm tra thời gian sự kiện
       const now = new Date();
       if (now < promotion.NgayPH || now > promotion.NgayKT) {
-        throw new BadRequestException('Sự kiện ưu đãi đã kết thúc hoặc chưa bắt đầu');
+        throw new BadRequestException(
+          'Sự kiện ưu đãi đã kết thúc hoặc chưa bắt đầu',
+        );
       }
 
       // Tính phần trăm giảm giá
@@ -110,7 +131,10 @@ export class DonhangService {
     });
 
     // Cập nhật số lượng trong kho
-    await this.donhangRepository.updateProductStock(createDto.MaCTSP, createDto.SoLuong);
+    await this.donhangRepository.updateProductStock(
+      createDto.MaCTSP,
+      createDto.SoLuong,
+    );
 
     return this.mapToResponseDto(order);
   }
@@ -121,10 +145,10 @@ export class DonhangService {
   async getAllOrders(
     MaTK_KH?: string,
     page: number = 1,
-    limit: number = 50
+    limit: number = 50,
   ): Promise<DonhangListResponseDto> {
     const skip = (page - 1) * limit;
-    
+
     const { orders, total } = await this.donhangRepository.findAllOrders({
       MaTK_KH,
       skip,
@@ -132,7 +156,7 @@ export class DonhangService {
     });
 
     return {
-      orders: orders.map(order => this.mapToResponseDto(order)),
+      orders: orders.map((order) => this.mapToResponseDto(order)),
       total,
     };
   }
@@ -142,7 +166,7 @@ export class DonhangService {
    */
   async getOrderById(MaDH: string): Promise<DonhangResponseDto> {
     const order = await this.donhangRepository.findOrderById(MaDH);
-    
+
     if (!order) {
       throw new NotFoundException('Không tìm thấy đơn hàng');
     }
@@ -155,10 +179,10 @@ export class DonhangService {
    */
   async updateOrderStatus(
     MaDH: string,
-    updateDto: UpdateDonhangStatusDto
+    updateDto: UpdateDonhangStatusDto,
   ): Promise<DonhangResponseDto> {
     const existingOrder = await this.donhangRepository.findOrderById(MaDH);
-    
+
     if (!existingOrder) {
       throw new NotFoundException('Không tìm thấy đơn hàng');
     }
@@ -168,18 +192,18 @@ export class DonhangService {
 
     // Kiểm tra logic chuyển trạng thái
     if (
-      currentStatus === TrangThaiDonHang.HUY || 
-      currentStatus === TrangThaiDonHang.DA_GIAO || 
+      currentStatus === TrangThaiDonHang.HUY ||
+      currentStatus === TrangThaiDonHang.DA_GIAO ||
       currentStatus === TrangThaiDonHang.XAC_NHAN_LOI
     ) {
       throw new BadRequestException(
-        'Không thể cập nhật trạng thái cho đơn hàng đã giao, đã hủy hoặc đã xác nhận lỗi'
+        'Không thể cập nhật trạng thái cho đơn hàng đã giao, đã hủy hoặc đã xác nhận lỗi',
       );
     }
 
     const updatedOrder = await this.donhangRepository.updateOrderStatus(
       MaDH,
-      updateDto.TrangThai
+      updateDto.TrangThai,
     );
 
     return this.mapToResponseDto(updatedOrder);
@@ -190,7 +214,7 @@ export class DonhangService {
    */
   async cancelOrder(MaDH: string): Promise<DonhangResponseDto> {
     const existingOrder = await this.donhangRepository.findOrderById(MaDH);
-    
+
     if (!existingOrder) {
       throw new NotFoundException('Không tìm thấy đơn hàng');
     }
@@ -214,7 +238,7 @@ export class DonhangService {
     // Khôi phục số lượng sản phẩm trong kho
     await this.donhangRepository.restoreProductStock(
       existingOrder.MaCTSP,
-      existingOrder.SoLuong
+      existingOrder.SoLuong,
     );
 
     // Cập nhật trạng thái đơn hàng thành HUY
@@ -228,7 +252,7 @@ export class DonhangService {
    */
   async deleteOrder(MaDH: string): Promise<{ message: string }> {
     const existingOrder = await this.donhangRepository.findOrderById(MaDH);
-    
+
     if (!existingOrder) {
       throw new NotFoundException('Không tìm thấy đơn hàng');
     }
@@ -238,12 +262,12 @@ export class DonhangService {
 
     // Chỉ cho phép xóa đơn hàng đã hủy, đã giao hoặc đã xác nhận lỗi
     if (
-      currentStatus !== TrangThaiDonHang.HUY && 
-      currentStatus !== TrangThaiDonHang.DA_GIAO && 
+      currentStatus !== TrangThaiDonHang.HUY &&
+      currentStatus !== TrangThaiDonHang.DA_GIAO &&
       currentStatus !== TrangThaiDonHang.XAC_NHAN_LOI
     ) {
       throw new BadRequestException(
-        'Chỉ có thể xóa đơn hàng đã giao, đã hủy hoặc đã xác nhận lỗi'
+        'Chỉ có thể xóa đơn hàng đã giao, đã hủy hoặc đã xác nhận lỗi',
       );
     }
 
@@ -283,22 +307,28 @@ export class DonhangService {
           HinhAnh: order.CHITIETSANPHAM.SANPHAM.HinhAnh,
         },
       },
-      VOUCHER: order.VOUCHER ? {
-        MaVoucher: order.VOUCHER.MaVoucher,
-        TenVoucher: order.VOUCHER.TenVoucher,
-        SoTien: order.VOUCHER.SoTien,
-        FreeShip: order.VOUCHER.FreeShip,
-      } : null,
-      SUKIENUUDAI: order.SUKIENUUDAI ? {
-        MaSK: order.SUKIENUUDAI.MaSK,
-        TenSK: order.SUKIENUUDAI.TenSK,
-        PhanTramGiam: order.SUKIENUUDAI.PhanTramGiam,
-      } : null,
-      KHACHHANG_ACCOUNT: order.KHACHHANG_ACCOUNT ? {
-        MaTK: order.KHACHHANG_ACCOUNT.MaTK,
-        Username: order.KHACHHANG_ACCOUNT.Username,
-        Avatar: order.KHACHHANG_ACCOUNT.Avatar,
-      } : null,
+      VOUCHER: order.VOUCHER
+        ? {
+            MaVoucher: order.VOUCHER.MaVoucher,
+            TenVoucher: order.VOUCHER.TenVoucher,
+            SoTien: order.VOUCHER.SoTien,
+            FreeShip: order.VOUCHER.FreeShip,
+          }
+        : null,
+      SUKIENUUDAI: order.SUKIENUUDAI
+        ? {
+            MaSK: order.SUKIENUUDAI.MaSK,
+            TenSK: order.SUKIENUUDAI.TenSK,
+            PhanTramGiam: order.SUKIENUUDAI.PhanTramGiam,
+          }
+        : null,
+      KHACHHANG_ACCOUNT: order.KHACHHANG_ACCOUNT
+        ? {
+            MaTK: order.KHACHHANG_ACCOUNT.MaTK,
+            Username: order.KHACHHANG_ACCOUNT.Username,
+            Avatar: order.KHACHHANG_ACCOUNT.Avatar,
+          }
+        : null,
       TINHTRANGDONHANG: order.TINHTRANGDONHANG.map((status: any) => ({
         MaTTDH: status.MaTTDH,
         TrangThai: status.TrangThai,
