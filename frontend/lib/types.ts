@@ -70,6 +70,29 @@ export interface SuKienUuDai {
   PhanTramGiam: number;
   TrangThai: string;
 }
+export interface Voucher {
+  MaVoucher: string;
+  created_at: string;
+  TenVoucher: string;
+  SoTien: number;
+  Loai: string;
+  Code: string;
+  NgayBatDau: string;
+  NgayKetThuc: string;
+  Dieukien: number;
+  TrangThai: string;
+  MoTa: string;
+}
+
+export interface Voucher_KhachHang {
+  MaVCKH: string;
+  MaTKKH: string;
+  MaVoucher: string;
+  TrangThai: string;
+  created_at: Date;
+  updated_at: Date;
+  voucherDetails?: Voucher;
+}
 
 export type UserRole =
   | "customer"

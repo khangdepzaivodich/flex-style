@@ -31,7 +31,7 @@ export const VNPAY: React.FC<PaymentButtonProps> = ({
       );
 
       const payment = await response.json();
-      console.log("Payment response:", payment);
+
       if (payment.statusCode == "201") {
         // Chuyển hướng đến VNPay
         window.location.href = payment.data;

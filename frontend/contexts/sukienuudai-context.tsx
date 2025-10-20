@@ -17,7 +17,7 @@ export function SuKienUuDaiProvider({
   isLoading,
 }: {
   children: React.ReactNode;
-  suKienUuDais: SuKienUuDai[];
+  suKienUuDais: SuKienUuDai;
   isLoading: boolean;
 }) {
   return (

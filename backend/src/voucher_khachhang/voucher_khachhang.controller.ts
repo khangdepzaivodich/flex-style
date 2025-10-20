@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Res } from '@nestjs/common';
+import { Body, Controller, Get, Query, Res } from '@nestjs/common';
 import { VoucherKhachHangService } from './voucher_khachhang.service';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 
@@ -10,7 +10,7 @@ export class VoucherKhachHangController {
   //xem danh sách voucher khách hàng
   @Get()
   @ResponseMessage('Xem danh sách voucher khách hàng thành công')
-  findAll(@Body() MaKH) {
+  findAll(@Query('MaKH') MaKH: string) {
     return this.voucherKhachHangService.findAll(MaKH);
   }
   //xem chi tiết voucher khách hàng

@@ -19,6 +19,7 @@ export class VoucherKhachHangService {
     if (!vouchers) {
       throw new Error('Không tìm thấy voucher cho khách hàng này');
     }
+    console.log('vouchers', vouchers);
     for (const voucher of vouchers) {
       const checkVoucher = await this.voucherRepository.getVoucherById(
         voucher.MaVoucher,

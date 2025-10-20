@@ -48,7 +48,7 @@ export default async function layout({
                 (s: SuKienUuDai) =>
                   compareDate(s.NgayPH, new Date()) < 0 &&
                   compareDate(s.NgayKT, new Date()) > 0
-              ) ?? suKienUuDais.data
+              ) ?? null
             }
             isLoading={false}
           >
