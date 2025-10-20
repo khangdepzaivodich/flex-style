@@ -15,7 +15,7 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { suKienUuDais } = useSuKienUuDai();
   const router = useRouter();
-  console.log("Sự kiện ưu đãi trong ProductCard:", suKienUuDais);
+
   const discountPercentage = product.GiaBan
     ? Math.round(((product.GiaBan - product.GiaBan) / product.GiaBan) * 100)
     : 0;
@@ -92,10 +92,10 @@ export function ProductCard({ product }: ProductCardProps) {
           <span className="font-bold text-primary">
             {formatPrice(
               product.GiaBan -
-                (suKienUuDais.PhanTramGiam / 100) * product.GiaBan
+                ((suKienUuDais?.PhanTramGiam || 0) / 100) * product.GiaBan
             )}
           </span>
-          {product.GiaBan && (
+          {suKienUuDais && (
             <span className="text-sm text-muted-foreground line-through">
               {formatPrice(product.GiaBan)}
             </span>

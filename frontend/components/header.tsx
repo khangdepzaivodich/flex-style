@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -36,7 +36,8 @@ export function Header() {
   const router = useRouter();
   const { user, logout } = useAuth();
   const { setLanguage, t } = useLanguage();
-
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
   const handleLogout = () => {
     logout();
     router.push("/auth/login");
@@ -120,65 +121,70 @@ export function Header() {
                 <Gift className="h-5 w-5" />
               </Link>
             </Button>
-            {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="relative h-8 w-8 rounded-full"
+            {hydrated ? (
+              user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="relative h-8 w-8 rounded-full"
+                    >
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage
+                          src={
+                            user?.user_metadata?.avatar_url ||
+                            "/placeholder.svg"
+                          }
+                          alt={user.email}
+                        />
+                        {/* <AvatarFallback>{user.name.charAt(0)}</AvatarFallback> */}
+                        <AvatarFallback>{user.email?.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    className="w-56 bg-white"
+                    align="end"
+                    forceMount
                   >
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage
-                        src={
-                          user?.user_metadata?.avatar_url || "/placeholder.svg"
-                        }
-                        alt={user.email}
-                      />
-                      {/* <AvatarFallback>{user.name.charAt(0)}</AvatarFallback> */}
-                      <AvatarFallback>{user.email?.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-56 bg-white"
-                  align="end"
-                  forceMount
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {user.user_metadata?.name}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {user.email}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/account">{t("nav.account")}</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/orders">Đơn hàng</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Đăng xuất</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hidden md:flex"
+                  asChild
                 >
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {user.user_metadata?.name}
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/account">{t("nav.account")}</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/orders">Đơn hàng</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Đăng xuất</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                  <Link href="/auth/login">
+                    <User className="h-5 w-5" />
+                  </Link>
+                </Button>
+              )
             ) : (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hidden md:flex"
-                asChild
-              >
-                <Link href="/auth/login">
-                  <User className="h-5 w-5" />
-                </Link>
-              </Button>
+              <div style={{ width: 32, height: 32 }} />
             )}
 
             <Button variant="ghost" size="icon" className="relative" asChild>
