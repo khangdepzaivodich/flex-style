@@ -65,16 +65,6 @@ model GIOHANG {
   TAIKHOAN       TAIKHOAN?        @relation(fields: [MaTKKH], references: [MaTK])
 }
 
-model NHACUNGCAP {
-  MaNCC         String          @id @default(uuid())
-  created_at    DateTime        @default(now())
-  Email         String?
-  DienThoai     String?
-  DiaChi        String?
-  TenNCC        String
-  PHIEUNHAPHANG PHIEUNHAPHANG[]
-}
-
 model PHANHOI {
   MaPH       String   @id @default(uuid())
   created_at DateTime @default(now())
@@ -120,10 +110,10 @@ model SUKIENUUDAI {
 
 model TAIKHOAN {
   MaTK              String              @id @default(uuid())
+  auth_user_id      String?      
   created_at        DateTime            @default(now())
   updated_at        DateTime            @default(now())
   Username          String?             @unique
-  MatKhau           String?
   Status            TrangThai           @default(ACTIVE)
   Avatar            String?
   VAITRO            VaiTro
@@ -132,6 +122,7 @@ model TAIKHOAN {
   PHANHOI           PHANHOI[]
   PhieuNhapNVQL     PHIEUNHAPHANG[]     @relation("PhieuNhap_NVQL")
   PhieuNhapNVXN     PHIEUNHAPHANG[]     @relation("PhieuNhap_NVXN")
+  PhieuNhapNCC      PHIEUNHAPHANG[]     @relation("PhieuNhap_NCC")
   VOUCHER_KHACHHANG VOUCHER_KHACHHANG[]
 }
 
@@ -187,7 +178,7 @@ model PHIEUNHAPHANG {
   NoiDung    String
 
   CHITIETSANPHAM CHITIETSANPHAM? @relation(fields: [MaCTSP], references: [MaCTSP])
-  NHACUNGCAP     NHACUNGCAP?     @relation(fields: [MaNCC], references: [MaNCC])
+  TaiKhoanNCC    TAIKHOAN?       @relation("PhieuNhap_NCC", fields: [MaNCC], references: [MaTK])
   TaiKhoanNVQL   TAIKHOAN?       @relation("PhieuNhap_NVQL", fields: [MaTKNVQL], references: [MaTK])
   TaiKhoanNVXN   TAIKHOAN?       @relation("PhieuNhap_NVXN", fields: [MaTKNVXN], references: [MaTK])
 }

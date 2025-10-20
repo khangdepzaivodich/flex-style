@@ -7,7 +7,7 @@ enum VaiTro {
 
 enum TrangThai {
   ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE'
+  INACTIVE = 'INACTIVE',
 }
 
 export class TaiKhoanDto {
@@ -16,16 +16,8 @@ export class TaiKhoanDto {
   Username?: string | null;
 
   @IsOptional()
-  @IsString()
-  MatKhau?: string | null;
-
-  @IsOptional()
   @IsEnum(TrangThai)
   Status?: TrangThai;
-
-  @IsOptional()
-  @IsString()
-  Avatar?: string | null;
 
   @IsOptional()
   @IsEnum(VaiTro)

@@ -13,7 +13,6 @@ export interface TAIKHOAN {
   created_at: Date;
   updated_at: Date;
   Username: string | null; // Use null to match Prisma
-  MatKhau: string | null; // Use null to match Prisma
   Status: TrangThai;
   Avatar: string | null; // Use null to match Prisma
   VAITRO: VaiTro;
@@ -72,7 +71,9 @@ export class TaikhoanService {
   // Dang ky tai khoan quan ly
   async dangKyQL(data: TaiKhoanNghiepVuDto): Promise<TAIKHOAN> {
     if (data.VAITRO !== 'QLDN') {
-      throw new BadRequestException('Vai trò phải là quản lý doanh nghiệp (QLDN)');
+      throw new BadRequestException(
+        'Vai trò phải là quản lý doanh nghiệp (QLDN)',
+      );
     }
     const createUserSupabase = await this.supabase.auth.signUp({
       email: data.Email,
@@ -95,7 +96,9 @@ export class TaikhoanService {
   // Dang ky tai khoan nhan vien
   async dangKyNV(data: TaiKhoanNghiepVuDto): Promise<TAIKHOAN> {
     if (data.VAITRO !== 'NVVH' && data.VAITRO !== 'NVCSKH') {
-      throw new BadRequestException('Vai trò phải là nhân viên (NVVH hoặc NVCSKH)');
+      throw new BadRequestException(
+        'Vai trò phải là nhân viên (NVVH hoặc NVCSKH)',
+      );
     }
     const createUserSupabase = await this.supabase.auth.signUp({
       email: data.Email,

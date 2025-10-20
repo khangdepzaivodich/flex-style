@@ -21,7 +21,7 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<
     { sender: "user" | "bot"; text: string }[]
-  >([{ sender: "bot", text: "Hi, how can we help?" }]);
+  >([{ sender: "bot", text: "Bạn cần hỗ trợ gì không?" }]);
   const [input, setInput] = useState("");
   const chatBodyRef = useRef<HTMLDivElement>(null);
 

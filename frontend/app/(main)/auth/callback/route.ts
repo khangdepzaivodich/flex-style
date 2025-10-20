@@ -22,7 +22,8 @@ export async function GET(request: Request) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            Username: user.user_metadata.name
+            Username: user.user_metadata.name,
+            auth_user_id: user.id,
           }),
         });
       } catch (apiError) {
@@ -35,7 +36,8 @@ export async function GET(request: Request) {
       const isLocalEnv = process.env.NODE_ENV === "development";
 
       if (isLocalEnv) return NextResponse.redirect(`${origin}${next}`);
-      if (forwardedHost) return NextResponse.redirect(`https://${forwardedHost}${next}`);
+      if (forwardedHost)
+        return NextResponse.redirect(`https://${forwardedHost}${next}`);
       return NextResponse.redirect(`${origin}${next}`);
     }
   }
