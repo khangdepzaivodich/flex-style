@@ -1,38 +1,13 @@
-import { createClient } from "@supabase/supabase-js";
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceRoleKey = process.env.NEXT_SUPABASE_SERVICE_ROLE_KEY!;
+import { createClient } from "@/lib/supabase/server";
 
-const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
-export async function getUserSession() {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+export async function getUserId() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
 
-  if (error || !user) {
+  if (error || !data) {
     // Return null when there's no user to let callers handle authorization.
     return null;
   }
 
-  return user.user_metadata.name;
-}
-
-export async function getUserId() {
-  const userName = await getUserSession();
-
-  if (!userName) {
-    return null;
-  }
-  console.log("Username:", userName);
-  const { data, error } = await supabase
-    .from("TAIKHOAN")
-    .select("*")
-    .eq("Username", userName)
-    .single();
-  console.log("Error:", error);
-  if (error || !data) {
-    return null;
-  }
-
-  return data.Username;
+  return data.user.id;
 }

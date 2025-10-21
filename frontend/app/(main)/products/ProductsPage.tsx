@@ -24,7 +24,13 @@ import {
 import { ProductCard } from "@/components/product-card";
 import type { Category, Product } from "@/lib/types";
 import { v4 as uuidv4 } from "uuid";
-
+function removeVietnameseTones(str: string) {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D");
+}
 export default function ProductsPage({
   initialProducts,
   categories,
@@ -46,13 +52,12 @@ export default function ProductsPage({
     let filtered = products;
 
     if (searchQuery) {
-      filtered = filtered.filter(
-        (product) =>
-          product.TenSP.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          (product?.MoTa ?? "")
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-      );
+      const normalizedQuery = removeVietnameseTones(searchQuery.toLowerCase());
+      filtered = filtered.filter((product) => {
+        const name = removeVietnameseTones(product.TenSP.toLowerCase());
+        const desc = removeVietnameseTones((product?.MoTa ?? "").toLowerCase());
+        return name.includes(normalizedQuery) || desc.includes(normalizedQuery);
+      });
     }
 
     // Filter by categories
@@ -110,9 +115,11 @@ export default function ProductsPage({
     setHasMore(true);
   };
   const addMore = async () => {
-    const currentLength = products.filter((product) => {
-      return selectedCategories.includes(product.MaDM);
-    }).length;
+    const currentLength =
+      products.filter((product) => {
+        return selectedCategories.includes(product.MaDM);
+      }).length || products.length;
+    console.log("Current Length:", currentLength);
     const res = await fetch(
       `http://localhost:8080/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&includeTenDM=${categories
         .filter((cat) => selectedCategories.includes(cat.MaDM))

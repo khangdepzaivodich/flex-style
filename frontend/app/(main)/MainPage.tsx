@@ -11,10 +11,9 @@ import {
   Gift,
 } from "lucide-react";
 import Link from "next/link";
-import type { Product } from "@/lib/types";
+import type { Product, SuKienUuDai } from "@/lib/types";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 import { useEffect, useState } from "react";
-import { SuKienUuDai } from "@/lib/types";
 
 function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
   const startDate = new Date(suKienUuDais.NgayPH);
@@ -63,15 +62,18 @@ function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
   );
 }
 
-export default function ProductsPage({
+export default function MainPage({
   initialProducts,
+  sukienuudai,
 }: {
   initialProducts: Product[];
+  sukienuudai: SuKienUuDai;
 }) {
-  const { suKienUuDais } = useSuKienUuDai();
+  const { setSuKienUuDais } = useSuKienUuDai();
 
-  const [popup, setPopup] = useState(suKienUuDais != null);
+  const [popup, setPopup] = useState(sukienuudai != null);
   useEffect(() => {
+    setSuKienUuDais(sukienuudai);
     const timer = setTimeout(() => {
       setPopup(false);
     }, 10000);
@@ -79,7 +81,7 @@ export default function ProductsPage({
   }, []);
   return (
     <div className="flex flex-col">
-      {popup && <PopupUuDai suKienUuDais={suKienUuDais} />}
+      {popup && <PopupUuDai suKienUuDais={sukienuudai} />}
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-primary/10 to-secondary/10 py-20 lg:py-32">
         <div className="container mx-auto px-4">
