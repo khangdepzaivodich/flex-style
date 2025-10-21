@@ -44,7 +44,7 @@ export function Header() {
   };
 
   const checkEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && searchQuery.trim() !== "") {
       router.push(`/products?query=${encodeURIComponent(searchQuery)}`);
     }
   };

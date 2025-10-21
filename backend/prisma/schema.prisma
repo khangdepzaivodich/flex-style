@@ -162,6 +162,7 @@ model VOUCHER_KHACHHANG {
   TrangThai  TrangThai @default(ACTIVE)
   MaTKKH     String
   MaVoucher  String
+  Hsd        DateTime
   TAIKHOAN   TAIKHOAN  @relation(fields: [MaTKKH], references: [MaTK])
   VOUCHER    VOUCHER   @relation(fields: [MaVoucher], references: [MaVoucher])
 }

@@ -10,8 +10,8 @@ export class VoucherKhachHangController {
   //xem danh sách voucher khách hàng
   @Get()
   @ResponseMessage('Xem danh sách voucher khách hàng thành công')
-  findAll(@Query('MaKH') MaKH: string) {
-    return this.voucherKhachHangService.findAll(MaKH);
+  findAll(@Query('MaAuth') MaAuth: string) {
+    return this.voucherKhachHangService.findAll(MaAuth);
   }
   //xem chi tiết voucher khách hàng
   @Get(':id')

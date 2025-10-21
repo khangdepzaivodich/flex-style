@@ -1,10 +1,11 @@
 "use client";
 import { SuKienUuDai } from "@/lib/types";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
 interface SuKienUuDaiContextType {
   suKienUuDais: SuKienUuDai;
   isLoading: boolean;
+  setSuKienUuDais: React.Dispatch<React.SetStateAction<SuKienUuDai>>;
 }
 
 const SuKienUuDaiContext = createContext<SuKienUuDaiContextType | undefined>(
@@ -13,15 +14,17 @@ const SuKienUuDaiContext = createContext<SuKienUuDaiContextType | undefined>(
 
 export function SuKienUuDaiProvider({
   children,
-  suKienUuDais,
-  isLoading,
 }: {
   children: React.ReactNode;
-  suKienUuDais: SuKienUuDai;
-  isLoading: boolean;
 }) {
+  const [suKienUuDais, setSuKienUuDais] = useState<SuKienUuDai>(
+    {} as SuKienUuDai
+  );
+  const isLoading = false;
   return (
-    <SuKienUuDaiContext.Provider value={{ suKienUuDais, isLoading }}>
+    <SuKienUuDaiContext.Provider
+      value={{ suKienUuDais, isLoading, setSuKienUuDais }}
+    >
       {children}
     </SuKienUuDaiContext.Provider>
   );
