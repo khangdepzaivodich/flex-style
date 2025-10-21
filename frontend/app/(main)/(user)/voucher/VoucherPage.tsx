@@ -14,6 +14,7 @@ import {
   Check,
   Star,
   Users,
+  Zap,
 } from "lucide-react";
 import { Voucher_KhachHang } from "@/lib/types";
 
@@ -33,72 +34,6 @@ export default function VoucherPage({
     setCopiedCode(code);
     setTimeout(() => setCopiedCode(null), 2000);
   };
-
-  // const activeVouchers = [
-  //   {
-  //     id: 1,
-  //     code: "WELCOME50",
-  //     title: "Chào mừng thành viên mới",
-  //     description: "Giảm 50.000₫ cho đơn hàng đầu tiên từ 300.000₫",
-  //     discount: "50.000₫",
-  //     minOrder: "300.000₫",
-  //     expiry: "31/03/2024",
-  //     type: "new-member",
-  //     used: 1250,
-  //     limit: 5000,
-  //   },
-  //   {
-  //     id: 2,
-  //     code: "SALE20",
-  //     title: "Giảm giá 20%",
-  //     description: "Giảm 20% tối đa 200.000₫ cho tất cả sản phẩm",
-  //     discount: "20%",
-  //     minOrder: "500.000₫",
-  //     expiry: "28/02/2024",
-  //     type: "percentage",
-  //     used: 3200,
-  //     limit: 10000,
-  //   },
-  //   {
-  //     id: 3,
-  //     code: "FREESHIP",
-  //     title: "Miễn phí vận chuyển",
-  //     description: "Miễn phí ship toàn quốc cho mọi đơn hàng",
-  //     discount: "Free Ship",
-  //     minOrder: "0₫",
-  //     expiry: "15/04/2024",
-  //     type: "shipping",
-  //     used: 8500,
-  //     limit: 15000,
-  //   },
-  //   {
-  //     id: 4,
-  //     code: "VIP100",
-  //     title: "Ưu đãi VIP",
-  //     description: "Giảm 100.000₫ dành riêng cho thành viên VIP",
-  //     discount: "100.000₫",
-  //     minOrder: "1.000.000₫",
-  //     expiry: "30/06/2024",
-  //     type: "vip",
-  //     used: 450,
-  //     limit: 1000,
-  //   },
-  // ];
-
-  // const expiredVouchers = [
-  //   {
-  //     code: "NEWYEAR2024",
-  //     title: "Tết Nguyên Đán 2024",
-  //     description: "Giảm 30% tối đa 300.000₫",
-  //     expiry: "15/02/2024",
-  //   },
-  //   {
-  //     code: "VALENTINE",
-  //     title: "Valentine's Day",
-  //     description: "Giảm 14% cho các sản phẩm thời trang",
-  //     expiry: "14/02/2024",
-  //   },
-  // ];
 
   const getVoucherIcon = (type: string) => {
     switch (type) {
@@ -141,22 +76,32 @@ export default function VoucherPage({
       </div>
 
       {/* Voucher Input */}
-      <Card className="mb-12">
-        <CardHeader>
-          <CardTitle className="text-center">Nhập Mã Voucher</CardTitle>
+      <Card className="mb-16 shadow-lg border border-gray-200 bg-white">
+        <CardHeader className="text-center pb-4">
+          <CardTitle className="flex items-center justify-center gap-3 text-xl text-gray-900">
+            <div className="p-2 bg-primary/10 rounded-lg text-primary">
+              <Zap className="h-5 w-5" />
+            </div>
+            Nhập Mã Voucher
+          </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="flex max-w-md mx-auto gap-2">
+        <CardContent className="pb-8">
+          <div className="flex max-w-lg mx-auto gap-3">
             <Input
-              placeholder="Nhập mã voucher của bạn"
+              placeholder="Nhập mã voucher của bạn..."
               value={voucherCode}
               onChange={(e) => setVoucherCode(e.target.value)}
-              className="uppercase"
+              className="uppercase border-2 border-gray-300 focus:border-primary shadow-sm text-lg font-medium h-12 text-center tracking-wide"
             />
-            <Button>Áp dụng</Button>
+            <Button
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-white h-12 px-6 font-semibold transition-colors"
+            >
+              ÁP DỤNG
+            </Button>
           </div>
-          <p className="text-center text-sm text-muted-foreground mt-2">
-            Nhập mã voucher để kiểm tra tính hợp lệ và điều kiện áp dụng
+          <p className="text-center text-sm text-gray-500 mt-4">
+            💫 Nhập mã voucher để nhận ưu đãi đặc biệt ngay lập tức
           </p>
         </CardContent>
       </Card>
@@ -223,10 +168,16 @@ export default function VoucherPage({
                     <div className="flex items-center gap-2 mb-2">
                       <Calendar className="h-4 w-4 text-muted-foreground" />
                       <span className="text-sm">
-                        {/* HSD: {voucher.voucherDetails?.HSD} */}
-                        {voucher.voucherDetails?.TrangThai === "ACTIVE"
-                          ? "Còn giá trị"
-                          : "Đã hết giá trị"}
+                        HSD:{" "}
+                        {new Date(voucher.Hsd) < new Date() ? (
+                          <span className="text-red-500 font-semibold">
+                            Đã hết hạn
+                          </span>
+                        ) : (
+                          <span>
+                            {new Date(voucher.Hsd).toLocaleDateString("vi-VN")}
+                          </span>
+                        )}
                       </span>
                     </div>
                   </div>
