@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, Filter, Grid, List, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,12 +28,14 @@ import { v4 as uuidv4 } from "uuid";
 export default function ProductsPage({
   initialProducts,
   categories,
+  searchQuery: initialQuery,
 }: {
   initialProducts: Product[];
   categories: Category[];
+  searchQuery: string;
 }) {
   const [products, setProducts] = useState<Product[]>(initialProducts || []);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("newest");
@@ -163,7 +165,6 @@ export default function ProductsPage({
       </div>
     </div>
   );
-
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Page Header */}
