@@ -20,7 +20,7 @@ export default async function RootLayout({
     <html lang="vi" suppressHydrationWarning>
       <body>
         <AuthProvider>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense>
             <main className="min-h-screen">{children}</main>
           </Suspense>
         </AuthProvider>

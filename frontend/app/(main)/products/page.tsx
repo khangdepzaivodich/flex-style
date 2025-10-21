@@ -16,16 +16,24 @@ async function getCategories() {
   return res.json();
 }
 
-export default async function ProductsCarousel() {
+export default async function ProductsCarousel({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string };
+}) {
   const products = await getProducts();
   const categories = await getCategories();
 
+  // Lấy giá trị searchQuery từ URL
+  const initialQuery = searchParams?.query || "";
+  console.log("Initial Query:", initialQuery);
   return (
     <div>
       <ProductsPage
         key={products}
         initialProducts={products.data}
         categories={categories.data}
+        searchQuery={initialQuery}
       />
     </div>
   );

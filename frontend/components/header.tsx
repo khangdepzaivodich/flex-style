@@ -43,6 +43,12 @@ export function Header() {
     router.push("/auth/login");
   };
 
+  const checkEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      router.push(`/products?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
@@ -93,6 +99,7 @@ export function Header() {
                 className="pl-10"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={checkEnter}
               />
             </div>
           </div>

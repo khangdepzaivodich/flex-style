@@ -1,4 +1,5 @@
 import type { Product } from "./types";
+import { products } from "../data/products";
 
 export function getProductById(id: string): Product | undefined {
   return products.find((product) => product.id === id);
