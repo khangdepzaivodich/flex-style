@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { AuthProvider } from "@/contexts/auth-context";
 import { Suspense } from "react";
 import "./globals.css";
-
 export const metadata: Metadata = {
   title: "FlexStyle - Thời trang hiện đại",
   description:

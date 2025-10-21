@@ -94,14 +94,7 @@ export interface Voucher_KhachHang {
   voucherDetails?: Voucher;
 }
 
-export type UserRole =
-  | "customer"
-  | "admin"
-  | "staff_operations"
-  | "staff_customer_service"
-  | "staff_inventory"
-  | "staff_manager"
-  | "supplier";
+export type UserRole = "KH" | "ADMIN" | "NCC" | "QLDN" | "NVVH" | "NVCSKH";
 
 export type Permission =
   // Product management

@@ -16,6 +16,7 @@ export interface TAIKHOAN {
   Status: TrangThai;
   Avatar: string | null; // Use null to match Prisma
   VAITRO: VaiTro;
+  auth_user_id: string | null;
 }
 @Injectable()
 export class TaikhoanService {
@@ -183,13 +184,6 @@ export class TaikhoanService {
     return this.prisma.tAIKHOAN.update({
       where: { MaTK: maTK },
       data: { Status: trangThai },
-    });
-  }
-
-  // Xoa tai khoan
-  async deleteTaiKhoan(maTK: string): Promise<TAIKHOAN> {
-    return this.prisma.tAIKHOAN.delete({
-      where: { MaTK: maTK },
     });
   }
 }

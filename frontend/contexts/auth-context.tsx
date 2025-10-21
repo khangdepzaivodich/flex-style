@@ -89,7 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
   const OauthLogin = async (provider: string) => {
     if (provider === "gg") {
-      const response =supabase.auth.signInWithOAuth({
+      const response = supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
@@ -104,29 +104,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
     }
   };
-  
+
   const register = async (
     email: string,
     password: string,
     name: string
   ): Promise<boolean> => {
     try {
-      
       setState((prev) => ({ ...prev, isLoading: true }));
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: { data: { name } },
       });
-      const response = await fetch(`http://localhost:8080/api/taikhoan/dangky`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Username: name
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/taikhoan/dangky`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Username: name,
+          }),
+        }
+      );
       if (error || !data.user || !response.ok) {
         setState((prev) => ({ ...prev, isLoading: false }));
         return false;

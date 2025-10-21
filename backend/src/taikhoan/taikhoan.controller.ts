@@ -60,7 +60,7 @@ export class TaikhoanController {
     const user = req.user as { MaTK: string; Role: string };
     const tk = await this.taikhoanService.taikhoan(maTK);
 
-    if (user.MaTK === maTK) return tk;
+    if (user.MaTK === tk?.auth_user_id) return tk;
 
     if (
       user.Role === 'QLDN' &&
@@ -103,7 +103,8 @@ export class TaikhoanController {
     @Req() req,
   ): Promise<TAIKHOAN> {
     const user = req.user as { MaTK: string; Role: string };
-    if (user.MaTK === maTK)
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    if (user.MaTK === tk?.auth_user_id)
       return this.taikhoanService.updateTaiKhoan(maTK, data);
     throw new Error('Không có quyền cập nhật');
   }
