@@ -91,6 +91,7 @@ export interface Voucher_KhachHang {
   TrangThai: string;
   created_at: Date;
   updated_at: Date;
+  Hsd: Date;
   voucherDetails?: Voucher;
 }
 

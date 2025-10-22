@@ -13,9 +13,9 @@ export class VoucherKhachHangService {
     return await this.voucherKhachHangRepository.useVoucher(MaKH, MaVCKH);
   }
   //xem danh sách voucher khách hàng
-  async findAll(MaKH: string) {
+  async findAll(MaAuth: string) {
     //kiểm tra nếu mã voucher ở bảng voucher mà ở trạng thái INACTIVE thì chuyển các voucher đó về trạng thái INACTIVE và ngược lại
-    const vouchers = await this.voucherKhachHangRepository.findAll(MaKH);
+    const vouchers = await this.voucherKhachHangRepository.findAll(MaAuth);
     if (!vouchers) {
       throw new Error('Không tìm thấy voucher cho khách hàng này');
     }

@@ -15,9 +15,12 @@ export class VoucherKhachHangRepository {
     });
   }
   //xem danh sách voucher của khách hàng
-  async findAll(MaTKKH: string) {
+  async findAll(MaAuth: string) {
+    const user = await this.prisma.tAIKHOAN.findFirst({
+      where: { auth_user_id: MaAuth },
+    });
     return await this.prisma.vOUCHER_KHACHHANG.findMany({
-      where: { MaTKKH: MaTKKH },
+      where: { MaTKKH: user?.MaTK },
       //orderBy: { created_at: 'desc' },
     });
   }
@@ -36,6 +39,7 @@ export class VoucherKhachHangRepository {
         TrangThai: TrangThai.ACTIVE,
         created_at: new Date(),
         updated_at: new Date(),
+        Hsd: new Date(new Date().setMonth(new Date().getMonth() + 1)), // Hạn sử dụng 1 tháng từ ngày tạo
       },
     });
   }

@@ -13,6 +13,7 @@ export class VoucherController {
   async getAllVouchers(@Body() data: VoucherDto) {
     return this.voucherService.getAllVouchers();
   }
+
   //lấy voucher theo id
   @Get(':id')
   @ResponseMessage('Lấy voucher theo id thành công')
