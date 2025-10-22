@@ -7,14 +7,12 @@ import { createClient } from "@/lib/supabase/client";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requiredRoles?: string[];
-  fallbackUrl?: string;
+  blockedRoles?: string[];
 }
 
 export default function ProtectedRoute({
   children,
-  requiredRoles = [],
-  fallbackUrl = "/login",
+  blockedRoles = [],
 }: ProtectedRouteProps) {
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
@@ -24,25 +22,19 @@ export default function ProtectedRoute({
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // Get session from Supabase
+        // Check if user is logged in
         const {
           data: { session },
-          error,
         } = await supabase.auth.getSession();
-
-        if (error || !session) {
-          router.replace(fallbackUrl);
+        if (!session) {
+          setAuthorized(true);
           return;
         }
 
         const user = session.user;
         const accessToken = session.access_token;
-        if (!accessToken) {
-          router.replace(fallbackUrl);
-          return;
-        }
 
-        // Fetch user role from backend
+        // Fetch user info from backend
         const res = await axios.get(
           `http://localhost:8080/api/taikhoan/${user.id}`,
           {
@@ -50,38 +42,25 @@ export default function ProtectedRoute({
           }
         );
 
-        const role = res.data?.VAITRO;
+        const role = res.data.data.VAITRO;
+        console.log("User role:", role);
 
-        // Role validation logic
-        if (!requiredRoles.length || requiredRoles.includes(role)) {
+        // Allow if not in blockedRoles
+        if (!blockedRoles.includes(role)) {
           setAuthorized(true);
         } else {
           router.replace("/unauthorized");
         }
       } catch (err) {
-        console.error("Permission not allowed:", err);
-
-        if (axios.isAxiosError(err)) {
-          const status = err.response?.status;
-          if (status === 401) {
-            router.replace(fallbackUrl);
-            return;
-          }
-          if (status === 403 || status === 500) {
-            router.replace("/unauthorized");
-            return;
-          }
-        }
-
-        router.replace("/unauthorized");
+        console.error("Error verifying access:", err);
+        setAuthorized(true); // allow if error fetching user
       } finally {
         setLoading(false);
       }
     };
 
     checkAuth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, fallbackUrl, requiredRoles]);
+  }, [router, blockedRoles, supabase]);
 
   if (loading) {
     return (

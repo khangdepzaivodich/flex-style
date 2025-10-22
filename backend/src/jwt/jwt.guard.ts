@@ -6,12 +6,12 @@ import {
 } from '@nestjs/common';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from 'src/supabase/types';
-
+import { PrismaService } from 'src/prisma.service';
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
   private readonly supabase: SupabaseClient<Database>;
 
-  constructor() {
+  constructor(private readonly prisma: PrismaService) {
     this.supabase = createClient<Database>(
       process.env.SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -30,7 +30,17 @@ export class JwtAuthGuard implements CanActivate {
     if (error || !data?.user)
       throw new UnauthorizedException('Invalid or expired token');
 
-    request.user = data.user; // attach Supabase user
+    const dbUser = await this.prisma.tAIKHOAN.findFirst({
+      where: { MaTK: data.user.id },
+    });
+
+    if (!dbUser) {
+      throw new UnauthorizedException('Không tìm thấy user trong bảng public');
+    }
+    request.user = {
+      id: data.user.id,
+      role: dbUser.VAITRO,
+    };
     return true;
   }
 }

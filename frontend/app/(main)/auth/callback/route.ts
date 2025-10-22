@@ -17,18 +17,20 @@ export async function GET(request: Request) {
 
       // 🔹 Gọi API backend để đăng ký hoặc đồng bộ user
       try {
-        console.log(user.user_metadata.name);
+        console.log(user);
         await fetch("http://localhost:8080/api/taikhoan/dangky", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            Username: user.user_metadata.name,
-            auth_user_id: user.id,
+            DisplayName: user.user_metadata.name,
+            MaTK: user.id,
+            Email: user.email,
+            Avatar: user.user_metadata.avatar_url,
+            Username: user.email?.split("@")[0],
           }),
         });
       } catch (apiError) {
         console.error("Error calling backend API:", apiError);
-        // Bạn có thể redirect đến 1 trang lỗi nếu muốn
       }
 
       // 🔹 Redirect người dùng

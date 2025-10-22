@@ -117,6 +117,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         password,
         options: { data: { name } },
       });
+      console.log(data);
       const response = await fetch(
         `http://localhost:8080/api/taikhoan/dangky`,
         {
@@ -125,7 +126,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            Username: name,
+            DisplayName: name,
+            MaTK: data?.user?.id,
+            Email: email,
+            Username: email.split("@")[0],
           }),
         }
       );

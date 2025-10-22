@@ -16,7 +16,8 @@ export interface TAIKHOAN {
   Status: TrangThai;
   Avatar: string | null; // Use null to match Prisma
   VAITRO: VaiTro;
-  auth_user_id: string | null;
+  Email: string | null; // Use null to match Prisma
+  DisplayName: string | null; // Use null to match Prisma
 }
 @Injectable()
 export class TaikhoanService {
@@ -31,7 +32,7 @@ export class TaikhoanService {
   async dangKy(data: TaiKhoanDto): Promise<TAIKHOAN> {
     console.log(data);
     const existingUser = await this.prisma.tAIKHOAN.findFirst({
-      where: { Username: data.Username },
+      where: { MaTK: data.MaTK },
     });
     console.log(existingUser);
     if (existingUser) {

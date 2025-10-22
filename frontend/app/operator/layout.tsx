@@ -12,7 +12,7 @@ export default function OperatorLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ProtectedRoute requiredRoles={["NVVH"]}>
+    <ProtectedRoute blockedRoles={["KH", "QLDN", "NVCSKH", "NCC", "ADMIN"]}>
       <div className="flex h-screen bg-background">
         <OperatorSidebar />
         <div className="flex-1 flex flex-col overflow-hidden">

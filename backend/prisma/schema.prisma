@@ -110,10 +110,11 @@ model SUKIENUUDAI {
 
 model TAIKHOAN {
   MaTK              String              @id @default(uuid())
-  auth_user_id      String?      
   created_at        DateTime            @default(now())
   updated_at        DateTime            @default(now())
+  Email             String?             @unique
   Username          String?             @unique
+  DisplayName       String?
   Status            TrangThai           @default(ACTIVE)
   Avatar            String?
   VAITRO            VaiTro
@@ -123,7 +124,7 @@ model TAIKHOAN {
   PhieuNhapNVQL     PHIEUNHAPHANG[]     @relation("PhieuNhap_NVQL")
   PhieuNhapNVXN     PHIEUNHAPHANG[]     @relation("PhieuNhap_NVXN")
   PhieuNhapNCC      PHIEUNHAPHANG[]     @relation("PhieuNhap_NCC")
-  VOUCHER_KHACHHANG VOUCHER_KHACHHANG[]
+  VOUCHER_KHACHHANG VOUCHER_KHACHHANG[] 
 }
 
 model TINHTRANGDONHANG {

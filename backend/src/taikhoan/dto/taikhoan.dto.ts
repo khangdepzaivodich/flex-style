@@ -16,10 +16,21 @@ export class TaiKhoanDto {
   Username?: string | null;
 
   @IsOptional()
+  @IsString()
+  DisplayName?: string | null;
+
+  @IsOptional()
   @IsEnum(TrangThai)
   Status?: TrangThai;
 
   @IsOptional()
   @IsEnum(VaiTro)
   VAITRO?: VaiTro;
+
+  @IsString()
+  MaTK: string;
+
+  @IsOptional()
+  @IsString()
+  Email?: string | null;
 }

@@ -31,6 +31,11 @@ enum VaiTro {
   ADMIN = 'ADMIN',
 }
 
+interface User {
+  id: string;
+  role: VaiTro;
+}
+
 @Controller('taikhoan')
 export class TaikhoanController {
   constructor(private readonly taikhoanService: TaikhoanService) {}
@@ -57,13 +62,13 @@ export class TaikhoanController {
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async getById(@Param('id') maTK: string, @Req() req) {
-    const user = req.user as { MaTK: string; Role: string };
+    const user = req.user as User;
     const tk = await this.taikhoanService.taikhoan(maTK);
-
-    if (user.MaTK === tk?.auth_user_id) return tk;
-
+    console.log(maTK, user.id);
+    console.log(user.role);
+    if (user.id === maTK) return tk;
     if (
-      user.Role === 'QLDN' &&
+      user.role === 'QLDN' &&
       tk?.VAITRO !== 'ADMIN' &&
       tk?.VAITRO !== 'NCC'
     ) {
@@ -71,7 +76,7 @@ export class TaikhoanController {
     }
 
     if (
-      user.Role === 'ADMIN' &&
+      user.role === 'ADMIN' &&
       (tk?.VAITRO === 'QLDN' || tk?.VAITRO === 'NCC')
     ) {
       return tk;
@@ -104,7 +109,7 @@ export class TaikhoanController {
   ): Promise<TAIKHOAN> {
     const user = req.user as { MaTK: string; Role: string };
     const tk = await this.taikhoanService.taikhoan(maTK);
-    if (user.MaTK === tk?.auth_user_id)
+    if (user.MaTK === tk?.MaTK)
       return this.taikhoanService.updateTaiKhoan(maTK, data);
     throw new Error('Không có quyền cập nhật');
   }

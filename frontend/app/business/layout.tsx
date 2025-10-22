@@ -11,7 +11,7 @@ export default function BusinessLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ProtectedRoute requiredRoles={["QLDN"]}>
+    <ProtectedRoute blockedRoles={["NVVH", "NVCSKH", "KH", "NCC", "ADMIN"]}>
       <div className="flex h-screen bg-background">
         <BusinessSidebar />
         <div className="flex-1 flex flex-col overflow-hidden">

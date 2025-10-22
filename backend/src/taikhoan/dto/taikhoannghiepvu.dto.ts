@@ -1,17 +1,23 @@
-import { IsString, IsOptional, IsEnum, IsNotEmpty, isNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsEnum,
+  IsNotEmpty,
+  isNotEmpty,
+} from 'class-validator';
 
 // Define enums locally since Prisma exports are not working properly
 enum VaiTro {
-  NCC = 'NCC', 
+  NCC = 'NCC',
   QLDN = 'QLDN',
   NVVH = 'NVVH',
   NVCSKH = 'NVCSKH',
-  ADMIN = 'ADMIN'
+  ADMIN = 'ADMIN',
 }
 
 enum TrangThai {
   ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE'
+  INACTIVE = 'INACTIVE',
 }
 
 export class TaiKhoanNghiepVuDto {
