@@ -18,82 +18,94 @@ export class GiohangService {
     private giohangRepository: GiohangRepository,
   ) {}
 
+  //tạo giỏ hàng
+  async createCart(MaTKKH: string) {
+    const cart = await this.giohangRepository.createCart({ MaTKKH });
+    return cart;
+  }
   // Lấy hoặc tạo giỏ hàng cho user
-  private async getOrCreateCart(MaTKKH?: string) {
-    if (!MaTKKH) {
-      // Tạo giỏ hàng tạm thời cho guest user
-      return await this.giohangRepository.createCart({});
-    }
-
+  private async getCart(MaTKKH: string) {
     let cart = await this.giohangRepository.findCartByUserId(MaTKKH);
-
+    console.log('cart', cart);
     if (!cart) {
-      cart = await this.giohangRepository.createCart({ MaTKKH });
+      throw new BadRequestException('Không tìm thấy giỏ hàng cho người dùng này');
     }
-
     return cart;
   }
 
-  // Thêm sản phẩm vào giỏ hàng
-  async addToCart(addToCartDto: AddToCartDto) {
-    const { MaCTSP, SoLuong, MaTKKH } = addToCartDto;
-
-    // Kiểm tra chi tiết sản phẩm có tồn tại
-    const chiTietSanPham = await this.prisma.cHITIETSANPHAM.findUnique({
-      where: { MaCTSP },
-      include: {
-        SANPHAM: true,
-      },
-    });
-
-    if (!chiTietSanPham) {
-      throw new NotFoundException('Không tìm thấy chi tiết sản phẩm');
+  // Cập nhật sản phẩm vào giỏ hàng
+  async updateCart(MaTKKH: string, addToCartDto: AddToCartDto[]) {
+    const cart = await this.getCart(MaTKKH);
+    if (!cart) {
+      throw new NotFoundException('Không tìm thấy giỏ hàng cho người dùng này');
     }
-
-    // Kiểm tra số lượng tồn kho
-    if (chiTietSanPham.SoLuong < SoLuong) {
-      throw new BadRequestException(
-        `Không đủ hàng trong kho. Chỉ còn ${chiTietSanPham.SoLuong} sản phẩm`,
-      );
+    if (!addToCartDto || addToCartDto.length === 0) {
+      const result = await this.clearCart(MaTKKH);
+      if (!result){
+        throw new Error('Xóa giỏ hàng thất bại');
+      }
+      return result;
     }
-
-    // Lấy hoặc tạo giỏ hàng
-    const cart = await this.getOrCreateCart(MaTKKH);
-
-    // Kiểm tra sản phẩm đã có trong giỏ chưa
-    const existingItem =
-      await this.giohangRepository.findCartItemByProductDetail(
-        cart.MaGH,
-        MaCTSP,
-      );
-
-    if (existingItem) {
-      // Cập nhật số lượng
-      const newQuantity = existingItem.SoLuong + SoLuong;
-
-      if (chiTietSanPham.SoLuong < newQuantity) {
+    for (const item of addToCartDto) {
+      const { MaCTSP, SoLuong } = item;
+      const chiTietSanPham = await this.prisma.cHITIETSANPHAM.findUnique({
+        where: { MaCTSP },
+      });
+      if (!chiTietSanPham) {
+        throw new NotFoundException('Không tìm thấy chi tiết sản phẩm');
+      }
+      // Kiểm tra số lượng tồn kho của các sản phẩm
+      if (!SoLuong) {
+        throw new BadRequestException('Số lượng là bắt buộc');
+      }
+      if (chiTietSanPham.SoLuong < SoLuong) {
         throw new BadRequestException(
           `Không đủ hàng trong kho. Chỉ còn ${chiTietSanPham.SoLuong} sản phẩm`,
         );
       }
+      //kiểm tra sản phẩm đã có trong giỏ hàng chưa
+      if (!MaCTSP){
+        throw new BadRequestException('Mã chi tiết sản phẩm là bắt buộc');
+      }
+      const existingCartItem =
+        await this.giohangRepository.findCartItemByProductDetail(
+          cart.MaGH,
+          MaCTSP,
+        );
 
-      return await this.giohangRepository.updateCartItemQuantity(
-        existingItem.MaCTGH,
-        newQuantity,
-      );
-    } else {
-      // Thêm sản phẩm mới vào giỏ
-      return await this.giohangRepository.createCartItem({
-        MaGH: cart.MaGH,
-        MaCTSP,
-        SoLuong,
-      });
+      if (existingCartItem) {
+        // Cập nhật số lượng
+        const newQuantity = existingCartItem.SoLuong + SoLuong;
+        await this.giohangRepository.updateCartItemQuantity(
+          existingCartItem.MaCTGH,
+          newQuantity,
+        );
+      } else {
+        // Thêm sản phẩm mới vào giỏ
+        if (!MaCTSP) {
+          throw new BadRequestException('Mã chi tiết sản phẩm là bắt buộc');
+        }
+        await this.giohangRepository.createCartItem({
+          MaGH: cart.MaGH,
+          MaCTSP,
+          SoLuong,
+        });
+      }
     }
+    const rowCartItems = await this.giohangRepository.findAllCartItems(
+      cart.MaGH,
+    );
+    for (const item of rowCartItems) {
+      if (!addToCartDto.find(i => i.MaCTSP === item.CHITIETSANPHAM.MaCTSP)) {
+        await this.giohangRepository.deleteCartItem(item.MaCTGH);
+      } 
+    }
+    return { message: 'Cập nhật giỏ hàng thành công' };
   }
 
   // Lấy tất cả sản phẩm trong giỏ hàng
-  async getCartItems(MaTKKH?: string): Promise<CartResponseDto> {
-    const cart = await this.getOrCreateCart(MaTKKH);
+  async getCartItems(MaTKKH: string): Promise<CartResponseDto> {
+    const cart = await this.getCart(MaTKKH);
 
     const rawCartItems = await this.giohangRepository.findAllCartItems(
       cart.MaGH,
@@ -123,79 +135,77 @@ export class GiohangService {
     }));
 
     return {
-      MaGH: cart.MaGH,
-      created_at: cart.created_at,
       totalQuantity,
       totalValue,
       items: cartItems,
     };
   }
 
-  // Cập nhật số lượng sản phẩm trong giỏ
-  async updateQuantity(MaCTGH: string, updateQuantityDto: UpdateQuantityDto) {
-    const { SoLuong } = updateQuantityDto;
+  // // Cập nhật số lượng sản phẩm trong giỏ
+  // async updateQuantity(MaCTGH: string, updateQuantityDto: UpdateQuantityDto) {
+  //   const { SoLuong } = updateQuantityDto;
 
-    const cartItem = await this.giohangRepository.findCartItemById(MaCTGH);
+  //   const cartItem = await this.giohangRepository.findCartItemById(MaCTGH);
 
-    if (!cartItem) {
-      throw new NotFoundException('Không tìm thấy sản phẩm trong giỏ hàng');
-    }
+  //   if (!cartItem) {
+  //     throw new NotFoundException('Không tìm thấy sản phẩm trong giỏ hàng');
+  //   }
 
-    // Kiểm tra số lượng tồn kho
-    if (cartItem.CHITIETSANPHAM.SoLuong < SoLuong) {
-      throw new BadRequestException(
-        `Không đủ hàng trong kho. Chỉ còn ${cartItem.CHITIETSANPHAM.SoLuong} sản phẩm`,
-      );
-    }
+  //   // Kiểm tra số lượng tồn kho
+  //   if (cartItem.CHITIETSANPHAM.SoLuong < SoLuong) {
+  //     throw new BadRequestException(
+  //       `Không đủ hàng trong kho. Chỉ còn ${cartItem.CHITIETSANPHAM.SoLuong} sản phẩm`,
+  //     );
+  //   }
 
-    return await this.giohangRepository.updateCartItemQuantity(MaCTGH, SoLuong);
-  }
+  //   return await this.giohangRepository.updateCartItemQuantity(MaCTGH, SoLuong);
+  // }
 
-  // Xóa sản phẩm khỏi giỏ hàng
-  async removeFromCart(MaCTGH: string) {
-    const cartItem = await this.giohangRepository.findCartItemById(MaCTGH);
+  // // Xóa sản phẩm khỏi giỏ hàng
+  // async removeFromCart(MaCTGH: string) {
+  //   const cartItem = await this.giohangRepository.findCartItemById(MaCTGH);
 
-    if (!cartItem) {
-      throw new NotFoundException('Không tìm thấy sản phẩm trong giỏ hàng');
-    }
+  //   if (!cartItem) {
+  //     throw new NotFoundException('Không tìm thấy sản phẩm trong giỏ hàng');
+  //   }
 
-    await this.giohangRepository.deleteCartItem(MaCTGH);
+  //   await this.giohangRepository.deleteCartItem(MaCTGH);
 
-    return { message: 'Đã xóa sản phẩm khỏi giỏ hàng' };
-  }
+  //   return { message: 'Đã xóa sản phẩm khỏi giỏ hàng' };
+  // }
 
-  // Lấy sản phẩm để chuẩn bị mua (checkout)
-  async getItemsForPurchase(MaTKKH?: string) {
-    const cartData = await this.getCartItems(MaTKKH);
+  // // Lấy sản phẩm để chuẩn bị mua (checkout)
+  // async getItemsForPurchase(MaTKKH: string) {
+  //   const cartData = await this.getCartItems(MaTKKH);
 
-    if (cartData.items.length === 0) {
-      throw new BadRequestException('Giỏ hàng trống');
-    }
+  //   if (cartData.items.length === 0) {
+  //     throw new BadRequestException('Giỏ hàng trống');
+  //   }
 
-    // Kiểm tra tồn kho cho tất cả sản phẩm
-    const validation = await this.giohangRepository.validateStockForCheckout(
-      cartData.MaGH,
-    );
+  //   // Kiểm tra tồn kho cho tất cả sản phẩm
+  //   const validation = await this.giohangRepository.validateStockForCheckout(
+  //     cartData.MaGH,
+  //   );
 
-    if (!validation.isValid) {
-      const outOfStockNames = validation.outOfStockItems
-        .map((item) => item.TenSP)
-        .join(', ');
-      throw new BadRequestException(
-        `Các sản phẩm sau không đủ hàng: ${outOfStockNames}`,
-      );
-    }
+  //   if (!validation.isValid) {
+  //     const outOfStockNames = validation.outOfStockItems
+  //       .map((item) => item.TenSP)
+  //       .join(', ');
+  //     throw new BadRequestException(
+  //       `Các sản phẩm sau không đủ hàng: ${outOfStockNames}`,
+  //     );
+  //   }
 
-    return {
-      ...cartData,
-      readyForPurchase: true,
-      message: 'Tất cả sản phẩm sẵn sàng để mua',
-    };
-  }
+  //   return {
+  //     ...cartData,
+  //     readyForPurchase: true,
+  //     message: 'Tất cả sản phẩm sẵn sàng để mua',
+  //   };
+  // }
 
   // Xóa toàn bộ giỏ hàng
-  async clearCart(MaTKKH?: string) {
-    const cart = await this.getOrCreateCart(MaTKKH);
+  async clearCart(MaTKKH: string) {
+    const cart = await this.getCart(MaTKKH);
 
     await this.giohangRepository.deleteAllCartItems(cart.MaGH);
 

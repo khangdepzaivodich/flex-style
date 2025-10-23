@@ -5,7 +5,7 @@ import { Prisma } from '@prisma/client';
 @Injectable()
 export class GiohangRepository {
   constructor(private readonly prisma: PrismaService) {}
-
+  //tạo giỏ hàng
   // Tìm giỏ hàng theo MaTKKH
   async findCartByUserId(MaTKKH: string) {
     return await this.prisma.gIOHANG.findFirst({
@@ -43,7 +43,7 @@ export class GiohangRepository {
   }
 
   // Tạo giỏ hàng mới
-  async createCart(data: { MaTKKH?: string }) {
+  async createCart(data: { MaTKKH: string }) {
     return await this.prisma.gIOHANG.create({
       data,
       include: {
@@ -61,11 +61,11 @@ export class GiohangRepository {
   }
 
   // Xóa giỏ hàng
-  async deleteCart(MaGH: string) {
-    return await this.prisma.gIOHANG.delete({
-      where: { MaGH },
-    });
-  }
+  // async deleteCart(MaGH: string) {
+  //   return await this.prisma.gIOHANG.delete({
+  //     where: { MaGH },
+  //   });
+  // }
 
   // Tìm chi tiết giỏ hàng theo MaCTGH
   async findCartItemById(MaCTGH: string) {
