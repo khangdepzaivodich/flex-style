@@ -12,3 +12,14 @@ export function formatPrice(price: number): string {
     currency: "VND",
   }).format(price);
 }
+export const ROLE_LINKS = {
+  QLDN: "/bussiness",
+  NVVH: "/operator",
+  NVCSKH: "/customer-service",
+  NCC: "/supplier",
+  ADMIN: "/admin",
+} as const;
+
+export function getRoleLink(role?: string) {
+  return ROLE_LINKS[role as keyof typeof ROLE_LINKS] ?? "/";
+}

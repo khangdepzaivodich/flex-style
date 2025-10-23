@@ -21,7 +21,7 @@ export default async function layout({
   return (
     <>
       {" "}
-      <ProtectedRoute blockedRoles={["QLDN", "NVVH", "NVCSKH", "NCC", "ADMIN"]}>
+      <ProtectedRoute Role={"KH"}>
         <LanguageProvider initialLanguage={language as "en" | "vi"}>
           <CartProvider>
             <SuKienUuDaiProvider>

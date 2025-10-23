@@ -4,12 +4,12 @@ import type React from "react";
 import { createContext, useContext, useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User, UserRole } from "@/lib/types";
+import { useRouter } from "next/navigation";
 // import { hasPermission, hasAnyPermission, canAccessRoute } from "@/lib/rbac";
 interface AuthState {
   user: User | null;
   isLoading: boolean;
 }
-
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<any>;
   register: (email: string, password: string, name: string) => Promise<boolean>;
@@ -27,6 +27,7 @@ interface AuthContextType extends AuthState {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const supabase = createClient();
   const [state, setState] = useState<AuthState>({
     user: null,
