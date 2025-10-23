@@ -11,7 +11,7 @@ import {
   Gift,
 } from "lucide-react";
 import Link from "next/link";
-import type { Product, SuKienUuDai } from "@/lib/types";
+import type { CartItem, Product, SuKienUuDai } from "@/lib/types";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 import { useEffect, useState } from "react";
 
@@ -65,13 +65,30 @@ function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
 export default function MainPage({
   initialProducts,
   sukienuudai,
+  initialCartItems,
 }: {
   initialProducts: Product[];
   sukienuudai: SuKienUuDai;
+  initialCartItems: CartItem[];
 }) {
   const { setSuKienUuDais } = useSuKienUuDai();
 
   const [popup, setPopup] = useState(sukienuudai != null);
+  const cartItems: CartItem[] = [];
+  for (const item of initialCartItems.items) {
+    const cartItem: CartItem = {
+      productId: item.CHITIETSANPHAM.MaCTSP,
+      name: item.CHITIETSANPHAM.SANPHAM.TenSP,
+      price: item.CHITIETSANPHAM.SANPHAM.GiaBan,
+      size: item.CHITIETSANPHAM.KichCo,
+      color: item.CHITIETSANPHAM.SANPHAM.MauSac,
+      image: item.CHITIETSANPHAM.SANPHAM.HinhAnh[0],
+      quantity: item.SoLuong,
+    };
+    cartItems.push(cartItem);
+  }
+  localStorage.setItem("cart", JSON.stringify(cartItems));
+  console.log(localStorage.getItem("cart"));
   useEffect(() => {
     setSuKienUuDais(sukienuudai);
     const timer = setTimeout(() => {

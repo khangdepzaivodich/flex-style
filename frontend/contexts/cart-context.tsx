@@ -1,8 +1,16 @@
 "use client";
 
-import type React from "react";
-import { createContext, useContext, useReducer, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useRouter } from "next/navigation";
 import type { CartItem } from "@/lib/types";
+import { createClient } from "@/lib/supabase/client";
 
 interface CartState {
   items: CartItem[];
@@ -62,6 +70,8 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       );
       const itemCount = newItems.reduce((sum, item) => sum + item.quantity, 0);
 
+      localStorage.setItem("cart", JSON.stringify(newItems));
+
       return { items: newItems, total, itemCount };
     }
 
@@ -73,6 +83,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       );
       const itemCount = newItems.reduce((sum, item) => sum + item.quantity, 0);
 
+      localStorage.setItem("cart", JSON.stringify(newItems));
       return { items: newItems, total, itemCount };
     }
 
@@ -94,13 +105,16 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         0
       );
 
+      localStorage.setItem("cart", JSON.stringify(filteredItems));
       return { items: filteredItems, total, itemCount };
     }
 
     case "CLEAR_CART":
+      localStorage.setItem("cart", JSON.stringify([]));
       return { items: [], total: 0, itemCount: 0 };
 
     case "LOAD_CART": {
+      console.log("cartReducer - LOAD_CART payload:", action.payload);
       const total = action.payload.reduce(
         (sum, item) => sum + item.price * item.quantity,
         0
@@ -123,25 +137,78 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     total: 0,
     itemCount: 0,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   // Load cart from localStorage on mount
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
+    if (savedCart ) {
       try {
         const cartItems = JSON.parse(savedCart);
+        console.log("Loaded cart from localStorage:", cartItems);
         dispatch({ type: "LOAD_CART", payload: cartItems });
       } catch (error) {
         console.error("Error loading cart from localStorage:", error);
       }
     }
   }, []);
+  const userIdRef = useRef<string | null>(null);
 
-  // Save cart to localStorage whenever it changes
+  const router = useRouter();
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(state.items));
-  }, [state.items]);
+    let isMounted = true;
 
+    async function init() {
+      try {
+        const supabase = await createClient();
+        const { data } = await supabase.auth.getSession();
+        const userId = data?.session?.user?.id ?? null;
+        if (isMounted) userIdRef.current = userId;
+        console.log("CartContext - userId:", userId);
+      } catch (err) {
+        console.error("Error initializing supabase client:", err);
+      }
+    }
+
+    init();
+
+    // Lắng nghe sự kiện chuyển trang (route change)
+    async function handleRouteChange(url: string) {
+      const userId = userIdRef.current;
+      if (userId) {
+        setIsLoading(true);
+        const mapperItem = state.items.map((item) => ({
+          MaCTSP: item.productId,
+          SoLuong: item.quantity,
+          KichCo: item.size,
+        }));
+        await fetch(
+          `http://localhost:8080/api/giohang/update-cart?MaTKKH=${userId}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(mapperItem),
+            keepalive: true,
+          }
+        );
+      }
+    }
+
+    // Next.js App Router không có router.events, nên dùng window.addEventListener('Unload')
+    const handleUnload = () => {
+      if (document.visibilityState === "hidden") {
+        handleRouteChange(window.location.pathname);
+      }
+    };
+    window.addEventListener("unload", handleUnload);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener("unload", handleUnload);
+    };
+  }, [state.items]);
+  // Save cart to localStorage whenever it changes
+  
   const addItem = (item: Omit<CartItem, "id">) => {
     dispatch({ type: "ADD_ITEM", payload: item });
   };
@@ -157,6 +224,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" });
   };
+  // useEffect(() => {
+  //   // if (state.items.length === 0) return;
+  //   // const local = localStorage.getItem("cart");
+  //   // if (state.items.length != 0 && (local ? JSON.parse(local).length : 0)) {
+  //     console.log("Saving cart to localStorage:", state.items);
+  //     localStorage.setItem("cart", JSON.stringify(state.items));
+  //   // }
+  // }, [state.items]);
 
   return (
     <CartContext.Provider

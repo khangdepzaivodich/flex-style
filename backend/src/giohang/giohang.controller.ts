@@ -28,7 +28,9 @@ export class GiohangController {
   @ResponseMessage('Cập nhật sản phẩm vào giỏ hàng thành công')
   async addToCart(@Query('MaTKKH') MaTKKH: string, @Body() addToCartDto: AddToCartDto[]) {
     console.log('[GiohangController] addToCart:', addToCartDto);
-    return await this.giohangService.updateCart(MaTKKH, addToCartDto);
+    const result = await this.giohangService.updateCart(MaTKKH, addToCartDto);
+    console.log('[GiohangController] addToCart result:', result);
+    return result;
   }
 
   @Get()
@@ -40,10 +42,10 @@ export class GiohangController {
     type: CartResponseDto 
   })
   @ResponseMessage('Lấy giỏ hàng thành công')
-  async getCartItems(@Query('MaTKKH') MaTKKH: string): Promise<CartResponseDto> {
-
+  async getCartItems(@Query('MaTKKH') MaTKKH: string){
+    console.log('[GiohangController] getCartItems for MaTKKH:', MaTKKH);
     const getGioHang = await this.giohangService.getCartItems(MaTKKH);
-    console.log('[GiohangController] getCartItems:', getGioHang);
+    // console.log('[GiohangController] getCartItems:', getGioHang);
     return getGioHang;
   }
 
