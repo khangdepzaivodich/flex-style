@@ -4,6 +4,7 @@ import { TaiKhoanDto } from './dto/taikhoan.dto';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from 'src/supabase/types';
 import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
+import { GiohangRepository } from 'src/repositories/giohang.repository';
 // Define types based on the schema - matching Prisma exactly
 type VaiTro = 'KH' | 'NCC' | 'QLDN' | 'NVVH' | 'NVCSKH' | 'ADMIN';
 type TrangThai = 'ACTIVE' | 'INACTIVE';
@@ -22,7 +23,10 @@ export interface TAIKHOAN {
 @Injectable()
 export class TaikhoanService {
   private readonly supabase: SupabaseClient<Database>;
-  constructor(private readonly prisma: PrismaService) {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly gioHangRepository: GiohangRepository,
+  ) {
     this.supabase = createClient<Database>(
       process.env.SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -38,13 +42,18 @@ export class TaikhoanService {
     if (existingUser) {
       throw new Error('Tài khoản đã tồn tại');
     }
-    return this.prisma.tAIKHOAN.create({
+    const createUser = await this.prisma.tAIKHOAN.create({
       data: {
         ...data,
         VAITRO: 'KH',
         Status: 'ACTIVE',
       },
     });
+    const createGioHang = await this.gioHangRepository.createCart({
+      MaTKKH: createUser.MaTK,
+    });
+
+    return createUser;
   }
 
   // Dang ky tai khoan nha cung cap

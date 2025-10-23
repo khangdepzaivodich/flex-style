@@ -15,9 +15,9 @@ export class VoucherKhachHangRepository {
     });
   }
   //xem danh sách voucher của khách hàng
-  async findAll(MaAuth: string) {
+  async findAll(MaTKKH: string) {
     const user = await this.prisma.tAIKHOAN.findFirst({
-      where: { auth_user_id: MaAuth },
+      where: { MaTK: MaTKKH },
     });
     return await this.prisma.vOUCHER_KHACHHANG.findMany({
       where: { MaTKKH: user?.MaTK },

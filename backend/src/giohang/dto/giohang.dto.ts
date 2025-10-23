@@ -5,21 +5,13 @@ export class AddToCartDto {
   @ApiProperty({ description: 'Mã chi tiết sản phẩm', example: 'uuid-string' })
   @IsNotEmpty()
   @IsString()
-  MaCTSP: string;
+  MaCTSP?: string;
 
   @ApiProperty({ description: 'Số lượng sản phẩm', example: 1, minimum: 1 })
   @IsNotEmpty()
   @IsInt()
   @Min(1)
-  SoLuong: number;
-
-  @ApiProperty({
-    description: 'Mã tài khoản khách hàng (optional)',
-    example: 'uuid-string',
-    required: false,
-  })
-  @IsString()
-  MaTKKH?: string;
+  SoLuong?: number;
 }
 
 export class UpdateQuantityDto {
@@ -57,12 +49,6 @@ export class CartItemResponseDto {
 }
 
 export class CartResponseDto {
-  @ApiProperty({ description: 'Mã giỏ hàng' })
-  MaGH: string;
-
-  @ApiProperty({ description: 'Ngày tạo giỏ hàng' })
-  created_at: Date;
-
   @ApiProperty({ description: 'Tổng số lượng sản phẩm' })
   totalQuantity: number;
 

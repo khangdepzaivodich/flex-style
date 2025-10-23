@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Query, Res } from '@nestjs/common';
 import { VoucherKhachHangService } from './voucher_khachhang.service';
 import { ResponseMessage } from 'src/decorators/response.decorator';
-
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/jwt/jwt.guard';
 @Controller('voucher-khachhang')
 export class VoucherKhachHangController {
   constructor(

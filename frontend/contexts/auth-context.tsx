@@ -36,8 +36,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Load user from Supabase on mount and listen for auth changes
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      async (_event, session) => {
         if (session?.user) {
+
           setState({
             user: {
               id: session.user.id,
@@ -72,6 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setState((prev) => ({ ...prev, isLoading: false }));
         return { success: false, error: error };
       }
+
       setState({
         user: {
           id: data.user.id,
@@ -115,7 +117,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { name } },
+        options: {
+          data: {
+            name,
+          },
+        },
       });
       console.log(data);
       const response = await fetch(
@@ -133,6 +139,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }),
         }
       );
+      console.log("response", response);
       if (error || !data.user || !response.ok) {
         setState((prev) => ({ ...prev, isLoading: false }));
         return false;

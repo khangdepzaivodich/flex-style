@@ -1,13 +1,20 @@
 import VoucherPage from "./VoucherPage";
 import { getUserId } from "@/lib/userInfo";
+import {createClient} from "@/lib/supabase/server";
+
 
 async function getVouchers(MaAuth: string) {
+  const supabase= await createClient();
+  const { data } = await supabase.auth.getSession();
   const res = await fetch(
     `http://localhost:8080/api/voucher-khachhang?MaAuth=${MaAuth}`,
+
     {
       cache: "no-store",
+
     }
   );
+  // console.log("data session", res);
   if (!res.ok) throw new Error("Failed to fetch products");
   return res.json();
 }
