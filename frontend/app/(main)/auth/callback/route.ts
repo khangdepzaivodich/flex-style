@@ -17,7 +17,6 @@ export async function GET(request: Request) {
 
       // 🔹 Gọi API backend để đăng ký hoặc đồng bộ user
       try {
-        console.log(user);
         await fetch("http://localhost:8080/api/taikhoan/dangky", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

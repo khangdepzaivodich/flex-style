@@ -30,7 +30,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuth } from "@/contexts/auth-context";
-import { getUserOrders, formatPrice } from "@/lib/data";
+import { getUserOrders } from "@/lib/data";
+import { formatPrice } from "@/lib/help";
 import type { Order } from "@/lib/types";
 import Link from "next/link";
 
@@ -44,7 +45,7 @@ export default function OrdersPage() {
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push("/login");
+      router.push("/auth/login");
     }
   }, [isLoading, user, router]);
 

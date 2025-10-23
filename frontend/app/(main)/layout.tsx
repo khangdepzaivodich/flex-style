@@ -1,10 +1,10 @@
 import React from "react";
+import Script from "next/script";
 import { LanguageProvider } from "@/contexts/language-context";
 import { cookies } from "next/headers";
 import { CartProvider } from "@/contexts/cart-context";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { LiveChat } from "@/components/customer-support/live-chat";
 import { Analytics } from "@vercel/analytics/next";
 import ProtectedRoute from "@/components/protected-route";
 import ChatWidget from "@/components/chat-widget";
@@ -26,7 +26,8 @@ export default async function layout({
           <CartProvider>
             <SuKienUuDaiProvider>
               <Header />
-              {children} <Footer /> <Analytics />
+              {children} <Footer />{" "}
+              {process.env.NODE_ENV === "production" ? <Analytics /> : null}
               <ChatWidget
                 config={{
                   chatUrl: process.env.N8N_CHAT_URL || "",
@@ -35,21 +36,21 @@ export default async function layout({
                     process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || "",
                 }}
               />
-              <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+              <Script
+                id="tawk-init"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                  __html: `var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
                   (function(){
-                  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-                  s1.async=true;
-                  s1.src='https://embed.tawk.to/68e7afe5194a94194f2e030b/1j74ge6hq';
-                  s1.charset='UTF-8';
-                  s1.setAttribute('crossorigin','*');
-                  s0.parentNode.insertBefore(s1,s0);
-                  })();
-                `,
-              }}
-            ></script>
+                    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                    s1.async=true;
+                    s1.src='https://embed.tawk.to/68e7afe5194a94194f2e030b/1j74ge6hq';
+                    s1.charset='UTF-8';
+                    s1.setAttribute('crossorigin','*');
+                    s0.parentNode.insertBefore(s1,s0);
+                  })();`,
+                }}
+              />
             </SuKienUuDaiProvider>
           </CartProvider>
         </LanguageProvider>

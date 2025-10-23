@@ -112,105 +112,114 @@ export default function VoucherPage({
           Mã Giảm Giá Đang Có Hiệu Lực
         </h2>
         <div className="grid md:grid-cols-2 gap-6">
-          {voucher.map((voucher) => (
-            <Card key={voucher.MaVCKH} className="relative overflow-hidden">
-              <div
-                className={`absolute top-0 left-0 w-2 h-full ${getVoucherColor(
-                  voucher.voucherDetails?.Loai || "gift"
-                )}`}
-              ></div>
-              <CardHeader className="pb-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className={`p-2 rounded-lg ${getVoucherColor(
-                        voucher.voucherDetails?.Loai || "gift"
-                      )} text-white`}
-                    >
-                      {getVoucherIcon(voucher.voucherDetails?.Loai || "gift")}
+          {voucher.length > 0 ? (
+            voucher.map((voucher) => (
+              <Card key={voucher.MaVCKH} className="relative overflow-hidden">
+                <div
+                  className={`absolute top-0 left-0 w-2 h-full ${getVoucherColor(
+                    voucher.voucherDetails?.Loai || "gift"
+                  )}`}
+                ></div>
+                <CardHeader className="pb-4">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`p-2 rounded-lg ${getVoucherColor(
+                          voucher.voucherDetails?.Loai || "gift"
+                        )} text-white`}
+                      >
+                        {getVoucherIcon(voucher.voucherDetails?.Loai || "gift")}
+                      </div>
+                      <div>
+                        <CardTitle className="text-lg">
+                          {voucher.voucherDetails?.TenVoucher}
+                        </CardTitle>
+                        <p className="text-sm text-muted-foreground">
+                          {voucher.voucherDetails?.MoTa}
+                        </p>
+                      </div>
                     </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
                     <div>
-                      <CardTitle className="text-lg">
-                        {voucher.voucherDetails?.TenVoucher}
-                      </CardTitle>
+                      {voucher.voucherDetails?.Loai === "GiamGia" ? (
+                        <h3 className="text-2xl font-bold text-green-600">
+                          Giảm{" "}
+                          {voucher.voucherDetails?.SoTien?.toLocaleString()}₫
+                        </h3>
+                      ) : (
+                        <h3
+                          className={`text-2xl font-bold ${
+                            voucher.voucherDetails?.Loai === "FreeShip"
+                              ? "text-yellow-500"
+                              : "text-green-600"
+                          }`}
+                        >
+                          {voucher.voucherDetails?.Loai === "GiamGia"
+                            ? `Giảm ${voucher.voucherDetails?.SoTien?.toLocaleString()}₫`
+                            : `Free Ship miễn phí trên toàn quốc`}
+                        </h3>
+                      )}
                       <p className="text-sm text-muted-foreground">
-                        {voucher.voucherDetails?.MoTa}
+                        Đơn tối thiểu: {voucher.voucherDetails?.Dieukien}
                       </p>
                     </div>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    {voucher.voucherDetails?.Loai === "GiamGia" ? (
-                      <h3 className="text-2xl font-bold text-green-600">
-                        Giảm {voucher.voucherDetails?.SoTien?.toLocaleString()}₫
-                      </h3>
-                    ) : (
-                      <h3
-                        className={`text-2xl font-bold ${
-                          voucher.voucherDetails?.Loai === "FreeShip"
-                            ? "text-yellow-500"
-                            : "text-green-600"
-                        }`}
-                      >
-                        {voucher.voucherDetails?.Loai === "GiamGia"
-                          ? `Giảm ${voucher.voucherDetails?.SoTien?.toLocaleString()}₫`
-                          : `Free Ship miễn phí trên toàn quốc`}
-                      </h3>
-                    )}
-                    <p className="text-sm text-muted-foreground">
-                      Đơn tối thiểu: {voucher.voucherDetails?.Dieukien}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm">
-                        HSD:{" "}
-                        {new Date(voucher.Hsd) < new Date() ? (
-                          <span className="text-red-500 font-semibold">
-                            Đã hết hạn
-                          </span>
-                        ) : (
-                          <span>
-                            {new Date(voucher.Hsd).toLocaleDateString("vi-VN")}
-                          </span>
-                        )}
-                      </span>
+                    <div className="text-right">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Calendar className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm">
+                          HSD:{" "}
+                          {new Date(voucher.Hsd) < new Date() ? (
+                            <span className="text-red-500 font-semibold">
+                              Đã hết hạn
+                            </span>
+                          ) : (
+                            <span>
+                              {new Date(voucher.Hsd).toLocaleDateString(
+                                "vi-VN"
+                              )}
+                            </span>
+                          )}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-                  <code className="flex-1 font-mono font-bold text-lg">
-                    {voucher.voucherDetails?.MaVoucher}
-                  </code>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() =>
-                      handleCopyCode(voucher.voucherDetails?.MaVoucher || "")
-                    }
-                    className="flex items-center gap-1"
-                  >
-                    {copiedCode === voucher.voucherDetails?.MaVoucher ? (
-                      <>
-                        <Check className="h-4 w-4" />
-                        Đã copy
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="h-4 w-4" />
-                        Copy
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
+                    <code className="flex-1 font-mono font-bold text-lg">
+                      {voucher.voucherDetails?.MaVoucher}
+                    </code>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() =>
+                        handleCopyCode(voucher.voucherDetails?.MaVoucher || "")
+                      }
+                      className="flex items-center gap-1"
+                    >
+                      {copiedCode === voucher.voucherDetails?.MaVoucher ? (
+                        <>
+                          <Check className="h-4 w-4" />
+                          Đã copy
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="h-4 w-4" />
+                          Copy
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            <p className="text-center text-muted-foreground col-span-2">
+              Hiện không có mã giảm giá nào đang hoạt động.
+            </p>
+          )}
         </div>
       </div>
 

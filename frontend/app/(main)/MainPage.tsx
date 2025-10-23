@@ -78,7 +78,7 @@ export default function MainPage({
       setPopup(false);
     }, 10000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [sukienuudai, setSuKienUuDais]);
   return (
     <div className="flex flex-col">
       {popup && <PopupUuDai suKienUuDais={sukienuudai} />}

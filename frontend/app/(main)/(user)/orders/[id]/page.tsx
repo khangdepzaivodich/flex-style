@@ -25,7 +25,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/contexts/auth-context";
-import { getOrderById, formatPrice } from "@/lib/data";
+import { getOrderById } from "@/lib/data";
+import { formatPrice } from "@/lib/help";
 import type { Order } from "@/lib/types";
 import Link from "next/link";
 
