@@ -122,7 +122,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           },
         },
       });
-      console.log(data);
+
       const response = await fetch(
         `http://localhost:8080/api/taikhoan/dangky`,
         {
@@ -138,7 +138,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }),
         }
       );
-      console.log("response", response);
+
       if (error || !data.user || !response.ok) {
         setState((prev) => ({ ...prev, isLoading: false }));
         return false;
@@ -184,7 +184,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       return true;
     } catch {
-      // console.error("Update password error:", e);
       return false;
     }
   };
@@ -201,8 +200,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isLoading: false,
       });
       return true;
-    } catch (error) {
-      console.error("Profile update error:", error);
+    } catch {
       return false;
     }
   };
