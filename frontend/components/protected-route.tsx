@@ -4,18 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { createClient } from "@/lib/supabase/client";
+import { getRoleLink } from "@/lib/help";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
   Role?: string;
 }
-const link = {
-  QLDN: "/bussiness",
-  NVVH: "/operator",
-  NVCSKH: "/customer-service",
-  NCC: "/supplier",
-  ADMIN: "/admin",
-};
 export default function ProtectedRoute({
   children,
   Role,
@@ -49,13 +43,17 @@ export default function ProtectedRoute({
         );
 
         const role = res.data.data.VAITRO;
-        console.log("User role:", role);
 
         // Allow if not in blockedRoles
-        if (Role === role) {
+        if (Role == role) {
           setAuthorized(true);
         } else {
-          router.replace("/unauthorized");
+          try {
+            const target = getRoleLink(role);
+            router.replace(target);
+          } catch {
+            router.replace("/unauthorized");
+          }
         }
       } catch (err) {
         console.error("Error verifying access:", err);
