@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Search, Filter, Grid, List, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -119,7 +119,7 @@ export default function ProductsPage({
       products.filter((product) => {
         return selectedCategories.includes(product.MaDM);
       }).length || products.length;
-    console.log("Current Length:", currentLength);
+
     const res = await fetch(
       `http://localhost:8080/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&includeTenDM=${categories
         .filter((cat) => selectedCategories.includes(cat.MaDM))

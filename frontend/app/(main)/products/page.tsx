@@ -26,7 +26,7 @@ export default async function ProductsCarousel({
 
   // Lấy giá trị searchQuery từ URL
   const initialQuery = searchParams?.query || "";
-  console.log("Initial Query:", initialQuery);
+
   return (
     <div>
       <ProductsPage

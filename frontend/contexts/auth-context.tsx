@@ -1,9 +1,9 @@
 "use client";
 
 import type React from "react";
-import { createContext, useContext, useState, useEffect, use } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
-import type { User, UserRole, Permission } from "@/lib/types";
+import type { User, UserRole } from "@/lib/types";
 // import { hasPermission, hasAnyPermission, canAccessRoute } from "@/lib/rbac";
 interface AuthState {
   user: User | null;
@@ -18,9 +18,9 @@ interface AuthContextType extends AuthState {
   updatePassword: (password: string) => Promise<boolean>;
   resetPasswordForEmail: (email: string) => Promise<boolean>;
   updateProfile: (data: Partial<User>) => Promise<boolean>;
-  hasPermission: (permission: Permission) => boolean;
-  hasAnyPermission: (permissions: Permission[]) => boolean;
-  canAccessRoute: (route: string) => boolean;
+  // hasPermission: (permission: Permission) => boolean;
+  // hasAnyPermission: (permissions: Permission[]) => boolean;
+  // canAccessRoute: (route: string) => boolean;
   getUserRole: () => UserRole | null;
 }
 
@@ -38,7 +38,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data: listener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         if (session?.user) {
-
           setState({
             user: {
               id: session.user.id,
@@ -91,7 +90,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
   const OauthLogin = async (provider: string) => {
     if (provider === "gg") {
-      const response = supabase.auth.signInWithOAuth({
+      supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
@@ -209,18 +208,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   // Permission checking methods (tùy chỉnh lại nếu dùng metadata Supabase)
-  const checkPermission = (_permission: Permission): boolean => {
-    // Implement permission logic if you store permissions in user metadata
-    return true;
-  };
+  // const checkPermission = (_permission: Permission): boolean => {
+  //   // Implement permission logic if you store permissions in user metadata
+  //   return true;
+  // };
 
-  const checkAnyPermission = (_permissions: Permission[]): boolean => {
-    return true;
-  };
+  // const checkAnyPermission = (_permissions: Permission[]): boolean => {
+  //   return true;
+  // };
 
-  const checkCanAccessRoute = (_route: string): boolean => {
-    return true;
-  };
+  // const checkCanAccessRoute = (_route: string): boolean => {
+  //   return true;
+  // };
 
   const getUserRole = (): UserRole | null => {
     // Nếu lưu role trong user metadata, lấy từ user.user_metadata.role
@@ -239,9 +238,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         updatePassword,
         resetPasswordForEmail,
         updateProfile,
-        hasPermission: checkPermission,
-        hasAnyPermission: checkAnyPermission,
-        canAccessRoute: checkCanAccessRoute,
+        // hasPermission: checkPermission,
+        // hasAnyPermission: checkAnyPermission,
+        // canAccessRoute: checkCanAccessRoute,
         getUserRole,
       }}
     >

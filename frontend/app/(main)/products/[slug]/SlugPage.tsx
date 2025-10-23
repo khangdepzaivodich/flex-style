@@ -38,11 +38,10 @@ export default function SlugPage({
   feedbacks: PhanHoi[];
   feedbacksCustomer: string[];
 }) {
-  const { addItem, items } = useCart();
+  const { addItem } = useCart();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const discountPercentage = product.GiaBan
     ? Math.round(((product.GiaBan - product.GiaBan) / product.GiaBan) * 100)
     : 0;
