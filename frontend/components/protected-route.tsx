@@ -7,12 +7,18 @@ import { createClient } from "@/lib/supabase/client";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  blockedRoles?: string[];
+  Role?: string;
 }
-
+const link = {
+  QLDN: "/bussiness",
+  NVVH: "/operator",
+  NVCSKH: "/customer-service",
+  NCC: "/supplier",
+  ADMIN: "/admin",
+};
 export default function ProtectedRoute({
   children,
-  blockedRoles = [],
+  Role,
 }: ProtectedRouteProps) {
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
@@ -27,7 +33,7 @@ export default function ProtectedRoute({
           data: { session },
         } = await supabase.auth.getSession();
         if (!session) {
-          setAuthorized(true);
+          setAuthorized(false);
           return;
         }
 
@@ -46,7 +52,7 @@ export default function ProtectedRoute({
         console.log("User role:", role);
 
         // Allow if not in blockedRoles
-        if (!blockedRoles.includes(role)) {
+        if (Role === role) {
           setAuthorized(true);
         } else {
           router.replace("/unauthorized");
@@ -60,7 +66,7 @@ export default function ProtectedRoute({
     };
 
     checkAuth();
-  }, [router, blockedRoles, supabase]);
+  }, [router, Role, supabase]);
 
   if (loading) {
     return (

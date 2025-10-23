@@ -10,7 +10,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ProtectedRoute blockedRoles={["KH", "QLDN", "NVVH", "NVCSKH", "NCC"]}>
+    <ProtectedRoute Role={"ADMIN"}>
       <div className="flex h-screen bg-background">
         <AdminSidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
