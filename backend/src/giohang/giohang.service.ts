@@ -25,8 +25,9 @@ export class GiohangService {
   }
   // Lấy hoặc tạo giỏ hàng cho user
   private async getCart(MaTKKH: string) {
+    console.log('Getting cart for MaTKKH:', MaTKKH);
     let cart = await this.giohangRepository.findCartByUserId(MaTKKH);
-    console.log('cart', cart);
+    // console.log('cart', cart);
     if (!cart) {
       throw new BadRequestException('Không tìm thấy giỏ hàng cho người dùng này');
     }
@@ -48,9 +49,10 @@ export class GiohangService {
     }
     for (const item of addToCartDto) {
       const { MaCTSP, SoLuong } = item;
-      const chiTietSanPham = await this.prisma.cHITIETSANPHAM.findUnique({
+      const chiTietSanPham = await this.prisma.cHITIETSANPHAM.findFirst({
         where: { MaCTSP },
       });
+      console.log('chiTietSanPham', chiTietSanPham);
       if (!chiTietSanPham) {
         throw new NotFoundException('Không tìm thấy chi tiết sản phẩm');
       }
@@ -75,21 +77,22 @@ export class GiohangService {
 
       if (existingCartItem) {
         // Cập nhật số lượng
-        const newQuantity = existingCartItem.SoLuong + SoLuong;
-        await this.giohangRepository.updateCartItemQuantity(
+        const updatedCartItem = await this.giohangRepository.updateCartItemQuantity(
           existingCartItem.MaCTGH,
-          newQuantity,
+          SoLuong,
         );
+        console.log('Updated Cart Item:', updatedCartItem);
       } else {
         // Thêm sản phẩm mới vào giỏ
         if (!MaCTSP) {
           throw new BadRequestException('Mã chi tiết sản phẩm là bắt buộc');
         }
-        await this.giohangRepository.createCartItem({
+        const newCartItem = await this.giohangRepository.createCartItem({
           MaGH: cart.MaGH,
           MaCTSP,
           SoLuong,
         });
+        console.log('New Cart Item:', newCartItem);
       }
     }
     const rowCartItems = await this.giohangRepository.findAllCartItems(
@@ -106,10 +109,12 @@ export class GiohangService {
   // Lấy tất cả sản phẩm trong giỏ hàng
   async getCartItems(MaTKKH: string): Promise<CartResponseDto> {
     const cart = await this.getCart(MaTKKH);
-
+    console.log('cart', cart);
     const rawCartItems = await this.giohangRepository.findAllCartItems(
       cart.MaGH,
     );
+    console.log('rawCartItems', rawCartItems);
+    console.log('[GiohangService] getCartItems - rawCartItems:', rawCartItems);
 
     const { totalQuantity, totalValue } =
       await this.giohangRepository.calculateCartTotal(cart.MaGH);
