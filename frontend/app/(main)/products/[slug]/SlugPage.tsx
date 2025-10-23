@@ -53,7 +53,7 @@ export default function SlugPage({
     }
 
     addItem({
-      productId: String(product.MaSP),
+      productId: String(product.CHITIETSANPHAM.find((s) => s.KichCo === selectedSize)?.MaCTSP),
       name: product.TenSP,
       price: product.GiaBan,
       image: product.HinhAnh[0],

@@ -1,3 +1,4 @@
+import { getAccessToken, getGioHang, getUserId } from "@/lib/userInfo";
 import MainPage from "./MainPage";
 import type { SuKienUuDai } from "@/lib/types";
 
@@ -31,7 +32,17 @@ async function getProducts() {
 export default async function MainCarousel() {
   const products = await getProducts();
   const suKienUuDais = await fetchSukienuudais();
-
+  const accessToken = await getAccessToken();
+  const userId = await getUserId();
+  if (!accessToken) {
+    return (
+      <div className="text-center mt-10 text-lg font-semibold mb-5 text-gray-600">
+        Vui lòng đăng nhập để xem giỏ hàng của bạn.
+      </div>
+    );
+  }
+  const gioHang = await getGioHang(String(userId), String(accessToken));
+  console.log("gioHang", gioHang); 
   return (
     <div>
       <MainPage
@@ -44,6 +55,7 @@ export default async function MainCarousel() {
           ) ?? null
         }
         initialProducts={products.data}
+        initialCartItems={gioHang.data}
       />
     </div>
   );

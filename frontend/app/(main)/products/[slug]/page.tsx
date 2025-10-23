@@ -45,14 +45,13 @@ export default async function Page({ params }: Props) {
         cache: "no-store",
       }
     );
-
     if (!res.ok) {
       if (res.status === 404) {
         notFound();
       }
       throw new Error(`Failed to fetch product: ${res.status}`);
     }
-
+    
     const productData = await res.json();
     if (!productData || !productData.data) {
       throw new Error("Invalid product data");
