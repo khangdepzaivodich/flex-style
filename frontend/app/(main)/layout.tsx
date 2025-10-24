@@ -6,7 +6,6 @@ import { CartProvider } from "@/contexts/cart-context";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Analytics } from "@vercel/analytics/next";
-import ProtectedRoute from "@/components/protected-route";
 import ChatWidget from "@/components/chat-widget";
 import { SuKienUuDaiProvider } from "@/contexts/sukienuudai-context";
 
@@ -21,26 +20,25 @@ export default async function layout({
   return (
     <>
       {" "}
-      <ProtectedRoute Role={"KH"}>
-        <LanguageProvider initialLanguage={language as "en" | "vi"}>
-          <CartProvider>
-            <SuKienUuDaiProvider>
-              <Header />
-              {children} <Footer />{" "}
-              {process.env.NODE_ENV === "production" ? <Analytics /> : null}
-              <ChatWidget
-                config={{
-                  chatUrl: process.env.N8N_CHAT_URL || "",
-                  supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-                  supabaseServiceRoleKey:
-                    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || "",
-                }}
-              />
-              <Script
-                id="tawk-init"
-                strategy="afterInteractive"
-                dangerouslySetInnerHTML={{
-                  __html: `var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+      <LanguageProvider initialLanguage={language as "en" | "vi"}>
+        <CartProvider>
+          <SuKienUuDaiProvider>
+            <Header />
+            {children} <Footer />{" "}
+            {process.env.NODE_ENV === "production" ? <Analytics /> : null}
+            <ChatWidget
+              config={{
+                chatUrl: process.env.N8N_CHAT_URL || "",
+                supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+                supabaseServiceRoleKey:
+                  process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || "",
+              }}
+            />
+            <Script
+              id="tawk-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
                   (function(){
                     var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
                     s1.async=true;
@@ -49,12 +47,11 @@ export default async function layout({
                     s1.setAttribute('crossorigin','*');
                     s0.parentNode.insertBefore(s1,s0);
                   })();`,
-                }}
-              />
-            </SuKienUuDaiProvider>
-          </CartProvider>
-        </LanguageProvider>
-      </ProtectedRoute>
+              }}
+            />
+          </SuKienUuDaiProvider>
+        </CartProvider>
+      </LanguageProvider>
     </>
   );
 }

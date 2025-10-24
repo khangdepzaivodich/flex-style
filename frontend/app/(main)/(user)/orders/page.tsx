@@ -189,7 +189,7 @@ export default function OrdersPage() {
         </div>
 
         <Tabs defaultValue="all" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          {/* <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="all">
               Tất cả ({ordersByStatus.all.length})
             </TabsTrigger>
@@ -208,7 +208,7 @@ export default function OrdersPage() {
             <TabsTrigger value="cancelled">
               Đã hủy ({ordersByStatus.cancelled.length})
             </TabsTrigger>
-          </TabsList>
+          </TabsList> */}
 
           {Object.entries(ordersByStatus).map(([status, statusOrders]) => (
             <TabsContent key={status} value={status}>

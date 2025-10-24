@@ -29,9 +29,6 @@ export class CartItemResponseDto {
   @ApiProperty({ description: 'Số lượng' })
   SoLuong: number;
 
-  @ApiProperty({ description: 'Ngày tạo' })
-  created_at: Date;
-
   @ApiProperty({ description: 'Thông tin chi tiết sản phẩm' })
   CHITIETSANPHAM: {
     MaCTSP: string;
@@ -48,16 +45,6 @@ export class CartItemResponseDto {
   };
 }
 
-export class CartResponseDto {
-  @ApiProperty({ description: 'Tổng số lượng sản phẩm' })
-  totalQuantity: number;
-
-  @ApiProperty({ description: 'Tổng giá trị giỏ hàng' })
-  totalValue: number;
-
-  @ApiProperty({
-    description: 'Danh sách sản phẩm trong giỏ',
-    type: [CartItemResponseDto],
-  })
-  items: CartItemResponseDto[];
-}
+// export class CartResponseDto {
+//   items?: CartItemResponseDto[];
+// }

@@ -8,7 +8,6 @@ import { GiohangRepository } from 'src/repositories/giohang.repository';
 import {
   AddToCartDto,
   UpdateQuantityDto,
-  CartResponseDto,
 } from './dto/giohang.dto';
 
 @Injectable()
@@ -25,7 +24,6 @@ export class GiohangService {
   }
   // Lấy hoặc tạo giỏ hàng cho user
   private async getCart(MaTKKH: string) {
-    console.log('Getting cart for MaTKKH:', MaTKKH);
     let cart = await this.giohangRepository.findCartByUserId(MaTKKH);
     // console.log('cart', cart);
     if (!cart) {
@@ -107,43 +105,22 @@ export class GiohangService {
   }
 
   // Lấy tất cả sản phẩm trong giỏ hàng
-  async getCartItems(MaTKKH: string): Promise<CartResponseDto> {
+  async getCartItems(MaTKKH: string){
     const cart = await this.getCart(MaTKKH);
-    console.log('cart', cart);
     const rawCartItems = await this.giohangRepository.findAllCartItems(
       cart.MaGH,
     );
-    console.log('rawCartItems', rawCartItems);
-    console.log('[GiohangService] getCartItems - rawCartItems:', rawCartItems);
-
-    const { totalQuantity, totalValue } =
-      await this.giohangRepository.calculateCartTotal(cart.MaGH);
-
-    // Transform the data to match DTO structure
     const cartItems = rawCartItems.map((item) => ({
-      MaCTGH: item.MaCTGH,
-      SoLuong: item.SoLuong,
-      created_at: item.created_at,
-      CHITIETSANPHAM: {
-        MaCTSP: item.CHITIETSANPHAM.MaCTSP,
-        KichCo: item.CHITIETSANPHAM.KichCo,
-        SoLuong: item.CHITIETSANPHAM.SoLuong,
-        SANPHAM: {
-          MaSP: item.CHITIETSANPHAM.SANPHAM.MaSP,
-          TenSP: item.CHITIETSANPHAM.SANPHAM.TenSP,
-          GiaBan: item.CHITIETSANPHAM.SANPHAM.GiaBan,
-          MoTa: item.CHITIETSANPHAM.SANPHAM.MoTa,
-          MauSac: item.CHITIETSANPHAM.SANPHAM.MauSac,
-          HinhAnh: item.CHITIETSANPHAM.SANPHAM.HinhAnh,
-        },
-      },
+      productId: item.CHITIETSANPHAM.MaCTSP,
+      name: item.CHITIETSANPHAM.SANPHAM.TenSP,
+      price: item.CHITIETSANPHAM.SANPHAM.GiaBan,
+      quantity: item.SoLuong,
+      size: item.CHITIETSANPHAM.KichCo,
+      color: item.CHITIETSANPHAM.SANPHAM.MauSac,
+      image: item.CHITIETSANPHAM.SANPHAM.HinhAnh[0],
     }));
 
-    return {
-      totalQuantity,
-      totalValue,
-      items: cartItems,
-    };
+    return cartItems;
   }
 
   // // Cập nhật số lượng sản phẩm trong giỏ

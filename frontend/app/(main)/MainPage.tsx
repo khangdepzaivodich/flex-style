@@ -14,6 +14,7 @@ import Link from "next/link";
 import type { CartItem, Product, SuKienUuDai } from "@/lib/types";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 import { useEffect, useState } from "react";
+import MailChimp from "@/components/mail-chimp";
 
 function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
   const startDate = new Date(suKienUuDais.NgayPH);
@@ -69,26 +70,28 @@ export default function MainPage({
 }: {
   initialProducts: Product[];
   sukienuudai: SuKienUuDai;
-  initialCartItems: any;
+  initialCartItems: CartItem[];
 }) {
   const { setSuKienUuDais } = useSuKienUuDai();
 
   const [popup, setPopup] = useState(sukienuudai != null);
   const cartItems: CartItem[] = [];
-  for (const item of initialCartItems.items) {
-    const cartItem: CartItem = {
-      productId: item.CHITIETSANPHAM.MaCTSP,
-      name: item.CHITIETSANPHAM.SANPHAM.TenSP,
-      price: item.CHITIETSANPHAM.SANPHAM.GiaBan,
-      size: item.CHITIETSANPHAM.KichCo,
-      color: item.CHITIETSANPHAM.SANPHAM.MauSac,
-      image: item.CHITIETSANPHAM.SANPHAM.HinhAnh[0],
-      quantity: item.SoLuong,
-    };
-    cartItems.push(cartItem);
-  }
-  localStorage.setItem("cart", JSON.stringify(cartItems));
-  console.log(localStorage.getItem("cart"));
+    for (const item of initialCartItems) {
+      const cartItem = {
+        productId: item.productId,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        size: item.size,
+        color: item.color,
+        image: item.image,
+      };
+      cartItems.push(cartItem);
+    }
+    useEffect(() => {
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+      console.log(localStorage.getItem("cart"));
+    }, []);
   useEffect(() => {
     setSuKienUuDais(sukienuudai);
     const timer = setTimeout(() => {
@@ -301,14 +304,15 @@ export default function MainPage({
               Nhận thông tin về sản phẩm mới, ưu đãi đặc biệt và xu hướng thời
               trang mới nhất
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            {/* <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
                 type="email"
                 placeholder="Nhập email của bạn"
                 className="flex-1 px-4 py-3 rounded-lg border border-border bg-background"
               />
               <Button size="lg">Đăng ký</Button>
-            </div>
+            </div> */}
+            <MailChimp />
           </div>
         </div>
       </section>
