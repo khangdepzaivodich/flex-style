@@ -21,7 +21,7 @@ export default async function layout({
   return (
     <>
       {" "}
-      <ProtectedRoute Role={"KH"}>
+      <ProtectedRoute Role={"KH"} alloweGuest={true}>
         <LanguageProvider initialLanguage={language as "en" | "vi"}>
           <CartProvider>
             <SuKienUuDaiProvider>
