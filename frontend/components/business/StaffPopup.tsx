@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,13 +8,26 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { X, Save } from "lucide-react";
 
+type StaffData = {
+  fullName?: string;
+  phone?: string;
+  email?: string;
+  cccd?: string;
+  accountCode?: string;
+  password?: string;
+  confirmPassword?: string;
+  position?: string;
+  status?: string;
+};
+
 type StaffPopupProps = {
   open: boolean;
   onClose: () => void;
   onSave: (data: any) => void;
+  initialData?: StaffData | null;
 };
 
-export default function StaffPopup({ open, onClose, onSave }: StaffPopupProps) {
+export default function StaffPopup({ open, onClose, onSave, initialData }: StaffPopupProps) {
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
@@ -23,7 +36,7 @@ export default function StaffPopup({ open, onClose, onSave }: StaffPopupProps) {
     accountCode: "",
     password: "",
     confirmPassword: "",
-    position: "Nhân viên",
+    position: "Nhân viên CSKH",
     status: "Hoạt động",
   });
 
@@ -35,6 +48,35 @@ export default function StaffPopup({ open, onClose, onSave }: StaffPopupProps) {
     onSave(form);
     onClose();
   };
+
+  useEffect(() => {
+    if (open && initialData) {
+      setForm((f) => ({
+        ...f,
+        fullName: initialData.fullName ?? "",
+        phone: initialData.phone ?? "",
+        email: initialData.email ?? "",
+        cccd: initialData.cccd ?? "",
+        accountCode: initialData.accountCode ?? "",
+        password: "",
+        confirmPassword: "",
+        position: initialData.position ?? f.position,
+        status: initialData.status ?? f.status,
+      }));
+    } else if (!open) {
+      setForm({
+        fullName: "",
+        phone: "",
+        email: "",
+        cccd: "",
+        accountCode: "",
+        password: "",
+        confirmPassword: "",
+        position: "Nhân viên",
+        status: "Hoạt động",
+      });
+    }
+  }, [open, initialData]);
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -86,9 +128,8 @@ export default function StaffPopup({ open, onClose, onSave }: StaffPopupProps) {
               <SelectValue placeholder="Chức vụ" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Quản lý">Quản lý</SelectItem>
-              <SelectItem value="Nhân viên">Nhân viên</SelectItem>
-              <SelectItem value="Kế toán">Kế toán</SelectItem>
+              <SelectItem value="Nhân viên CSKH">Nhân viên CSKH</SelectItem>
+              <SelectItem value="Nhân viên vận hành">Nhân viên vận hành</SelectItem>
             </SelectContent>
           </Select>
 
