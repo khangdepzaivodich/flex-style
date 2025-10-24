@@ -6,7 +6,6 @@ import { CartProvider } from "@/contexts/cart-context";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Analytics } from "@vercel/analytics/next";
-import ProtectedRoute from "@/components/protected-route";
 import ChatWidget from "@/components/chat-widget";
 import { SuKienUuDaiProvider } from "@/contexts/sukienuudai-context";
 
@@ -49,12 +48,11 @@ export default async function layout({
                     s1.setAttribute('crossorigin','*');
                     s0.parentNode.insertBefore(s1,s0);
                   })();`,
-                }}
-              />
-            </SuKienUuDaiProvider>
-          </CartProvider>
-        </LanguageProvider>
-      </ProtectedRoute>
+              }}
+            />
+          </SuKienUuDaiProvider>
+        </CartProvider>
+      </LanguageProvider>
     </>
   );
 }

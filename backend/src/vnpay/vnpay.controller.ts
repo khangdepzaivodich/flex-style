@@ -28,10 +28,12 @@ export class VNPAYController {
     return url;
   }
 
-  @Get('return')
-  async handleReturn(@Query() query) {
-    // Xử lý khi khách hàng được chuyển hướng về từ VNPAY
-    const vnpResponse = this.vnpayService.verifyReturnUrl(query);
-    return vnpResponse;
-  }
+  // @Get('return')
+  // async handleReturn(@Query() query) {
+  //   // Xử lý khi khách hàng được chuyển hướng về từ VNPAY
+  //   const vnpResponse = this.vnpayService.verifyReturnUrl(query);
+  //   return vnpResponse;
+  // }
 }
+
+
