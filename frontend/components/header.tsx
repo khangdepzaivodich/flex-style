@@ -29,6 +29,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useCart } from "@/contexts/cart-context";
 import { useAuth } from "@/contexts/auth-context";
 import { useLanguage } from "@/contexts/language-context";
+import { CartItem } from "@/lib/types";
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,8 +39,28 @@ export function Header() {
   const { setLanguage, t } = useLanguage();
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => setHydrated(true), []);
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    const userId = user?.id;
+    const itemCart = localStorage.getItem("cart");
+    if (userId && itemCart) {
+      const parsedCart = JSON.parse(itemCart);
+      const mapperItem = parsedCart.map((item: any) => ({
+        MaCTSP: item.productId,
+        SoLuong: item.quantity,
+        KichCo: item.size,
+      }));
+      // 2. Gọi API lưu giỏ hàng
+      await fetch(
+        `http://localhost:8080/api/giohang/update-cart?MaTKKH=${userId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(mapperItem),
+          keepalive: true,
+        }
+      );
+    }
+    await logout();
     router.push("/auth/login");
   };
 

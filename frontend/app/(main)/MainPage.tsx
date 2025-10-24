@@ -69,7 +69,7 @@ export default function MainPage({
 }: {
   initialProducts: Product[];
   sukienuudai: SuKienUuDai;
-  initialCartItems: CartItem[];
+  initialCartItems: any;
 }) {
   const { setSuKienUuDais } = useSuKienUuDai();
 

@@ -52,7 +52,7 @@ export interface PhanHoi {
 }
 
 export interface CartItem {
-  id: string;
+  // id: string;
   productId: string;
   name: string;
   price: number;
