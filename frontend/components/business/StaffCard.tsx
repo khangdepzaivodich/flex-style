@@ -3,6 +3,8 @@
 import React from "react";
 import { Edit, XIcon, Briefcase, CreditCard, Mail, Phone, Hash, User, UserRoundPen, IdCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import StaffPopup from "./StaffPopup";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export type StaffCardProps = {
@@ -31,6 +33,8 @@ export default function StaffCard({
   onEdit,
   onDelete,
 }: StaffCardProps) {
+  // Local popup removed — editing is handled at page level
+
   return (
   <div className={"w-full rounded-lg border border-card-border bg-transparent px-5 pt-3 pb-6 relative"}>
       <div className="flex items-start justify-between gap-4">
@@ -92,6 +96,8 @@ export default function StaffCard({
           <span className="text-sm">Xóa</span>
         </Button>
       </div>
+
+      {/* Popup moved to page-level; StaffCard just displays data and delegates edit/delete to parent */}
     </div>
   );
 }

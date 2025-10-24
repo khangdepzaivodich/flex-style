@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Save, X } from "lucide-react";
 
 interface ProductData {
@@ -20,15 +20,34 @@ interface ProductPopupProps {
 	open: boolean;
 	onClose: () => void;
 	onSave: (data: ProductData) => void;
+	initialData?: ProductData | null;
 }
 
-export default function ProductPopup({ open, onClose, onSave }: ProductPopupProps) {
+export default function ProductPopup({ open, onClose, onSave, initialData }: ProductPopupProps) {
 	const [name, setName] = useState("");
 	const [category, setCategory] = useState("");
 	const [id, setId] = useState("");
 	const [stock, setStock] = useState<number | undefined>(undefined);
 	const [minStock, setMinStock] = useState<number | undefined>(undefined);
 	const [price, setPrice] = useState<number | undefined>(undefined);
+
+	useEffect(() => {
+		if (open && initialData) {
+			setId(initialData.id ?? "");
+			setName(initialData.name ?? "");
+			setCategory(initialData.category ?? "");
+			setStock(typeof initialData.stock === "number" ? initialData.stock : undefined);
+			setMinStock(typeof initialData.minStock === "number" ? initialData.minStock : undefined);
+			setPrice(typeof initialData.price === "number" ? initialData.price : undefined);
+		} else if (!open) {
+			setId("");
+			setName("");
+			setCategory("");
+			setStock(undefined);
+			setMinStock(undefined);
+			setPrice(undefined);
+		}
+	}, [open, initialData]);
 
 	return (
 		<Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>

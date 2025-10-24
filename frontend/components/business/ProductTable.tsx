@@ -80,21 +80,11 @@ export default function ProductTable({
 													</span>
 												</td>
 								<td className="px-4 py-2 flex gap-2">
-									<Button
-										size="sm"
-										variant="outline"
-										className="flex items-center gap-1"
-										onClick={() => onEdit?.(p.id)}
-									>
+									<Button size="sm" variant="outline" className="flex items-center gap-1" onClick={() => onEdit?.(p.id)}>
 										<SquarePen className="w-4 h-4" />
 										Chỉnh sửa
 									</Button>
-									<Button
-										size="sm"
-										variant="outline"
-										className="flex items-center gap-1 hover:bg-red-100 hover:text-red-600"
-										onClick={() => onDelete?.(p.id)}
-									>
+									<Button size="sm" variant="outline" className="flex items-center gap-1 hover:bg-red-100 hover:text-red-600" onClick={() => onDelete?.(p.id)}>
 										<Trash2 className="w-4 h-4" />
 										Xóa
 									</Button>

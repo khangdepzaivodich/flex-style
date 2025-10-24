@@ -7,13 +7,49 @@ import { Button } from "@/components/ui/button";
 import StaffPopup from "@/components/business/StaffPopup";
 import { useState } from "react";
 
-const sampleStaff = [
-  { id: 1, name: "Nguyễn Văn A", nationalId: "012345678", email: "a@example.com", phone: "0123456789", accountCode: "STAFF001", position: "Nhân viên bán hàng", status: "active" },
-  { id: 2, name: "Trần Thị B", nationalId: "987654321", email: "b@example.com", phone: "0987654321", accountCode: "STAFF002", position: "Quản lý kho", status: "inactive" },
-];
+const sampleStaff: any[] = [];
 
 export default function StaffPage() {
   const [open, setOpen] = useState(false);
+  const [editing, setEditing] = useState<any | null>(null);
+  const [staff, setStaff] = useState(() => sampleStaff);
+
+  const handleSave = (data: any) => {
+    const dup: string[] = [];
+    for (const s of staff) {
+      if (editing && s.id === editing.id) continue;
+      if (s.accountCode === data.accountCode) dup.push("Mã tài khoản");
+      if (s.email === data.email) dup.push("Email");
+    }
+    if (dup.length > 0) {
+      const uniq = Array.from(new Set(dup));
+      alert(`Thông tin trùng: ${uniq.join(', ')}. Vui lòng sửa trước khi lưu.`);
+      return;
+    }
+
+    const newItem = { ...data };
+    setStaff((prev) => {
+      if (editing) {
+        return prev.map((p) => (p.id === editing.id ? { ...newItem, id: editing.id } : p));
+      }
+      const nextId = prev.length ? Math.max(...prev.map((p) => Number(p.id))) + 1 : 1;
+      return [{ ...newItem, id: nextId }, ...prev];
+    });
+    setOpen(false);
+    setEditing(null);
+  };
+
+  const handleDelete = (id: number | string | undefined) => {
+    setStaff((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  const handleEdit = (id: number | string | undefined) => {
+    const s = staff.find((x) => x.id === id);
+    if (s) {
+      setEditing(s);
+      setOpen(true);
+    }
+  };
 
   return (
     <main className="space-y-6">
@@ -22,26 +58,28 @@ export default function StaffPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input placeholder="Tìm kiếm..." className="pl-10 bg-muted border-0 w-full" />
         </div>
-        <Button onClick={() => setOpen(true)}>Thêm nhân viên</Button>
+        <Button onClick={() => { setEditing(null); setOpen(true); }}>Thêm nhân viên</Button>
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        {sampleStaff.map((s) => (
+        {staff.map((s) => (
           <StaffCard
             key={s.id}
             id={s.id}
-            name={s.name}
-            nationalId={s.nationalId}
+            name={s.fullName ?? s.name}
+            nationalId={s.cccd ?? s.nationalId}
             email={s.email}
             phone={s.phone}
             accountCode={s.accountCode}
             position={s.position}
-            status={s.status as "active" | "inactive"}
+            status={s.status === "Hoạt động" || s.status === "active" ? "active" : "inactive"}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
           />
         ))}
       </div>
 
-      <StaffPopup open={open} onClose={() => setOpen(false)} onSave={(data) =>  setOpen(false)} />
+      <StaffPopup open={open} onClose={() => { setOpen(false); setEditing(null); }} onSave={handleSave} initialData={editing ?? undefined} />
     </main>
   );
 }
