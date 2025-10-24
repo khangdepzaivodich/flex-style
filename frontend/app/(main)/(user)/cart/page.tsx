@@ -49,7 +49,7 @@ export default function CartPage() {
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
               {items.map((item) => (
-                <Card key={item.id}>
+                <Card key={item.productId}>
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
                       {/* Product Image */}
@@ -83,7 +83,7 @@ export default function CartPage() {
                               size="icon"
                               className="h-8 w-8 bg-transparent"
                               onClick={() =>
-                                handleQuantityChange(item.id, item.quantity - 1)
+                                handleQuantityChange(item.productId, item.quantity - 1)
                               }
                             >
                               <Minus className="h-3 w-3" />
@@ -96,7 +96,7 @@ export default function CartPage() {
                               size="icon"
                               className="h-8 w-8 bg-transparent"
                               onClick={() =>
-                                handleQuantityChange(item.id, item.quantity + 1)
+                                handleQuantityChange(item.productId, item.quantity + 1)
                               }
                             >
                               <Plus className="h-3 w-3" />
@@ -110,7 +110,7 @@ export default function CartPage() {
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item.productId)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

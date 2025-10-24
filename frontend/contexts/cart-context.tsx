@@ -57,9 +57,9 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         // Add new item
         const newItem: CartItem = {
           ...action.payload,
-          id: `${action.payload.productId}-${action.payload.size}-${
-            action.payload.color
-          }-${Date.now()}`,
+          // id: `${action.payload.productId}-${action.payload.size}-${
+          //   action.payload.color
+          // }-${Date.now()}`,
         };
         newItems = [...state.items, newItem];
       }
@@ -76,7 +76,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
     }
 
     case "REMOVE_ITEM": {
-      const newItems = state.items.filter((item) => item.id !== action.payload);
+      const newItems = state.items.filter((item) => item.productId !== action.payload);
       const total = newItems.reduce(
         (sum, item) => sum + item.price * item.quantity,
         0
@@ -89,7 +89,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 
     case "UPDATE_QUANTITY": {
       const newItems = state.items.map((item) =>
-        item.id === action.payload.id
+        item.productId === action.payload.id
           ? { ...item, quantity: Math.max(0, action.payload.quantity) }
           : item
       );
