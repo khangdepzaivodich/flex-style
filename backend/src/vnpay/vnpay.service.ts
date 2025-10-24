@@ -14,8 +14,4 @@ export class VNPAYService {
             vnp_ReturnUrl: `http://localhost:3000/checkout/success`, // Thay đổi URL trả về theo frontend của bạn
         });
     }
-
-    async verifyReturnUrl(query: any) {
-        return this.vnpayService.verifyReturnUrl(query);
-    }
 }

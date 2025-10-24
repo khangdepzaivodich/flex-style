@@ -1,6 +1,9 @@
 // frontend/components/PaymentButton.tsx
 import { useState } from "react";
 import type { VerifyReturnUrl } from "vnpay/types-only"; // ✅ Chỉ import types
+import Image from "next/image";
+import { Fullscreen } from "lucide-react";
+import { inherits } from "util";
 
 interface PaymentButtonProps {
   amount: number;
@@ -50,9 +53,25 @@ export const VNPAY: React.FC<PaymentButtonProps> = ({
     <button
       onClick={handlePayment}
       disabled={loading}
-      className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+      className="flex flex-col items-center bg-white rounded-lg shadow hover:shadow-lg transition "
+      style={{ border: "1px solid #e5e7eb" }}
     >
-      {loading ? "Đang xử lý..." : `Thanh toán VNPay`}
+      <Image
+        src={"/vnpay.png"}
+        alt="VNPay Logo"
+        width={100}
+        height={20}
+        sizes="50vw"
+        style={{
+          width: "50%",
+          objectFit: "contain",
+        }}
+      />
+      {/* <span className="text-2xl font-bold text-[#e30613] leading-none">
+        Ví <span className="text-[#005baa]">VN</span>PAY
+      </span>
+      <span className="text-base text-[#009fe3] mt-1">Ví của gia đình</span> */}
     </button>
   );
 };
+export default VNPAY;

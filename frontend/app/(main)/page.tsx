@@ -34,13 +34,13 @@ export default async function MainCarousel() {
   const suKienUuDais = await fetchSukienuudais();
   const accessToken = await getAccessToken();
   const userId = await getUserId();
-  if (!accessToken) {
-    return (
-      <div className="text-center mt-10 text-lg font-semibold mb-5 text-gray-600">
-        Vui lòng đăng nhập để xem giỏ hàng của bạn.
-      </div>
-    );
-  }
+  // if (!accessToken) {
+  //   return (
+  //     <div className="text-center mt-10 text-lg font-semibold mb-5 text-gray-600">
+  //       Vui lòng đăng nhập để xem giỏ hàng của bạn.
+  //     </div>
+  //   );
+  // }
   const gioHang = await getGioHang(String(userId), String(accessToken));
   console.log("gioHang", gioHang); 
   return (

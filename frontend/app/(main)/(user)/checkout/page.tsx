@@ -15,6 +15,7 @@ import { MapPin, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import PayPal from "@/components/paypal";
 import { VNPAY } from "@/components/vnpay";
+import { X } from "lucide-react";
 export default function CheckoutPage() {
   const { items, total } = useCart();
   const { user } = useAuth();
@@ -245,7 +246,7 @@ export default function CheckoutPage() {
               <div className="space-y-3">
                 {items.map((item) => (
                   <div
-                    key={`${item.id}-${item.size}-${item.color}`}
+                    key={`${item.productId}-${item.size}-${item.color}`}
                     className="flex gap-3"
                   >
                     <div className="relative">
@@ -325,9 +326,10 @@ export default function CheckoutPage() {
           onClick={handleClosePopup}
         >
           <div
-            className="bg-white p-8 rounded-lg max-w-md w-11/12 max-h-[80vh] overflow-y-auto shadow-xl"
+            className="relative bg-white p-8 rounded-lg max-w-md w-11/12 max-h-[80vh] overflow-y-auto shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
+            <X className="absolute top-0 right-0" onClick={handleClosePopup} />
             <h2 className="text-center mb-5 text-xl font-bold">
               Hóa đơn đơn hàng
             </h2>
@@ -377,7 +379,7 @@ export default function CheckoutPage() {
 
             {/* Payment Methods */}
             <h3 className="mb-3 font-semibold">Chọn phương thức thanh toán:</h3>
-            <div className="flex flex-wrap gap-3 mb-5 ">
+            <div className="flex flex-col gap-3 mb-5">
               <div>
                 {PayPal({
                   value: usdTotal.toFixed(2),
@@ -393,25 +395,6 @@ export default function CheckoutPage() {
                   }}
                 />
               </div>
-            </div>
-
-            {/* Confirm Buttons */}
-            <div className="flex justify-between">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleClosePopup}
-                disabled={isProcessing}
-              >
-                Hủy
-              </Button>
-              {/* <Button
-                type="button"
-                onClick={handleConfirmPayment}
-                disabled={isProcessing || !selectedPayment}
-              >
-                {isProcessing ? "Đang xử lý..." : "Xác nhận"}
-              </Button> */}
             </div>
           </div>
         </div>

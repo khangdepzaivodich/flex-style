@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { GiohangService } from './giohang.service';
-import { AddToCartDto, UpdateQuantityDto, CartResponseDto } from './dto/giohang.dto';
+import { AddToCartDto, UpdateQuantityDto} from './dto/giohang.dto';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 
 @ApiTags('Giỏ hàng')
@@ -39,7 +39,7 @@ export class GiohangController {
   @ApiResponse({ 
     status: 200, 
     description: 'Lấy giỏ hàng thành công', 
-    type: CartResponseDto 
+    // type: CartResponseDto 
   })
   @ResponseMessage('Lấy giỏ hàng thành công')
   async getCartItems(@Query('MaTKKH') MaTKKH: string){
