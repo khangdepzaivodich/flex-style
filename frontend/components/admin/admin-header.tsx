@@ -1,8 +1,5 @@
-"use client";
-
-import { Bell, Search, User, LogOut, Settings } from "lucide-react";
+import { Bell, User, LogOut, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,20 +11,20 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/auth-context";
+import { usePathname } from "next/navigation";
+
+const titleMap: Record<string, string> = {
+  "/admin/positions": "Quản lý chức vụ",
+};
 
 export function AdminHeader() {
   const { user, logout } = useAuth();
+  const pathName = usePathname();
 
   return (
     <header className="h-16 border-b border-border bg-background px-6 flex items-center justify-between">
-      <div className="flex items-center space-x-4 flex-1">
-        <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-          <Input
-            placeholder="Tìm kiếm..."
-            className="pl-10 bg-muted border-0"
-          />
-        </div>
+      <div className="flex items-center space-x-4 flex-1 text-3xl font-bold">
+        {titleMap[pathName] || "Dashboard"}
       </div>
 
       <div className="flex items-center space-x-4">

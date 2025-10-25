@@ -65,43 +65,40 @@ function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
 
 export default function MainPage({
   initialProducts,
-  sukienuudai,
   initialCartItems,
 }: {
   initialProducts: Product[];
-  sukienuudai: SuKienUuDai;
   initialCartItems: CartItem[];
 }) {
-  const { setSuKienUuDais } = useSuKienUuDai();
+  const { suKienUuDais } = useSuKienUuDai();
 
-  const [popup, setPopup] = useState(sukienuudai != null);
+  const [popup, setPopup] = useState(suKienUuDais != null);
   const cartItems: CartItem[] = [];
-    for (const item of initialCartItems) {
-      const cartItem = {
-        productId: item.productId,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-        size: item.size,
-        color: item.color,
-        image: item.image,
-      };
-      cartItems.push(cartItem);
-    }
-    useEffect(() => {
-      localStorage.setItem("cart", JSON.stringify(cartItems));
-      console.log(localStorage.getItem("cart"));
-    }, []);
+  for (const item of initialCartItems) {
+    const cartItem = {
+      productId: item.productId,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      size: item.size,
+      color: item.color,
+      image: item.image,
+    };
+    cartItems.push(cartItem);
+  }
   useEffect(() => {
-    setSuKienUuDais(sukienuudai);
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+    console.log(localStorage.getItem("cart"));
+  }, []);
+  useEffect(() => {
     const timer = setTimeout(() => {
       setPopup(false);
     }, 10000);
     return () => clearTimeout(timer);
-  }, [sukienuudai, setSuKienUuDais]);
+  }, [suKienUuDais]);
   return (
     <div className="flex flex-col">
-      {popup && <PopupUuDai suKienUuDais={sukienuudai} />}
+      {popup && <PopupUuDai suKienUuDais={suKienUuDais} />}
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-primary/10 to-secondary/10 py-20 lg:py-32">
         <div className="container mx-auto px-4">
