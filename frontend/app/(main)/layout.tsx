@@ -10,6 +10,25 @@ import ChatWidget from "@/components/chat-widget";
 import { SuKienUuDaiProvider } from "@/contexts/sukienuudai-context";
 import ProtectedRoute from "@/components/protected-route";
 
+import type { SuKienUuDai } from "@/lib/types";
+
+async function fetchSukienuudais() {
+  const res = await fetch(`http://localhost:8080/api/sukienuudai`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch sự kiện ưu đãi");
+  }
+  return res.json();
+}
+function compareDate(a: string | Date, b: string | Date): number {
+  const da = typeof a === "string" ? new Date(a) : a;
+  const db = typeof b === "string" ? new Date(b) : b;
+  if (da < db) return -1;
+  if (da > db) return 1;
+  return 0;
+}
+
 export default async function layout({
   children,
 }: Readonly<{
@@ -17,13 +36,22 @@ export default async function layout({
 }>) {
   const cookieStore = await cookies();
   const language = cookieStore.get("language")?.value || "vi";
+  const sukienuudais = await fetchSukienuudais();
 
   return (
     <>
       <ProtectedRoute Role="KH" alloweGuest={true}>
         <LanguageProvider initialLanguage={language as "en" | "vi"}>
           <CartProvider>
-            <SuKienUuDaiProvider>
+            <SuKienUuDaiProvider
+              initialData={
+                sukienuudais.data.find(
+                  (s: SuKienUuDai) =>
+                    compareDate(s.NgayPH, new Date()) < 0 &&
+                    compareDate(s.NgayKT, new Date()) > 0
+                ) ?? ({} as SuKienUuDai)
+              }
+            >
               <Header />
               {children}
               <Footer />

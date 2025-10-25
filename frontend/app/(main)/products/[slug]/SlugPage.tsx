@@ -24,7 +24,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProductCard } from "@/components/product-card";
 import { formatPrice } from "@/lib/help";
 import { useCart } from "@/contexts/cart-context";
-
+import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 import type { Product, PhanHoi } from "@/lib/types";
 
 export default function SlugPage({
@@ -39,12 +39,11 @@ export default function SlugPage({
   feedbacksCustomer: string[];
 }) {
   const { addItem } = useCart();
+  const { suKienUuDais } = useSuKienUuDai();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const discountPercentage = product.GiaBan
-    ? Math.round(((product.GiaBan - product.GiaBan) / product.GiaBan) * 100)
-    : 0;
+  const discountPercentage = suKienUuDais.PhanTramGiam || 0;
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -53,9 +52,11 @@ export default function SlugPage({
     }
 
     addItem({
-      productId: String(product.CHITIETSANPHAM.find((s) => s.KichCo === selectedSize)?.MaCTSP),
+      productId: String(
+        product.CHITIETSANPHAM.find((s) => s.KichCo === selectedSize)?.MaCTSP
+      ),
       name: product.TenSP,
-      price: product.GiaBan,
+      price: product.GiaBan * (1 - discountPercentage / 100),
       image: product.HinhAnh[0],
       size: selectedSize,
       color: product.MauSac,
@@ -209,9 +210,9 @@ export default function SlugPage({
             {/* Price */}
             <div className="flex items-center space-x-3 mb-6">
               <span className="text-3xl font-bold text-primary">
-                {formatPrice(product.GiaBan)}
+                {formatPrice(product.GiaBan * (1 - discountPercentage / 100))}
               </span>
-              {product.GiaBan && (
+              {discountPercentage > 0 && (
                 <span className="text-xl text-muted-foreground line-through">
                   {formatPrice(product.GiaBan)}
                 </span>

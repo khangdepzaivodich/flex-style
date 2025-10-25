@@ -52,11 +52,13 @@ export default function ProtectedRoute({
         const role = res.data.data.VAITRO;
 
         // Allow if not in blockedRoles
-        if (Role == role) {
+        if (Role === role) {
           setAuthorized(true);
         } else {
           try {
+            console.log("Redirecting based on role:", role);
             const target = getRoleLink(role);
+
             router.replace(target);
           } catch {
             router.replace("/unauthorized");

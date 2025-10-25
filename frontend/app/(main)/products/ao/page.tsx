@@ -1,4 +1,4 @@
-import ProductsPage from "./AoPage";
+import AoPage from "./AoPage";
 
 async function getProducts() {
   const res = await fetch(
@@ -22,7 +22,7 @@ export default async function AoCarousel() {
 
   return (
     <div>
-      <ProductsPage
+      <AoPage
         key={products}
         initialProducts={products.data}
         categories={categories.data}
