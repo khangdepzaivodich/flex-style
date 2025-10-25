@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TaikhoanController } from './taikhoan.controller';
+import { TaikhoanController } from './khachhang.controller';
 
 describe('TaikhoanController', () => {
   let controller: TaikhoanController;

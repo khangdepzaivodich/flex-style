@@ -13,7 +13,7 @@ export function formatPrice(price: number): string {
   }).format(price);
 }
 export const ROLE_LINKS = {
-  QLDN: "/bussiness",
+  QLDN: "/business",
   NVVH: "/operator",
   NVCSKH: "/customer-service",
   NCC: "/supplier",

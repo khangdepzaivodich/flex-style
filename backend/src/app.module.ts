@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
@@ -12,7 +12,10 @@ import { DonhangModule } from './donhang/donhang.module';
 import { TinhtrangDonhangModule } from './tinhtrangdonhang/tinhtrangdonhang.module';
 import { VoucherModule } from './voucher/voucher.module';
 import { TaikhoanService } from './taikhoan/taikhoan.service';
-import { TaikhoanController } from './taikhoan/taikhoan.controller';
+import { KhachHangController } from './taikhoan/khachhang.controller';
+import { NhanVienController } from './taikhoan/nhanvien.controller';
+import { QuanLyController } from './taikhoan/quanly.controller';
+import { NhaCungCapController } from './taikhoan/nhacungcap.controller';
 import { TaikhoanModule } from './taikhoan/taikhoan.module';
 import { VoucherKhachHangModule } from './voucher_khachhang/voucher_khachhang.module';
 import { PhanHoiModule } from './phanhoi/phanhoi.module';
@@ -21,7 +24,6 @@ import { JwtAuthGuard } from './jwt/jwt.guard';
 import { JwtService } from '@nestjs/jwt';
 import { PaypalModule } from './paypal/paypal.module';
 import { VNPAYModule } from './vnpay/vnpay.module';
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -47,9 +49,15 @@ import { VNPAYModule } from './vnpay/vnpay.module';
     VoucherKhachHangModule,
     PhanHoiModule,
     PhieuNhapHangModule,
-    VNPAYModule
+    VNPAYModule,
   ],
-  controllers: [AppController, TaikhoanController],
+  controllers: [
+    AppController,
+    KhachHangController,
+    NhanVienController,
+    QuanLyController,
+    NhaCungCapController,
+  ],
   providers: [AppService, TaikhoanService, JwtService],
 })
 export class AppModule {
