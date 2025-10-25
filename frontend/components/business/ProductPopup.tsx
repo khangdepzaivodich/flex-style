@@ -8,21 +8,22 @@ import { useState, useEffect } from "react";
 import { Save, X } from "lucide-react";
 
 interface ProductData {
-	id: string;
-	name: string;
-	category?: string;
-	stock?: number;
-	minStock?: number;
-	price?: number;
+	id: string; // Mã sản phẩm
+	name: string; // Tên sản phẩm
+	category?: string; // Danh mục
+	stock?: number; // Tồn kho
+	minStock?: number; // Tồn kho tối thiểu
+	price?: number; // Giá sản phẩm
 }
 
 interface ProductPopupProps {
 	open: boolean;
-	onClose: () => void;
-	onSave: (data: ProductData) => void;
-	initialData?: ProductData | null;
+	onClose: () => void; // Hàm gọi khi đóng popup
+	onSave: (data: ProductData) => void; // Hàm gọi khi lưu sản phẩm
+	initialData?: ProductData | null; // Dữ liệu ban đầu để chỉnh sửa
 }
 
+// Component hiển thị popup thêm / sửa sản phẩm
 export default function ProductPopup({ open, onClose, onSave, initialData }: ProductPopupProps) {
 	const [name, setName] = useState("");
 	const [category, setCategory] = useState("");
@@ -31,6 +32,7 @@ export default function ProductPopup({ open, onClose, onSave, initialData }: Pro
 	const [minStock, setMinStock] = useState<number | undefined>(undefined);
 	const [price, setPrice] = useState<number | undefined>(undefined);
 
+	// Cập nhật trạng thái khi mở popup hoặc dữ liệu ban đầu thay đổi
 	useEffect(() => {
 		if (open && initialData) {
 			setId(initialData.id ?? "");

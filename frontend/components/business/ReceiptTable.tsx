@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 interface Receipt {
-    id: string;
-    date: string;
-    warehouse?: string;
-    address?: string;
-    status?: "Đã xác nhận" | "Chờ xác nhận" | "Từ chối" | string;
-    total?: number;
+    id: string; // Mã phiếu
+    date: string; // Ngày nhập hàng
+    warehouse?: string; // Kho hàng
+    address?: string; // Địa chỉ
+    status?: "Đã xác nhận" | "Chờ xác nhận" | "Từ chối" | string; // Trạng thái
+    total?: number; // Tổng tiền
 }
 
 interface ReceiptTableProps {
@@ -24,7 +24,7 @@ interface ReceiptTableProps {
 export default function ReceiptTable({ receipts = [], receiptsBusiness, receiptsSupplier, onView}: ReceiptTableProps) {
     const business = receiptsBusiness ?? receipts;
     const supplier = receiptsSupplier ?? receipts;
-
+    // Hàm hiển thị các dòng cho tab Doanh nghiệp
     function renderBusinessRows(list: Receipt[]) {
         return (
             <>
@@ -63,7 +63,7 @@ export default function ReceiptTable({ receipts = [], receiptsBusiness, receipts
             </>
         );
     }
-
+    // Hàm hiển thị các dòng cho tab Nhà cung cấp
     function renderSupplierRows(list: Receipt[]) {
         return (
             <>

@@ -26,7 +26,7 @@ type StaffPopupProps = {
   onSave: (data: any) => void;
   initialData?: StaffData | null;
 };
-
+// Component hiển thị popup thêm / sửa nhân viên
 export default function StaffPopup({ open, onClose, onSave, initialData }: StaffPopupProps) {
   const [form, setForm] = useState({
     fullName: "",

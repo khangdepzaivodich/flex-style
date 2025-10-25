@@ -8,8 +8,8 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export type StaffCardProps = {
-  id?: string | number;
-  name: string;
+  id?: number; // id của cái card đó
+  name: string; // tên nhân viên
   nationalId?: string; // Số căn cước công dân / CMND
   email?: string;
   phone?: string;
@@ -33,8 +33,6 @@ export default function StaffCard({
   onEdit,
   onDelete,
 }: StaffCardProps) {
-  // Local popup removed — editing is handled at page level
-
   return (
   <div className={"w-full rounded-lg border border-card-border bg-transparent px-5 pt-3 pb-6 relative"}>
       <div className="flex items-start justify-between gap-4">
@@ -96,8 +94,6 @@ export default function StaffCard({
           <span className="text-sm">Xóa</span>
         </Button>
       </div>
-
-      {/* Popup moved to page-level; StaffCard just displays data and delegates edit/delete to parent */}
     </div>
   );
 }

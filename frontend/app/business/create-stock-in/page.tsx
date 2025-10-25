@@ -4,25 +4,19 @@ import React from 'react'
 import Receipt from '../../../components/business/Receipt'
 
 export default function Page() {
-  const receiptProps = {
-    receiptCode: "PNH-001",
-    supplier: "Công ty ABC",
-    invoiceDate: new Date().toLocaleDateString('vi-VN'),
-    warehouse: "Kho Hà Nội",
-    address: "Số 1, Đường X",
-    onDownloadExcel: () => {
-      console.log('Download excel clicked')
-      alert('Download excel (placeholder)')
-    },
-    onCreate: () => {
-      console.log('Create receipt clicked')
-      alert('Tạo phiếu (placeholder)')
-    },
-  } as any
+  const onDownloadExcel = () => {
+    console.log('Download excel clicked')
+    alert('Download excel (placeholder)')
+  }
+
+  const onCreate = () => {
+    console.log('Create receipt clicked')
+    alert('Tạo phiếu (placeholder)')
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      <Receipt {...receiptProps} />
+  <Receipt onDownloadExcel={onDownloadExcel} onCreate={onCreate} />
     </div>
   )
 }

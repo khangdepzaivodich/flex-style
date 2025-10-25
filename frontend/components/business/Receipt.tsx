@@ -1,21 +1,23 @@
 import React, { useState } from 'react'
+import { Download } from 'lucide-react'
 
 type Item = {
-  name: string
-  code: string
-  unit: string
-  qty: number
-  unitPrice: number
+  name: string // Tên sản phẩm
+  code: string // Mã sản phẩm
+  unit: string // Đơn vị tính
+  qty: number // Số lượng
+  unitPrice: number // Đơn giá
 }
 
 export type ReceiptData = {
-  date: string
-  receiptCode: string
-  supplier?: string
-  invoiceDate?: string
-  warehouse?: string
-  address?: string
+  date: string // Ngày nhập hàng
+  receiptCode: string // Mã phiếu nhập hàng
+  supplier?: string // Họ và tên người giao
+  invoiceDate?: string // Theo hóa đơn ngày
+  warehouse?: string // Kho hàng
+  address?: string // Địa chỉ
   item: Item
+  totalInWords?: string // Tổng số tiền bằng chữ
 }
 
 type ReceiptProps = {
@@ -36,17 +38,19 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
   const [address, setAddress] = useState<string>(initial.address ?? '')
 
   const [item, setItem] = useState<Item>(
-    (initial.item as Item) ?? {
-      name: 'Áo Khoác jean Phối Nón The Original 039 Xanh Dương',
-      code: 'W9ED09E',
-      unit: 'Cái',
-      qty: 666,
-      unitPrice: 500000,
+    initial.item ? (initial.item as Item) : {
+      name: '',
+      code: '',
+      unit: '',
+      qty: 0,
+      unitPrice: 0,
     }
   )
-
+  // Tổng số tiền bằng chữ
+  const [totalInWords, setTotalInWords] = useState<string>((initial as any).totalInWords ?? '')
+  // Tổng tiền
   const total = item.qty * item.unitPrice
-
+  // Hàm cập nhật thông tin sản phẩm
   function handleItemField<K extends keyof Item>(field: K, value: Item[K]) {
     setItem((prev) => ({ ...prev, [field]: value }))
   }
@@ -59,6 +63,7 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
       invoiceDate,
       warehouse,
       address,
+      totalInWords,
       item,
     }
   }
@@ -212,7 +217,17 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
       </div>
 
       <div className="mt-4 text-base font-semibold">
-        <div>Tổng số tiền (bằng chữ): .....................................</div>
+        <div>
+          <label className="block text-xs text-gray-600">Tổng số tiền (bằng chữ)</label>
+          <input
+            type="text"
+            value={totalInWords}
+            onChange={(e) => setTotalInWords(e.target.value)}
+            placeholder="Nhập tổng số tiền bằng chữ"
+            className="mt-1 border rounded px-2 py-1 w-full text-sm"
+          />
+        </div>
+
         <div className="mt-2">
           <div className="text-base font-semibold" title={formatCurrency(total)}>
             Tổng số tiền (bằng số): {formatCurrency(total)}
@@ -236,6 +251,7 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
       </div>
 
       <div className="mt-8 flex justify-center gap-6">
+        {/* Placeholder cho DownloadExcelButton*/}
         <button
           onClick={() => {
             const data = buildData()
@@ -245,8 +261,9 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
               alert('Download excel (placeholder)')
             }
           }}
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded shadow"
+          className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded shadow"
         >
+          <Download className="h-4 w-4" />
           Tải xuống excel
         </button>
         <button
