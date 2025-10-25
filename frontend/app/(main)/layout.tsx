@@ -17,13 +17,22 @@ export default async function layout({
 }>) {
   const cookieStore = await cookies();
   const language = cookieStore.get("language")?.value || "vi";
+  const sukienuudais = await fetchSukienuudais();
 
   return (
     <>
       <ProtectedRoute Role="KH" alloweGuest={true}>
         <LanguageProvider initialLanguage={language as "en" | "vi"}>
           <CartProvider>
-            <SuKienUuDaiProvider>
+            <SuKienUuDaiProvider
+              initialData={
+                sukienuudais.data.find(
+                  (s: SuKienUuDai) =>
+                    compareDate(s.NgayPH, new Date()) < 0 &&
+                    compareDate(s.NgayKT, new Date()) > 0
+                ) ?? ({} as SuKienUuDai)
+              }
+            >
               <Header />
               {children}
               <Footer />

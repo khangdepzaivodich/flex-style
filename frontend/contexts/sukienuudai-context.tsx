@@ -4,7 +4,6 @@ import { createContext, useContext, useState } from "react";
 
 interface SuKienUuDaiContextType {
   suKienUuDais: SuKienUuDai;
-  isLoading: boolean;
   setSuKienUuDais: React.Dispatch<React.SetStateAction<SuKienUuDai>>;
 }
 
@@ -14,17 +13,15 @@ const SuKienUuDaiContext = createContext<SuKienUuDaiContextType | undefined>(
 
 export function SuKienUuDaiProvider({
   children,
+  initialData = {} as SuKienUuDai,
 }: {
   children: React.ReactNode;
+  initialData?: SuKienUuDai;
 }) {
-  const [suKienUuDais, setSuKienUuDais] = useState<SuKienUuDai>(
-    {} as SuKienUuDai
-  );
-  const isLoading = false;
+  const [suKienUuDais, setSuKienUuDais] = useState<SuKienUuDai>(initialData);
+
   return (
-    <SuKienUuDaiContext.Provider
-      value={{ suKienUuDais, isLoading, setSuKienUuDais }}
-    >
+    <SuKienUuDaiContext.Provider value={{ suKienUuDais, setSuKienUuDais }}>
       {children}
     </SuKienUuDaiContext.Provider>
   );

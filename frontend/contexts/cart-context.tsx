@@ -76,7 +76,9 @@ function cartReducer(state: CartState, action: CartAction): CartState {
     }
 
     case "REMOVE_ITEM": {
-      const newItems = state.items.filter((item) => item.productId !== action.payload);
+      const newItems = state.items.filter(
+        (item) => item.productId !== action.payload
+      );
       const total = newItems.reduce(
         (sum, item) => sum + item.price * item.quantity,
         0
@@ -142,7 +144,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   // Load cart from localStorage on mount
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
-    if (savedCart ) {
+    if (savedCart) {
       try {
         const cartItems = JSON.parse(savedCart);
         console.log("Loaded cart from localStorage:", cartItems);
@@ -208,7 +210,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     };
   }, [state.items]);
   // Save cart to localStorage whenever it changes
-  
+
   const addItem = (item: Omit<CartItem, "id">) => {
     dispatch({ type: "ADD_ITEM", payload: item });
   };
