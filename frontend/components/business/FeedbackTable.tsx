@@ -19,7 +19,9 @@ interface FeedbackTableProps {
     onDelete?: (id: string) => void;
 }
 
+// Component hiển thị bảng đánh giá / phản hồi
 export default function FeedbackTable({ feedbacks, onDelete }: FeedbackTableProps) {
+    // Hàm định dạng ngày tháng
     const formatDate = (d?: string | Date) => {
         if (!d) return "-";
         const dt = typeof d === "string" ? new Date(d) : d;
@@ -58,6 +60,7 @@ export default function FeedbackTable({ feedbacks, onDelete }: FeedbackTableProp
                             <th className="text-left px-4 py-2">Thao tác</th>
                         </tr>
                     </thead>
+                    {/* body bảng phản hồi */}
                     <tbody>
                         {feedbacks.map((f, idx) => (
                             <tr key={idx} className="border-b hover:bg-gray-50 transition-colors">

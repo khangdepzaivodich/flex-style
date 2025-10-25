@@ -38,6 +38,7 @@
     "recharts": "^3.2.1",
     "tailwind-merge": "^3.3.0",
     "uuid": "^13.0.0",
+    "vn-num2words": "^1.0.4",
     "vnpay": "^2.4.4"
   },
   "devDependencies": {

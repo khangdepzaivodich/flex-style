@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Filter as FilterIcon } from "lucide-react";
 
+// Dữ liệu mẫu cho các phiếu nhập hàng từ doanh nghiệp và nhà cung cấp
 const sampleBusiness = [
     { id: "RN-B001", date: "2025-10-10", warehouse: "Kho A", address: "123 Đường A", status: "Chờ xác nhận", total: 1250000 },
     { id: "RN-B002", date: "2025-10-12", warehouse: "Kho A", address: "123 Đường A", status: "Đã xác nhận", total: 540000 },
@@ -22,7 +23,7 @@ export default function ConfirmReceiptPage() {
     const [businessReceipts, setBusinessReceipts] = useState(sampleBusiness);
     const [supplierReceipts, setSupplierReceipts] = useState(sampleSupplier);
     const [statusFilter, setStatusFilter] = useState<string>("Tất cả");
-
+    // xem phiếu ( chưa biết xem gì giờ cứ alert tạm )
     function handleView(id: string) {
         alert(`Xem phiếu: ${id}`);
     }
@@ -33,7 +34,7 @@ export default function ConfirmReceiptPage() {
                 <div>
                     <h1 className="text-2xl font-semibold">Quản lý và xác nhận các phiếu nhập hàng</h1>
                 </div>
-
+                {/* Bộ lọc trạng thái */}
                 <div className="flex items-center">
                     <Select onValueChange={(v) => setStatusFilter(v as string)} defaultValue={"Tất cả"}>
                         <SelectTrigger className="w-48 relative pl-9 border-gray-200">

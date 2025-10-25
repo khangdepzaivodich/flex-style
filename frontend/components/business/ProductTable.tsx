@@ -4,13 +4,13 @@ import { Pencil, SquarePen, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface Product {
-	id: string;
-	name: string;
-	category?: string;
-	stock?: number;
-	minStock?: number;
-	price?: number;
-	status?: "Còn hàng" | "Sắp hết" | "Rất ít" | string;
+	id: string; // Mã sản phẩm
+	name: string; // Tên sản phẩm
+	category?: string; // Danh mục
+	stock?: number; // Tồn kho
+	minStock?: number; // Tồn kho tối thiểu
+	price?: number; // Giá sản phẩm
+	status?: "Còn hàng" | "Sắp hết" | "Rất ít" | string; // Trạng thái sản phẩm
 }
 
 interface ProductTableProps {

@@ -9,12 +9,12 @@ import { getRoleLink } from "@/lib/help";
 interface ProtectedRouteProps {
   children: React.ReactNode;
   Role?: string;
-  alloweGuest?: boolean;
+  allowGuest?: boolean;
 }
 export default function ProtectedRoute({
   children,
   Role,
-  alloweGuest = false,
+  allowGuest = false,
 }: ProtectedRouteProps) {
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
@@ -30,7 +30,7 @@ export default function ProtectedRoute({
           data: { session },
         } = await supabase.auth.getSession();
         if (!session) {
-          if (alloweGuest) {
+          if (allowGuest) {
             setAuthorized(true);
             return;
           }
@@ -63,7 +63,7 @@ export default function ProtectedRoute({
           }
         }
       } catch (err) {
-        if (alloweGuest) {
+        if (allowGuest) {
           setAuthorized(true);
           console.log("Allowing guest access");
           return;

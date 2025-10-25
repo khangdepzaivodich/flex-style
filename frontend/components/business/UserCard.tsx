@@ -7,11 +7,11 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type UserCardProps = {
-  id?: string | number;
-  name: string;
-  address?: string;
-  email?: string;
-  phone?: string;
+  id?: string | number; // id của cái card người dùng
+  name: string; // Tên người dùng
+  address?: string; // Địa chỉ
+  email?: string; // Email
+  phone?: string; // Số điện thoại
   accountCode?: string; // Mã tài khoản
   status?: "active" | "inactive"; // Trạng thái
   onDelete?: (id?: string | number) => void;

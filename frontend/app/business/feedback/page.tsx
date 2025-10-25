@@ -36,7 +36,8 @@ export default function Page() {
 	const handleDelete = (id?: string) => {
 		setFeedbacks((prev) => prev.filter((f) => f.id !== id));
 	};
-
+	
+	// Lọc đánh giá dựa trên từ khóa tìm kiếm và bộ lọc số sao
 	const filtered = useMemo(() => {
 		const q = query.trim().toLowerCase();
 		return feedbacks.filter((f) => {

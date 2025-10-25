@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
 export default function UserManagementPage() {
+  // dữ liệu mãu
   const sampleUsers: { id: string; name: string; email?: string; phone?: string; accountCode?: string; address?: string; status: "active" | "inactive" }[] = [
     { id: "1", name: "Nguyễn Văn A", email: "a@example.com", phone: "0123 456 789", accountCode: "TK001", address: "Quận 1, TP.HCM", status: "active" },
     { id: "2", name: "Trần Thị B", email: "b@example.com", phone: "0987 654 321", accountCode: "TK002", address: "Quận 3, TP.HCM", status: "inactive" },
