@@ -2,6 +2,8 @@
 
 import { Eye, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
+import ReceiptView from "./ReceiptView";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 interface Receipt {
@@ -22,6 +24,8 @@ interface ReceiptTableProps {
 }
 
 export default function ReceiptTable({ receipts = [], receiptsBusiness, receiptsSupplier, onView}: ReceiptTableProps) {
+    const [viewOpen, setViewOpen] = useState(false);
+    const [selectedReceipt, setSelectedReceipt] = useState<Receipt | null>(null);
     const business = receiptsBusiness ?? receipts;
     const supplier = receiptsSupplier ?? receipts;
     // Hàm hiển thị các dòng cho tab Doanh nghiệp
@@ -52,8 +56,8 @@ export default function ReceiptTable({ receipts = [], receiptsBusiness, receipts
                         <td className="px-4 py-3 text-gray-800 text-left">
                             {typeof r.total === "number" ? new Intl.NumberFormat("vi-VN").format(r.total) + " đ" : "-"}
                         </td>
-                        <td className="px-4 py-2 flex gap-2 justify-start">
-                            <Button size="sm" variant="outline" className="flex items-center gap-1" onClick={() => onView?.(r.id)}>
+                            <td className="px-4 py-2 flex gap-2 justify-start">
+                            <Button size="sm" variant="outline" className="flex items-center gap-1" onClick={() => { setSelectedReceipt(r); setViewOpen(true); }}>
                                 <Eye className="w-4 h-4" />
                                 Xem
                             </Button>
@@ -98,6 +102,7 @@ export default function ReceiptTable({ receipts = [], receiptsBusiness, receipts
     }
 
     return (
+        <>
         <div className="bg-white rounded-xl shadow-md border p-4">
             <Tabs defaultValue="business" className="mb-4 w-full">
                 <div className="w-full rounded-md border border-gray-200 p-0.5">
@@ -177,6 +182,18 @@ export default function ReceiptTable({ receipts = [], receiptsBusiness, receipts
                 </TabsContent>
             </Tabs>
         </div>
+        <ReceiptView
+            open={viewOpen}
+            onOpenChange={(o) => setViewOpen(o)}
+            data={selectedReceipt ?? undefined}
+            onConfirm={() => {
+                // gọi hàm bên ngoài hoặc cập nhật state
+            }}
+            onReject={() => {
+                // gọi hàm bên ngoài hoặc cập nhật state
+            }}
+        />
+        </>
     );
 }
 

@@ -10,6 +10,8 @@ interface Product {
 	stock?: number; // Tồn kho
 	minStock?: number; // Tồn kho tối thiểu
 	price?: number; // Giá sản phẩm
+	image?: string; // url or base64 preview (single image)
+	color?: string; // màu sản phẩm
 	status?: "Còn hàng" | "Sắp hết" | "Rất ít" | string; // Trạng thái sản phẩm
 }
 
@@ -51,35 +53,52 @@ export default function ProductTable({
 							<th className="text-left px-4 py-2">Tồn kho</th>
 							<th className="text-left px-4 py-2">Tồn tối thiểu</th>
 							<th className="text-left px-4 py-2">Giá bán</th>
+							<th className="text-left px-4 py-2">Màu</th>
 							<th className="text-left px-4 py-2">Trạng thái</th>
 							<th className="text-left px-4 py-2">Thao tác</th>
 						</tr>
 					</thead>
 					<tbody>
 						{products.map((p, idx) => (
+							// hình ảnh sản phẩm
 							<tr key={idx} className="border-b hover:bg-gray-50 transition-colors">
 								<td className="px-4 py-2 text-gray-700 text-left">{p.id}</td>
-								<td className="px-4 py-2 text-gray-800 font-medium text-left">{p.name}</td>
+								<td className="px-4 py-2 text-gray-800 font-medium text-left">
+									<div className="flex items-center gap-3">
+										{p.image ? (
+											<img src={p.image} alt={p.name} className="w-12 h-12 object-cover rounded-md bg-white border" />
+										) : (
+											<div className="w-12 h-12 bg-gray-100 rounded-md flex items-center justify-center text-sm text-gray-500">No</div>
+										)}
+										<div
+											className="whitespace-normal break-words"
+											style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+										>
+											{p.name}
+										</div>
+									</div>
+								</td>
 								<td className="px-4 py-2 text-gray-600 text-left">{p.category ?? "-"}</td>
 								<td className="px-4 py-2 text-left">{typeof p.stock === "number" ? p.stock : "-"}</td>
 								<td className="px-4 py-2 text-left">{typeof p.minStock === "number" ? p.minStock : "-"}</td>
 								<td className="px-4 py-2 text-gray-800 text-left">{typeof p.price === "number" ? new Intl.NumberFormat('vi-VN').format(p.price) + ' đ' : "-"}</td>
-												<td className="px-4 py-2">
-													<span
-														className={`px-3 py-1 rounded-full text-xs font-medium ${
-															p.status === "Còn hàng"
-																? "bg-green-100 text-green-700"
-																: p.status === "Sắp hết"
-																? "bg-amber-100 text-amber-700"
-																: p.status === "Rất ít"
-																? "bg-red-100 text-red-600"
-																: "bg-gray-100 text-gray-700"
-														}`}
-													>
-														{p.status ?? "-"}
-													</span>
-												</td>
-								<td className="px-4 py-2 flex gap-2">
+								<td className="px-4 py-2 text-left">{p.color ?? "-"}</td>
+										<td className="px-4 py-2">
+											<span
+												className={`px-3 py-1 rounded-full text-xs font-medium ${
+													p.status === "Còn hàng"
+														? "bg-green-100 text-green-700"
+														: p.status === "Sắp hết"
+														? "bg-amber-100 text-amber-700"
+														: p.status === "Rất ít"
+														? "bg-red-100 text-red-600"
+														: "bg-gray-100 text-gray-700"
+												}`}
+											>
+												{p.status ?? "-"}
+											</span>
+										</td>
+								<td className="px-4 py-4 flex items-center gap-2">
 									<Button size="sm" variant="outline" className="flex items-center gap-1" onClick={() => onEdit?.(p.id)}>
 										<SquarePen className="w-4 h-4" />
 										Chỉnh sửa
