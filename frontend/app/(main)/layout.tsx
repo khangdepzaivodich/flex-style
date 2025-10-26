@@ -8,7 +8,7 @@ import { Footer } from "@/components/footer";
 import { Analytics } from "@vercel/analytics/next";
 import ChatWidget from "@/components/chat-widget";
 import { SuKienUuDaiProvider } from "@/contexts/sukienuudai-context";
-import ProtectedRoute from "@/components/protected-route";
+import  ProtectedRoute  from "@/components/protected-route";
 
 import type { SuKienUuDai } from "@/lib/types";
 

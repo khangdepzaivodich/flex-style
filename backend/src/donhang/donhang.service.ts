@@ -7,8 +7,6 @@ import { DonhangRepository } from 'src/repositories/donhang.repository';
 import {
   CreateDonhangDto,
   UpdateDonhangStatusDto,
-  DonhangResponseDto,
-  DonhangListResponseDto,
   TrangThaiDonHang,
 } from './dto/donhang.dto';
 
@@ -19,7 +17,7 @@ export class DonhangService {
   /**
    * Tạo đơn hàng mới
    */
-  async createOrder(createDto: CreateDonhangDto): Promise<DonhangResponseDto> {
+  async createOrder(createDto: CreateDonhangDto){
     // Lấy thông tin chi tiết sản phẩm
     const productDetail = await this.donhangRepository.getProductDetail(
       createDto.MaCTSP,
@@ -44,90 +42,94 @@ export class DonhangService {
       throw new BadRequestException('Sản phẩm hiện không khả dụng');
     }
 
-    // Tính tổng tiền
-    let tongTien = productDetail.SANPHAM.GiaBan * createDto.SoLuong;
-    let discount = 0;
+    // // Tính tổng tiền
+    // let tongTien = productDetail.SANPHAM.GiaBan * createDto.SoLuong;
+    // let discount = 0;
 
-    // Áp dụng voucher nếu có
-    if (createDto.MaVoucher) {
-      const voucher = await this.donhangRepository.getVoucher(
-        createDto.MaVoucher,
-      );
+    // // Áp dụng voucher nếu có
+    // if (createDto.MaVoucher) {
+    //   const voucher = await this.donhangRepository.getVoucher(
+    //     createDto.MaVoucher,
+    //   );
 
-      if (!voucher) {
-        throw new NotFoundException('Không tìm thấy voucher');
-      }
+    //   if (!voucher) {
+    //     throw new NotFoundException('Không tìm thấy voucher');
+    //   }
 
-      if (voucher.TrangThai !== 'ACTIVE') {
-        throw new BadRequestException('Voucher không còn hiệu lực');
-      }
+    //   if (voucher.TrangThai !== 'ACTIVE') {
+    //     throw new BadRequestException('Voucher không còn hiệu lực');
+    //   }
 
-      // Kiểm tra điều kiện áp dụng voucher
-      if (voucher.Loai == 'GiamGia') {
-        if (
-          voucher.Dieukien != null &&
-          voucher.SoTien != null &&
-          tongTien < voucher.Dieukien
-        ) {
-          throw new BadRequestException(
-            `Đơn hàng phải đạt tối thiểu ${voucher.Dieukien.toLocaleString('vi-VN')}đ để sử dụng voucher này`,
-          );
-        }
+    //   // Kiểm tra điều kiện áp dụng voucher
+    //   if (voucher.Loai == 'GiamGia') {
+    //     if (
+    //       voucher.Dieukien != null &&
+    //       voucher.SoTien != null &&
+    //       tongTien < voucher.Dieukien
+    //     ) {
+    //       throw new BadRequestException(
+    //         `Đơn hàng phải đạt tối thiểu ${voucher.Dieukien.toLocaleString('vi-VN')}đ để sử dụng voucher này`,
+    //       );
+    //     }
 
-        // Kiểm tra thời gian voucher
-        const now = new Date();
-        if (now < voucher.NgayBatDau || now > voucher.NgayKetThuc) {
-          throw new BadRequestException(
-            'Voucher đã hết hạn hoặc chưa đến thời gian sử dụng',
-          );
-        }
+    //     // Kiểm tra thời gian voucher
+    //     const now = new Date();
+    //     if (now < voucher.NgayBatDau || now > voucher.NgayKetThuc) {
+    //       throw new BadRequestException(
+    //         'Voucher đã hết hạn hoặc chưa đến thời gian sử dụng',
+    //       );
+    //     }
 
-        discount += voucher.SoTien || 0;
-      } else if (voucher.Loai == 'FreeShip') {
-        // Giả sử phí vận chuyển cố định là 30,000 VND
-        const shippingFee = 30000;
-        discount += shippingFee;
-      }
-    }
+    //     discount += voucher.SoTien || 0;
+    //   } else if (voucher.Loai == 'FreeShip') {
+    //     // Giả sử phí vận chuyển cố định là 30,000 VND
+    //     const shippingFee = 30000;
+    //     discount += shippingFee;
+    //   }
+    // }
 
     // Áp dụng sự kiện ưu đãi nếu có
-    if (createDto.MaSK) {
-      const promotion = await this.donhangRepository.getPromotion(
-        createDto.MaSK,
-      );
+    // if (createDto.MaSK) {
+    //   const promotion = await this.donhangRepository.getPromotion(
+    //     createDto.MaSK,
+    //   );
 
-      if (!promotion) {
-        throw new NotFoundException('Không tìm thấy sự kiện ưu đãi');
-      }
+    //   if (!promotion) {
+    //     throw new NotFoundException('Không tìm thấy sự kiện ưu đãi');
+    //   }
 
-      if (promotion.TrangThai !== 'ACTIVE') {
-        throw new BadRequestException('Sự kiện ưu đãi không còn hiệu lực');
-      }
+    //   if (promotion.TrangThai !== 'ACTIVE') {
+    //     throw new BadRequestException('Sự kiện ưu đãi không còn hiệu lực');
+    //   }
 
-      // Kiểm tra thời gian sự kiện
-      const now = new Date();
-      if (now < promotion.NgayPH || now > promotion.NgayKT) {
-        throw new BadRequestException(
-          'Sự kiện ưu đãi đã kết thúc hoặc chưa bắt đầu',
-        );
-      }
+    //   // Kiểm tra thời gian sự kiện
+    //   const now = new Date();
+    //   if (now < promotion.NgayPH || now > promotion.NgayKT) {
+    //     throw new BadRequestException(
+    //       'Sự kiện ưu đãi đã kết thúc hoặc chưa bắt đầu',
+    //     );
+    //   }
 
-      // Tính phần trăm giảm giá
-      const promotionDiscount = (tongTien * promotion.PhanTramGiam) / 100;
-      discount += promotionDiscount;
-    }
+    //   // Tính phần trăm giảm giá
+    //   const promotionDiscount = (tongTien * promotion.PhanTramGiam) / 100;
+    //   discount += promotionDiscount;
+    // }
 
-    // Tính tổng tiền sau giảm giá
-    tongTien = Math.max(tongTien - discount, 0);
+    // // Tính tổng tiền sau giảm giá
+    // tongTien = Math.max(tongTien - discount, 0);
 
     // Tạo đơn hàng
     const order = await this.donhangRepository.createOrder({
+      MaDH: createDto.MaDH,
       SoLuong: createDto.SoLuong,
-      TongTien: tongTien,
+      TongTien: createDto.TongTien,
       MaCTSP: createDto.MaCTSP,
       MaTK_KH: createDto.MaTK_KH,
       MaVoucher: createDto.MaVoucher,
       MaSK: createDto.MaSK,
+      TenNM: createDto.TenNM,
+      SoDienThoai: createDto.SoDienThoai,
+      DiaChi: createDto.DiaChi,
     });
 
     // Cập nhật số lượng trong kho
@@ -146,7 +148,7 @@ export class DonhangService {
     MaTK_KH?: string,
     page: number = 1,
     limit: number = 50,
-  ): Promise<DonhangListResponseDto> {
+  ) {
     const skip = (page - 1) * limit;
 
     const { orders, total } = await this.donhangRepository.findAllOrders({
@@ -164,7 +166,7 @@ export class DonhangService {
   /**
    * Lấy chi tiết đơn hàng
    */
-  async getOrderById(MaDH: string): Promise<DonhangResponseDto> {
+  async getOrderById(MaDH: string) {
     const order = await this.donhangRepository.findOrderById(MaDH);
 
     if (!order) {
@@ -180,7 +182,7 @@ export class DonhangService {
   async updateOrderStatus(
     MaDH: string,
     updateDto: UpdateDonhangStatusDto,
-  ): Promise<DonhangResponseDto> {
+  ) {
     const existingOrder = await this.donhangRepository.findOrderById(MaDH);
 
     if (!existingOrder) {
@@ -212,7 +214,7 @@ export class DonhangService {
   /**
    * Hủy đơn hàng
    */
-  async cancelOrder(MaDH: string): Promise<DonhangResponseDto> {
+  async cancelOrder(MaDH: string) {
     const existingOrder = await this.donhangRepository.findOrderById(MaDH);
 
     if (!existingOrder) {
@@ -288,7 +290,7 @@ export class DonhangService {
   /**
    * Map dữ liệu từ Prisma sang DTO
    */
-  private mapToResponseDto(order: any): DonhangResponseDto {
+  private mapToResponseDto(order: any) {
     return {
       MaDH: order.MaDH,
       created_at: order.created_at,

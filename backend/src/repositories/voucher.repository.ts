@@ -16,7 +16,14 @@ export class VoucherRepository {
     });
   }
 
-  //lấy voucher theo mã
+  //lấy voucher theo code
+  async getVoucherByCode(code: string) {
+    return this.prismaService.vOUCHER.findFirst({
+      where: { Code: code },
+    });
+  }
+
+  //lấy voucher theo tên
   async getVoucherByName(name: string) {
     return this.prismaService.vOUCHER.findFirst({
       where: { TenVoucher: name },

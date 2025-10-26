@@ -10,8 +10,15 @@ import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/contexts/cart-context";
 import { formatPrice } from "@/lib/help";
 
+
 export default function CartPage() {
-  const { items, total, itemCount, updateQuantity, removeItem, clearCart} = useCart();
+  const { items, total, itemCount, updateQuantity, removeItem, clearCart } =
+    useCart();
+  const [selectedProductId, setSelectedProductId] = useState<string>(
+    items[0]?.productId || ""
+  );
+
+  // const [shippingCost, setShippingCost] = useState<number>(0);
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity <= 0) {
@@ -52,6 +59,15 @@ export default function CartPage() {
                 <Card key={item.productId}>
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
+                      {/* Chọn mặt hàng để thanh toán */}
+                      <input
+                        type="radio"
+                        name="selectedProduct"
+                        checked={selectedProductId === item.productId}
+                        onChange={() => setSelectedProductId(item.productId)}
+                        className="mt-2 mr-2 border-2 h-5 w-5"
+                        aria-label="Chọn mặt hàng để thanh toán"
+                      />
                       {/* Product Image */}
                       <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-muted flex-shrink-0">
                         <Image
@@ -73,7 +89,7 @@ export default function CartPage() {
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="font-bold text-primary">
-                            {formatPrice(item.price)}
+                            {formatPrice(item.price) }
                           </span>
 
                           {/* Quantity Controls */}
@@ -83,7 +99,10 @@ export default function CartPage() {
                               size="icon"
                               className="h-8 w-8 bg-transparent"
                               onClick={() =>
-                                handleQuantityChange(item.productId, item.quantity - 1)
+                                handleQuantityChange(
+                                  item.productId,
+                                  item.quantity - 1
+                                )
                               }
                             >
                               <Minus className="h-3 w-3" />
@@ -96,7 +115,10 @@ export default function CartPage() {
                               size="icon"
                               className="h-8 w-8 bg-transparent"
                               onClick={() =>
-                                handleQuantityChange(item.productId, item.quantity + 1)
+                                handleQuantityChange(
+                                  item.productId,
+                                  item.quantity + 1
+                                )
                               }
                             >
                               <Plus className="h-3 w-3" />
@@ -131,20 +153,33 @@ export default function CartPage() {
                       <span>Tạm tính ({itemCount} sản phẩm)</span>
                       <span>{formatPrice(total)}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
+                    {/* <div className="flex justify-between text-sm">
                       <span>Phí vận chuyển</span>
-                      <span className="text-primary">Miễn phí</span>
-                    </div>
-                    <Separator />
+                      <span className="text-primary">{setShippingCost(formatPrice(total * 0.05))}</span>
+                    </div> */}
                     <div className="flex justify-between font-bold text-lg">
                       <span>Tổng cộng</span>
                       <span className="text-primary">{formatPrice(total)}</span>
                     </div>
+                  <Separator className="border-b border-purple-200"/>
                   </div>
 
                   <div className="space-y-3">
-                    <Button size="lg" className="w-full" asChild>
-                      <Link href="/checkout">Thanh toán</Link>
+                    <Button
+                      size="lg"
+                      className="w-full"
+                      asChild
+                      disabled={!selectedProductId}
+                    >
+                      <Link
+                        href={
+                          selectedProductId
+                            ? `/checkout?productId=${selectedProductId}`
+                            : "#"
+                        }
+                      >
+                        Thanh toán mặt hàng đã chọn
+                      </Link>
                     </Button>
                     <Button
                       variant="outline"
@@ -165,7 +200,7 @@ export default function CartPage() {
                       Thông tin giao hàng
                     </h3>
                     <ul className="text-xs text-muted-foreground space-y-1">
-                      <li>• Miễn phí giao hàng toàn quốc</li>
+                      {/* <li>• Miễn phí giao hàng toàn quốc</li> */}
                       <li>• Giao hàng trong 2-3 ngày làm việc</li>
                       <li>• Hỗ trợ đổi trả trong 30 ngày</li>
                     </ul>

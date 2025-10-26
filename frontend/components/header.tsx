@@ -40,26 +40,27 @@ export function Header() {
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => setHydrated(true), []);
   const handleLogout = async () => {
-    const userId = user?.id;
-    const itemCart = localStorage.getItem("cart");
-    if (userId && itemCart) {
-      const parsedCart = JSON.parse(itemCart);
-      const mapperItem = parsedCart.map((item: any) => ({
-        MaCTSP: item.productId,
-        SoLuong: item.quantity,
-        KichCo: item.size,
-      }));
-      // 2. Gọi API lưu giỏ hàng
-      await fetch(
-        `http://localhost:8080/api/giohang/update-cart?MaTKKH=${userId}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(mapperItem),
-          keepalive: true,
-        }
-      );
-    }
+    // const userId = user?.id;
+    // const itemCart = localStorage.getItem("cart");
+    // if (userId && itemCart) {
+    //   const parsedCart = JSON.parse(itemCart);
+    //   const mapperItem = parsedCart.map((item: any) => ({
+    //     MaCTSP: item.productId,
+    //     SoLuong: item.quantity,
+    //     KichCo: item.size,
+    //   }));
+    //   // 2. Gọi API lưu giỏ hàng
+    //   await fetch(
+    //     `http://localhost:8080/api/giohang/update-cart?MaTKKH=${userId}`,
+    //     {
+    //       method: "PUT",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify(mapperItem),
+    //       keepalive: true,
+    //     }
+    //   );
+    // }
+    // localStorage.setItem("cart", JSON.stringify([]));
     await logout();
     router.push("/auth/login");
   };

@@ -29,6 +29,16 @@ export class VoucherService {
     return existingVoucher;
   }
 
+  //lấy voucher theo mã code
+  async getVoucherByCode(code: string) {
+    console.log('code', code);
+    const existingVoucher = await this.voucherRepository.getVoucherByCode(code);
+    if (!existingVoucher) {
+      throw new BadRequestException('Không tìm thấy voucher');
+    }
+    return existingVoucher;
+  }
+
   // thêm mới voucher
   async addVoucher(data: VoucherDto) {
     const existingVoucher = await this.voucherRepository.getVoucherByName(

@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { VoucherRepository } from 'src/repositories/voucher.repository';
 import { VoucherKhachHangRepository } from 'src/repositories/voucher_khachhang.repository';
-import { TrangThai } from 'src/constant';
+import { LoaiVoucher, TrangThai } from 'src/constant';
 @Injectable()
 export class VoucherKhachHangService {
   constructor(
@@ -62,17 +62,60 @@ export class VoucherKhachHangService {
     //kiểm tra mã voucher có tồn tại trong bảng voucher không
     const checkVoucher = await this.voucherRepository.getVoucherById(MaVoucher);
     if (!checkVoucher) {
-      throw new Error('Voucher không tồn tại');
+      throw new BadRequestException('Voucher không tồn tại');
     }
     //kiểm tra voucher có trong thời hạn tặng không
+    if (checkVoucher.SoLuong <= 0) {
+      throw new BadRequestException('Voucher đã hết số lượng');
+    }
     const currentDate = new Date();
     if (
       checkVoucher.NgayBatDau > currentDate ||
       checkVoucher.NgayKetThuc < currentDate
     ) {
-      throw new Error('Voucher không trong thời hạn sử dụng');
+      throw new BadRequestException('Voucher không trong thời hạn nhận');
     }
 
-    return await this.voucherKhachHangRepository.add(MaKH, MaVoucher);
+    if (checkVoucher.TrangThai === TrangThai.INACTIVE) {
+      throw new BadRequestException('Voucher không khả dụng');
+    }
+
+    //tìm kiếm voucher đã được thêm cho khách hàng chưa
+    const existingVoucherForCustomer =
+      await this.voucherKhachHangRepository.findVoucherForCustomer(
+        MaKH, checkVoucher.MaVoucher,
+      );
+    if (existingVoucherForCustomer) {
+      throw new BadRequestException('Bạn đã sở hữu voucher này');
+    }
+    //trừ đi số lượng voucher trong bảng voucher
+    const decreaseAmount = await this.voucherRepository.updateVoucher(checkVoucher.MaVoucher, {
+      SoLuong: checkVoucher.SoLuong - 1,
+    });
+    return await this.voucherKhachHangRepository.add(MaKH, checkVoucher.MaVoucher);
+  }
+
+  //kiểm tra voucher
+  async check(MaVCKH: string, finalTotal: number) {
+    const voucherKH = await this.voucherKhachHangRepository.findById(MaVCKH);
+    if (!voucherKH) {
+      throw new BadRequestException('Bạn không sở hữu voucher này');
+    } 
+    if (voucherKH.TrangThai === TrangThai.INACTIVE) {
+      throw new BadRequestException('Voucher đã được sử dụng hoặc không khả dụng');
+    }
+    if (voucherKH.Hsd < new Date()) {
+      throw new BadRequestException('Voucher đã hết hạn sử dụng');
+    }
+    const voucherDetails = await this.voucherRepository.getVoucherById(
+      voucherKH.MaVoucher,
+    );
+    if (voucherDetails?.Loai == LoaiVoucher.GiamGia) {
+      if (voucherDetails.Dieukien && voucherDetails.Dieukien > finalTotal) {
+        throw new BadRequestException(`Đơn hàng chưa đạt điều kiện sử dụng voucher. Đơn tối thiểu: ${voucherDetails.Dieukien}`);
+      }
+      return { type: 'GiamGia', value: voucherDetails.SoTien  };
+    }
+    return { type: 'FreeShip', value: 0 };
   }
 }

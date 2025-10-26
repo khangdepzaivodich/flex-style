@@ -43,6 +43,14 @@ export class VoucherKhachHangRepository {
       },
     });
   }
+
+  //tìm kiếm voucher đã được thêm cho khách hàng
+  async findVoucherForCustomer(MaTKKH: string, MaVoucher: string) {
+    return await this.prisma.vOUCHER_KHACHHANG.findFirst({
+      where: { MaTKKH, MaVoucher },
+    });
+  }
+
   //cập nhật trạng thái voucher khách hàng
   async updateVoucherStatus(MaVoucher: string, status: TrangThai) {
     return await this.prisma.vOUCHER_KHACHHANG.updateMany({

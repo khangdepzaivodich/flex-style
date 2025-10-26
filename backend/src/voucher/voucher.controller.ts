@@ -20,6 +20,12 @@ export class VoucherController {
   async getVoucherById(@Param('id') id: string) {
     return this.voucherService.getVoucherById(id);
   }
+
+  @Get('/code/:id')
+  @ResponseMessage('Lấy voucher theo mã thành công')
+  async getVoucherByCode(@Param('id') id: string) {
+    return this.voucherService.getVoucherByCode(id);
+  }
   // thêm mới voucher
   @Post()
   @ResponseMessage('Thêm mới voucher thành công')

@@ -7,16 +7,33 @@ import Link from "next/link";
 
 export default function CheckoutSuccessPage() {
   const searchParams = new URLSearchParams(window.location.search);
-  const orderID = searchParams.get("orderID") || searchParams.get('vnp_TxnRef');
-  if (searchParams.get('vnp_TxnRef')) {
-    const vnp_RequestId = searchParams.get('vnp_RequestId');
+  const orderID = searchParams.get("orderID") || searchParams.get("vnp_TxnRef");
+
+  if (searchParams.get("vnp_TxnRef")) {
+    const vnp_RequestId = searchParams.get("vnp_RequestId");
     console.log("VNPAY Request ID:", vnp_RequestId);
-    const vnp_TransactionDate = searchParams.get('vnp_TransactionDate');
+    const vnp_TransactionDate = searchParams.get("vnp_TransactionDate");
     console.log("VNPAY Transaction Date:", vnp_TransactionDate);
-    const vnp_IpAddr = searchParams.get('vnp_IpAddr');
+    const vnp_IpAddr = searchParams.get("vnp_IpAddr");
     console.log("VNPAY IP Address:", vnp_IpAddr);
-    const vnp_TransactionNo = searchParams.get('vnp_TransactionNo');
+    const vnp_TransactionNo = searchParams.get("vnp_TransactionNo");
     console.log("VNPAY Transaction No:", vnp_TransactionNo);
+  }
+  const createDonHang = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/donhang", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderID: orderID,
+        }),
+      });
+    } catch (error) {
+      console.error("Error creating order:", error);
+    }
+  };
+  if (orderID) {
+    createDonHang();
   }
   return (
     <div className="container mx-auto px-4 py-8">

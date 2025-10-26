@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Query, Res } from '@nestjs/common';
 import { VoucherKhachHangService } from './voucher_khachhang.service';
 import { ResponseMessage } from 'src/decorators/response.decorator';
+import { Post } from '@nestjs/common';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
 @Controller('voucher-khachhang')
@@ -11,19 +12,28 @@ export class VoucherKhachHangController {
   //xem danh sách voucher khách hàng
   @Get()
   @ResponseMessage('Xem danh sách voucher khách hàng thành công')
-  findAll(@Query('MaAuth') MaAuth: string) {
+  async findAll(@Query('MaAuth') MaAuth: string) {
     return this.voucherKhachHangService.findAll(MaAuth);
   }
   //xem chi tiết voucher khách hàng
   @Get(':id')
   @ResponseMessage('Xem chi tiết voucher khách hàng thành công')
-  findById(@Body() MaVCKH) {
+  async findById(@Body() MaVCKH) {
     return this.voucherKhachHangService.findById(MaVCKH);
   }
   //thêm voucher khách hàng
-  @Get('add')
+  @Post('add')
   @ResponseMessage('Thêm voucher khách hàng thành công')
-  add(@Body() MaKH, @Body() MaVoucher) {
-    return this.voucherKhachHangService.add(MaKH, MaVoucher);
+  async add(@Body() body: { MaKH: string; MaVoucher: string }) {
+    const result = this.voucherKhachHangService.add(body.MaKH, body.MaVoucher);
+    return result;
+  }
+
+  //kiểm tra voucher
+  @Post('check')
+  @ResponseMessage('Kiểm tra voucher thành công')
+  async check(@Body() body: { MaVoucherKH: string; finalTotal: number }) {
+    const result = this.voucherKhachHangService.check(body.MaVoucherKH, body.finalTotal);
+    return result;
   }
 }

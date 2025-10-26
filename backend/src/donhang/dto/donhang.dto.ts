@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsInt, IsOptional, IsNotEmpty, Min, IsEnum } from 'class-validator';
+import { UUID } from 'crypto';
 
 // Enum for order status
 export enum TrangThaiDonHang {
@@ -13,6 +14,15 @@ export enum TrangThaiDonHang {
 
 // DTO for creating order
 export class CreateDonhangDto {
+  //mã đơn hàng kiểu uuid
+  @ApiProperty({ 
+    description: 'Mã đơn hàng',
+    example: 'uuid-dh-123'
+  })
+  @IsString()
+  @IsNotEmpty({ message: 'Mã đơn hàng không được để trống' })
+  MaDH: string;
+  //mã chi tiết sản phẩm    
   @ApiProperty({ 
     description: 'Mã chi tiết sản phẩm',
     example: 'uuid-ctsp-123'
@@ -56,6 +66,41 @@ export class CreateDonhangDto {
   @IsString()
   @IsOptional()
   MaSK?: string;
+
+  //địa chỉ
+  @ApiProperty({
+    description: 'Địa chỉ giao hàng',
+    example: '123 Đường ABC, Quận 1, TP.HCM'
+  })
+  @IsString()
+  @IsNotEmpty({ message: 'Địa chỉ giao hàng không được để trống' })
+  DiaChi: string;
+
+  //số điện thoại
+  @ApiProperty({
+    description: 'Số điện thoại liên hệ',
+    example: '0909123456'
+  })
+  @IsString()
+  @IsNotEmpty({ message: 'Số điện thoại không được để trống' })
+  SoDienThoai: string;
+
+  //tổng tiền
+  @ApiProperty({
+    description: 'Tổng tiền đơn hàng',
+    example: 500000
+  })
+  @IsInt({ message: 'Tổng tiền phải là số nguyên' })
+  @Min(0, { message: 'Tổng tiền không được âm' })
+  TongTien: number;
+  //hoten nguoi nhan
+  @ApiProperty({
+    description: 'Họ tên người nhận hàng',
+    example: 'Nguyễn Văn A'
+  })
+  @IsString()
+  @IsNotEmpty({ message: 'Họ tên người nhận không được để trống' })
+  TenNM: string;
 }
 
 // DTO for updating order status
