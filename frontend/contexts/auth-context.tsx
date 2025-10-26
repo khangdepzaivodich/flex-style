@@ -157,6 +157,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
+    const userId = state.user?.id;
+    const itemCart = localStorage.getItem("cart");
+    if (userId && itemCart) {
+      const parsedCart = JSON.parse(itemCart);
+      const mapperItem = parsedCart.map((item: any) => ({
+        MaCTSP: item.productId,
+        SoLuong: item.quantity,
+        KichCo: item.size,
+      }));
+      // 2. Gọi API lưu giỏ hàng
+      await fetch(
+        `http://localhost:8080/api/giohang/update-cart?MaTKKH=${userId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(mapperItem),
+          keepalive: true,
+        }
+      );
+    }
+    localStorage.setItem("cart", JSON.stringify([]));
     await supabase.auth.signOut();
     setState({
       user: null,

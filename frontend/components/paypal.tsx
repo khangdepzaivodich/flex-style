@@ -10,10 +10,11 @@ import { useCart } from "@/contexts/cart-context";
 interface PayPalProps {
   value: string;
   reference_id: string;
+  productDetailId: string;
 }
 
-export default function PayPal({ value, reference_id }: PayPalProps) {
-  const { clearCart } = useCart();
+export default function PayPal({ value, reference_id, productDetailId }: PayPalProps) {
+  const { removeItem } = useCart();
   const initialOptions: ReactPayPalScriptOptions = {
     clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "test",
     components: "buttons",
@@ -46,6 +47,7 @@ export default function PayPal({ value, reference_id }: PayPalProps) {
   };
 
   const onApprove: PayPalButtonsComponentProps["onApprove"] = async (data) => {
+    console.log("PayPal onApprove data:", data);
     const response = await fetch(
       "http://localhost:8080/api/paypal/capture-paypal-order",
       {
@@ -56,10 +58,23 @@ export default function PayPal({ value, reference_id }: PayPalProps) {
     );
 
     const details = await response.json();
-
-    alert("Thanh toán thành công! " + details?.payer?.name?.given_name);
-    clearCart();
-    window.location.href = `/checkout/success?orderID=${reference_id}`;
+    console.log("PayPal capture details:", details.data);
+    if (details){
+      if (!details.data){
+        alert("Thanh toán thất bại!");
+        window.location.href = `/checkout/fail`;
+        return;
+      }
+      else{
+        alert("Thanh toán thành công! " + details?.data.payer?.name?.given_name);
+        removeItem(productDetailId);
+        window.location.href = `/checkout/success?orderID=${reference_id}`;
+      }
+    }
+    else{
+      alert("Lỗi thanh toán!");
+      window.location.href = `/checkout/fail`;
+    }
   };
   const styles: PayPalButtonsComponentProps["style"] = {
     shape: "rect",

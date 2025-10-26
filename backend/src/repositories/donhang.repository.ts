@@ -1,24 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
+import { CreateDonhangDto } from 'src/donhang/dto/donhang.dto';
 
 @Injectable()
 export class DonhangRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   // Tạo đơn hàng mới
-  async createOrder(data: {
-    SoLuong: number;
-    TongTien?: number;
-    MaCTSP: string;
-    MaTK_KH?: string;
-    MaVoucher?: string;
-    MaSK?: string;
-  }) {
+  async createOrder(data: CreateDonhangDto) {
     return await this.prisma.dONHANG.create({
       data: {
+        MaDH: data.MaDH,
         SoLuong: data.SoLuong,
         TongTien: data.TongTien,
+        TenNM: data.TenNM,
+        SoDienThoai: data.SoDienThoai,
+        DiaChi: data.DiaChi,
         MaCTSP: data.MaCTSP,
         MaTK_KH: data.MaTK_KH,
         MaVoucher: data.MaVoucher,
@@ -26,7 +24,7 @@ export class DonhangRepository {
         // Tạo trạng thái đơn hàng ban đầu
         TINHTRANGDONHANG: {
           create: {
-            TrangThai: 'CHUA_GIAO' as any,
+            TrangThai: 'CHUA_GIAO',
           },
         },
       },
@@ -161,9 +159,9 @@ export class DonhangRepository {
   async getProductDetail(MaCTSP: string) {
     return await this.prisma.cHITIETSANPHAM.findUnique({
       where: { MaCTSP },
-      include: {
-        SANPHAM: true,
-      },
+      // include: {
+      //   SANPHAM: true,
+      // },
     });
   }
 

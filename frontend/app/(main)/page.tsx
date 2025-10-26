@@ -14,11 +14,14 @@ async function getProducts() {
 
 export default async function MainCarousel() {
   const products = await getProducts();
-  const accessToken = await getAccessToken();
   const userId = await getUserId();
-
-  const gioHang = await getGioHang(String(userId), String(accessToken));
-  console.log("gioHang", gioHang);
+  console.log("Có load");
+  let gioHang = { data: [] };
+  if (userId) {
+    const accessToken = await getAccessToken();
+    gioHang = await getGioHang(String(userId), String(accessToken));
+    console.log("gioHang", gioHang);
+  }
   return (
     <div>
       <MainPage

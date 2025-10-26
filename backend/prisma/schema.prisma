@@ -45,11 +45,14 @@ model DONHANG {
   MaDH              String             @id @default(uuid())
   created_at        DateTime           @default(now())
   SoLuong           Int                @default(0)
+  DiaChi            String
+  SoDienThoai       String
   TongTien          Int?
   MaVoucher         String?
   MaCTSP            String
   MaSK              String?
   MaTK_KH           String?
+  TenNM             String
   CHITIETSANPHAM    CHITIETSANPHAM     @relation(fields: [MaCTSP], references: [MaCTSP])
   SUKIENUUDAI       SUKIENUUDAI?       @relation(fields: [MaSK], references: [MaSK])
   KHACHHANG_ACCOUNT TAIKHOAN?          @relation("DonHang_KhachAccount", fields: [MaTK_KH], references: [MaTK])
@@ -144,6 +147,7 @@ model VOUCHER {
   Code              String
   NgayBatDau        DateTime
   NgayKetThuc       DateTime
+  SoLuong           Int
   Dieukien          Int?                 @default(0)
   TrangThai         TrangThai           @default(ACTIVE)
   MoTa              String?

@@ -24,8 +24,6 @@ import { DonhangService } from './donhang.service';
 import {
   CreateDonhangDto,
   UpdateDonhangStatusDto,
-  DonhangResponseDto,
-  DonhangListResponseDto,
 } from './dto/donhang.dto';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 
@@ -43,7 +41,7 @@ export class DonhangController {
   @ApiResponse({
     status: 201,
     description: 'Tạo đơn hàng thành công',
-    type: DonhangResponseDto,
+    // type: DonhangResponseDto,
   })
   @ApiResponse({
     status: 400,
@@ -53,7 +51,7 @@ export class DonhangController {
   @ResponseMessage('Tạo đơn hàng thành công')
   async createOrder(
     @Body() createDto: CreateDonhangDto
-  ): Promise<DonhangResponseDto> {
+  ){
     return await this.donhangService.createOrder(createDto);
   }
 
@@ -80,14 +78,14 @@ export class DonhangController {
   @ApiResponse({
     status: 200,
     description: 'Lấy danh sách đơn hàng thành công',
-    type: DonhangListResponseDto,
+    // type: DonhangListResponseDto,
   })
   @ResponseMessage('Lấy danh sách đơn hàng thành công')
   async getAllOrders(
     @Query('MaTK_KH') MaTK_KH?: string,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
     @Query('limit', new DefaultValuePipe(50), ParseIntPipe) limit?: number
-  ): Promise<DonhangListResponseDto> {
+  ){
     return await this.donhangService.getAllOrders(MaTK_KH, page, limit);
   }
 
@@ -132,11 +130,11 @@ export class DonhangController {
   @ApiResponse({
     status: 200,
     description: 'Lấy chi tiết đơn hàng thành công',
-    type: DonhangResponseDto,
+    // type: DonhangResponseDto,
   })
   @ApiResponse({ status: 404, description: 'Không tìm thấy đơn hàng' })
   @ResponseMessage('Lấy chi tiết đơn hàng thành công')
-  async getOrderById(@Param('MaDH') MaDH: string): Promise<DonhangResponseDto> {
+  async getOrderById(@Param('MaDH') MaDH: string) {
     return await this.donhangService.getOrderById(MaDH);
   }
 
@@ -151,7 +149,7 @@ export class DonhangController {
   @ApiResponse({
     status: 200,
     description: 'Cập nhật trạng thái đơn hàng thành công',
-    type: DonhangResponseDto,
+    // type: DonhangResponseDto,
   })
   @ApiResponse({
     status: 400,
@@ -162,7 +160,7 @@ export class DonhangController {
   async updateOrderStatus(
     @Param('MaDH') MaDH: string,
     @Body() updateDto: UpdateDonhangStatusDto
-  ): Promise<DonhangResponseDto> {
+  ){
     return await this.donhangService.updateOrderStatus(MaDH, updateDto);
   }
 
@@ -176,7 +174,7 @@ export class DonhangController {
   @ApiResponse({
     status: 200,
     description: 'Hủy đơn hàng thành công',
-    type: DonhangResponseDto,
+    // type: DonhangResponseDto,
   })
   @ApiResponse({
     status: 400,
@@ -184,7 +182,7 @@ export class DonhangController {
   })
   @ApiResponse({ status: 404, description: 'Không tìm thấy đơn hàng' })
   @ResponseMessage('Hủy đơn hàng thành công')
-  async cancelOrder(@Param('MaDH') MaDH: string): Promise<DonhangResponseDto> {
+  async cancelOrder(@Param('MaDH') MaDH: string){
     return await this.donhangService.cancelOrder(MaDH);
   }
 
