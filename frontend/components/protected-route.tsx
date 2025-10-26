@@ -39,6 +39,7 @@ export default function ProtectedRoute({
         }
 
         const user = session.user;
+        console.log("Authenticated user:", user);
         const accessToken = session.access_token;
 
         // Fetch user info from backend

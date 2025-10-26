@@ -1,80 +1,106 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { X, Save } from "lucide-react";
-
-type StaffData = {
-  fullName?: string;
-  phone?: string;
-  email?: string;
-  cccd?: string;
-  accountCode?: string;
-  password?: string;
-  confirmPassword?: string;
-  position?: string;
-  status?: string;
-};
+import StaffMember from "@/interfaces/staffMember";
 
 type StaffPopupProps = {
   open: boolean;
   onClose: () => void;
-  onSave: (data: any) => void;
-  initialData?: StaffData | null;
+  onSave: (data: StaffMember | undefined) => void;
+  errorMsg: string;
+  setErrorMsg: (msg: string) => void;
+  initialData?: StaffMember | null;
 };
-// Component hiển thị popup thêm / sửa nhân viên
-export default function StaffPopup({ open, onClose, onSave, initialData }: StaffPopupProps) {
-  const [form, setForm] = useState({
-    fullName: "",
-    phone: "",
-    email: "",
-    cccd: "",
-    accountCode: "",
-    password: "",
-    confirmPassword: "",
-    position: "Nhân viên CSKH",
-    status: "Hoạt động",
+const staffRoles = {
+  "Nhân viên CSKH": "NVCSKH",
+  "Nhân viên vận hành": "NVVH",
+};
+const staffRolesReverse = {
+  NVCSKH: "Nhân viên CSKH",
+  NVVH: "Nhân viên vận hành",
+};
+// Popup component for adding/editing staff members
+export default function StaffPopup({
+  open,
+  onClose,
+  onSave,
+  errorMsg,
+  setErrorMsg,
+  initialData,
+}: StaffPopupProps) {
+  const [form, setForm] = useState<StaffMember>({
+    MaTK: "",
+    DisplayName: "",
+    Email: "",
+    Status: "ACTIVE",
+    Username: "",
+    VAITRO: "",
+    updated_at: new Date().toISOString(),
   });
+  const [ConfirmPassword, setConfirmPassword] = useState<string>("");
 
   const handleChange = (field: string, value: string | boolean) => {
+    setErrorMsg(""); // Clear error message on input change
     setForm({ ...form, [field]: value });
   };
 
   const handleSubmit = () => {
+    if (!form.DisplayName || !form.Email || !form.VAITRO) {
+      setErrorMsg("Vui lòng điền đầy đủ thông tin bắt buộc.");
+      return;
+    }
+    if (form.Password && form.Password.length < 6) {
+      setErrorMsg("Mật khẩu phải có ít nhất 6 ký tự.");
+      return;
+    }
+    if (form.Password !== ConfirmPassword) {
+      setErrorMsg("Mật khẩu và xác nhận mật khẩu không khớp.");
+      return;
+    }
+    if (form.Email.indexOf("@") === -1 || form.Email.indexOf(".") === -1) {
+      setErrorMsg("Email không hợp lệ.");
+      return;
+    }
+
+    console.log("Submitting form:", form);
     onSave(form);
     onClose();
   };
 
   useEffect(() => {
     if (open && initialData) {
-      setForm((f) => ({
-        ...f,
-        fullName: initialData.fullName ?? "",
-        phone: initialData.phone ?? "",
-        email: initialData.email ?? "",
-        cccd: initialData.cccd ?? "",
-        accountCode: initialData.accountCode ?? "",
-        password: "",
-        confirmPassword: "",
-        position: initialData.position ?? f.position,
-        status: initialData.status ?? f.status,
-      }));
-    } else if (!open) {
+      setForm(initialData);
+    } else if (open && !initialData) {
+      // Reset form when opening for new staff
       setForm({
-        fullName: "",
-        phone: "",
-        email: "",
-        cccd: "",
-        accountCode: "",
-        password: "",
-        confirmPassword: "",
-        position: "Nhân viên",
-        status: "Hoạt động",
+        MaTK: "",
+        DisplayName: "",
+        Email: "",
+        Status: "ACTIVE",
+        Username: "",
+        VAITRO: "",
+        updated_at: new Date().toISOString(),
       });
+      setConfirmPassword("");
+      setErrorMsg("");
     }
   }, [open, initialData]);
 
@@ -82,74 +108,108 @@ export default function StaffPopup({ open, onClose, onSave, initialData }: Staff
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-md rounded-2xl p-6">
         <DialogHeader>
-          <DialogTitle className="text-lg font-semibold">Thêm nhân viên</DialogTitle>
+          <DialogTitle className="text-lg font-semibold">
+            {initialData ? "Chỉnh sửa nhân viên" : "Thêm nhân viên"}
+          </DialogTitle>
         </DialogHeader>
 
         <div className="grid grid-cols-2 gap-4 mt-4">
           <div>
             <Label className="text-sm">Họ và tên</Label>
-            <Input value={form.fullName} onChange={(e) => handleChange("fullName", e.target.value)} placeholder="Họ và tên" />
-          </div>
-
-          <div>
-            <Label className="text-sm">Số điện thoại</Label>
-            <Input value={form.phone} onChange={(e) => handleChange("phone", e.target.value)} placeholder="Số điện thoại" />
+            <Input
+              value={form.DisplayName}
+              onChange={(e) => handleChange("DisplayName", e.target.value)}
+              placeholder="Họ và tên"
+            />
           </div>
 
           <div className="col-span-2">
             <Label className="text-sm">Email</Label>
-            <Input value={form.email} onChange={(e) => handleChange("email", e.target.value)} placeholder="Email" />
-          </div>
-
-          <div>
-            <Label className="text-sm">Số căn cước (CCCD)</Label>
-            <Input value={form.cccd} onChange={(e) => handleChange("cccd", e.target.value)} placeholder="Số căn cước" />
-          </div>
-
-          <div>
-            <Label className="text-sm">Mã tài khoản</Label>
-            <Input value={form.accountCode} onChange={(e) => handleChange("accountCode", e.target.value)} placeholder="Mã tài khoản" />
+            <Input
+              value={form.Email}
+              onChange={(e) => handleChange("Email", e.target.value)}
+              placeholder="Email"
+            />
           </div>
 
           <div>
             <Label className="text-sm">Mật khẩu</Label>
-            <Input value={form.password} onChange={(e) => handleChange("password", e.target.value)} placeholder="Mật khẩu" type="password" />
+            <Input
+              value={form.Password ?? ""}
+              onChange={(e) => handleChange("Password", e.target.value)}
+              placeholder="Mật khẩu"
+              type="password"
+            />
           </div>
 
           <div>
             <Label className="text-sm">Nhập lại mật khẩu</Label>
-            <Input value={form.confirmPassword} onChange={(e) => handleChange("confirmPassword", e.target.value)} placeholder="Nhập lại mật khẩu" type="password" />
+            <Input
+              placeholder="Nhập lại mật khẩu"
+              type="password"
+              value={ConfirmPassword}
+              onChange={(e) => {
+                setErrorMsg("");
+                setConfirmPassword(e.target.value);
+              }}
+            />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <Select value={form.position} onValueChange={(v) => handleChange("position", v)}>
+          <Select
+            value={
+              staffRolesReverse[form.VAITRO as keyof typeof staffRolesReverse]
+            }
+            onValueChange={(v: keyof typeof staffRoles) =>
+              handleChange("VAITRO", staffRoles[v])
+            }
+          >
             <SelectTrigger className="w-full bg-[#8B5CF6] text-white [&_svg]:!text-white [&_svg]:!opacity-100">
               <SelectValue placeholder="Chức vụ" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="Nhân viên CSKH">Nhân viên CSKH</SelectItem>
-              <SelectItem value="Nhân viên vận hành">Nhân viên vận hành</SelectItem>
+              <SelectItem value="Nhân viên vận hành">
+                Nhân viên vận hành
+              </SelectItem>
             </SelectContent>
           </Select>
 
-          <Select value={form.status} onValueChange={(v) => handleChange("status", v)}>
+          <Select
+            value={form.Status}
+            onValueChange={(v) => handleChange("Status", v)}
+          >
             <SelectTrigger className="w-full bg-[#8B5CF6] text-white [&_svg]:!text-white [&_svg]:!opacity-100">
               <SelectValue placeholder="Trạng thái" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Hoạt động">Hoạt động</SelectItem>
-              <SelectItem value="Tạm dừng">Tạm dừng</SelectItem>
+              <SelectItem value="ACTIVE">ACTIVE</SelectItem>
+              <SelectItem value="INACTIVE">INACTIVE</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
+        {/* Display Error message */}
+        {errorMsg && (
+          <p className="text-red-500 text-sm mt-3 text-center animate-fadeIn">
+            {errorMsg}
+          </p>
+        )}
+
         <DialogFooter className="flex justify-end gap-3 mt-6">
-          <Button variant="ghost" className="hover:bg-red-500 flex items-center gap-2" onClick={onClose}>
+          <Button
+            variant="ghost"
+            className="hover:bg-red-500 flex items-center gap-2"
+            onClick={onClose}
+          >
             <X className="w-4 h-4" />
             Hủy
           </Button>
-          <Button className="bg-[#8B5CF6] text-white flex items-center gap-2" onClick={handleSubmit}>
+          <Button
+            className="bg-[#8B5CF6] text-white flex items-center gap-2"
+            onClick={handleSubmit}
+          >
             <Save className="w-4 h-4" />
             Lưu
           </Button>

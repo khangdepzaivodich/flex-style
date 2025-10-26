@@ -5,6 +5,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User, UserRole } from "@/lib/types";
 import { useRouter } from "next/navigation";
+import { stat } from "fs";
 // import { hasPermission, hasAnyPermission, canAccessRoute } from "@/lib/rbac";
 interface AuthState {
   user: User | null;
@@ -12,7 +13,13 @@ interface AuthState {
 }
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<any>;
-  register: (email: string, password: string, name: string) => Promise<boolean>;
+  register: (
+    email: string,
+    password: string,
+    name: string,
+    role?: string,
+    status?: string
+  ) => Promise<boolean>;
   OauthLogin: (provider: string) => void;
   logout: () => void;
   updatePassword: (password: string) => Promise<boolean>;
@@ -110,7 +117,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (
     email: string,
     password: string,
-    name: string
+    name: string,
+    role?: string,
+    status?: string
   ): Promise<boolean> => {
     try {
       setState((prev) => ({ ...prev, isLoading: true }));
@@ -120,13 +129,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         options: {
           data: {
             name,
+            role: role || "KH",
           },
         },
       });
-
-      const response = await fetch(
-        `http://localhost:8080/api/taikhoan/dangky`,
-        {
+      let response;
+      if (role == "NVCSKH" || role == "NVVH") {
+        console.log("Registering staff with role:", role);
+        console.log("Status:", status);
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        const access_token = session?.access_token;
+        console.log("MaTK:", data?.user?.id);
+        response = await fetch(`http://localhost:8080/api/nv/dangky`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`,
+          },
+          body: JSON.stringify({
+            DisplayName: name,
+            MaTK: data?.user?.id,
+            Email: email,
+            Username: email.split("@")[0],
+            VAITRO: role,
+            Status: status || "ACTIVE",
+          }),
+        });
+        console.log("Staff registration response:", response);
+      } else {
+        console.log("Registering customer");
+        response = await fetch(`http://localhost:8080/api/taikhoan/dangky`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -137,8 +171,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             Email: email,
             Username: email.split("@")[0],
           }),
-        }
-      );
+        });
+      }
 
       if (error || !data.user || !response.ok) {
         setState((prev) => ({ ...prev, isLoading: false }));

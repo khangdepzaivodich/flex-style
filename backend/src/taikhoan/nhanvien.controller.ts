@@ -6,10 +6,8 @@ import {
   Param,
   Body,
   UseGuards,
-  Req,
 } from '@nestjs/common';
 import { TaikhoanService } from './taikhoan.service';
-import { TaiKhoanDto } from './dto/taikhoan.dto';
 import { TAIKHOAN } from './taikhoan.service';
 import { Roles } from '../factory_function/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
