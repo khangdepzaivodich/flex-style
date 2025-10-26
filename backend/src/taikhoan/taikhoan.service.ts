@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { TaiKhoanDto } from './dto/taikhoan.dto';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from 'src/supabase/types';
 import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
@@ -33,7 +32,7 @@ export class TaikhoanService {
     );
   }
   // Dang ky tai khoan moi
-  async dangKy(data: TaiKhoanDto): Promise<TAIKHOAN> {
+  async dangKy(data: TaiKhoanNghiepVuDto): Promise<TAIKHOAN> {
     console.log(data);
     const existingUser = await this.prisma.tAIKHOAN.findFirst({
       where: { MaTK: data.MaTK },
@@ -111,18 +110,13 @@ export class TaikhoanService {
         'Vai trò phải là nhân viên (NVVH hoặc NVCSKH)',
       );
     }
-    const createUserSupabase = await this.supabase.auth.signUp({
-      email: data.Email,
-      password: data.MatKhau,
-    });
-    if (createUserSupabase.error) {
-      throw new Error(
-        `Lỗi khi tạo tài khoản Supabase: ${createUserSupabase.error.message}`,
-      );
-    }
+
     return this.prisma.tAIKHOAN.create({
       data: {
+        MaTK: data.MaTK,
         Username: data.Username,
+        DisplayName: data.DisplayName,
+        Email: data.Email,
         Status: 'ACTIVE',
         VAITRO: data.VAITRO,
       },
@@ -165,7 +159,10 @@ export class TaikhoanService {
   }
 
   // Cap nhat tai khoan
-  async updateTaiKhoan(maTK: string, data: TaiKhoanDto): Promise<TAIKHOAN> {
+  async updateTaiKhoan(
+    maTK: string,
+    data: TaiKhoanNghiepVuDto,
+  ): Promise<TAIKHOAN> {
     if ('VaiTro' in data) {
       throw new Error(
         'Không thể cập nhật trạng thái tài khoản qua endpoint này',

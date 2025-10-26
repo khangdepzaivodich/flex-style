@@ -1,12 +1,6 @@
-import {
-  IsString,
-  IsOptional,
-  IsEnum,
-  IsNotEmpty,
-  isNotEmpty,
-} from 'class-validator';
+import { IsString, IsOptional, IsEnum, IsNotEmpty } from 'class-validator';
 
-// Define enums locally since Prisma exports are not working properly
+// Define enums locally
 enum VaiTro {
   NCC = 'NCC',
   QLDN = 'QLDN',
@@ -27,10 +21,18 @@ export class TaiKhoanNghiepVuDto {
 
   @IsString()
   @IsNotEmpty()
+  DisplayName: string;
+
+  @IsString()
+  MaTK: string;
+
+  @IsString()
+  @IsNotEmpty()
   Email: string;
 
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   MatKhau: string;
 
   @IsOptional()

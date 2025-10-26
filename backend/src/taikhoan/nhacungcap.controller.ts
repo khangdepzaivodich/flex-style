@@ -6,10 +6,8 @@ import {
   Param,
   Body,
   UseGuards,
-  Req,
 } from '@nestjs/common';
 import { TaikhoanService } from './taikhoan.service';
-import { TaiKhoanDto } from './dto/taikhoan.dto';
 import { TAIKHOAN } from './taikhoan.service';
 import { Roles } from '../factory_function/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
@@ -52,7 +50,10 @@ export class NhaCungCapController {
   @Patch(':id')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  async updateNCC(@Param('id') maTK: string, @Body() data: TaiKhoanDto) {
+  async updateNCC(
+    @Param('id') maTK: string,
+    @Body() data: TaiKhoanNghiepVuDto,
+  ) {
     const tk = await this.taikhoanService.taikhoan(maTK);
     if (tk?.VAITRO !== 'NCC') throw new Error('Không tìm thấy NCC');
     return this.taikhoanService.updateTaiKhoan(maTK, data);

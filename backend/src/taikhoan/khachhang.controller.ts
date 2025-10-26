@@ -9,12 +9,12 @@ import {
   Req,
 } from '@nestjs/common';
 import { TaikhoanService } from './taikhoan.service';
-import { TaiKhoanDto } from './dto/taikhoan.dto';
 import { TAIKHOAN } from './taikhoan.service';
 import { Roles } from '../factory_function/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
 import { VaiTro } from './enums';
+import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
 
 interface User {
   id: string;
@@ -31,7 +31,7 @@ export class KhachHangController {
 
   // Đăng ký khách hàng
   @Post('dangky')
-  async dangKy(@Body() data: TaiKhoanDto): Promise<TAIKHOAN> {
+  async dangKy(@Body() data: TaiKhoanNghiepVuDto): Promise<TAIKHOAN> {
     return this.taikhoanService.dangKy(data);
   }
 
@@ -76,7 +76,7 @@ export class KhachHangController {
   @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') maTK: string,
-    @Body() data: TaiKhoanDto,
+    @Body() data: TaiKhoanNghiepVuDto,
     @Req() req,
   ): Promise<TAIKHOAN> {
     const user = req.user as { MaTK: string; Role: string };

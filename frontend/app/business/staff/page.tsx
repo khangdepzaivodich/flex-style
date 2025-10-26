@@ -8,84 +8,100 @@ import StaffPopup from "@/components/business/StaffPopup";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { createClient } from "@/lib/supabase/client";
-const sampleStaff: any[] = [];
-
+import StaffMember from "@/interfaces/staffMember";
+import { useAuth } from "@/contexts/auth-context";
 export default function StaffPage() {
   const [open, setOpen] = useState(false);
-  const [editing, setEditing] = useState<any | null>(null);
-  const [staff, setStaff] = useState(() => sampleStaff);
+  const [staff, setStaff] = useState<StaffMember[]>([]);
+  const [editing, setEditing] = useState<StaffMember | null>(null);
+  const [search, setSearch] = useState("");
   const supabase = createClient();
-  const handleSave = (data: any) => {
-    const dup: string[] = [];
-    for (const s of staff) {
-      if (editing && s.id === editing.id) continue;
-      if (s.accountCode === data.accountCode) dup.push("Mã tài khoản");
-      if (s.email === data.email) dup.push("Email");
-    }
-    if (dup.length > 0) {
-      const uniq = Array.from(new Set(dup));
-      alert(`Thông tin trùng: ${uniq.join(", ")}. Vui lòng sửa trước khi lưu.`);
+  const { register } = useAuth();
+  const [errorMsg, setErrorMsg] = useState<string>("");
+  // Save handler
+  const handleSave = async (data: StaffMember | undefined) => {
+    if (!data) {
+      console.error("No data to save");
       return;
     }
-
-    const newItem = { ...data };
-    setStaff((prev) => {
-      if (editing) {
-        return prev.map((p) =>
-          p.id === editing.id ? { ...newItem, id: editing.id } : p
+    if (editing) {
+      // Editing existing staff
+      setStaff((prev) =>
+        prev.map((p) => (p.MaTK === data.MaTK ? { ...p, ...data } : p))
+      );
+    } else {
+      // Adding new staff
+      console.log("Adding new staff:", data);
+      try {
+        register(
+          data.Email!,
+          data.Password!,
+          data.DisplayName!,
+          data.VAITRO,
+          data.Status
         );
+        setStaff((prev) => [...prev, data]);
+      } catch (error) {
+        console.error("Error registering new staff:", error);
+        setErrorMsg("Lỗi khi thêm nhân viên mới.");
       }
-      const nextId = prev.length
-        ? Math.max(...prev.map((p) => Number(p.id))) + 1
-        : 1;
-      return [{ ...newItem, id: nextId }, ...prev];
-    });
+    }
     setOpen(false);
     setEditing(null);
   };
 
-  const handleDelete = (id: number | string | undefined) => {
-    setStaff((prev) => prev.filter((p) => p.id !== id));
+  // Edit handler
+  const handleEdit = (staffMember: StaffMember) => {
+    setEditing(staffMember);
+    setOpen(true);
   };
 
-  const handleEdit = (id: number | string | undefined) => {
-    const s = staff.find((x) => x.id === id);
-    if (s) {
-      setEditing(s);
-      setOpen(true);
-    }
-  };
+  // Fetch staff from API
   useEffect(() => {
     const fetchStaff = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
+
       if (!session) return;
+
       const accessToken = session.access_token;
+
       try {
         const res = await axios.get("http://localhost:8080/api/nv", {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
-        console.log(res);
+        console.log("Fetched staff:", res.data.data);
         setStaff(res.data.data);
       } catch (err) {
         console.error("Error fetching staff:", err);
       }
     };
+
     fetchStaff();
     return () => {
       setStaff([]);
     };
-  }, []);
+  }, [supabase]);
+
+  // Filter staff by search term
+  const filteredStaff = staff.filter((s) =>
+    (s.DisplayName ?? s.Username ?? s.Email)
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
 
   return (
     <main className="space-y-6">
+      {/* Search bar and Add button */}
       <div className="flex items-center justify-between">
         <div className="relative w-full max-w-lg">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
             placeholder="Tìm kiếm..."
             className="pl-10 bg-muted border-0 w-full"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <Button
@@ -97,30 +113,30 @@ export default function StaffPage() {
           Thêm nhân viên
         </Button>
       </div>
-      
-      {/*Danh sách nhân viên*/}
+
+      {/* Danh sách nhân viên */}
       <div className="grid grid-cols-1 gap-4">
-        {staff.map((s) => (
-          <StaffCard
-            key={s.id}
-            id={s.id}
-            name={s.fullName ?? s.name}
-            nationalId={s.cccd ?? s.nationalId}
-            email={s.email}
-            phone={s.phone}
-            accountCode={s.accountCode}
-            position={s.position}
-            status={
-              s.status === "Hoạt động" || s.status === "active"
-                ? "active"
-                : "inactive"
-            }
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))}
+        {filteredStaff.length > 0 ? (
+          filteredStaff.map((s) => (
+            <StaffCard
+              key={s.MaTK}
+              id={s.MaTK}
+              name={s.DisplayName}
+              userName={s.Username}
+              email={s.Email}
+              position={s.VAITRO}
+              status={s.Status === "ACTIVE" ? "ACTIVE" : "INACTIVE"}
+              onEdit={() => handleEdit(s)}
+            />
+          ))
+        ) : (
+          <p className="text-muted-foreground text-center py-6">
+            Không có nhân viên nào.
+          </p>
+        )}
       </div>
 
+      {/* Popup for add/edit */}
       <StaffPopup
         open={open}
         onClose={() => {
@@ -128,6 +144,8 @@ export default function StaffPage() {
           setEditing(null);
         }}
         onSave={handleSave}
+        errorMsg={errorMsg}
+        setErrorMsg={setErrorMsg}
         initialData={editing ?? undefined}
       />
     </main>
