@@ -30,6 +30,7 @@ const formatCurrency = (v: number) =>
   new Intl.NumberFormat('vi-VN').format(v) + '₫'
 
 export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: ReceiptProps) {
+  
   const [date, setDate] = useState<string>(initial.date ?? '')
   const [receiptCode, setReceiptCode] = useState<string>(initial.receiptCode ?? '')
   const [supplier, setSupplier] = useState<string>(initial.supplier ?? '')
@@ -66,6 +67,19 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
       totalInWords,
       item,
     }
+  }
+
+  // Nhập hay ko nhập :D
+  function validate(): string[] {
+    const errors: string[] = []
+    if (!date) errors.push('Ngày nhập hàng không được để trống')
+    if (!receiptCode || !receiptCode.trim()) errors.push('Mã phiếu nhập hàng không được để trống')
+    if (!item.name || !item.name.trim()) errors.push('Tên sản phẩm không được để trống')
+    if (!item.code || !item.code.trim()) errors.push('Mã sản phẩm không được để trống')
+    if (!item.unit || !item.unit.trim()) errors.push('Đơn vị tính không được để trống')
+    if (typeof item.qty !== 'number' || item.qty <= 0) errors.push('Số lượng phải lớn hơn 0')
+    if (typeof item.unitPrice !== 'number' || item.unitPrice <= 0) errors.push('Đơn giá phải lớn hơn 0')
+    return errors
   }
 
   return (
@@ -217,14 +231,14 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
       </div>
 
       <div className="mt-4 text-base font-semibold">
-        <div>
-          <label className="block text-xs text-gray-600">Tổng số tiền (bằng chữ)</label>
+        <div className="flex items-center gap-4">
+          <label className="text-base font-semibold">Tổng số tiền (bằng chữ)</label>
           <input
             type="text"
             value={totalInWords}
             onChange={(e) => setTotalInWords(e.target.value)}
             placeholder="Nhập tổng số tiền bằng chữ"
-            className="mt-1 border rounded px-2 py-1 w-full text-sm"
+            className="mt-1 border rounded px-2 py-1 w-full text-sm flex-1"
           />
         </div>
 
@@ -251,7 +265,7 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
       </div>
 
       <div className="mt-8 flex justify-center gap-6">
-        {/* Placeholder cho DownloadExcelButton*/}
+        {/* Placeholder cho nút DownloadExcelButton*/}
         <button
           onClick={() => {
             const data = buildData()
@@ -266,8 +280,15 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
           <Download className="h-4 w-4" />
           Tải xuống excel
         </button>
+        {/* Placeholder cho nút tạo phiếu */}
         <button
           onClick={() => {
+            const errors = validate()
+            if (errors.length > 0) {
+              alert(errors.join('\n'))
+              return
+            }
+
             const data = buildData()
             if (onCreate) onCreate(data)
             else {
@@ -280,6 +301,7 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
           Tạo phiếu
         </button>
       </div>
+      
     </div>
   )
 }
