@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -23,8 +23,9 @@ export default function ProductsPage() {
 		RatIt = "ratit",
 	}
 
-	const [filter, setFilter] = useState<Filter>(Filter.All);
-	const [products, setProducts] = useState(() => sampleProducts);
+	const [filter, setFilter] = useState<Filter>(Filter.All); // Trạng thái lọc sản phẩm
+	const [products, setProducts] = useState(() => sampleProducts); // Khởi tạo với danh sách sản phẩm mẫu
+	const [search, setSearch] = useState<string>(""); // Tìm kiếm theo mã hoặc tên
 
 	// Tính trạng thái sản phẩm dựa trên tồn kho và tồn tối thiểu
 	const computeStatus = (stock?: number, minStock?: number) => {
@@ -46,11 +47,23 @@ export default function ProductsPage() {
 		return true;
 	});
 
+	//tìm kiếm theo mã hoặc tên
+	const searched = useMemo(() => {
+		const q = (search ?? "").trim().toLowerCase();
+		if (!q) return filtered;
+		return filtered.filter((p) => {
+			const id = String(p.id ?? "").toLowerCase();
+			const name = String(p.name ?? "").toLowerCase();
+			return id.includes(q) || name.includes(q);
+		});
+	}, [filtered, search]);
+
 	const handleSave = (data: any) => {
 		if (typeof data.minStock === "number" && data.minStock <= 50) {
 			alert("Số lượng tồn tối thiểu phải lớn hơn 50.");
 			return;
 		}
+		// Kiểm tra trùng mã sản phẩm hoặc tên sản phẩm
 		const duplicateFields: string[] = [];
 		for (const p of products) {
 			if (editing && p.id === editing.id) continue;
@@ -65,6 +78,7 @@ export default function ProductsPage() {
 		}
 
 		const status = computeStatus(data.stock, data.minStock);
+		// Cập nhật hoặc thêm mới sản phẩm
 		const newItem = { ...data, status };
 		setProducts((prev) => {
 			const exists = prev.some((p) => p.id === newItem.id);
@@ -95,7 +109,12 @@ export default function ProductsPage() {
 				<div className="flex items-center gap-3 w-full max-w-2xl">
 					<div className="relative w-full max-w-md">
 						<Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
-						<Input placeholder="Tìm kiếm..." className="pl-10 bg-muted border-0 w-full" />
+						<Input
+							placeholder="Tìm kiếm theo mã hoặc tên..."
+							className="pl-10 bg-muted border-0 w-full"
+							value={search}
+							onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
+						/>
 					</div>
 					<Button onClick={() => { setEditing(null); setOpen(true); }}>Thêm sản phẩm</Button>
 				</div>
@@ -116,7 +135,7 @@ export default function ProductsPage() {
 				</div>
 			</div>
 
-			<ProductTable products={filtered} onEdit={handleEdit} onDelete={handleDelete} />
+			<ProductTable products={searched} onEdit={handleEdit} onDelete={handleDelete} />
 
 			<ProductPopup open={open} onClose={() => { setOpen(false); setEditing(null); }} onSave={handleSave} initialData={editing ?? undefined} />
 		</main>
