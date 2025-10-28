@@ -7,6 +7,7 @@ enum VaiTro {
   NVVH = 'NVVH',
   NVCSKH = 'NVCSKH',
   ADMIN = 'ADMIN',
+  KH = 'KH',
 }
 
 enum TrangThai {
@@ -23,6 +24,7 @@ export class TaiKhoanNghiepVuDto {
   @IsNotEmpty()
   DisplayName: string;
 
+  @IsOptional()
   @IsString()
   MaTK: string;
 
@@ -32,7 +34,6 @@ export class TaiKhoanNghiepVuDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsOptional()
   MatKhau: string;
 
   @IsOptional()

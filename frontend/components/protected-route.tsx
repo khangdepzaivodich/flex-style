@@ -88,7 +88,7 @@ export default function ProtectedRoute({
     );
   }
 
-  if (!authorized) return null;
+  if (!authorized) return <>Not allowed</>;
 
   return <>{children}</>;
 }

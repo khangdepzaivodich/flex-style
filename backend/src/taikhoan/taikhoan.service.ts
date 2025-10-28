@@ -34,18 +34,35 @@ export class TaikhoanService {
   // Dang ky tai khoan moi
   async dangKy(data: TaiKhoanNghiepVuDto): Promise<TAIKHOAN> {
     console.log(data);
-    const existingUser = await this.prisma.tAIKHOAN.findFirst({
-      where: { MaTK: data.MaTK },
-    });
-    console.log(existingUser);
-    if (existingUser) {
-      throw new Error('Tài khoản đã tồn tại');
+    if (data.MaTK != undefined) {
+      const existingUser = await this.prisma.tAIKHOAN.findFirst({
+        where: { MaTK: data.MaTK },
+      });
+      console.log(existingUser);
+      if (existingUser) {
+        throw new Error('Tài khoản đã tồn tại');
+      }
     }
+
+    const createUserSupabase = await this.supabase.auth.signUp({
+      email: data.Email,
+      password: data.MatKhau,
+    });
+
+    if (!createUserSupabase.data.user) {
+      throw new Error(
+        createUserSupabase.error?.message || 'Không thể tạo tài khoản Supabase',
+      );
+    }
+
     const createUser = await this.prisma.tAIKHOAN.create({
       data: {
-        ...data,
+        Username: data.Username,
+        DisplayName: data.DisplayName,
+        Email: data.Email,
         VAITRO: 'KH',
         Status: 'ACTIVE',
+        MaTK: createUserSupabase.data.user.id,
       },
     });
     const createGioHang = await this.gioHangRepository.createCart({
@@ -110,15 +127,25 @@ export class TaikhoanService {
         'Vai trò phải là nhân viên (NVVH hoặc NVCSKH)',
       );
     }
+    const createUserSupabase = await this.supabase.auth.signUp({
+      email: data.Email,
+      password: data.MatKhau,
+    });
 
+    if (!createUserSupabase.data.user) {
+      throw new Error(
+        `Lỗi khi tạo tài khoản Supabase: ${createUserSupabase.error?.message}`,
+      );
+    }
     return this.prisma.tAIKHOAN.create({
       data: {
-        MaTK: data.MaTK,
+        MaTK: createUserSupabase.data.user.id,
         Username: data.Username,
         DisplayName: data.DisplayName,
         Email: data.Email,
         Status: 'ACTIVE',
         VAITRO: data.VAITRO,
+        updated_at: new Date(),
       },
     });
   }
