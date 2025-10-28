@@ -7,6 +7,7 @@ import {
 } from "@paypal/react-paypal-js";
 import { useCart } from "@/contexts/cart-context";
 
+
 interface PayPalProps {
   value: string;
   reference_id: string;
@@ -66,9 +67,9 @@ export default function PayPal({ value, reference_id, productDetailId }: PayPalP
         return;
       }
       else{
-        alert("Thanh toán thành công! " + details?.data.payer?.name?.given_name);
+        // alert("Thanh toán thành công! " + details?.data.payer?.name?.given_name);
         removeItem(productDetailId);
-        window.location.href = `/checkout/success?orderID=${reference_id}`;
+        window.location.href = `/checkout/success?type=PAYPAL&orderID=${reference_id}&transactionId=${details.data.id}`;
       }
     }
     else{

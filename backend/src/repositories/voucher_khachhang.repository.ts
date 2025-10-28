@@ -30,6 +30,11 @@ export class VoucherKhachHangRepository {
       where: { MaVCKH },
     });
   }
+  async findByVoucherAndUser(MaVC: string, MaTK: string) {
+    return await this.prisma.vOUCHER_KHACHHANG.findFirst({
+      where: { MaVoucher: MaVC, MaTKKH: MaTK },
+    });
+  }
   //thêm voucher khách hàng
   async add(MaTKKH: string, MaVoucher: string) {
     return await this.prisma.vOUCHER_KHACHHANG.create({
@@ -57,6 +62,15 @@ export class VoucherKhachHangRepository {
       where: { MaVoucher },
       data: {
         TrangThai: status,
+        updated_at: new Date(),
+      },
+    });
+  }
+  async inactiveVoucherStatus(MaVCKH: string) {
+    return await this.prisma.vOUCHER_KHACHHANG.update({
+      where: { MaVCKH },
+      data: {
+        TrangThai: TrangThai.INACTIVE,
         updated_at: new Date(),
       },
     });

@@ -36,8 +36,8 @@ export class DonhangService {
 
     // Kiểm tra trạng thái sản phẩm
     if (
-      productDetail.TrangThaiSP === 'HET_HANG' ||
-      productDetail.TrangThaiSP === 'TAM_NGUNG'
+      productDetail.TrangThaiSP === 'HET_HANG'
+      // productDetail.TrangThaiSP === 'TAM_NGUNG'
     ) {
       throw new BadRequestException('Sản phẩm hiện không khả dụng');
     }

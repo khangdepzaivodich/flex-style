@@ -2,39 +2,96 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { transcode } from "buffer";
 import { CheckCircle, Package, Truck, Mail } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useCart } from "@/contexts/cart-context";
 
 export default function CheckoutSuccessPage() {
   const searchParams = new URLSearchParams(window.location.search);
-  const orderID = searchParams.get("orderID") || searchParams.get("vnp_TxnRef");
+  const { removeItem } = useCart();
+  const [orderID, setOrderId] = useState<string>("");
+  useEffect(() => {
+    const id = searchParams.get("orderID") || searchParams.get("vnp_TxnRef");
+    console.log("Search Params Order ID:", searchParams.get("orderID"));
+    console.log(
+      "Search Params VNPAY Transaction ID:",
+      searchParams.get("vnp_TxnRef")
+    );
+    if (id) {
+      setOrderId(id);
+    } else window.location.href = "/checkout/fail";
+  }, [searchParams]);
 
-  if (searchParams.get("vnp_TxnRef")) {
-    const vnp_RequestId = searchParams.get("vnp_RequestId");
-    console.log("VNPAY Request ID:", vnp_RequestId);
-    const vnp_TransactionDate = searchParams.get("vnp_TransactionDate");
-    console.log("VNPAY Transaction Date:", vnp_TransactionDate);
-    const vnp_IpAddr = searchParams.get("vnp_IpAddr");
-    console.log("VNPAY IP Address:", vnp_IpAddr);
-    const vnp_TransactionNo = searchParams.get("vnp_TransactionNo");
-    console.log("VNPAY Transaction No:", vnp_TransactionNo);
-  }
   const createDonHang = async () => {
+    const orderRaw = localStorage.getItem("order");
+    const order = orderRaw ? JSON.parse(orderRaw) : null;
+    console.log("Creating order with ID:", orderID, "and order data:", order);
     try {
-      const response = await fetch("http://localhost:8080/api/donhang", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderID: orderID,
-        }),
-      });
+      if (order != null) {
+        removeItem(order?.MaCTSP);
+        const response = await fetch("http://localhost:8080/api/donhang", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            MaDH: orderID,
+            MaCTSP: order?.MaCTSP,
+            SoLuong: order?.SoLuong,
+            MaTK_KH: order?.MaTK_KH,
+            MaVoucher: order?.MaVoucher || null,
+            DiaChi: order?.DiaChi,
+            SoDienThoai: order?.SoDienThoai,
+            TongTien: order?.TongTien,
+            TenNM: order?.TenNM,
+          }),
+        });
+        const data = await response.json();
+        console.log("Order creation response:", data);
+        if (data && data.statusCode === 201) {
+          localStorage.removeItem("order");
+          if (order?.MaVoucher) {
+            const inactiveVoucher = await fetch(
+              "http://localhost:8080/api/voucher-khachhang/inactive-status",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  MaVC: order?.MaVoucher,
+                  MaTK: order?.MaTK_KH,
+                }),
+              }
+            );
+            const inactiveData = await inactiveVoucher.json();
+            console.log("Inactive voucher response:", inactiveData);
+          }
+          const createPayment = await fetch(
+            "http://localhost:8080/api/thanhtoan/create",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                MaDH: orderID,
+                MaKH: order?.MaTK_KH,
+                SoTien: order?.TongTien,
+                PhuongThuc: searchParams.get("type"),
+                MaGD: searchParams.get("transactionId"),
+              }),
+            }
+          );
+          const paymentData = await createPayment.json();
+          console.log("Payment record creation response:", paymentData);
+        }
+      }
     } catch (error) {
       console.error("Error creating order:", error);
     }
   };
-  if (orderID) {
-    createDonHang();
-  }
+  useEffect(() => {
+    if (orderID) {
+      createDonHang();
+    }
+  }, [orderID]);
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto text-center">

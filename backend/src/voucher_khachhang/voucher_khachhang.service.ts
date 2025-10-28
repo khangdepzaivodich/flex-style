@@ -114,8 +114,22 @@ export class VoucherKhachHangService {
       if (voucherDetails.Dieukien && voucherDetails.Dieukien > finalTotal) {
         throw new BadRequestException(`Đơn hàng chưa đạt điều kiện sử dụng voucher. Đơn tối thiểu: ${voucherDetails.Dieukien}`);
       }
-      return { type: 'GiamGia', value: voucherDetails.SoTien  };
+      return {MaVoucher: voucherKH.MaVoucher, type: 'GiamGia', value: voucherDetails.SoTien  };
     }
-    return { type: 'FreeShip', value: 0 };
+    return { MaVoucher: voucherKH.MaVoucher, type: 'FreeShip', value: 0 };
+  }
+
+  //thay đổi trạng thái voucher khách hàng
+  async inactiveStatus(MaVC: string, MaTK: string) {
+    const voucherKH = await this.voucherKhachHangRepository.findByVoucherAndUser(MaVC, MaTK);
+    console.log('voucherKH', voucherKH);
+    console.log('MaVC, MaTK', MaVC, MaTK);
+    if (!voucherKH) {
+      throw new BadRequestException('Bạn không sở hữu voucher này');
+    } 
+    if (voucherKH.TrangThai === TrangThai.INACTIVE) {
+      throw new BadRequestException('Voucher đã được sử dụng hoặc không khả dụng');
+    }
+    return await this.voucherKhachHangRepository.inactiveVoucherStatus(voucherKH.MaVCKH);
   }
 }

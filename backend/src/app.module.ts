@@ -24,6 +24,7 @@ import { JwtAuthGuard } from './jwt/jwt.guard';
 import { JwtService } from '@nestjs/jwt';
 import { PaypalModule } from './paypal/paypal.module';
 import { VNPAYModule } from './vnpay/vnpay.module';
+import { ThanhtoanModule } from './thanhtoan/thanhtoan.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -50,6 +51,7 @@ import { VNPAYModule } from './vnpay/vnpay.module';
     PhanHoiModule,
     PhieuNhapHangModule,
     VNPAYModule,
+    ThanhtoanModule,
   ],
   controllers: [
     AppController,
