@@ -25,13 +25,8 @@ import { Button } from "@/components/ui/button";
 
 const sidebarItems = [
   {
-    title: "Tổng quan",
-    href: "/admin",
-    icon: LayoutDashboard,
-  },
-  {
     title: "Quản lý chức vụ",
-    href: "/admin/positions",
+    href: "/admin",
     icon: NotebookTabs,
   },
   // {
@@ -49,11 +44,11 @@ const sidebarItems = [
   //   href: "/admin/products",
   //   icon: Package,
   // },
-  // {
-  //   title: "Quản lý nhà cung cấp",
-  //   href: "/admin/suppliers",
-  //   icon: Truck,
-  // },
+  {
+    title: "Quản lý nhà cung cấp",
+    href: "/admin/suppliers",
+    icon: Truck,
+  },
   // {
   //   title: "Phiếu nhập hàng",
   //   href: "/admin/receipts",

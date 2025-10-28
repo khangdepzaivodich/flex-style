@@ -1,5 +1,4 @@
 import React from "react";
-import Script from "next/script";
 import { LanguageProvider } from "@/contexts/language-context";
 import { cookies } from "next/headers";
 import { CartProvider } from "@/contexts/cart-context";
@@ -9,6 +8,10 @@ import { Analytics } from "@vercel/analytics/next";
 import ChatWidget from "@/components/chat-widget";
 import { SuKienUuDaiProvider } from "@/contexts/sukienuudai-context";
 import ProtectedRoute from "@/components/protected-route";
+<<<<<<< Updated upstream
+=======
+import talkto from "@/components/talkto";
+>>>>>>> Stashed changes
 
 import type { SuKienUuDai } from "@/lib/types";
 import { OrderProvider } from "@/contexts/order-context";
@@ -44,6 +47,7 @@ export default async function layout({
       <ProtectedRoute Role="KH" allowGuest={true}>
         <LanguageProvider initialLanguage={language as "en" | "vi"}>
           <CartProvider>
+<<<<<<< Updated upstream
             <OrderProvider>
               <SuKienUuDaiProvider
                 initialData={
@@ -86,6 +90,31 @@ export default async function layout({
                 />
               </SuKienUuDaiProvider>
             </OrderProvider>
+=======
+            <SuKienUuDaiProvider
+              initialData={
+                sukienuudais.data.find(
+                  (s: SuKienUuDai) =>
+                    compareDate(s.NgayPH, new Date()) < 0 &&
+                    compareDate(s.NgayKT, new Date()) > 0
+                ) ?? ({} as SuKienUuDai)
+              }
+            >
+              <Header />
+              {children}
+              <Footer />
+              {process.env.NODE_ENV === "production" ? <Analytics /> : null}
+              <ChatWidget
+                config={{
+                  chatUrl: process.env.N8N_CHAT_URL || "",
+                  supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+                  supabaseServiceRoleKey:
+                    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || "",
+                }}
+              />
+              {talkto()}
+            </SuKienUuDaiProvider>
+>>>>>>> Stashed changes
           </CartProvider>
         </LanguageProvider>
       </ProtectedRoute>
