@@ -98,6 +98,33 @@ export interface Voucher_KhachHang {
 
 export type UserRole = "KH" | "ADMIN" | "NCC" | "QLDN" | "NVVH" | "NVCSKH";
 
+export type UserStatus = "ACTIVE" | "INACTIVE";
+
+export type VaiTro = "KH" | "NCC" | "QLDN" | "NVVH" | "NVCSKH" | "ADMIN";
+export type TrangThai = "ACTIVE" | "INACTIVE";
+
+export interface NhanVien {
+  MaTK: string;
+  DisplayName: string;
+  Email: string | null;
+  Avatar: string | null;
+  VAITRO: VaiTro;
+  Status: TrangThai;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface Supplier {
+  MaTK: string;
+  DisplayName: string;
+  Email: string | null;
+  Avatar: string | null;
+  VAITRO: VaiTro;
+  Status: TrangThai;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export type Permission =
   // Product management
   | "products.view"
@@ -181,19 +208,6 @@ export interface Staff extends User {
   manager?: string;
   salary?: number;
   startDate: string;
-}
-
-export interface Supplier {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-  contactPerson: string;
-  products: string[];
-  isActive: boolean;
-  rating: number;
-  createdAt: string;
 }
 
 export interface InventoryItem {

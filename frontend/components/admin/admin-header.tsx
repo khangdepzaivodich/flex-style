@@ -12,14 +12,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/auth-context";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const titleMap: Record<string, string> = {
-  "/admin/positions": "Quản lý chức vụ",
+  "/admin": "Quản lý chức vụ",
+  "/admin/suppliers": "Quản lý nhà cung cấp",
 };
 
 export function AdminHeader() {
+  const router = useRouter();
   const { user, logout } = useAuth();
   const pathName = usePathname();
+  const handleLogout = async () => {
+    await logout();
+    router.push("/login");
+  };
 
   return (
     <header className="h-16 border-b border-border bg-background px-6 flex items-center justify-between">
@@ -73,7 +80,9 @@ export function AdminHeader() {
                   src={user?.user_metadata?.avatar_url || "/placeholder.svg"}
                   alt={user?.email}
                 />
-                <AvatarFallback>{user?.email?.charAt(0)}</AvatarFallback>
+                <AvatarFallback className="bg-blue-900 text-white">
+                  {user?.email?.charAt(0)}
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -98,7 +107,7 @@ export function AdminHeader() {
               <span>Cài đặt</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={logout}>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Đăng xuất</span>
             </DropdownMenuItem>

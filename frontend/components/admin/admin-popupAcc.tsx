@@ -1,37 +1,205 @@
 "use client";
-import React from "react";
-import { Edit, Plus } from "lucide-react";
-import { Button } from "../ui/button";
-type VaiTro = "KH" | "NCC" | "QLDN" | "NVVH" | "NVCSKH" | "ADMIN";
-type TrangThai = "ACTIVE" | "INACTIVE";
-
-interface AccountInfo {
-  MaTK: string;
-  DisplayName: string | null;
-  Email: string | null;
-  Avatar: string | null;
-  VAITRO: VaiTro;
-  Status: TrangThai;
-  created_at: Date;
-  updated_at: Date;
-}
+import { useState } from "react";
+import { Edit, Search } from "lucide-react";
+// import { Button } from "../ui/button";
+import EditAccountPopup from "./EditAccountPopup";
+import { NhanVien, VaiTro } from "@/lib/types";
+import { createClient } from "@/lib/supabase/client";
+import axios from "axios";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import EditVaiTroPopup from "./EditVaiTroPopup";
 
 interface AccountListPopupProps {
   open: boolean;
   onClose: () => void;
-  accounts: AccountInfo[];
+  accounts: NhanVien[];
+  role: string;
 }
 
 export default function AccountListPopup({
   open,
   onClose,
   accounts,
+  role,
 }: AccountListPopupProps) {
+  const supabase = createClient();
+  const [editOpen, setEditOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [roleOpen, setRoleOpen] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState<NhanVien | null>(null);
+  const [giatri, setGiatri] = useState<string>("");
+  const handleSave = async (data: NhanVien) => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    if (!session) {
+      console.log("No active session found.");
+      return;
+    }
+
+    const accessToken = session.access_token;
+
+    try {
+      await axios.patch(
+        `http://localhost:8080/api/ql/${data.MaTK}`,
+        {
+          DisplayName: data.DisplayName,
+          Email: data.Email,
+          Status: data.Status,
+          Avatar: data.Avatar,
+          MaTK: data.MaTK,
+          VAITRO: data.VAITRO,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      alert("Cập nhật tài khoản thành công! Vui lòng tải lại trang");
+    } catch (error: any) {
+      if (error.response) {
+        console.error("Error updating account:", error.response.data);
+        alert(
+          "Cập nhật tài khoản thất bại: " + JSON.stringify(error.response.data)
+        );
+      } else {
+        console.error("Error updating account:", error);
+        alert("Cập nhật tài khoản thất bại. Vui lòng thử lại.");
+      }
+    }
+  };
+  const handleSaveRole = async (data: VaiTro) => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    if (!session) {
+      console.log("No active session found.");
+      return;
+    }
+
+    const accessToken = session.access_token;
+    console.log(data);
+    try {
+      await axios.patch(
+        `http://localhost:8080/api/nv/role/${selectedAccount?.MaTK}`,
+        {
+          vaiTro: data,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      alert("Cập nhật vai trò thành công! Vui lòng tải lại trang");
+    } catch (error: any) {
+      if (error.response) {
+        console.error("Error updating account:", error.response.data);
+        alert(
+          "Cập nhật vai trò thất bại: " + JSON.stringify(error.response.data)
+        );
+      } else {
+        console.error("Error updating account:", error);
+        alert("Cập nhật vai trò thất bại. Vui lòng thử lại.");
+      }
+    }
+  };
+  const handleClick = (acc: NhanVien) => {
+    if (role === "QLDN") {
+      setSelectedAccount(acc);
+      setEditOpen(true);
+    } else {
+      setSelectedAccount(acc);
+      setRoleOpen(true);
+    }
+  };
+
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-lg shadow-lg p-6 min-w-[350px] translate-y-[-50%] max-w-[95vw]">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/40">
+      <EditAccountPopup
+        open={editOpen && role === "QLDN"}
+        onClose={() => setEditOpen(false)}
+        account={selectedAccount}
+        onSave={handleSave}
+      />
+
+      <EditVaiTroPopup
+        open={roleOpen && role !== "QLDN"}
+        onClose={() => setRoleOpen(false)}
+        onSave={handleSaveRole}
+        roleNv={selectedAccount?.VAITRO}
+      />
+
+      <div className="flex min-w-[300px] max-w-[500px] mb-3">
+        <div className="relative mr-3">
+          {giatri === "TrangThai" ? (
+            <Select
+              value={
+                searchQuery
+                  ? searchQuery === "ACTIVE"
+                    ? "ACTIVE"
+                    : "INACTIVE"
+                  : ""
+              }
+              onValueChange={(val) => setSearchQuery(val as string)}
+            >
+              <SelectTrigger className="w-[180px] bg-white">
+                <SelectValue placeholder="Chọn trạng thái" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Trạng thái</SelectLabel>
+                  <SelectItem value="ACTIVE">ACTIVE</SelectItem>
+                  <SelectItem value="INACTIVE">INACTIVE</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          ) : (
+            <>
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                placeholder="Tìm kiếm..."
+                className="pl-10 bg-muted border-0"
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </>
+          )}
+        </div>
+        <Select
+          value={giatri ?? "DisplayName"}
+          onValueChange={(val) => {
+            setGiatri(val as string);
+            setSearchQuery("");
+          }}
+        >
+          <SelectTrigger className="w-[180px] bg-white">
+            <SelectValue placeholder="Chọn tiêu chí" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Fruits</SelectLabel>
+              <SelectItem value="DisplayName">Tên hiển thị</SelectItem>
+              <SelectItem value="Email">Email</SelectItem>
+              <SelectItem value="TrangThai">Trạng thái</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="bg-white rounded-lg shadow-lg p-6 min-w-[350px] max-h-[90vh] overflow-y-auto max-w-[95vw]">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Danh sách tài khoản</h2>
           <button
@@ -46,7 +214,6 @@ export default function AccountListPopup({
           <table className="min-w-full text-sm">
             <thead>
               <tr>
-                <th className="px-2 py-1 text-left">Mã TK</th>
                 <th className="px-2 py-1 text-left">Tên hiển thị</th>
                 <th className="px-2 py-1 text-left">Email</th>
                 <th className="px-2 py-1 text-left">Avatar</th>
@@ -58,49 +225,66 @@ export default function AccountListPopup({
               </tr>
             </thead>
             <tbody>
-              {accounts.map((acc) => (
-                <tr key={acc.MaTK}>
-                  <td className="px-2 py-1">{acc.MaTK}</td>
-                  <td className="px-2 py-1">{acc.DisplayName ?? "-"}</td>
-                  <td className="px-2 py-1">{acc.Email ?? "-"}</td>
-                  <td className="px-2 py-1 flex items-center justify-center">
-                    {acc.Avatar ? (
-                      <img
-                        src={acc.Avatar}
-                        alt="avatar"
-                        className="w-8 h-8 rounded-full object-cover"
-                      />
-                    ) : (
-                      <span className="bg-red-400 text-white rounded-full h-8 w-8 flex items-center justify-center">
-                        {acc.DisplayName?.charAt(0).toUpperCase()}
+              {accounts
+                .filter((acc) => {
+                  if (!searchQuery) return true;
+                  const field = giatri || "DisplayName";
+
+                  if (field === "TrangThai") {
+                    return acc.Status.toLowerCase().includes(
+                      searchQuery.toLowerCase()
+                    );
+                  }
+                  const value = (
+                    acc[field as keyof NhanVien] as string | undefined
+                  )?.toLowerCase();
+                  return value?.includes(searchQuery.toLowerCase());
+                })
+                .map((acc) => (
+                  <tr key={acc.MaTK}>
+                    <td className="px-2 py-1">{acc.DisplayName ?? "-"}</td>
+                    <td className="px-2 py-1">{acc.Email ?? "-"}</td>
+                    <td className="px-2 py-1 flex items-center justify-center">
+                      {acc.Avatar ? (
+                        <img
+                          src={acc.Avatar}
+                          alt="avatar"
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <span className="bg-blue-400 text-white rounded-full h-8 w-8 flex items-center justify-center">
+                          {acc.DisplayName?.charAt(0).toUpperCase()}
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-2 py-1">{acc.VAITRO}</td>
+                    <td className="px-2 py-1">
+                      <span
+                        className={
+                          acc.Status === "ACTIVE"
+                            ? "text-green-600 font-semibold"
+                            : "text-red-600 font-semibold"
+                        }
+                      >
+                        {acc.Status}
                       </span>
-                    )}
-                  </td>
-                  <td className="px-2 py-1">{acc.VAITRO}</td>
-                  <td className="px-2 py-1">
-                    <span
-                      className={
-                        acc.Status === "ACTIVE"
-                          ? "text-green-600 font-semibold"
-                          : "text-red-600 font-semibold"
-                      }
-                    >
-                      {acc.Status}
-                    </span>
-                  </td>
-                  <td className="px-2 py-1">
-                    {new Date(acc.created_at).toLocaleString("vi-VN")}
-                  </td>
-                  <td className="px-2 py-1">
-                    {new Date(acc.updated_at).toLocaleString("vi-VN")}
-                  </td>
-                  <td className="px-2 py-1 flex items-center justify-center">
-                    <button className="text-blue-600 hover:underline">
-                      <Edit className="inline-block w-4 h-4 mr-1" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td className="px-2 py-1">
+                      {new Date(acc.created_at).toLocaleString("vi-VN")}
+                    </td>
+                    <td className="px-2 py-1">
+                      {new Date(acc.updated_at).toLocaleString("vi-VN")}
+                    </td>
+                    <td className="px-2 py-1 flex items-center justify-center">
+                      <button
+                        className="text-blue-600 hover:underline  w-6 h-6 flex items-center justify-center"
+                        onClick={() => handleClick(acc)}
+                      >
+                        <Edit className="inline-block w-4 h-4 mr-1" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               {accounts.length === 0 && (
                 <tr>
                   <td colSpan={8} className="text-center py-4 text-gray-400">
@@ -111,10 +295,12 @@ export default function AccountListPopup({
             </tbody>
           </table>
         </div>
-        <Button className="mt-3">
-          <Plus className="h-4 w-4 mr-2" />
-          Thêm chức vụ
-        </Button>
+        {/* {role === "QLDN" && (
+            <Button className="mt-3">
+              <Plus className="h-4 w-4 mr-2" />
+              Thêm chức vụ
+            </Button>
+          )} */}
       </div>
     </div>
   );

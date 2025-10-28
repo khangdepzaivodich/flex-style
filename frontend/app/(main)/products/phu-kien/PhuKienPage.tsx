@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
+import { Product, Category } from "@/lib/types";
 import { Separator } from "@/components/ui/separator";
 import { Gem } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";

@@ -31,7 +31,7 @@ export class NhanVienController {
   }
 
   @Get()
-  @Roles('QLDN')
+  @Roles('QLDN', 'ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   async getAllNV(): Promise<TAIKHOAN[]> {
     const nv = await this.taikhoanService.taikhoansNV();
@@ -62,13 +62,14 @@ export class NhanVienController {
   }
 
   @Patch('role/:id')
-  @Roles('QLDN')
+  @Roles('QLDN', 'ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   async updateVaiTroNV(
     @Param('id') maTK: string,
     @Body('vaiTro') vaiTro: VaiTro,
   ): Promise<TAIKHOAN> {
     const tk = await this.taikhoanService.taikhoan(maTK);
+    console.log('Updating role for account:', tk);
     if (tk?.VAITRO === 'NVVH' || tk?.VAITRO === 'NVCSKH') {
       if (vaiTro === 'NVVH' || vaiTro === 'NVCSKH')
         return this.taikhoanService.updateVaiTro(maTK, vaiTro);
