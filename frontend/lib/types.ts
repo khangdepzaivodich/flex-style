@@ -148,20 +148,16 @@ export interface User {
 }
 
 export interface Order {
-  id: string;
-  userId: string;
-  items: CartItem;
-  total: number;
-  status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
-  createdAt: string;
-  shippingAddress: {
-    name: string;
-    phone: string;
-    address: string;
-    city: string;
-    district: string;
-    ward: string;
-  };
+  MaDH: string;
+  MaTK_KH: string;
+  DiaChi: string;
+  SoDienThoai: string;
+  TenNM: string;
+  SoLuong: number;
+  TongTien: number;
+  MaVoucher?: string;
+  MaSK?: string;
+  MaCTSP: string;
 }
 
 export interface Role {

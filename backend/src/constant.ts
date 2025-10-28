@@ -19,3 +19,8 @@ export enum LoaiVoucher{
   FreeShip = 'FreeShip',
   GiamGia = 'GiamGia',
 }
+
+export enum PhuongThucTT {
+  VNPAY = 'VNPAY',
+  PAYPAL = 'PAYPAL',
+}

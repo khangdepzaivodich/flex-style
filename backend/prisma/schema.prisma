@@ -58,6 +58,7 @@ model DONHANG {
   KHACHHANG_ACCOUNT TAIKHOAN?          @relation("DonHang_KhachAccount", fields: [MaTK_KH], references: [MaTK])
   VOUCHER           VOUCHER?           @relation(fields: [MaVoucher], references: [MaVoucher])
   TINHTRANGDONHANG  TINHTRANGDONHANG[]
+  THANHTOAN         THANHTOAN[]
 }
 
 model GIOHANG {
@@ -128,6 +129,7 @@ model TAIKHOAN {
   PhieuNhapNVXN     PHIEUNHAPHANG[]     @relation("PhieuNhap_NVXN")
   PhieuNhapNCC      PHIEUNHAPHANG[]     @relation("PhieuNhap_NCC")
   VOUCHER_KHACHHANG VOUCHER_KHACHHANG[] 
+  THANHTOAN         THANHTOAN[]         @relation("ThanhToan_KhachHang")
 }
 
 model TINHTRANGDONHANG {
@@ -155,9 +157,26 @@ model VOUCHER {
   VOUCHER_KHACHHANG VOUCHER_KHACHHANG[]
 }
 
+model THANHTOAN {
+  MaTTDH            String              @id @default(uuid())
+  created_at        DateTime            @default(now())
+  MaDH              String
+  MaKH              String
+  MaGD              String
+  PhuongThuc        PhuongThucTT
+  SoTien            Int
+  TAIKHOAN TAIKHOAN @relation("ThanhToan_KhachHang", fields: [MaKH], references: [MaTK])
+  DONHANG  DONHANG  @relation(fields: [MaDH], references: [MaDH])
+}
+
 enum LoaiVoucher{
   FreeShip
   GiamGia
+}
+
+enum PhuongThucTT{
+  VNPAY
+  PAYPAL
 }
 
 model VOUCHER_KHACHHANG {

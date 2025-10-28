@@ -52,6 +52,7 @@ export class DonhangController {
   async createOrder(
     @Body() createDto: CreateDonhangDto
   ){
+    console.log("Creating order with data:", createDto);
     return await this.donhangService.createOrder(createDto);
   }
 

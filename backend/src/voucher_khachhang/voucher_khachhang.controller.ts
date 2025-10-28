@@ -36,4 +36,12 @@ export class VoucherKhachHangController {
     const result = this.voucherKhachHangService.check(body.MaVoucherKH, body.finalTotal);
     return result;
   }
+
+  //thay đổi trang thái voucher khách hàng
+  @Post('inactive-status')
+  @ResponseMessage('Cập nhật trạng thái voucher khách hàng thành công')
+  async inactiveStatus(@Body() body: { MaVC: string, MaTK: string}) {
+    const result = this.voucherKhachHangService.inactiveStatus(body.MaVC, body.MaTK);
+    return result;
+  }
 }

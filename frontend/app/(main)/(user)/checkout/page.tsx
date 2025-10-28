@@ -19,21 +19,24 @@ import { VNPAY } from "@/components/vnpay";
 import { X, Tickets } from "lucide-react";
 import { CartItem } from "@/lib/types";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
+import { useOrder } from "@/contexts/order-context";
 export default function CheckoutPage() {
   const { items, total } = useCart();
   const searchParams = useSearchParams();
   const selectedProductId = searchParams.get("productId");
   const [selectedItem, setSelectedItem] = useState<CartItem | undefined>();
   const [invoiceTotal, setInvoiceTotal] = useState(0);
-  const orderId = uuidv4();
+  const [orderId, setOrderId] = useState(uuidv4());
   const [shippingCost, setShippingCost] = useState<number>(0);
   const [finalTotal, setFinalTotal] = useState<number>(0);
+  const [voucherCodeCustomer, setvoucherCodeCustomer] = useState("");
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherMessage, setVoucherMessage] = useState("");
   const [checkVoucher, setCheckVoucher] = useState(false);
   const { user } = useAuth();
   const { suKienUuDais } = useSuKienUuDai();
   const [userInfo, setUserInfo] = useState(user);
+  const { order, setOrder } = useOrder();
   const [formData, setFormData] = useState(() => {
     return {
       email: user?.email || "",
@@ -64,6 +67,7 @@ export default function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   useEffect(() => {
+    setOrderId(uuidv4());
     // const { user } = useAuth();
     console.log("User in useEffect:", userInfo);
     const item = items.find(
@@ -71,7 +75,7 @@ export default function CheckoutPage() {
     );
     setSelectedItem(item);
     console.log("Selected item in useEffect:", selectedItem);
-    setInvoiceTotal(item ? item.price * item.quantity : 0);
+    setInvoiceTotal(Math.round(item ? item.price * item.quantity : 0));
 
     try {
       let parsed = null;
@@ -107,12 +111,29 @@ export default function CheckoutPage() {
     }
   }, []);
   useEffect(() => {
-    setShippingCost(invoiceTotal * 0.05);
+    setShippingCost(Math.round(invoiceTotal * 0.05));
   }, [invoiceTotal]);
   useEffect(() => {
     setFinalTotal(invoiceTotal + shippingCost);
   }, [invoiceTotal, shippingCost]);
 
+  const handleSaveOrder = () => {
+    setOrder({
+      MaDH: orderId,
+      TenNM: `${formData.firstName} ${formData.lastName}`,
+      MaTK_KH: user?.id || "",
+      DiaChi: formData.address,
+      SoDienThoai: formData.phone,
+      SoLuong: selectedItem ? selectedItem.quantity : 0,
+      TongTien: finalTotal,
+      MaVoucher: voucherCode ? voucherCode : undefined,
+      MaSK: suKienUuDais?.MaSK,
+      MaCTSP: selectedItem ? selectedItem.productId : "",
+    });
+  };
+  useEffect(() => {
+    console.log("Order updated in CheckoutPage:", order);
+  }, [order]);
   // Nếu có selectedItem thì chỉ thanh toán mặt hàng đó, nếu không thì thanh toán toàn bộ
   // const invoiceTotal = selectedItem
   //   ? selectedItem.price * selectedItem.quantity
@@ -226,6 +247,7 @@ export default function CheckoutPage() {
       console.log("Response status:", response);
       const data = await response.json();
       console.log("Response data:", data);
+      setVoucherCode(data.data.MaVoucher);
       if (response.ok) {
         console.log("Voucher applied successfully:", data);
         if (data.type == "FreeShip") {
@@ -427,13 +449,13 @@ export default function CheckoutPage() {
                 <div className="flex max-w-lg mx-auto gap-3">
                   <Input
                     placeholder="Nhập mã voucher của bạn..."
-                    value={voucherCode}
-                    onChange={(e) => setVoucherCode(e.target.value)}
+                    value={voucherCodeCustomer}
+                    onChange={(e) => setvoucherCodeCustomer(e.target.value)}
                     className="border-2 border-gray-300 focus:border-primary shadow-sm text-lg font-medium text-center tracking-wide"
                   />
                   <Button
                     size="lg"
-                    onClick={() => handleVoucher(voucherCode)}
+                    onClick={() => handleVoucher(voucherCodeCustomer)}
                     className="bg-primary hover:bg-primary/90 text-white px-6 font-semibold transition-colors"
                   >
                     ÁP DỤNG
@@ -491,7 +513,7 @@ export default function CheckoutPage() {
                 <div className="flex justify-between">
                   <span> Mã voucher đã dùng: </span>
                   {checkVoucher == true ? (
-                    <span className="text-green-600">{voucherCode}</span>
+                    <span className="text-green-600">{voucherCodeCustomer}</span>
                   ) : (
                     <span className="text-red-600">Không hợp lệ</span>
                   )}
@@ -522,7 +544,10 @@ export default function CheckoutPage() {
 
               <Button
                 type="button"
-                onClick={handleOpenPopup}
+                onClick={() => {
+                  handleOpenPopup();
+                  handleSaveOrder();
+                }}
                 className="w-full"
                 size="lg"
                 disabled={isProcessing}

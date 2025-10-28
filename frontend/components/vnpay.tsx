@@ -4,6 +4,7 @@ import type { VerifyReturnUrl } from "vnpay/types-only"; // ✅ Chỉ import typ
 import Image from "next/image";
 import { Fullscreen } from "lucide-react";
 import { inherits } from "util";
+// import { useCart } from "@/contexts/cart-context";
 
 interface PaymentButtonProps {
   amount: number;
@@ -16,7 +17,7 @@ export const VNPAY: React.FC<PaymentButtonProps> = ({
   onPaymentResult,
 }) => {
   const [loading, setLoading] = useState(false);
-
+  // const { removeItem } = useCart();
   const handlePayment = async () => {
     setLoading(true);
 
@@ -36,6 +37,7 @@ export const VNPAY: React.FC<PaymentButtonProps> = ({
       const payment = await response.json();
 
       if (payment.statusCode == "201") {
+        // removeItem(orderId);
         // Chuyển hướng đến VNPay
         window.location.href = payment.data;
       } else {
