@@ -13,13 +13,7 @@ interface AuthState {
 }
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<any>;
-  register: (
-    email: string,
-    password: string,
-    name: string,
-    role?: string,
-    status?: string
-  ) => Promise<boolean>;
+  register: (email: string, password: string, name: string) => Promise<boolean>;
   OauthLogin: (provider: string) => void;
   logout: () => void;
   updatePassword: (password: string) => Promise<boolean>;
@@ -117,69 +111,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (
     email: string,
     password: string,
-    name: string,
-    role?: string,
-    status?: string
+    name: string
   ): Promise<boolean> => {
     try {
       setState((prev) => ({ ...prev, isLoading: true }));
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            name,
-            role: role || "KH",
-          },
-        },
-      });
-      let response;
-      if (role == "NVCSKH" || role == "NVVH") {
-        console.log("Registering staff with role:", role);
-        console.log("Status:", status);
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-        const access_token = session?.access_token;
-        console.log("MaTK:", data?.user?.id);
-        response = await fetch(`http://localhost:8080/api/nv/dangky`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${access_token}`,
-          },
-          body: JSON.stringify({
-            DisplayName: name,
-            MaTK: data?.user?.id,
-            Email: email,
-            Username: email.split("@")[0],
-            VAITRO: role,
-            Status: status || "ACTIVE",
-          }),
-        });
-        console.log("Staff registration response:", response);
-      } else {
-        console.log("Registering customer");
-        response = await fetch(`http://localhost:8080/api/taikhoan/dangky`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            DisplayName: name,
-            MaTK: data?.user?.id,
-            Email: email,
-            Username: email.split("@")[0],
-          }),
-        });
-      }
 
-      if (error || !data.user || !response.ok) {
+      console.log("Registering customer");
+      const response = await fetch(
+        `http://localhost:8080/api/taikhoan/dangky`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            DisplayName: name,
+            Email: email,
+            Username: email.split("@")[0],
+            MatKhau: password,
+            VAITRO: "KH",
+            Status: "ACTIVE",
+          }),
+        }
+      );
+      console.log("Backend registration response:", response);
+      const json = await response.json();
+      console.log("Backend registration JSON:", json);
+      const user = json.data;
+      if (!response.ok) {
         setState((prev) => ({ ...prev, isLoading: false }));
         return false;
       }
       setState({
-        user: data.user,
+        user: user,
         isLoading: false,
       });
       return true;
