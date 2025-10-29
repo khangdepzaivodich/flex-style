@@ -31,37 +31,41 @@ export default function ReceiptTable({ receipts = [], receiptsBusiness, receipts
     function renderBusinessRows(list: Receipt[]) {
         return (
             <>
-                {list.map((r, idx) => (
-                    <tr key={idx} data-id={r.id} className="border-b hover:bg-gray-50 transition-colors">
-                        <td className="px-4 py-3 text-gray-700 text-left">{r.date}</td>
-                        <td className="px-4 py-3 text-gray-600 text-left">Kho FlexStyle</td>
-                        <td className="px-4 py-3 text-gray-600 text-left">Quận A, Phường B, TP.HCM</td>
-                        <td className="px-4 py-3">
-                            <span
-                                className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                    r.status === "đã xác nhận"
-                                        ? "bg-green-100 text-green-700"
-                                        : r.status === "Chờ xác nhận"
-                                        ? "bg-blue-100 text-blue-700"
-                                        : r.status === "từ chối"
-                                        ? "bg-red-100 text-red-600"
-                                        : "bg-gray-100 text-gray-700"
-                                }`}
-                            >
-                                {r.status ? (r.status === "Chờ xác nhận" ? r.status : `Nhà cung cấp ${r.status}`) : "-"}
-                            </span>
-                        </td>
-                        <td className="px-4 py-3 text-gray-800 text-left">
-                            {typeof r.total === "number" ? new Intl.NumberFormat("vi-VN").format(r.total) + " đ" : "-"}
-                        </td>
+                {list.map((r, idx) => {
+                    const label = r.status ? (r.status === "Chờ xác nhận" ? r.status : `Nhà cung cấp ${r.status}`) : "-";
+                    return (
+                        <tr key={idx} className="border-b hover:bg-gray-50 transition-colors" data-id={r.id}>
+                            <td className="px-4 py-3 text-gray-700 text-left">{r.date}</td>
+                            <td className="px-4 py-3 text-gray-600 text-left">Kho FlexStyle</td>
+                            <td className="px-4 py-3 text-gray-600 text-left">Quận A, Phường B, TP.HCM</td>
+                            <td className="px-4 py-3">
+                                <span
+                                    title={label}
+                                        className={`px-3 py-1 rounded-full text-xs font-medium inline-flex items-center justify-center text-center whitespace-nowrap max-w-[160px] truncate ${
+                                        r.status === "đã xác nhận"
+                                            ? "bg-green-100 text-green-700"
+                                            : r.status === "Chờ xác nhận"
+                                            ? "bg-blue-100 text-blue-700"
+                                            : r.status === "từ chối"
+                                            ? "bg-red-100 text-red-600"
+                                            : "bg-gray-100 text-gray-700"
+                                    }`}
+                                >
+                                    {label}
+                                </span>
+                            </td>
+                            <td className="px-4 py-3 text-gray-800 text-left">
+                                {typeof r.total === "number" ? new Intl.NumberFormat("vi-VN").format(r.total) + " đ" : "-"}
+                            </td>
                             <td className="px-4 py-2 flex gap-2 justify-start">
-                            <Button size="sm" variant="outline" className="flex items-center gap-1" onClick={() => { setSelectedReceipt(r); setViewOpen(true); }}>
-                                <Eye className="w-4 h-4" />
-                                Xem
-                            </Button>
-                        </td>
-                    </tr>
-                ))}
+                                <Button size="sm" variant="outline" className="flex items-center gap-1" onClick={() => { setSelectedReceipt(r); setViewOpen(true); }}>
+                                    <Eye className="w-4 h-4" />
+                                    Xem
+                                </Button>
+                            </td>
+                        </tr>
+                    )
+                })}
             </>
         );
     }
