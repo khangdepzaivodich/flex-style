@@ -8,7 +8,6 @@ import StaffPopup from "@/components/business/StaffPopup";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import StaffMember from "@/interfaces/staffMember";
-import { useAuth } from "@/contexts/auth-context";
 export default function StaffPageClient({
   staffData,
   sessionData,
@@ -115,7 +114,9 @@ export default function StaffPageClient({
       {filteredStaff.length > 0 ? (
         <StaffTable staff={filteredStaff} onEdit={handleEdit} />
       ) : (
-        <p className="text-muted-foreground text-center py-6">Không có nhân viên nào.</p>
+        <p className="text-muted-foreground text-center py-6">
+          Không có nhân viên nào.
+        </p>
       )}
 
       {/* Popup for add/edit */}
