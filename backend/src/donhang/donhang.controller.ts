@@ -56,7 +56,7 @@ export class DonhangController {
     return await this.donhangService.createOrder(createDto);
   }
 
-  @Get()
+  @Get("/all")
   @ApiOperation({ summary: 'Lấy danh sách tất cả đơn hàng' })
   @ApiQuery({
     name: 'MaTK_KH',

@@ -31,11 +31,6 @@ export class VoucherKhachHangService {
             voucher.MaVoucher,
             TrangThai.INACTIVE,
           );
-        } else {
-          await this.voucherKhachHangRepository.updateVoucherStatus(
-            voucher.MaVoucher,
-            TrangThai.ACTIVE,
-          );
         }
       }
       voucher['voucherDetails'] = checkVoucher; // Gán thông tin chi tiết voucher vào đối tượng voucher khách hàng
