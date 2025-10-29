@@ -74,7 +74,46 @@ export class DonhangRepository {
     });
   }
 
-  // Lấy tất cả đơn hàng (có thể lọc theo khách hàng)
+  async findAllOrdersForCustomer(filters?: {
+    MaTK_KH?: string;
+    skip?: number;
+    take?: number;
+  }) {
+    const where: Prisma.DONHANGWhereInput = {};
+    
+    if (filters?.MaTK_KH) {
+      where.MaTK_KH = filters.MaTK_KH;
+    }
+
+    const [orders, total] = await Promise.all([
+      this.prisma.dONHANG.findMany({
+        where,
+        skip: filters?.skip || 0,
+        take: filters?.take || 50,
+        orderBy: {
+          created_at: 'desc',
+        },
+        include: {
+          CHITIETSANPHAM: {
+            include: {
+              SANPHAM: true,
+            },
+          },
+          TINHTRANGDONHANG: {
+            orderBy: {
+              created_at: 'desc',
+            },
+            take: 1, // Chỉ lấy trạng thái mới nhất cho danh sách
+          },
+        },
+      }),
+      this.prisma.dONHANG.count({ where }),
+    ]);
+
+    return { orders, total };
+  }
+
+  // Lấy tất cả đơn hàng của khách hàng đó <nhân viên chăm sóc khách hàng> (có thể lọc theo khách hàng)
   async findAllOrders(filters?: {
     MaTK_KH?: string;
     skip?: number;
@@ -106,7 +145,6 @@ export class DonhangRepository {
             select: {
               MaTK: true,
               Username: true,
-              Avatar: true,
             },
           },
           TINHTRANGDONHANG: {
@@ -166,18 +204,18 @@ export class DonhangRepository {
   }
 
   // Lấy thông tin voucher
-  async getVoucher(MaVoucher: string) {
-    return await this.prisma.vOUCHER.findUnique({
-      where: { MaVoucher },
-    });
-  }
+  // async getVoucher(MaVoucher: string) {
+  //   return await this.prisma.vOUCHER.findUnique({
+  //     where: { MaVoucher },
+  //   });
+  // }
 
-  // Lấy thông tin sự kiện ưu đãi
-  async getPromotion(MaSK: string) {
-    return await this.prisma.sUKIENUUDAI.findUnique({
-      where: { MaSK },
-    });
-  }
+  // // Lấy thông tin sự kiện ưu đãi
+  // async getPromotion(MaSK: string) {
+  //   return await this.prisma.sUKIENUUDAI.findUnique({
+  //     where: { MaSK },
+  //   });
+  // }
 
   // Cập nhật số lượng sản phẩm trong kho
   async updateProductStock(MaCTSP: string, quantity: number) {

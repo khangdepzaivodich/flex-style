@@ -1,3 +1,44 @@
+// Định nghĩa kiểu dữ liệu trả về từ hàm findAllOrdersForCustomer
+export interface OrderResponse {
+  MaDH: string;
+  SoLuong: number;
+  TongTien: number;
+  TenNM: string;
+  SoDienThoai: string;
+  DiaChi: string;
+  MaCTSP: string;
+  MaTK_KH?: string;
+  MaVoucher?: string;
+  MaSK?: string;
+  created_at: string;
+  // Chi tiết sản phẩm
+  CHITIETSANPHAM: {
+    MaCTSP: string;
+    KichCo: string;
+    MaSP: string;
+    SoLuong: number;
+    TrangThaiSP: string;
+    SANPHAM: {
+      MaSP: string;
+      TenSP: string;
+      MoTa: string | null;
+      HinhAnh: string[];
+      GiaBan: number;
+      GiaMua: number;
+      TrangThai: string;
+      MaDM: string;
+      MauSac: string;
+      slug: string;
+    };
+  };
+  // Tình trạng đơn hàng (chỉ lấy bản ghi mới nhất)
+  TINHTRANGDONHANG: [{
+    MaTTDH: string;
+    created_at: string;
+    TrangThai: string;
+    MaDH: string;
+  }];
+}
 export interface Product {
   MaSP: number;
   TenSP: string;

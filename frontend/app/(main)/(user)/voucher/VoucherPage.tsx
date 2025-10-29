@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,8 +28,11 @@ export default function VoucherPage({
   const [voucherCode, setVoucherCode] = useState("");
   const user = useAuth();
   const [voucher, setVoucher] = useState<Voucher_KhachHang[]>(
-    initialProducts.filter((v) => v.TrangThai === "ACTIVE")
+    []
   );
+  useEffect(() => {
+    setVoucher(initialProducts.filter((v) => {console.log(v); return v.TrangThai == "ACTIVE"}));
+  }, [initialProducts]);
   const [applyVoucher, setApplyVoucher] = useState<boolean>(false);
   const [inforMessage, setInformMessage] = useState<string>("");
   const handleVoucherCode = async (code: string) => {
@@ -68,7 +71,7 @@ export default function VoucherPage({
   const handleCopyCode = (code: string) => {
     navigator.clipboard.writeText(code);
     setCopiedCode(code);
-    setTimeout(() => setCopiedCode(null), 2000);
+    setTimeout(() => setCopiedCode(null), 20000);
   };
 
   const getVoucherIcon = (type: string) => {

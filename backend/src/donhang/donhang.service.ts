@@ -151,16 +151,13 @@ export class DonhangService {
   ) {
     const skip = (page - 1) * limit;
 
-    const { orders, total } = await this.donhangRepository.findAllOrders({
+    const { orders, total } = await this.donhangRepository.findAllOrdersForCustomer({
       MaTK_KH,
       skip,
       take: limit,
     });
 
-    return {
-      orders: orders.map((order) => this.mapToResponseDto(order)),
-      total,
-    };
+    return { orders, total };
   }
 
   /**
