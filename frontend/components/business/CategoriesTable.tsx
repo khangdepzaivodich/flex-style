@@ -27,15 +27,13 @@ export default function CategoriesTable({ categories, onEdit, onDelete }: Catego
 			<div className="overflow-x-auto">
 				<table className="min-w-full text-sm border-t border-gray-200 table-fixed">
 						<colgroup>
-							<col style={{ width: '20%' }} />
-							<col style={{ width: '20%' }} />
+							<col style={{ width: '30%' }} />
 							<col style={{ width: '20%' }} />
 							<col style={{ width: '20%' }} />
 							<col style={{ width: '20%' }} />
 						</colgroup>
 					<thead className="bg-gray-100 text-gray-700 font-medium">
 						<tr className="border-b">
-							<th className="text-left px-4 py-2">Mã DM</th>
 							<th className="text-left px-4 py-2">Tên DM</th>
 							<th className="text-left px-4 py-2">Loại DM</th>
 							<th className="text-left px-4 py-2">Trạng thái</th>
@@ -44,8 +42,7 @@ export default function CategoriesTable({ categories, onEdit, onDelete }: Catego
 					</thead>
 					<tbody>
 						{categories.map((c, idx) => (
-							<tr key={c.id ?? idx} className="border-b hover:bg-gray-50 transition-colors">
-								<td className="px-4 py-2 text-gray-700 text-left">{c.id}</td>
+							<tr key={c.id ?? idx} data-id={c.id} className="border-b hover:bg-gray-50 transition-colors">
 								<td className="px-4 py-2 text-gray-800 font-medium text-left">{c.name}</td>
 								<td className="px-4 py-2 text-gray-600 text-left">{c.type ?? "-"}</td>
 								<td className="px-4 py-2">

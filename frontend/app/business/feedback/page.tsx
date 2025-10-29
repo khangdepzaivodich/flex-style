@@ -3,7 +3,6 @@
 import React, { useMemo, useState } from "react";
 import { Search, Funnel } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import FeedbackTable from "@/components/business/FeedbackTable";
 import { Filter as FilterIcon } from "lucide-react";
 

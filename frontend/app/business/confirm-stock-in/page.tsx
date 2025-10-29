@@ -9,14 +9,14 @@ import { Filter as FilterIcon } from "lucide-react";
 // Dữ liệu mẫu cho các phiếu nhập hàng từ doanh nghiệp và nhà cung cấp
 const sampleBusiness = [
     { id: "RN-B001", date: "2025-10-10", warehouse: "Kho A", address: "123 Đường A", status: "Chờ xác nhận", total: 1250000 },
-    { id: "RN-B002", date: "2025-10-12", warehouse: "Kho A", address: "123 Đường A", status: "Đã xác nhận", total: 540000 },
-    { id: "RN-B003", date: "2025-10-14", warehouse: "Kho D", address: "321 Đường D", status: "Từ chối", total: 0 },
+    { id: "RN-B002", date: "2025-10-12", warehouse: "Kho A", address: "123 Đường A", status: "đã xác nhận", total: 540000 },
+    { id: "RN-B003", date: "2025-10-14", warehouse: "Kho D", address: "321 Đường D", status: "từ chối", total: 0 },
 ];
 
 const sampleSupplier = [
     { id: "RN-S001", date: "2025-10-11", warehouse: "Kho B", address: "456 Đường B", status: "Chờ xác nhận", total: 345000 },
-    { id: "RN-S002", date: "2025-10-13", warehouse: "Kho C", address: "789 Đường C", status: "Đã xác nhận", total: 780000 },
-    { id: "RN-S003", date: "2025-10-15", warehouse: "Kho E", address: "654 Đường E", status: "Từ chối", total: 0 },
+    { id: "RN-S002", date: "2025-10-13", warehouse: "Kho C", address: "789 Đường C", status: "đã xác nhận", total: 780000 },
+    { id: "RN-S003", date: "2025-10-15", warehouse: "Kho E", address: "654 Đường E", status: "từ chối", total: 0 },
 ];
 
 export default function ConfirmReceiptPage() {
@@ -58,7 +58,7 @@ export default function ConfirmReceiptPage() {
                 receiptsSupplier={
                     statusFilter === "Tất cả" ? supplierReceipts : supplierReceipts.filter((r) => r.status === statusFilter)
                 }
-                statusOptions={["Đã xác nhận", "Chờ xác nhận", "Từ chối"]}
+                statusOptions={["đã xác nhận", "Chờ xác nhận", "từ chối"]}
                 onView={handleView}
             />
         </main>

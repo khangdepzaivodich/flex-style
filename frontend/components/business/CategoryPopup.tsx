@@ -48,11 +48,21 @@ export default function CategoryPopup({ open, onClose, onSave, initialData }: Ca
   function validate(): boolean {
     const e: Record<string, string> = {};
     if (!name || !name.trim()) e.name = 'Tên danh mục không được để trống';
-    if (!id || !id.trim()) e.id = 'Mã danh mục không được để trống';
     if (!type || !type.trim()) e.type = 'Vui lòng chọn loại';
     setErrors(e);
     return Object.keys(e).length === 0;
   }
+
+  // tạo id ngẫu nhiên nếu không có id
+  const genId = () => {
+    try {
+      // @ts-ignore
+      if (typeof crypto !== 'undefined' && typeof (crypto as any).randomUUID === 'function') return (crypto as any).randomUUID();
+    } catch (e) {
+      // ignore
+    }
+    return `cat_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+  };
 
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
@@ -80,25 +90,6 @@ export default function CategoryPopup({ open, onClose, onSave, initialData }: Ca
               }}
             />
             {errors.name && <div className="text-xs text-red-600 mt-1">{errors.name}</div>}
-          </div>
-          <div>
-            <label className="text-sm text-gray-700 mb-1 block">Mã danh mục</label>
-            <Input
-              className={errors.id ? 'border-red-300 focus:border-red-500' : ''}
-              placeholder="Nhập mã danh mục"
-              value={id}
-              onChange={(e) => {
-                setId((e.target as HTMLInputElement).value);
-                if (errors.id) {
-                  setErrors((prev) => {
-                    const c = { ...prev };
-                    delete c.id;
-                    return c;
-                  });
-                }
-              }}
-            />
-            {errors.id && <div className="text-xs text-red-600 mt-1">{errors.id}</div>}
           </div>
 
           <div>
@@ -146,7 +137,11 @@ export default function CategoryPopup({ open, onClose, onSave, initialData }: Ca
             <X className="w-4 h-4" />
             Hủy
           </Button>
-          <Button className="bg-[#8B5CF6] text-white flex items-center gap-2" onClick={() => { if (!validate()) return; onSave({ id, name, type, active }); }}>
+          <Button className="bg-[#8B5CF6] text-white flex items-center gap-2" onClick={() => {
+            if (!validate()) return;
+            const finalId = id && id.trim() ? id : genId();
+            onSave({ id: finalId, name, type, active });
+          }}>
             <Save className="w-4 h-4" />
             Lưu
           </Button>

@@ -17,6 +17,7 @@ export default function StatsGrid() {
       <StatsCard
         title="Tổng hóa đơn"
         value={1025}
+        format="number"
         delta="+8.2%"
         deltaPositive={true}
         icon={<ShoppingCart className="w-6 h-6 text-slate-400" />}
@@ -25,6 +26,7 @@ export default function StatsGrid() {
       <StatsCard
         title="Khách hàng mới"
         value={682}
+        format="number"
         delta="+12.5%"
         deltaPositive={true}
         icon={<Users className="w-6 h-6 text-slate-400" />}

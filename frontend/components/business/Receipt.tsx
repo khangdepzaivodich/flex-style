@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Download } from 'lucide-react'
+import { Download, Plus, X } from 'lucide-react'
 
 type Item = {
   name: string // Tên sản phẩm
-  code: string // Mã sản phẩm
+  size: string // Kích cỡ
   unit: string // Đơn vị tính
   qty: number // Số lượng
   unitPrice: number // Đơn giá
@@ -13,10 +13,7 @@ export type ReceiptData = {
   date: string // Ngày nhập hàng
   receiptCode: string // Mã phiếu nhập hàng
   supplier?: string // Họ và tên người giao
-  invoiceDate?: string // Theo hóa đơn ngày
-  warehouse?: string // Kho hàng
-  address?: string // Địa chỉ
-  item: Item
+  item: Item[]
   totalInWords?: string // Tổng số tiền bằng chữ
 }
 
@@ -34,51 +31,68 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
   const [date, setDate] = useState<string>(initial.date ?? '')
   const [receiptCode, setReceiptCode] = useState<string>(initial.receiptCode ?? '')
   const [supplier, setSupplier] = useState<string>(initial.supplier ?? '')
-  const [invoiceDate, setInvoiceDate] = useState<string>(initial.invoiceDate ?? '')
-  const [warehouse, setWarehouse] = useState<string>(initial.warehouse ?? '')
-  const [address, setAddress] = useState<string>(initial.address ?? '')
 
-  const [item, setItem] = useState<Item>(
-    initial.item ? (initial.item as Item) : {
-      name: '',
-      code: '',
-      unit: '',
-      qty: 0,
-      unitPrice: 0,
-    }
-  )
+  const [items, setItems] = useState<Item[]>(() => {
+    const init = (initial as any).item
+    if (Array.isArray(init)) return init as Item[]
+    if (init && typeof init === 'object') return [init as Item]
+    return [
+      {
+        name: '',
+        size: '',
+        unit: '',
+        qty: 0,
+        unitPrice: 0,
+      },
+    ]
+  })
   // Tổng số tiền bằng chữ
   const [totalInWords, setTotalInWords] = useState<string>((initial as any).totalInWords ?? '')
-  // Tổng tiền
-  const total = item.qty * item.unitPrice
-  // Hàm cập nhật thông tin sản phẩm
-  function handleItemField<K extends keyof Item>(field: K, value: Item[K]) {
-    setItem((prev) => ({ ...prev, [field]: value }))
+  // Tổng tiền (tính theo tất cả items)
+  const total = items.reduce((s, it) => s + (Number(it.qty) || 0) * (Number(it.unitPrice) || 0), 0)
+
+  // Hàm cập nhật thông tin sản phẩm cho một dòng
+  function handleItemField<K extends keyof Item>(index: number, field: K, value: Item[K]) {
+    setItems((prev) => {
+      const next = [...prev]
+      next[index] = { ...next[index], [field]: value }
+      return next
+    })
   }
 
   function buildData(): ReceiptData {
     return {
       date,
-      receiptCode,
+      receiptCode: (receiptCode && receiptCode.trim()) ? receiptCode : genId(),
       supplier,
-      invoiceDate,
-      warehouse,
-      address,
       totalInWords,
-      item,
+      item: items,
     }
+  }
+
+  // Tạo mã phiếu nhập hàng ngẫu nhiên
+  const genId = () => {
+    try {
+      // @ts-ignore
+      if (typeof crypto !== 'undefined' && typeof (crypto as any).randomUUID === 'function') return (crypto as any).randomUUID()
+    } catch (e) {
+      // ignore
+    }
+    return `receipt_${Date.now()}_${Math.floor(Math.random() * 10000)}`
   }
 
   // Nhập hay ko nhập :D
   function validate(): string[] {
     const errors: string[] = []
     if (!date) errors.push('Ngày nhập hàng không được để trống')
-    if (!receiptCode || !receiptCode.trim()) errors.push('Mã phiếu nhập hàng không được để trống')
-    if (!item.name || !item.name.trim()) errors.push('Tên sản phẩm không được để trống')
-    if (!item.code || !item.code.trim()) errors.push('Mã sản phẩm không được để trống')
-    if (!item.unit || !item.unit.trim()) errors.push('Đơn vị tính không được để trống')
-    if (typeof item.qty !== 'number' || item.qty <= 0) errors.push('Số lượng phải lớn hơn 0')
-    if (typeof item.unitPrice !== 'number' || item.unitPrice <= 0) errors.push('Đơn giá phải lớn hơn 0')
+  items.forEach((it, idx) => {
+    const prefix = `Sản phẩm #${idx + 1}: `
+    if (!it.name || !it.name.trim()) errors.push(prefix + 'Tên sản phẩm không được để trống')
+    if (!it.size || !it.size.trim()) errors.push(prefix + 'Kích cỡ không được để trống')
+    if (!it.unit || !it.unit.trim()) errors.push(prefix + 'Đơn vị tính không được để trống')
+    if (typeof it.qty !== 'number' || it.qty <= 0) errors.push(prefix + 'Số lượng phải lớn hơn 0')
+    if (typeof it.unitPrice !== 'number' || it.unitPrice <= 0) errors.push(prefix + 'Đơn giá phải lớn hơn 0')
+  })
     return errors
   }
 
@@ -98,69 +112,22 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
           </div>
 
           <div className="text-left">
-            <label className="block text-xs text-gray-600">Mã phiếu nhập hàng</label>
+            <label className="block text-xs text-gray-600">Họ và tên người giao</label>
             <input
               type="text"
-              value={receiptCode}
-              onChange={(e) => setReceiptCode(e.target.value)}
-              placeholder="Nhập mã phiếu"
+              value={supplier}
+              onChange={(e) => setSupplier(e.target.value)}
+              placeholder="Có thể để trống"
               className="mt-1 border rounded px-2 py-1 w-full text-sm"
             />
           </div>
         </div>
       </div>
 
-      <div className="mt-6 text-sm space-y-2">
+      <div className="mt-6 text-sm">
         <div>
-          <label className="block text-xs text-gray-600">Họ và tên người giao</label>
-          <input
-            type="text"
-            value={supplier}
-            onChange={(e) => setSupplier(e.target.value)}
-            placeholder="Có thể để trống"
-            className="mt-1 border rounded px-2 py-1 w-full text-sm"
-          />
-        </div>
-
-        <div className="space-y-3">
-          <div>
-            <label className="block text-xs text-gray-600">Theo hóa đơn ngày</label>
-            <div className="flex items-center gap-3">
-              <input
-                type="date"
-                value={invoiceDate}
-                onChange={(e) => setInvoiceDate(e.target.value)}
-                className="mt-1 border rounded px-2 py-1 text-sm"
-              />
-              <span className="text-sm text-gray-700">của FlexStyle Store</span>
-            </div>
-          </div>
-
-          <div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs text-gray-600">Nhập tại kho</label>
-                <input
-                  type="text"
-                  value={warehouse}
-                  onChange={(e) => setWarehouse(e.target.value)}
-                  placeholder="Nhập tại kho"
-                  className="mt-1 border rounded px-2 py-1 w-full text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs text-gray-600">Địa chỉ</label>
-                <input
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Địa chỉ"
-                  className="mt-1 border rounded px-2 py-1 w-full text-sm"
-                />
-              </div>
-            </div>
-          </div>
+          <label className="block text-xs text-gray-600">Địa điểm nhập hàng</label>
+          <div className="mt-1 text-sm text-gray-800">Nhập tại kho FlexStyle ở Quận A, Phường B, TP.HCM</div>
         </div>
       </div>
 
@@ -169,7 +136,7 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
           <thead>
             <tr className="bg-gray-100 text-sm">
               <th className="border px-3 py-2" style={{ width: '45%' }}>Tên</th>
-              <th className="border px-3 py-2" style={{ width: '10%' }}>Mã SP</th>
+              <th className="border px-3 py-2" style={{ width: '10%' }}>Kích cỡ</th>
               <th className="border px-3 py-2" style={{ width: '10%' }}>Đơn vị tính</th>
               <th className="border px-3 py-2" style={{ width: '10%' }}>Số lượng</th>
               <th className="border px-3 py-2" style={{ width: '12%' }}>Đơn giá</th>
@@ -177,57 +144,85 @@ export default function Receipt({ initial = {}, onDownloadExcel, onCreate }: Rec
             </tr>
           </thead>
           <tbody>
-            <tr className="text-sm align-top">
-              <td className="border px-3 py-2 text-left" style={{ width: '45%' }}>
-                <input
-                  type="text"
-                  value={item.name}
-                  onChange={(e) => handleItemField('name', e.target.value)}
-                  className="w-full text-base"
-                />
-              </td>
-              <td className="border px-3 py-2 text-center">
-                <input
-                  type="text"
-                  value={item.code}
-                  onChange={(e) => handleItemField('code', e.target.value)}
-                  className="w-full text-sm text-center"
-                />
-              </td>
-              <td className="border px-3 py-2 text-center">
-                <input
-                  type="text"
-                  value={item.unit}
-                  onChange={(e) => handleItemField('unit', e.target.value)}
-                  className="w-full text-sm text-center"
-                />
-              </td>
-              <td className="border px-3 py-2 text-center">
-                <input
-                  type="number"
-                  min={0}
-                  value={item.qty}
-                  onChange={(e) => handleItemField('qty', Number(e.target.value))}
-                  className="w-full max-w-[100px] text-sm text-center mx-auto"
-                />
-              </td>
-              <td className="border px-3 py-2 text-center">
-                <input
-                  type="number"
-                  min={0}
-                  value={item.unitPrice}
-                  onChange={(e) => handleItemField('unitPrice', Number(e.target.value))}
-                  className="w-full max-w-[140px] text-sm text-right mx-auto"
-                />
-              </td>
-              <td className="border px-3 py-2 text-right">
-                <div className="max-w-[140px] truncate ml-auto" title={formatCurrency(total)}>
-                  {formatCurrency(total)}
-                </div>
-              </td>
-            </tr>
+            {items.map((it, idx) => (
+              <tr key={idx} className="text-sm align-top">
+                <td className="border px-3 py-2 text-left" style={{ width: '45%' }}>
+                  <input
+                    type="text"
+                    value={it.name}
+                    onChange={(e) => handleItemField(idx, 'name', e.target.value)}
+                    className="w-full text-base"
+                  />
+                </td>
+                <td className="border px-3 py-2 text-center">
+                  <input
+                    type="text"
+                    value={it.size}
+                    onChange={(e) => handleItemField(idx, 'size', e.target.value)}
+                    className="w-full text-sm text-center"
+                  />
+                </td>
+                <td className="border px-3 py-2 text-center">
+                  <input
+                    type="text"
+                    value={it.unit}
+                    onChange={(e) => handleItemField(idx, 'unit', e.target.value)}
+                    className="w-full text-sm text-center"
+                  />
+                </td>
+                <td className="border px-3 py-2 text-center">
+                  <input
+                    type="number"
+                    min={0}
+                    value={it.qty}
+                    onChange={(e) => handleItemField(idx, 'qty', Number(e.target.value))}
+                    className="w-full max-w-[100px] text-sm text-center mx-auto"
+                  />
+                </td>
+                <td className="border px-3 py-2 text-center">
+                  <input
+                    type="number"
+                    min={0}
+                    value={it.unitPrice}
+                    onChange={(e) => handleItemField(idx, 'unitPrice', Number(e.target.value))}
+                    className="w-full max-w-[140px] text-sm text-right mx-auto"
+                  />
+                </td>
+                {/* Tự tính thành tiền */}
+                <td className="border px-3 py-2 text-right">
+                  <div className="flex items-center justify-end gap-2">
+                    <div className="max-w-[140px] truncate" title={formatCurrency((it.qty || 0) * (it.unitPrice || 0))}>
+                      {formatCurrency((it.qty || 0) * (it.unitPrice || 0))}
+                    </div>
+                    {items.length > 1 && (
+                      <button
+                        type="button"
+                        className="text-red-600 p-1 rounded"
+                        onClick={() => setItems((prev) => prev.filter((_, i) => i !== idx))}
+                        title={`Xóa sản phẩm #${idx + 1}`}
+                        aria-label={`Xóa sản phẩm ${idx + 1}`}
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
+        {/* Nút thêm sản phẩm */}
+        <div className="mt-2">
+          <button
+            type="button"
+            className="text-sm text-blue-600 p-1 rounded"
+            onClick={() => setItems((prev) => [...prev, { name: '', size: '', unit: '', qty: 0, unitPrice: 0 }])}
+            title="Thêm sản phẩm"
+            aria-label="Thêm sản phẩm"
+          >
+            <Plus className="h-4 w-4" />
+          </button>
+        </div>
       </div>
 
       <div className="mt-4 text-base font-semibold">
