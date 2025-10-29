@@ -7,6 +7,7 @@ import {
   UpdateTaiKhoanNghiepVuDto,
 } from './dto/taikhoannghiepvu.dto';
 import { GiohangRepository } from 'src/repositories/giohang.repository';
+import { create } from 'domain';
 // Define types based on the schema - matching Prisma exactly
 type VaiTro = 'KH' | 'NCC' | 'QLDN' | 'NVVH' | 'NVCSKH' | 'ADMIN';
 type TrangThai = 'ACTIVE' | 'INACTIVE';
@@ -37,27 +38,30 @@ export class TaikhoanService {
   // Dang ky tai khoan moi
   async dangKy(data: TaiKhoanNghiepVuDto): Promise<TAIKHOAN> {
     console.log(data);
-    if (data.MaTK != undefined) {
-      const existingUser = await this.prisma.tAIKHOAN.findFirst({
-        where: { MaTK: data.MaTK },
-      });
-      console.log(existingUser);
-      if (existingUser) {
-        throw new Error('Tài khoản đã tồn tại');
-      }
-    }
-
-    const createUserSupabase = await this.supabase.auth.signUp({
-      email: data.Email,
-      password: data.MatKhau,
+    const existingUser = await this.prisma.tAIKHOAN.findFirst({
+      where: { Username: data.Username },
     });
-
-    if (!createUserSupabase.data.user) {
-      throw new Error(
-        createUserSupabase.error?.message || 'Không thể tạo tài khoản Supabase',
-      );
+    console.log(existingUser);
+    if (existingUser) {
+      throw new Error('Tài khoản đã tồn tại');
     }
+    let id = '';
+    if (data.MaTK === undefined || data.MaTK === null) {
+      const createUserSupabase = await this.supabase.auth.signUp({
+        email: data.Email,
+        password: data.MatKhau,
+      });
 
+      if (!createUserSupabase.data.user) {
+        throw new Error(
+          createUserSupabase.error?.message ||
+            'Không thể tạo tài khoản Supabase',
+        );
+      }
+      id = createUserSupabase.data.user.id;
+    } else {
+      id = data.MaTK;
+    }
     const createUser = await this.prisma.tAIKHOAN.create({
       data: {
         Username: data.Username,
@@ -65,9 +69,10 @@ export class TaikhoanService {
         Email: data.Email,
         VAITRO: 'KH',
         Status: 'ACTIVE',
-        MaTK: createUserSupabase.data.user.id,
+        MaTK: id,
       },
     });
+    console.log('Created user:', createUser);
     const createGioHang = await this.gioHangRepository.createCart({
       MaTKKH: createUser.MaTK,
     });

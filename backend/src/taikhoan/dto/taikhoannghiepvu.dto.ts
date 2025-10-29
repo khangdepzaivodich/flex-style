@@ -33,6 +33,7 @@ export class TaiKhoanNghiepVuDto {
   @IsNotEmpty()
   Email: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   MatKhau: string;

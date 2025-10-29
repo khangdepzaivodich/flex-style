@@ -1,12 +1,6 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GiConfirmed } from "react-icons/gi";
-
+import Link from "next/link";
 export default function Page() {
   return (
     <div className=" flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-gradient-to-b from-violet-500 to-violet-800">
@@ -19,18 +13,11 @@ export default function Page() {
                 Cảm ơn bạn đã đăng ký!
                 {/* Thank you for signing up! */}
               </CardTitle>
-              <CardDescription>
-                Kiểm tra email để xác nhận
-                {/* Check your email to confirm */}
-              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Bạn đã đang ký thành công. Hãy kiểm tra email trước khi đăng
-                nhập
-                {/* You&apos;ve successfully signed up. Please check your email to
-                confirm your account before signing in. */}
-              </p>
+              <Link href={"/auth/login"} className="text-indigo-600">
+                Bấm vào đây để đăng nhập
+              </Link>
             </CardContent>
           </Card>
         </div>
