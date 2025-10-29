@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import StaffCard from "@/components/business/StaffCard";
+import StaffTable from "@/components/business/StaffTable";
 import { Button } from "@/components/ui/button";
 import StaffPopup from "@/components/business/StaffPopup";
 import { useEffect, useState } from "react";
@@ -111,26 +111,11 @@ export default function StaffPageClient({
       </div>
 
       {/* Danh sách nhân viên */}
-      <div className="grid grid-cols-1 gap-4">
-        {filteredStaff.length > 0 ? (
-          filteredStaff.map((s) => (
-            <StaffCard
-              key={s.MaTK}
-              id={s.MaTK}
-              name={s.DisplayName}
-              userName={s.Username}
-              email={s.Email}
-              position={s.VAITRO}
-              status={s.Status === "ACTIVE" ? "ACTIVE" : "INACTIVE"}
-              onEdit={() => handleEdit(s)}
-            />
-          ))
-        ) : (
-          <p className="text-muted-foreground text-center py-6">
-            Không có nhân viên nào.
-          </p>
-        )}
-      </div>
+      {filteredStaff.length > 0 ? (
+        <StaffTable staff={filteredStaff} onEdit={handleEdit} />
+      ) : (
+        <p className="text-muted-foreground text-center py-6">Không có nhân viên nào.</p>
+      )}
 
       {/* Popup for add/edit */}
       <StaffPopup

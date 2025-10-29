@@ -5,11 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Trash2, Star } from "lucide-react";
 
 interface Feedback {
-    id: string;
-    createdAt?: string | Date;
-    updatedAt?: string | Date;
-    customerAccountId?: string; // Mã TKKH
-    productId?: string; // Mã sản phẩm
+    id: string; // Mã phản hồi uuid
+    updatedAt?: string | Date; // Ngày cập nhật
+    customerAccountId?: string; // Tên khách hàng
+    productId?: string; // Tên sản phẩm
     rating?: number; // Số sao
     comment?: string; // Bình luận
 }
@@ -39,22 +38,18 @@ export default function FeedbackTable({ feedbacks, onDelete }: FeedbackTableProp
             <div className="overflow-x-auto">
                 <table className="min-w-full text-sm border-t border-gray-200 table-fixed">
                     <colgroup>
-                        <col style={{ width: "12%" }} />
-                        <col style={{ width: "15%" }} />
-                        <col style={{ width: "15%" }} />
+                        <col style={{ width: "18%" }} />
+                        <col style={{ width: "18%" }} />
+                        <col style={{ width: "18%" }} />
                         <col style={{ width: "14%" }} />
-                        <col style={{ width: "14%" }} />
-                        <col style={{ width: "15%" }} />
-                        <col style={{ width: "10%" }} />
+                        <col style={{ width: "22%" }} />
                         <col style={{ width: "10%" }} />
                     </colgroup>
                     <thead className="bg-gray-100 text-gray-700 font-medium">
                         <tr className="border-b">
-                            <th className="text-left px-4 py-2">Mã phiếu hàng</th>
-                            <th className="text-left px-4 py-2">Ngày tạo</th>
                             <th className="text-left px-4 py-2">Ngày cập nhật</th>
-                            <th className="text-left px-4 py-2">Mã TKKH</th>
-                            <th className="text-left px-4 py-2">Mã sản phẩm</th>
+                            <th className="text-left px-4 py-2">Tên khách hàng</th>
+                            <th className="text-left px-4 py-2">Tên sản phẩm</th>
                             <th className="text-left px-4 py-2">Số sao</th>
                             <th className="text-left px-4 py-2">Bình luận</th>
                             <th className="text-left px-4 py-2">Thao tác</th>
@@ -63,9 +58,7 @@ export default function FeedbackTable({ feedbacks, onDelete }: FeedbackTableProp
                     {/* body bảng phản hồi */}
                     <tbody>
                         {feedbacks.map((f, idx) => (
-                            <tr key={idx} className="border-b hover:bg-gray-50 transition-colors">
-                                <td className="px-4 py-2 text-gray-700 text-left">{f.id}</td>
-                                <td className="px-4 py-2 text-left">{formatDate(f.createdAt)}</td>
+                            <tr key={f.id ?? idx} className="border-b hover:bg-gray-50 transition-colors">
                                 <td className="px-4 py-2 text-left">{formatDate(f.updatedAt)}</td>
                                 <td className="px-4 py-2 text-gray-600 text-left">{f.customerAccountId ?? "-"}</td>
                                 <td className="px-4 py-2 text-gray-600 text-left">{f.productId ?? "-"}</td>

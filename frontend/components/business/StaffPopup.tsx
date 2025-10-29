@@ -52,7 +52,7 @@ export default function StaffPopup({
     Email: "",
     Status: "ACTIVE",
     Username: "",
-    VAITRO: "",
+    VAITRO: staffRoles["Nhân viên CSKH"],
     updated_at: new Date().toISOString(),
   });
   const [ConfirmPassword, setConfirmPassword] = useState<string>("");
@@ -96,7 +96,7 @@ export default function StaffPopup({
         Email: "",
         Status: "ACTIVE",
         Username: "",
-        VAITRO: "",
+        VAITRO: staffRoles["Nhân viên CSKH"],
         updated_at: new Date().toISOString(),
       });
       setConfirmPassword("");
@@ -114,10 +114,11 @@ export default function StaffPopup({
         </DialogHeader>
 
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <div>
+          <div className="col-span-2">
             <Label className="text-sm">Họ và tên</Label>
             <Input
               value={form.DisplayName}
+              className="w-full"
               onChange={(e) => handleChange("DisplayName", e.target.value)}
               placeholder="Họ và tên"
             />
@@ -166,7 +167,7 @@ export default function StaffPopup({
             }
           >
             <SelectTrigger className="w-full bg-[#8B5CF6] text-white [&_svg]:!text-white [&_svg]:!opacity-100">
-              <SelectValue placeholder="Chức vụ" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="Nhân viên CSKH">Nhân viên CSKH</SelectItem>

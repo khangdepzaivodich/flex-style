@@ -7,16 +7,18 @@ type Props = {
 	delta?: string // thay đổi
 	deltaPositive?: boolean // tăng hay giảm
 	icon?: React.ReactNode
+	format?: 'currency' | 'number'
 }
 
-// Định dạng tiền tệ VND
-function formatCurrency(v?: number) {
-	if (v === undefined || v === null) return ''
-	return v.toLocaleString('vi-VN') + '₫'
+// Định dạng giá trị: currency (VND) hoặc plain number
+function formatValue(v?: number, format: 'currency' | 'number' = 'currency') {
+	if (v === undefined || v === null) return '';
+	if (format === 'number') return v.toLocaleString('vi-VN');
+	return v.toLocaleString('vi-VN') + '₫';
 }
 
 // Thẻ thống kê hiển thị một thẻ với tiêu đề, giá trị, thay đổi và biểu tượng
-export default function StatsCard({ title, value, delta, deltaPositive = true, icon }: Props) {
+export default function StatsCard({ title, value, delta, deltaPositive = true, icon, format = 'currency' }: Props) {
 	return (
 		<div className="rounded-lg bg-white/90 dark:bg-slate-800/70 p-5 shadow-sm border border-slate-200 dark:border-slate-700 w-full">
 			<div className="flex items-start justify-between">
@@ -26,7 +28,7 @@ export default function StatsCard({ title, value, delta, deltaPositive = true, i
 
 			<div className="mt-4 flex items-end gap-3">
 				<div className="text-3xl font-bold text-slate-900 dark:text-white leading-none">
-					{formatCurrency(value)}
+					{formatValue(value, format)}
 				</div>
 			</div>
 

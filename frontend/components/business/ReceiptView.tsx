@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 interface ReceiptItem {
@@ -26,10 +26,9 @@ interface ReceiptViewProps {
 	onOpenChange: (open: boolean) => void;
 	data?: ReceiptDetails;
 	onConfirm?: () => void;
-	onReject?: () => void;
 }
 
-export default function ReceiptView({ open, onOpenChange, data, onConfirm, onReject }: ReceiptViewProps) {
+export default function ReceiptView({ open, onOpenChange, data, onConfirm }: ReceiptViewProps) {
 	const items = data?.items ?? [];
 	const total = typeof data?.total === "number" ? data!.total : items.reduce((s, it) => s + (it.price ?? 0) * (it.qty ?? 0), 0);
 
@@ -120,9 +119,6 @@ export default function ReceiptView({ open, onOpenChange, data, onConfirm, onRej
 					<div className="flex gap-3 mx-auto">
 						<Button variant="default" onClick={() => { onConfirm?.(); onOpenChange(false); }}>
 							Xác nhận
-						</Button>
-						<Button variant="outline" onClick={() => { onReject?.(); onOpenChange(false); }}>
-							Từ chối
 						</Button>
 					</div>
 				</DialogFooter>
