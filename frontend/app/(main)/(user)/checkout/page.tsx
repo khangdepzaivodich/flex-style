@@ -246,15 +246,13 @@ export default function CheckoutPage() {
       );
       console.log("Response status:", response);
       const data = await response.json();
-      console.log("Response data:", data);
-      setVoucherCode(data.data.MaVoucher);
-      if (response.ok) {
+      if (response.status === 201) {
+        setVoucherCode(data.data.MaVoucher);
         console.log("Voucher applied successfully:", data);
         if (data.type == "FreeShip") {
           setFinalTotal(invoiceTotal);
           setShippingCost(0);
         } else {
-          console.log("Final total before applying voucher:", finalTotal);
           setFinalTotal(finalTotal - data.data.value);
         }
         setCheckVoucher(true);
@@ -264,6 +262,8 @@ export default function CheckoutPage() {
         setVoucherMessage(data.message);
       }
     } catch (error) {
+      setCheckVoucher(false);
+      setVoucherMessage("Đã xảy ra lỗi khi áp dụng mã giảm giá");
       console.error("Error applying voucher:", error);
     }
   };
