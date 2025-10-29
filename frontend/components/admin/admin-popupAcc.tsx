@@ -88,7 +88,6 @@ export default function AccountListPopup({
     }
 
     const accessToken = session.access_token;
-    console.log(data);
     try {
       await axios.patch(
         `http://localhost:8080/api/nv/role/${selectedAccount?.MaTK}`,

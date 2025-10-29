@@ -2,7 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from 'src/supabase/types';
-import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
+import {
+  TaiKhoanNghiepVuDto,
+  UpdateTaiKhoanNghiepVuDto,
+} from './dto/taikhoannghiepvu.dto';
 import { GiohangRepository } from 'src/repositories/giohang.repository';
 // Define types based on the schema - matching Prisma exactly
 type VaiTro = 'KH' | 'NCC' | 'QLDN' | 'NVVH' | 'NVCSKH' | 'ADMIN';
@@ -81,6 +84,7 @@ export class TaikhoanService {
       email: data.Email,
       password: data.MatKhau,
     });
+    console.log(createUserSupabase);
     if (createUserSupabase.error) {
       throw new Error(
         `Lỗi khi tạo tài khoản Supabase: ${createUserSupabase.error.message}`,
@@ -89,6 +93,8 @@ export class TaikhoanService {
     return this.prisma.tAIKHOAN.create({
       data: {
         Username: data.Username,
+        DisplayName: data.DisplayName,
+        Email: data.Email,
         Status: 'ACTIVE',
         VAITRO: 'NCC',
       },
@@ -108,7 +114,7 @@ export class TaikhoanService {
     });
     if (createUserSupabase.error) {
       throw new Error(
-        `Lỗi khi tạo tài khoản Supabase: ${createUserSupabase.error.message}`,
+        `Lỗi khi tạo tài khoản : ${createUserSupabase.error.message}`,
       );
     }
     return this.prisma.tAIKHOAN.create({
@@ -127,6 +133,10 @@ export class TaikhoanService {
         'Vai trò phải là nhân viên (NVVH hoặc NVCSKH)',
       );
     }
+    if (data.MatKhau.length < 6) {
+      throw new BadRequestException('Mật khẩu phải có ít nhất 6 ký tự');
+    }
+
     const createUserSupabase = await this.supabase.auth.signUp({
       email: data.Email,
       password: data.MatKhau,
@@ -188,7 +198,7 @@ export class TaikhoanService {
   // Cap nhat tai khoan
   async updateTaiKhoan(
     maTK: string,
-    data: TaiKhoanNghiepVuDto,
+    data: UpdateTaiKhoanNghiepVuDto,
   ): Promise<TAIKHOAN> {
     if ('VaiTro' in data) {
       throw new Error(
