@@ -15,7 +15,7 @@ export async function GET(request: Request) {
     if (!error && data?.session?.user) {
       const user = data.session.user;
 
-      // 🔹 Gọi API backend để đăng ký hoặc đồng bộ user
+      // Sync to backend
       try {
         await fetch("http://localhost:8080/api/taikhoan/dangky", {
           method: "POST",
@@ -26,13 +26,14 @@ export async function GET(request: Request) {
             Email: user.email,
             Avatar: user.user_metadata.avatar_url,
             Username: user.email?.split("@")[0],
+            Status: "ACTIVE",
+            VAITRO: "KH",
           }),
         });
       } catch (apiError) {
         console.error("Error calling backend API:", apiError);
       }
 
-      // 🔹 Redirect người dùng
       const forwardedHost = request.headers.get("x-forwarded-host");
       const isLocalEnv = process.env.NODE_ENV === "development";
 
@@ -43,6 +44,5 @@ export async function GET(request: Request) {
     }
   }
 
-  // Redirect đến trang lỗi nếu không có code hoặc lỗi session
   return NextResponse.redirect(`${origin}/auth/auth-code-error`);
 }

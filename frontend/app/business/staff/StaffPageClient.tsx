@@ -80,11 +80,11 @@ export default function StaffPageClient({
     };
   }, []);
 
-  // Filter staff by search term
+  // Filter staff
   const filteredStaff = staff.filter((s) =>
-    (s.DisplayName ?? s.Username ?? s.Email)
-      .toLowerCase()
-      .includes(search.toLowerCase())
+    [s.DisplayName, s.Username, s.Email, s.VAITRO].some((field) =>
+      field?.toLowerCase().includes(search.toLowerCase())
+    )
   );
 
   return (
@@ -114,7 +114,9 @@ export default function StaffPageClient({
       {filteredStaff.length > 0 ? (
         <StaffTable staff={filteredStaff} onEdit={handleEdit} />
       ) : (
-        <p className="text-muted-foreground text-center py-6">Không có nhân viên nào.</p>
+        <p className="text-muted-foreground text-center py-6">
+          Không có nhân viên nào.
+        </p>
       )}
 
       {/* Popup for add/edit */}
