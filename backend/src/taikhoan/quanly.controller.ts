@@ -12,7 +12,10 @@ import { TAIKHOAN } from './taikhoan.service';
 import { Roles } from '../factory_function/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
-import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
+import {
+  TaiKhoanNghiepVuDto,
+  UpdateTaiKhoanNghiepVuDto,
+} from './dto/taikhoannghiepvu.dto';
 import { TrangThai } from './enums';
 
 @Controller('ql')
@@ -49,7 +52,10 @@ export class QuanLyController {
   @Patch(':id')
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  async updateQL(@Param('id') maTK: string, @Body() data: TaiKhoanNghiepVuDto) {
+  async updateQL(
+    @Param('id') maTK: string,
+    @Body() data: UpdateTaiKhoanNghiepVuDto,
+  ) {
     const tk = await this.taikhoanService.taikhoan(maTK);
     if (tk?.VAITRO !== 'QLDN') throw new Error('Không tìm thấy QLDN');
     return this.taikhoanService.updateTaiKhoan(maTK, data);

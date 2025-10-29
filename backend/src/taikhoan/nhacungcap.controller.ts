@@ -12,7 +12,10 @@ import { TAIKHOAN } from './taikhoan.service';
 import { Roles } from '../factory_function/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
-import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
+import {
+  TaiKhoanNghiepVuDto,
+  UpdateTaiKhoanNghiepVuDto,
+} from './dto/taikhoannghiepvu.dto';
 import { TrangThai } from './enums';
 // Define enums locally
 
@@ -52,8 +55,9 @@ export class NhaCungCapController {
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   async updateNCC(
     @Param('id') maTK: string,
-    @Body() data: TaiKhoanNghiepVuDto,
+    @Body() data: UpdateTaiKhoanNghiepVuDto,
   ) {
+    console.log('Updating NCC with data:', data);
     const tk = await this.taikhoanService.taikhoan(maTK);
     if (tk?.VAITRO !== 'NCC') throw new Error('Không tìm thấy NCC');
     return this.taikhoanService.updateTaiKhoan(maTK, data);

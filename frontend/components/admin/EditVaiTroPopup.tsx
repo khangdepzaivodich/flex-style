@@ -23,7 +23,7 @@ export default function EditVaiTroPopup({
   onSave,
   roleNv,
 }: EditVaiTroPopupProps) {
-  const [role, setRole] = React.useState<VaiTro | "">(roleNv ?? "");
+  const [role, setRole] = React.useState<VaiTro | "">(roleNv || "");
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -38,7 +38,10 @@ export default function EditVaiTroPopup({
             ×
           </button>
         </div>
-        <Select value={roleNv} onValueChange={(val) => setRole(val as VaiTro)}>
+        <Select
+          value={role ?? roleNv}
+          onValueChange={(val) => setRole(val as VaiTro)}
+        >
           <SelectTrigger className="w-[180px] bg-white">
             <SelectValue placeholder="Chọn vai trò" />
           </SelectTrigger>

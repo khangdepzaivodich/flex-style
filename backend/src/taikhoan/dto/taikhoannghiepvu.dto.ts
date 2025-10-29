@@ -1,4 +1,5 @@
 import { IsString, IsOptional, IsEnum, IsNotEmpty } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
 
 // Define enums locally
 enum VaiTro {
@@ -48,3 +49,6 @@ export class TaiKhoanNghiepVuDto {
   @IsEnum(VaiTro)
   VAITRO: VaiTro;
 }
+export class UpdateTaiKhoanNghiepVuDto extends PartialType(
+  TaiKhoanNghiepVuDto,
+) {}
