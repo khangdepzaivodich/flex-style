@@ -110,6 +110,7 @@ model SUKIENUUDAI {
   TrangThai    TrangThai @default(ACTIVE)
   MoTa         String?
   DONHANG      DONHANG[]
+  THONGBAO     THONGBAO[]          @relation("Sukienuudai_Thongbao")
 }
 
 model TAIKHOAN {
@@ -155,6 +156,7 @@ model VOUCHER {
   MoTa              String?
   DONHANG           DONHANG[]
   VOUCHER_KHACHHANG VOUCHER_KHACHHANG[]
+  THONGBAO          THONGBAO[]          @relation("Voucher_Thongbao")
 }
 
 model THANHTOAN {
@@ -208,12 +210,26 @@ model PHIEUNHAPHANG {
   TaiKhoanNVXN   TAIKHOAN?       @relation("PhieuNhap_NVXN", fields: [MaTKNVXN], references: [MaTK])
 }
 
+model THONGBAO{
+  MaTB     String    @id @default(uuid())
+  Loai     LoaiTB
+  MaVoucher     String
+  MaSK      String
+  SUKKIENUUDAI   SUKIENUUDAI?    @relation("Sukienuudai_Thongbao", fields: [MaSK], references: [MaSK])
+  VOUCHER   VOUCHER?       @relation("Voucher_Thongbao", fields: [MaVoucher], references: [MaVoucher])
+}
+
 enum KichCo {
   S
   M
   L
   XL
   XXL
+}
+
+enum LoaiTB{
+  VOUCHER
+  SUKKIENUUDAI
 }
 
 
