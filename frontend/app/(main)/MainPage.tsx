@@ -15,8 +15,10 @@ import type { CartItem, Product, SuKienUuDai } from "@/lib/types";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 import { useEffect, useState } from "react";
 import MailChimp from "@/components/mail-chimp";
+import EventVoucherSlider from "@/components/ui/EventVoucherSlider";
 
 function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
+  console.log("suKienUuDais:", suKienUuDais);
   const startDate = new Date(suKienUuDais.NgayPH);
   const endDate = new Date(suKienUuDais.NgayKT);
 
@@ -71,8 +73,9 @@ export default function MainPage({
   initialCartItems: CartItem[];
 }) {
   const { suKienUuDais } = useSuKienUuDai();
-
-  const [popup, setPopup] = useState(suKienUuDais != null);
+  const isValidSuKienUuDai =
+    suKienUuDais && Object.keys(suKienUuDais).length > 0;
+  const [popup, setPopup] = useState(isValidSuKienUuDai);
   const cartItems: CartItem[] = [];
   for (const item of initialCartItems) {
     const cartItem = {
@@ -95,15 +98,18 @@ export default function MainPage({
       setPopup(false);
     }, 10000);
     return () => clearTimeout(timer);
-  }, [suKienUuDais]);
+  }, [isValidSuKienUuDai]);
   return (
     <div className="flex flex-col">
-      {popup && <PopupUuDai suKienUuDais={suKienUuDais} />}
+      {popup && isValidSuKienUuDai && (
+        <PopupUuDai suKienUuDais={suKienUuDais} />
+      )}
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-primary/10 to-secondary/10 py-20 lg:py-32">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
+              <EventVoucherSlider />
               <Badge variant="secondary" className="w-fit">
                 Bộ sưu tập mới 2024
               </Badge>

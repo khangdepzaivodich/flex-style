@@ -119,11 +119,12 @@ export interface Voucher {
   SoTien: number;
   Loai: string;
   Code: string;
-  NgayBatDau: string;
-  NgayKetThuc: string;
+  NgayBatDau: Date;
+  NgayKetThuc: Date;
   Dieukien: number;
   TrangThai: string;
   MoTa: string;
+  SoLuong: number;
 }
 
 export interface Voucher_KhachHang {
