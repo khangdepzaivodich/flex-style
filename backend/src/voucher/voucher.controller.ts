@@ -2,7 +2,11 @@ import { Controller, Get, Param, Post, Put, Res, Body } from '@nestjs/common';
 import { VoucherService } from './voucher.service';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 import type { Response } from 'express';
-import { VoucherDto } from './dto/voucher.dto';
+import { CreateVoucherDto, VoucherDto } from './dto/voucher.dto';
+import { Roles } from 'src/factory_function/role';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/jwt/jwt.guard';
+import { TaiKhoanGuard } from 'src/taikhoan/taikhoan.guard';
 
 @Controller('voucher')
 export class VoucherController {
@@ -11,6 +15,14 @@ export class VoucherController {
   @Get()
   @ResponseMessage('Lấy danh sách voucher thành công')
   async getAllVouchers(@Body() data: VoucherDto) {
+    return this.voucherService.getAllVouchers();
+  }
+
+  @Roles('NVVH')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  @Get("/all")
+  @ResponseMessage('Lấy danh sách voucher thành công')
+  async getAllVouchersForNV() {
     return this.voucherService.getAllVouchers();
   }
 
@@ -27,13 +39,15 @@ export class VoucherController {
     return this.voucherService.getVoucherByCode(id);
   }
   // thêm mới voucher
-  @Post()
+  @Roles('NVVH')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  @Post("/add")
   @ResponseMessage('Thêm mới voucher thành công')
-  async addVoucher(@Body() voucherDto: VoucherDto) {
+  async addVoucher(@Body() voucherDto: CreateVoucherDto) {
     return this.voucherService.addVoucher(voucherDto);
   }
   //chỉnh sửa voucher theo id
-  @Put(':id')
+  @Put('/update/:id')
   @ResponseMessage('Chỉnh sửa voucher thành công')
   async updateVoucher(@Param('id') id: string, @Body() voucherDto: any) {
     return this.voucherService.updateVoucher(id, voucherDto);
