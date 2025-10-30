@@ -2,27 +2,26 @@
 
 import { Calendar, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface Promotion {
-  id: string;
-  name: string;
-  discount: string;
-  startDate: string;
-  endDate: string;
-  status: "Đang hoạt động" | "Ngừng hoạt động";
-}
+import { SuKienUuDai } from "@/lib/types";
 
 interface PromotionTableProps {
-  promotions: Promotion[];
-  onEdit?: (id: string) => void;
-  onDelete?: (id: string) => void;
+  promotions: SuKienUuDai[];
+  onEdit?: (promo: SuKienUuDai) => void;
 }
 
 export default function PromotionTable({
   promotions,
   onEdit,
-  onDelete,
 }: PromotionTableProps) {
+  const formatDate = (date: Date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const hour = String(d.getHours()).padStart(2, "0");
+    const minute = String(d.getMinutes()).padStart(2, "0");
+    return `${hour}:${minute} ${day}/${month}/${year}`;
+  };
   return (
     <div className="bg-gray-50 rounded-xl border p-6">
       <div className="mb-4">
@@ -35,13 +34,14 @@ export default function PromotionTable({
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full text-sm border-t border-gray-200">
+        <table className="min-w-full text-lg border-t border-gray-200">
           <thead className="bg-gray-100 text-gray-700 font-medium">
             <tr className="border-b">
-              <th className="text-left px-4 py-2">Mã sự kiện</th>
               <th className="text-left px-4 py-2">Tên sự kiện</th>
-              <th className="text-left px-4 py-2">Giảm giá</th>
-              <th className="text-left px-4 py-2">Thời gian</th>
+              <th className="text-left px-4 py-2">Ngày phát hành</th>
+              <th className="text-left px-4 py-2">Ngày kết thúc</th>
+              <th className="text-left px-4 py-2">Phần trăm giảm</th>
+              <th className="text-left px-4 py-2">Mô tả</th>
               <th className="text-left px-4 py-2">Trạng thái</th>
               <th className="text-left px-4 py-2">Thao tác</th>
             </tr>
@@ -52,28 +52,36 @@ export default function PromotionTable({
                 key={index}
                 className="border-b hover:bg-gray-50 transition-colors"
               >
-                <td className="px-4 py-2 text-gray-700">{promo.id}</td>
-                <td className="px-4 py-2 text-gray-800 font-medium">
-                  {promo.name}
+                <td className="px-4 py-2 text-gray-700 w-1/8">{promo.TenSK}</td>
+                <td className="px-4 py-2 text-gray-600 w-1/8">
+                  <div className="flex items-center">
+                    <Calendar className="w-4 h-4 mr-1 text-gray-400" />
+                    {formatDate(promo.NgayPH)}
+                  </div>
                 </td>
-                <td className="px-4 py-2 text-red-500 font-semibold">
-                  {promo.discount}
+                <td className="px-4 py-2 text-gray-600 w-1/8">
+                  <div className="flex items-center">
+                    <Calendar className="w-4 h-4 mr-1 text-gray-400" />
+                    {formatDate(promo.NgayKT)}
+                  </div>
                 </td>
-                <td className="px-4 py-2 text-gray-600 flex items-center">
-                  <Calendar className="w-4 h-4 mr-1 text-gray-400" />
-                  {promo.startDate}
-                  <span className="mx-1 text-gray-400">đến</span>
-                  {promo.endDate}
+                <td className="px-4 py-2 text-gray-800 font-medium flex justify-center w-1/8">
+                  {promo.PhanTramGiam}%
                 </td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 text-gray-800 font-medium w-2/8">
+                  {promo.MoTa}
+                </td>
+                <td className="px-4 py-2 w-1/8">
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      promo.status === "Đang hoạt động"
+                      promo.TrangThai === "ACTIVE"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-600"
                     }`}
                   >
-                    {promo.status}
+                    {promo.TrangThai === "ACTIVE"
+                      ? "Còn hoạt động"
+                      : "Tạm dừng"}
                   </span>
                 </td>
                 <td className="px-4 py-2 flex gap-2">
@@ -81,19 +89,10 @@ export default function PromotionTable({
                     size="sm"
                     variant="outline"
                     className="flex items-center gap-1"
-                    onClick={() => onEdit?.(promo.id)}
+                    onClick={() => onEdit?.(promo)}
                   >
                     <Pencil className="w-4 h-4" />
                     Chỉnh sửa
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    className="flex items-center gap-1 bg-red-500 hover:bg-red-600"
-                    onClick={() => onDelete?.(promo.id)}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                    Xóa
                   </Button>
                 </td>
               </tr>
