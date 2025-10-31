@@ -1,21 +1,21 @@
-import { SuKienUuDai, ThongBao } from "@/lib/types";
-import PromotionPage from "./PromotionPage";
+import { ThongBao, Voucher } from "@/lib/types";
+import VoucherPage from "./VoucherPage";
 import { getUserId, getAccessToken } from "@/lib/userInfo";
 
-async function fetchPromotions(accessToken: string) {
-  const res = await fetch("http://localhost:8080/api/sukienuudai/all", {
+async function fetchVouchers(accessToken: string) {
+  const res = await fetch("http://localhost:8080/api/voucher/all", {
     cache: "no-store",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
   });
-  if (!res.ok) throw new Error("Failed to fetch promotions");
+  // console.log("fetchVouchers - status:", res.status);
   return await res.json();
 }
 
 async function fetchNotification(accessToken: string) {
-  const res = await fetch("http://localhost:8080/api/thongbao/sukienuudai", {
+  const res = await fetch("http://localhost:8080/api/thongbao/voucher", {
     cache: "no-store",
     headers: {
       "Content-Type": "application/json",
@@ -29,19 +29,22 @@ async function fetchNotification(accessToken: string) {
 
 export default async function Page() {
   const userId = await getUserId();
-  let promotions : SuKienUuDai[] = [];
+  let vouchers: Voucher[] = [];
   let notification: ThongBao[] = [];
   if (userId) {
     const accessToken = await getAccessToken();
-    const response = await fetchPromotions(String(accessToken));
+    const response = await fetchVouchers(String(accessToken));
     const responseNotification = await fetchNotification(String(accessToken));
-    promotions = response.data ?? [];
-    // console.log("promotions", promotions);
+    vouchers = response.data ?? [];
     notification = responseNotification.data ?? [];
+    // console.log("vouchers", vouchers);
   }
   return (
     <div>
-      <PromotionPage promotions={promotions ?? []} notification={notification ?? []} />
+      <VoucherPage
+        vouchers={vouchers ?? []}
+        notifications={notification ?? []}
+      />
     </div>
   );
 }

@@ -11,8 +11,9 @@ import ProtectedRoute from "@/components/protected-route";
 
 import talkto from "@/components/talkto";
 
-import type { SuKienUuDai } from "@/lib/types";
+import type { SuKienUuDai, Voucher } from "@/lib/types";
 import { OrderProvider } from "@/contexts/order-context";
+import { ThongBaoProvider } from "@/contexts/thongbao-context";
 
 async function fetchSukienuudais() {
   const res = await fetch(`http://localhost:8080/api/sukienuudai`, {
@@ -23,6 +24,66 @@ async function fetchSukienuudais() {
   }
   return res.json();
 }
+
+async function fetchThongBaoVC() {
+  let setVouchers: Voucher[] = [];
+  const res = await fetch("http://localhost:8080/api/thongbao/voucher", {
+    cache: "no-store",
+  });
+  if (res.status !== 200 && res.status !== 201) {
+    console.log("Failed to fetch voucher notifications", res);
+    return [];
+  } else {
+    const {data} = await res.json();
+    if (Array.isArray(data)) {
+      for (const note of data) {
+        const voucher = await fetch(
+          `http://localhost:8080/api/voucher/${note.MaVoucher}`
+        );
+        if (voucher.status === 200 || voucher.status === 201) {
+          const {data} = await voucher.json();
+          setVouchers.push(data);
+        } else {
+          console.log("Lỗi khi lấy thông tin voucher");
+        }
+      }
+    }
+    else{
+      console.log("vouchers is not an array:", data);
+    }
+  }
+  console.log("setVouchers", setVouchers);
+  return setVouchers;
+}
+
+async function fetchThongBaoSK() {
+  let setSukienuudai: SuKienUuDai[] = [];
+  const res = await fetch("http://localhost:8080/api/thongbao/sukienuudai", {
+    cache: "no-store",
+  });
+  if (res.status !== 200 && res.status !== 201) {
+    console.log("Failed to fetch sự kiện ưu đãi notifications");
+    return [];
+  } else {
+    const {data} = await res.json();
+    if (Array.isArray(data)) {
+      for (const note of data) {
+        const sukienuudai = await fetch(
+          `http://localhost:8080/api/sukienuudai/${note.MaSK}`
+        );
+        if (sukienuudai.status === 200 || sukienuudai.status === 201) {
+          const {data} = await sukienuudai.json();
+          setSukienuudai.push(data);
+        } else {
+          console.log("Lỗi khi lấy thông tin sự kiện ưu đãi", sukienuudai);
+        }
+      }
+    }
+  }
+  console.log("setSukienuudai", setSukienuudai);
+  return setSukienuudai;
+}
+
 function compareDate(a: string | Date, b: string | Date): number {
   const da = typeof a === "string" ? new Date(a) : a;
   const db = typeof b === "string" ? new Date(b) : b;
@@ -39,35 +100,39 @@ export default async function layout({
   const cookieStore = await cookies();
   const language = cookieStore.get("language")?.value || "vi";
   const sukienuudais = await fetchSukienuudais();
+  const voucherPromotions = await fetchThongBaoVC();
+  const sukienuudaiPromotions = await fetchThongBaoSK();
 
   return (
     <>
       <ProtectedRoute Role="KH" allowGuest={true}>
         <LanguageProvider initialLanguage={language as "en" | "vi"}>
           <CartProvider>
-            <SuKienUuDaiProvider
-              initialData={
-                sukienuudais.data.find(
-                  (s: SuKienUuDai) =>
-                    compareDate(s.NgayPH, new Date()) < 0 &&
-                    compareDate(s.NgayKT, new Date()) > 0
-                ) ?? ({} as SuKienUuDai)
-              }
-            >
-              <Header />
-              {children}
-              <Footer />
-              {process.env.NODE_ENV === "production" ? <Analytics /> : null}
-              <ChatWidget
-                config={{
-                  chatUrl: process.env.N8N_CHAT_URL || "",
-                  supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-                  supabaseServiceRoleKey:
-                    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || "",
-                }}
-              />
-              {talkto()}
-            </SuKienUuDaiProvider>
+            <ThongBaoProvider initialSuKienUuDai={sukienuudaiPromotions} initialVouchers={voucherPromotions}>
+              <SuKienUuDaiProvider
+                initialData={
+                  sukienuudais.data.find(
+                    (s: SuKienUuDai) =>
+                      compareDate(s.NgayPH, new Date()) < 0 &&
+                      compareDate(s.NgayKT, new Date()) > 0
+                  ) ?? ({} as SuKienUuDai)
+                }
+              >
+                <Header />
+                {children}
+                <Footer />
+                {process.env.NODE_ENV === "production" ? <Analytics /> : null}
+                <ChatWidget
+                  config={{
+                    chatUrl: process.env.N8N_CHAT_URL || "",
+                    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+                    supabaseServiceRoleKey:
+                      process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || "",
+                  }}
+                />
+                {talkto()}
+              </SuKienUuDaiProvider>
+            </ThongBaoProvider>
           </CartProvider>
         </LanguageProvider>
       </ProtectedRoute>

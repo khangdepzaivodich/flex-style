@@ -11,27 +11,36 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/auth-context";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const titleMap: Record<string, string> = {
-  "/operator": "Quản lý voucher",
+  "/operator/voucher": "Quản lý voucher",
   "/operator/promotion": "Quản lý sự kiện ưu đãi",
-  "/operator/errors-orders": "Đơn hàng bị lỗi",
+  // "/operator/errors-orders": "Đơn hàng bị lỗi",
 };
 
 export function OperatorHeader() {
   const { user, logout } = useAuth();
+  const router = useRouter();
   const pathName = usePathname();
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push("/auth/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
 
   return (
     <header className="h-16 border-b border-border bg-background px-6 flex items-center justify-between">
       <div className="flex items-center space-x-4 flex-1 text-3xl font-bold">
-        {titleMap[pathName] || "Dashboard"}
+        {titleMap[pathName] }
       </div>
 
       <div className="flex items-center space-x-4">
         {/* Notifications */}
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
               <Bell className="h-5 w-5" />
@@ -64,7 +73,7 @@ export function OperatorHeader() {
               </div>
             </div>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
 
         {/* User Menu */}
         <DropdownMenu>
@@ -100,9 +109,9 @@ export function OperatorHeader() {
               <span>Cài đặt</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={logout}>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
-              <span>Đăng xuất</span>
+              <span >Đăng xuất</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

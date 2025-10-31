@@ -21,7 +21,7 @@ const formatDate = (date: Date) => {
 };
 export default function VoucherCard({ voucher, onEdit }: VoucherCardProps) {
   return (
-    <Card className="w-[380px] border-l-8 border-l-yellow-300 shadow-xl rounded-xl">
+    <Card className="w-[380px] border-l-8 border-l-yellow-300 shadow-xl rounded-xl h-full">
       <CardContent className="p-5 flex flex-col h-full">
         {/* Header */}
         <h2 className="text-xl font-bold">{voucher.TenVoucher}</h2>

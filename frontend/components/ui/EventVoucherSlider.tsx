@@ -7,8 +7,8 @@ import type { SuKienUuDai, Voucher } from "@/lib/types";
 import { useState, useEffect } from "react";
 
 interface EventVoucherSliderProps {
-  events?: SuKienUuDai[];
-  vouchers?: Voucher[];
+  events: SuKienUuDai[];
+  vouchers: Voucher[];
 }
 
 const colors = [
@@ -22,64 +22,8 @@ export default function EventVoucherSlider({
   events,
   vouchers,
 }: EventVoucherSliderProps) {
-  // Dữ liệu giả để test
-  if (!events || !events.length) {
-    events = [
-      {
-        MaSK: "sk1",
-        TenSK: "Mừng năm mới 2026",
-        MoTa: "Ưu đãi 30% toàn bộ sản phẩm cho năm mới!",
-        NgayPH: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        NgayKT: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
-        PhanTramGiam: 30,
-        TrangThai: "ACTIVE",
-      },
-      {
-        MaSK: "sk2",
-        TenSK: "Black Friday",
-        MoTa: "Giảm giá sốc lên tới 50% cho các sản phẩm hot!",
-        NgayPH: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-        NgayKT: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
-        PhanTramGiam: 50,
-        TrangThai: "ACTIVE",
-      },
-    ];
-  }
-  if (!vouchers || !vouchers.length) {
-    vouchers = [
-      {
-        MaVoucher: "vc1",
-        TenVoucher: "Voucher Giảm Giá 20%",
-        Code: "SALE20",
-        DieuKien: 500000,
-        SoTien: 100000,
-        Loai: "GiamGia",
-        NgayBatDau: new Date(
-          Date.now() + 2 * 24 * 60 * 60 * 1000
-        ).toISOString(),
-        NgayKetThuc: new Date(
-          Date.now() + 8 * 24 * 60 * 60 * 1000
-        ).toISOString(),
-        MoTa: "Áp dụng cho đơn từ 500k trở lên.",
-        TrangThai: "ACTIVE",
-      },
-      {
-        MaVoucher: "vc2",
-        TenVoucher: "Voucher FreeShip",
-        Code: "FREESHIP2026",
-        DieuKien: 0,
-        SoTien: 0,
-        Loai: "FreeShip",
-        NgayBatDau: new Date(
-          Date.now() + 3 * 24 * 60 * 60 * 1000
-        ).toISOString(),
-        NgayKetThuc: new Date(
-          Date.now() + 12 * 24 * 60 * 60 * 1000
-        ).toISOString(),
-        MoTa: "Miễn phí vận chuyển cho mọi đơn hàng.",
-        TrangThai: "ACTIVE",
-      },
-    ];
+  if (events.length === 0 && vouchers.length === 0) {
+    return null;
   }
   const slides = [
     ...events.map((e) => ({
@@ -89,9 +33,9 @@ export default function EventVoucherSlider({
       start: new Date(e.NgayPH),
       end: new Date(e.NgayKT),
       percent: e.PhanTramGiam,
+      loai: "",
       status: e.TrangThai,
       icon: <Gift className="h-7 w-7 text-yellow-500" />,
-      link: "/sale",
     })),
     ...vouchers.map((v) => ({
       type: "voucher" as const,
@@ -99,10 +43,10 @@ export default function EventVoucherSlider({
       desc: v.MoTa,
       start: new Date(v.NgayBatDau),
       end: new Date(v.NgayKetThuc),
-      percent: v.SoTien,
+      loai: v.Loai,
+      percent: v.Loai === "GiamGia" ? v.SoTien : 0,
       status: v.TrangThai,
       icon: <Ticket className="h-7 w-7 text-pink-500" />,
-      link: "/vouchers",
     })),
   ];
   const [current, setCurrent] = useState(0);
@@ -143,22 +87,22 @@ export default function EventVoucherSlider({
         <Badge variant="secondary" className="ml-auto text-base px-3 py-1">
           {slide.type === "event"
             ? `${slide.percent}%`
-            : `${slide.percent.toLocaleString()}đ`}
+            : `${slide.loai === "GiamGia" ? `Giảm ${slide.percent} đ` : "Miễn phí vận chuyển"}`}
         </Badge>
       </div>
       <p className="text-base text-gray-700 leading-relaxed mb-4 bg-gradient-to-r from-transparent via-pink-100 to-transparent rounded px-2 py-1 font-semibold">
         {slide.desc}
       </p>
       <div className="flex justify-between items-center">
-        <Button
+        {/* <Button
           size="sm"
           className="bg-gradient-to-r from-rose-500 to-pink-600 text-white font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
           asChild
         >
-          <Link href={slide.link}>
+          <Link href={}>
             Xem chi tiết <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
-        </Button>
+        </Button> */}
         <div className="flex gap-2">
           <Button
             size="icon"
