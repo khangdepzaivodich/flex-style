@@ -88,7 +88,13 @@ export default function ProtectedRoute({
     );
   }
 
+<<<<<<< Updated upstream
   if (!authorized) return null;
+=======
+  if (!authorized) {
+    return null;
+  }
+>>>>>>> Stashed changes
 
   return <>{children}</>;
 }
