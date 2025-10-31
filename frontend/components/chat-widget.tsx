@@ -51,7 +51,7 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
         try {
           data = text ? JSON.parse(text) : {};
         } catch {
-          console.error("Invalid JSON from /api/get-chat-id:", text);
+          console.log("Unauthenticated user");
         }
         chatId =
           data.chatId || "chat_" + Math.random().toString(36).substring(2, 10);
