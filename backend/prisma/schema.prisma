@@ -213,8 +213,8 @@ model PHIEUNHAPHANG {
 model THONGBAO{
   MaTB     String    @id @default(uuid())
   Loai     LoaiTB
-  MaVoucher     String
-  MaSK      String
+  MaVoucher String?
+  MaSK      String?
   SUKKIENUUDAI   SUKIENUUDAI?    @relation("Sukienuudai_Thongbao", fields: [MaSK], references: [MaSK])
   VOUCHER   VOUCHER?       @relation("Voucher_Thongbao", fields: [MaVoucher], references: [MaVoucher])
 }
@@ -229,7 +229,7 @@ enum KichCo {
 
 enum LoaiTB{
   VOUCHER
-  SUKKIENUUDAI
+  SUKIENUUDAI
 }
 
 

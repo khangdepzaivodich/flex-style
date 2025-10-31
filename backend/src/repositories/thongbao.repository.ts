@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, TrangThai } from '@prisma/client';
+import { LoaiTB } from 'src/constant';
 import { PrismaService } from 'src/prisma.service';
+import { ThongBaoDto } from 'src/thongbao/dto/thongbao.dto';
 
 @Injectable()
 export class ThongbaoRepository {
@@ -9,7 +11,7 @@ export class ThongbaoRepository {
   async findAllSK() {
     return this.prisma.tHONGBAO.findMany({
       where: {
-        Loai: 'SUKIENUUDAI',
+        Loai: LoaiTB.SUKIENUUDAI,
       },
     });
   }
@@ -17,31 +19,41 @@ export class ThongbaoRepository {
   async findAllVC() {
     return this.prisma.tHONGBAO.findMany({
       where: {
-        Loai: 'VOUCHER',
+        Loai: LoaiTB.VOUCHER,
       },
     });
   }
-  async updateTB_SK(thongbao: any[]) {
-    const updatePromises = thongbao.map((tb) =>
-      this.prisma.tHONGBAO.update({
-        where: { MaTB: tb.MaTB },
-        data: {
-          MaSK: tb.MaSK,
-        },
-      }),
-    );
-    return Promise.all(updatePromises);
+
+  async findSK_MaSK(MaSK: string) {
+    return this.prisma.tHONGBAO.findFirst({
+      where: { Loai: LoaiTB.SUKIENUUDAI, MaSK: MaSK },
+    });
   }
 
-  async updateTB_VC(thongbao: any[]) {
-    const updatePromises = thongbao.map((tb) =>
-      this.prisma.tHONGBAO.update({
-        where: { MaTB: tb.MaTB },
-        data: {
-          MaVoucher: tb.MaVoucher,
-        },
-      }),
-    );
-    return Promise.all(updatePromises);
+  async findVC_MaVoucher(MaVoucher: string) {
+    return this.prisma.tHONGBAO.findFirst({
+      where: { Loai: LoaiTB.VOUCHER, MaVoucher: MaVoucher },
+    });
+  }
+
+async createThongBao(Loai: LoaiTB, MaSK?: string, MaVoucher?: string  ) {
+  return this.prisma.tHONGBAO.create({
+    data: {
+      Loai: Loai,
+      ...(MaVoucher !== undefined ? { MaVoucher } : {}),
+      ...(MaSK !== undefined ? { MaSK } : {}),
+    }
+  });
+}
+
+  async deleteByLoai(Loai: LoaiTB) {
+    return this.prisma.tHONGBAO.deleteMany({
+      where: { Loai },
+    });
+  }
+  async deleteById(MaTB: string) {
+    return this.prisma.tHONGBAO.delete({
+      where: { MaTB },
+    });
   }
 }

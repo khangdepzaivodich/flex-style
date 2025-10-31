@@ -11,6 +11,10 @@ import { Prisma } from '@prisma/client';
 
 export class ThongBaoDto {
   @IsString()
+  @IsOptional()
+  MaTB?: string;
+
+  @IsString()
   @IsNotEmpty()
   Loai: LoaiTB;
 
@@ -20,5 +24,5 @@ export class ThongBaoDto {
 
   @IsString()
   @ValidateIf((o) => o.Loai === LoaiTB.SUKIENUUDAI)
-  MaSk?: string;
+  MaSK?: string;
 }
