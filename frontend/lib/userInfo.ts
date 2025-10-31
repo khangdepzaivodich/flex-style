@@ -36,6 +36,5 @@ export async function getGioHang(MaAuth: string, accessToken: string) {
       },
     }
   );
-  console.log("res giohang", res);
   return await res.json();
 }

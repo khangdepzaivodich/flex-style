@@ -116,7 +116,6 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       return { items: [], total: 0, itemCount: 0 };
 
     case "LOAD_CART": {
-      console.log("cartReducer - LOAD_CART payload:", action.payload);
       const total = action.payload.reduce(
         (sum, item) => sum + item.price * item.quantity,
         0
@@ -147,7 +146,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (savedCart) {
       try {
         const cartItems = JSON.parse(savedCart);
-        console.log("Loaded cart from localStorage:", cartItems);
         dispatch({ type: "LOAD_CART", payload: cartItems });
       } catch (error) {
         console.error("Error loading cart from localStorage:", error);
@@ -166,7 +164,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const { data } = await supabase.auth.getSession();
         const userId = data?.session?.user?.id ?? null;
         if (isMounted) userIdRef.current = userId;
-        console.log("CartContext - userId:", userId);
+        // console.log("CartContext - userId:", userId);
       } catch (err) {
         console.error("Error initializing supabase client:", err);
       }

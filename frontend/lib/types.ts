@@ -138,6 +138,13 @@ export interface Voucher_KhachHang {
   voucherDetails?: Voucher;
 }
 
+export interface ThongBao {
+  MaTB: string;
+  Loai: string;
+  MaSK: string | null;
+  MaVoucher: string | null;
+}
+
 export type UserRole = "KH" | "ADMIN" | "NCC" | "QLDN" | "NVVH" | "NVCSKH";
 
 export type UserStatus = "ACTIVE" | "INACTIVE";

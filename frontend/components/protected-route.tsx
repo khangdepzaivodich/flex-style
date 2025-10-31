@@ -88,7 +88,7 @@ export default function ProtectedRoute({
     );
   }
 
-  if (!authorized) return <>Not allowed</>;
+  if (!authorized) router.push("/");
 
   return <>{children}</>;
 }

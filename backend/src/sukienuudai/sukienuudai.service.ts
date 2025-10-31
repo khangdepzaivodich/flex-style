@@ -22,9 +22,9 @@ export class SuKienUuDaiService {
     return sukienuudais;
   }
 
-  async getById(name: string) {
+  async getById(id: string) {
     const existingSuKienUuDai =
-      await this.suKienUuDaiRepository.findByName(name);
+      await this.suKienUuDaiRepository.findById(id);
     if (!existingSuKienUuDai) {
       throw new BadRequestException('Sự kiện ưu đãi không tồn tại');
     }

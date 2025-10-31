@@ -24,9 +24,9 @@ export class SuKienUuDaiController {
     }
 
     //lấy sự kiện ưu đãi theo id
-    @Get(':id')
+    @Get('/:id')
     @ResponseMessage('Lấy sự kiện ưu đãi theo id thành công')
-    getById(id: string) {
+    getById(@Param('id') id: string) {
         return this.suKienUuDaiService.getById(id);
     }
     //thêm mới sự kiện ưu đãi

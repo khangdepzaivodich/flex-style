@@ -270,7 +270,7 @@ export default function AccountPage() {
                   <Button variant="outline">Đổi mật khẩu</Button>
                 </div>
 
-                <div className="flex items-center justify-between p-4 border rounded-lg">
+                {/* <div className="flex items-center justify-between p-4 border rounded-lg">
                   <div>
                     <h4 className="font-semibold">Thông báo email</h4>
                     <p className="text-sm text-muted-foreground">
@@ -278,7 +278,7 @@ export default function AccountPage() {
                     </p>
                   </div>
                   <Button variant="outline">Cài đặt</Button>
-                </div>
+                </div> */}
 
                 <div className="flex items-center justify-between p-4 border rounded-lg">
                   <div>

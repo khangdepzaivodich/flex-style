@@ -11,14 +11,14 @@ import {
   Gift,
 } from "lucide-react";
 import Link from "next/link";
-import type { CartItem, Product, SuKienUuDai } from "@/lib/types";
+import type { CartItem, Product, SuKienUuDai, ThongBao, Voucher } from "@/lib/types";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 import { useEffect, useState } from "react";
 import MailChimp from "@/components/mail-chimp";
 import EventVoucherSlider from "@/components/ui/EventVoucherSlider";
+import { useThongBao } from "@/contexts/thongbao-context";
 
 function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
-  console.log("suKienUuDais:", suKienUuDais);
   const startDate = new Date(suKienUuDais.NgayPH);
   const endDate = new Date(suKienUuDais.NgayKT);
 
@@ -68,14 +68,19 @@ function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
 export default function MainPage({
   initialProducts,
   initialCartItems,
+  // initialNotificationsVoucher,
+  // initialNotificationsSukienuudai
 }: {
   initialProducts: Product[];
   initialCartItems: CartItem[];
+  // initialNotificationsVoucher: Voucher[];
+  // initialNotificationsSukienuudai: SuKienUuDai[];
 }) {
   const { suKienUuDais } = useSuKienUuDai();
   const isValidSuKienUuDai =
     suKienUuDais && Object.keys(suKienUuDais).length > 0;
   const [popup, setPopup] = useState(isValidSuKienUuDai);
+  const {suKienUuDaisPromotions, vouchersPromotions} = useThongBao();
   const cartItems: CartItem[] = [];
   for (const item of initialCartItems) {
     const cartItem = {
@@ -91,7 +96,6 @@ export default function MainPage({
   }
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
-    console.log(localStorage.getItem("cart"));
   }, []);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -109,7 +113,6 @@ export default function MainPage({
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <EventVoucherSlider />
               <Badge variant="secondary" className="w-fit">
                 Bộ sưu tập mới 2024
               </Badge>
@@ -132,6 +135,7 @@ export default function MainPage({
                   <Link href="/about">Tìm hiểu thêm</Link>
                 </Button>
               </div>
+              <EventVoucherSlider vouchers={vouchersPromotions} events={suKienUuDaisPromotions} />
             </div>
             <div className="relative">
               <div className="aspect-square rounded-2xl overflow-hidden bg-muted">

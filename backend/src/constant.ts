@@ -24,3 +24,8 @@ export enum PhuongThucTT {
   VNPAY = 'VNPAY',
   PAYPAL = 'PAYPAL',
 }
+
+export enum LoaiTB {
+  VOUCHER = 'VOUCHER',
+  SUKIENUUDAI = 'SUKIENUUDAI',
+}
