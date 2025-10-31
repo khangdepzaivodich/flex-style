@@ -1,6 +1,7 @@
 import { getAccessToken, getGioHang, getUserId } from "@/lib/userInfo";
 import MainPage from "./MainPage";
 import { SuKienUuDai, ThongBao, Voucher } from "@/lib/types";
+import ProtectedRoute from "@/components/protected-route";
 
 async function getProducts() {
   const res = await fetch(

@@ -174,6 +174,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       user: null,
       isLoading: false,
     });
+    router.push("/auth/login");
   };
   const updatePassword = async (password: string): Promise<boolean> => {
     try {
