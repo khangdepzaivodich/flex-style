@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { AuthProvider } from "@/contexts/auth-context";
 import { Suspense } from "react";
 import "./globals.css";
+import { LanguageProvider } from "@/contexts/language-context";
 export const metadata: Metadata = {
   title: "FlexStyle - Thời trang hiện đại",
   description:
@@ -18,11 +19,13 @@ export default async function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <body>
-        <AuthProvider>
-          <Suspense>
-            <main className="min-h-screen">{children}</main>
-          </Suspense>
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <Suspense>
+              <main className="min-h-screen">{children}</main>
+            </Suspense>
+          </AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
