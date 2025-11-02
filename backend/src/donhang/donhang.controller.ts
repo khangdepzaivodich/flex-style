@@ -11,6 +11,8 @@ import {
   HttpStatus,
   ParseIntPipe,
   DefaultValuePipe,
+  Res,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -21,11 +23,11 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { DonhangService } from './donhang.service';
-import {
-  CreateDonhangDto,
-  UpdateDonhangStatusDto,
-} from './dto/donhang.dto';
+import { CreateDonhangDto, CreateDonhangStatusDto, UpdateDonhangStatusDto } from './dto/donhang.dto';
 import { ResponseMessage } from 'src/decorators/response.decorator';
+import { Roles } from 'src/factory_function/role';
+import { TaiKhoanGuard } from 'src/taikhoan/taikhoan.guard';
+import { JwtAuthGuard } from 'src/jwt/jwt.guard';
 
 @ApiTags('Đơn hàng')
 @Controller('donhang')
@@ -49,14 +51,12 @@ export class DonhangController {
   })
   @ApiResponse({ status: 404, description: 'Không tìm thấy sản phẩm' })
   @ResponseMessage('Tạo đơn hàng thành công')
-  async createOrder(
-    @Body() createDto: CreateDonhangDto
-  ){
-    console.log("Creating order with data:", createDto);
+  async createOrder(@Body() createDto: CreateDonhangDto) {
+    console.log('Creating order with data:', createDto);
     return await this.donhangService.createOrder(createDto);
   }
 
-  @Get("/all")
+  @Get('/all')
   @ApiOperation({ summary: 'Lấy danh sách tất cả đơn hàng' })
   @ApiQuery({
     name: 'MaTK_KH',
@@ -85,8 +85,8 @@ export class DonhangController {
   async getAllOrders(
     @Query('MaTK_KH') MaTK_KH?: string,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
-    @Query('limit', new DefaultValuePipe(50), ParseIntPipe) limit?: number
-  ){
+    @Query('limit', new DefaultValuePipe(50), ParseIntPipe) limit?: number,
+  ) {
     return await this.donhangService.getAllOrders(MaTK_KH, page, limit);
   }
 
@@ -121,22 +121,18 @@ export class DonhangController {
     return await this.donhangService.getOrderSummary(MaTK_KH);
   }
 
-  @Get(':MaDH')
-  @ApiOperation({ summary: 'Lấy chi tiết đơn hàng theo ID' })
-  @ApiParam({
-    name: 'MaDH',
-    description: 'Mã đơn hàng',
-    example: 'uuid-dh-123',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Lấy chi tiết đơn hàng thành công',
-    // type: DonhangResponseDto,
-  })
-  @ApiResponse({ status: 404, description: 'Không tìm thấy đơn hàng' })
-  @ResponseMessage('Lấy chi tiết đơn hàng thành công')
-  async getOrderById(@Param('MaDH') MaDH: string) {
-    return await this.donhangService.getOrderById(MaDH);
+  //Lấy tất cả đơn hàng
+  // @Roles('NVCSKH')
+  // @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  @Get('/allOrders')
+  @ResponseMessage('Lấy tất cả đơn hàng thành công')
+  async getAllDonhangs(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
+    @Query('limit', new DefaultValuePipe(50), ParseIntPipe) limit?: number,
+  ) {
+    console.log('Get all donhangs called with page:', page, 'limit:', limit);
+    const donhangs = await this.donhangService.getAllOrderForStaff(page, limit);
+    return donhangs;
   }
 
   @Put(':MaDH/status')
@@ -160,8 +156,8 @@ export class DonhangController {
   @ResponseMessage('Cập nhật trạng thái đơn hàng thành công')
   async updateOrderStatus(
     @Param('MaDH') MaDH: string,
-    @Body() updateDto: UpdateDonhangStatusDto
-  ){
+    @Body() updateDto: UpdateDonhangStatusDto,
+  ) {
     return await this.donhangService.updateOrderStatus(MaDH, updateDto);
   }
 
@@ -183,13 +179,11 @@ export class DonhangController {
   })
   @ApiResponse({ status: 404, description: 'Không tìm thấy đơn hàng' })
   @ResponseMessage('Hủy đơn hàng thành công')
-  async cancelOrder(@Param('MaDH') MaDH: string){
+  async cancelOrder(@Param('MaDH') MaDH: string) {
     return await this.donhangService.cancelOrder(MaDH);
   }
-
-  @Delete(':MaDH')
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Xóa đơn hàng hoàn toàn' })
+  @Get(':MaDH')
+  @ApiOperation({ summary: 'Lấy chi tiết đơn hàng theo ID' })
   @ApiParam({
     name: 'MaDH',
     description: 'Mã đơn hàng',
@@ -197,23 +191,50 @@ export class DonhangController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Xóa đơn hàng thành công',
-    schema: {
-      example: {
-        success: true,
-        message: 'Xóa đơn hàng thành công',
-      },
-    },
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Chỉ có thể xóa đơn hàng đã hoàn tất hoặc đã hủy',
+    description: 'Lấy chi tiết đơn hàng thành công',
+    // type: DonhangResponseDto,
   })
   @ApiResponse({ status: 404, description: 'Không tìm thấy đơn hàng' })
-  @ResponseMessage('Xóa đơn hàng thành công')
-  async deleteOrder(
-    @Param('MaDH') MaDH: string
-  ): Promise<{ message: string }> {
-    return await this.donhangService.deleteOrder(MaDH);
+  @ResponseMessage('Lấy chi tiết đơn hàng thành công')
+  async getOrderById(@Param('MaDH') MaDH: string) {
+    return await this.donhangService.getOrderById(MaDH);
+  }
+
+  // @Delete(':MaDH')
+  // @HttpCode(HttpStatus.OK)
+  // @ApiOperation({ summary: 'Xóa đơn hàng hoàn toàn' })
+  // @ApiParam({
+  //   name: 'MaDH',
+  //   description: 'Mã đơn hàng',
+  //   example: 'uuid-dh-123',
+  // })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'Xóa đơn hàng thành công',
+  //   schema: {
+  //     example: {
+  //       success: true,
+  //       message: 'Xóa đơn hàng thành công',
+  //     },
+  //   },
+  // })
+  // @ApiResponse({
+  //   status: 400,
+  //   description: 'Chỉ có thể xóa đơn hàng đã hoàn tất hoặc đã hủy',
+  // })
+  // @ApiResponse({ status: 404, description: 'Không tìm thấy đơn hàng' })
+  // @ResponseMessage('Xóa đơn hàng thành công')
+  // async deleteOrder(
+  //   @Param('MaDH') MaDH: string
+  // ): Promise<{ message: string }> {
+  //   return await this.donhangService.deleteOrder(MaDH);
+  // }
+
+  //thêm tình trạng đơn hàng
+  @Roles('NVCSKH')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  @Post("/status/add")
+  async addOrderStatus(@Body() body: CreateDonhangStatusDto) {
+    return await this.donhangService.addOrderStatus(body);
   }
 }

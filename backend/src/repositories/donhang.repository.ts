@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
-import { CreateDonhangDto } from 'src/donhang/dto/donhang.dto';
+import {
+  CreateDonhangDto,
+  CreateDonhangStatusDto,
+} from 'src/donhang/dto/donhang.dto';
 
 @Injectable()
 export class DonhangRepository {
@@ -80,7 +83,7 @@ export class DonhangRepository {
     take?: number;
   }) {
     const where: Prisma.DONHANGWhereInput = {};
-    
+
     if (filters?.MaTK_KH) {
       where.MaTK_KH = filters.MaTK_KH;
     }
@@ -114,18 +117,10 @@ export class DonhangRepository {
   }
 
   // Lấy tất cả đơn hàng của khách hàng đó <nhân viên chăm sóc khách hàng> (có thể lọc theo khách hàng)
-  async findAllOrders(filters?: {
-    MaTK_KH?: string;
-    skip?: number;
-    take?: number;
-  }) {
+  async findAllOrdersForStaff(filters?: { skip?: number; take?: number }) {
     const where: Prisma.DONHANGWhereInput = {};
-    
-    if (filters?.MaTK_KH) {
-      where.MaTK_KH = filters.MaTK_KH;
-    }
 
-    const [orders, total] = await Promise.all([
+    const [orders] = await Promise.all([
       this.prisma.dONHANG.findMany({
         where,
         skip: filters?.skip || 0,
@@ -139,26 +134,16 @@ export class DonhangRepository {
               SANPHAM: true,
             },
           },
-          VOUCHER: true,
-          SUKIENUUDAI: true,
-          KHACHHANG_ACCOUNT: {
-            select: {
-              MaTK: true,
-              Username: true,
-            },
-          },
           TINHTRANGDONHANG: {
             orderBy: {
               created_at: 'desc',
             },
-            take: 1, // Chỉ lấy trạng thái mới nhất cho danh sách
           },
         },
       }),
-      this.prisma.dONHANG.count({ where }),
     ]);
 
-    return { orders, total };
+    return orders;
   }
 
   // Cập nhật trạng thái đơn hàng
@@ -228,7 +213,7 @@ export class DonhangRepository {
     }
 
     const newQuantity = currentProduct.SoLuong - quantity;
-    
+
     return await this.prisma.cHITIETSANPHAM.update({
       where: { MaCTSP },
       data: {
@@ -249,7 +234,7 @@ export class DonhangRepository {
     }
 
     const newQuantity = currentProduct.SoLuong + quantity;
-    
+
     return await this.prisma.cHITIETSANPHAM.update({
       where: { MaCTSP },
       data: {
@@ -262,7 +247,7 @@ export class DonhangRepository {
   // Lấy tổng hợp đơn hàng theo trạng thái
   async getOrderSummary(MaTK_KH?: string) {
     const where: Prisma.DONHANGWhereInput = {};
-    
+
     if (MaTK_KH) {
       where.MaTK_KH = MaTK_KH;
     }
@@ -277,7 +262,7 @@ export class DonhangRepository {
     ] = await Promise.all([
       // Tổng số đơn hàng
       this.prisma.dONHANG.count({ where }),
-      
+
       // Đơn hàng chưa giao
       this.prisma.dONHANG.count({
         where: {
@@ -289,7 +274,7 @@ export class DonhangRepository {
           },
         },
       }),
-      
+
       // Đơn hàng đang giao
       this.prisma.dONHANG.count({
         where: {
@@ -301,7 +286,7 @@ export class DonhangRepository {
           },
         },
       }),
-      
+
       // Đơn hàng đã giao
       this.prisma.dONHANG.count({
         where: {
@@ -313,7 +298,7 @@ export class DonhangRepository {
           },
         },
       }),
-      
+
       // Đơn hàng đã hủy
       this.prisma.dONHANG.count({
         where: {
@@ -325,7 +310,7 @@ export class DonhangRepository {
           },
         },
       }),
-      
+
       // Tổng doanh thu (chỉ tính đơn đã giao)
       this.prisma.dONHANG.aggregate({
         where: {
@@ -345,10 +330,22 @@ export class DonhangRepository {
     return {
       totalOrders,
       processingOrders, // CHUA_GIAO
-      shippingOrders,   // DANG_GIAO
-      completedOrders,  // DA_GIAO
-      cancelledOrders,  // HUY
+      shippingOrders, // DANG_GIAO
+      completedOrders, // DA_GIAO
+      cancelledOrders, // HUY
       totalRevenue: totalRevenue._sum.TongTien || 0,
     };
+  }
+
+  async addOrderStatus(body: CreateDonhangStatusDto) {
+    // Thêm trạng thái mới
+    const newStatus = await this.prisma.tINHTRANGDONHANG.create({
+      data: {
+        MaDH: body.MaDH,
+        TrangThai: body.TrangThai,
+      },
+    });
+
+    return newStatus;
   }
 }

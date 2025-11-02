@@ -160,8 +160,12 @@ export default function VoucherPopup({
           </div>
           <div>
             <Label className="text-sm">Loại voucher</Label>
-            <Select value={form.Loai}>
-              disabled=
+            <Select
+              value={form.Loai}
+              disabled={
+                form.MaVoucher ? isStartDatePastOrNow(form.NgayKetThuc) : false
+              }
+            >
               {form.MaVoucher ? isStartDatePastOrNow(form.NgayKetThuc) : false}
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Loại VOUCHER" />
@@ -238,19 +242,19 @@ export default function VoucherPopup({
             </div>
           </div>
           <div>
-          <Label className="text-sm">Số lượng</Label>
-          <Input
-            value={form.SoLuong}
-            onChange={(e) => handleChange("SoLuong", e.target.value)}
-            placeholder="Số lượng voucher"
-            type="number"
-            min={0}
-            step={1}
-            disabled={
-              form.MaVoucher ? isStartDatePastOrNow(form.NgayKetThuc) : false
-            }
-          />
-        </div>
+            <Label className="text-sm">Số lượng</Label>
+            <Input
+              value={form.SoLuong}
+              onChange={(e) => handleChange("SoLuong", e.target.value)}
+              placeholder="Số lượng voucher"
+              type="number"
+              min={0}
+              step={1}
+              disabled={
+                form.MaVoucher ? isStartDatePastOrNow(form.NgayKetThuc) : false
+              }
+            />
+          </div>
         </div>
         <div>
           <Label className="text-sm">Mô tả</Label>

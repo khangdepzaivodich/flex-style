@@ -231,6 +231,7 @@ export default function PromotionPopupChange({
           <Button
             className="bg-purple-500 hover:bg-purple-600 text-white"
             onClick={handleSubmit}
+            disabled={form.MaSK ? isStartDatePastOrNow(form.NgayKT) : false}
           >
             💾 Lưu
           </Button>

@@ -37,7 +37,7 @@ export function CustomerServiceSidebar() {
         {!collapsed && (
           <div className="flex items-center space-x-2">
             <span className="text-lg font-bold text-sidebar-foreground">
-              Nhân viên vận hành
+              Nhân viên chăm sóc khách hàng
             </span>
           </div>
         )}
