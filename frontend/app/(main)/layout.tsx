@@ -34,21 +34,20 @@ async function fetchThongBaoVC() {
     console.log("Failed to fetch voucher notifications", res);
     return [];
   } else {
-    const {data} = await res.json();
+    const { data } = await res.json();
     if (Array.isArray(data)) {
       for (const note of data) {
         const voucher = await fetch(
           `http://localhost:8080/api/voucher/${note.MaVoucher}`
         );
         if (voucher.status === 200 || voucher.status === 201) {
-          const {data} = await voucher.json();
+          const { data } = await voucher.json();
           setVouchers.push(data);
         } else {
           console.log("Lỗi khi lấy thông tin voucher");
         }
       }
-    }
-    else{
+    } else {
       console.log("vouchers is not an array:", data);
     }
   }
@@ -65,14 +64,14 @@ async function fetchThongBaoSK() {
     console.log("Failed to fetch sự kiện ưu đãi notifications");
     return [];
   } else {
-    const {data} = await res.json();
+    const { data } = await res.json();
     if (Array.isArray(data)) {
       for (const note of data) {
         const sukienuudai = await fetch(
           `http://localhost:8080/api/sukienuudai/${note.MaSK}`
         );
         if (sukienuudai.status === 200 || sukienuudai.status === 201) {
-          const {data} = await sukienuudai.json();
+          const { data } = await sukienuudai.json();
           setSukienuudai.push(data);
         } else {
           console.log("Lỗi khi lấy thông tin sự kiện ưu đãi", sukienuudai);
@@ -108,31 +107,36 @@ export default async function layout({
       <ProtectedRoute Role="KH" allowGuest={true}>
         <LanguageProvider initialLanguage={language as "en" | "vi"}>
           <CartProvider>
-            <ThongBaoProvider initialSuKienUuDai={sukienuudaiPromotions} initialVouchers={voucherPromotions}>
-              <SuKienUuDaiProvider
-                initialData={
-                  sukienuudais.data.find(
-                    (s: SuKienUuDai) =>
-                      compareDate(s.NgayPH, new Date()) < 0 &&
-                      compareDate(s.NgayKT, new Date()) > 0
-                  ) ?? ({} as SuKienUuDai)
-                }
+            <OrderProvider>
+              <ThongBaoProvider
+                initialSuKienUuDai={sukienuudaiPromotions}
+                initialVouchers={voucherPromotions}
               >
-                <Header />
-                {children}
-                <Footer />
-                {process.env.NODE_ENV === "production" ? <Analytics /> : null}
-                <ChatWidget
-                  config={{
-                    chatUrl: process.env.N8N_CHAT_URL || "",
-                    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-                    supabaseServiceRoleKey:
-                      process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || "",
-                  }}
-                />
-                {talkto()}
-              </SuKienUuDaiProvider>
-            </ThongBaoProvider>
+                <SuKienUuDaiProvider
+                  initialData={
+                    sukienuudais.data.find(
+                      (s: SuKienUuDai) =>
+                        compareDate(s.NgayPH, new Date()) < 0 &&
+                        compareDate(s.NgayKT, new Date()) > 0
+                    ) ?? ({} as SuKienUuDai)
+                  }
+                >
+                  <Header />
+                  {children}
+                  <Footer />
+                  {process.env.NODE_ENV === "production" ? <Analytics /> : null}
+                  <ChatWidget
+                    config={{
+                      chatUrl: process.env.N8N_CHAT_URL || "",
+                      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+                      supabaseServiceRoleKey:
+                        process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || "",
+                    }}
+                  />
+                  {talkto()}
+                </SuKienUuDaiProvider>
+              </ThongBaoProvider>
+            </OrderProvider>
           </CartProvider>
         </LanguageProvider>
       </ProtectedRoute>

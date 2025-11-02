@@ -14,7 +14,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { usePathname } from "next/navigation";
 
 const titleMap: Record<string, string> = {
-  "/operator": "Quản lý đơn hàng",
+  "/customer-service/order-management": "Quản lý đơn hàng",
 };
 
 export function CustomerServiceHeader() {
@@ -24,7 +24,7 @@ export function CustomerServiceHeader() {
   return (
     <header className="h-16 border-b border-border bg-background px-6 flex items-center justify-between">
       <div className="flex items-center space-x-4 flex-1 text-3xl font-bold">
-        {titleMap[pathName] || "Dashboard"}
+        {titleMap[pathName]}
       </div>
 
       <div className="flex items-center space-x-4">

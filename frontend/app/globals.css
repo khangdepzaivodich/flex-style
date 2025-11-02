@@ -4,6 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
 :root {
   /* Admin dashboard color tokens */
   --spacing-8: 2rem;
@@ -40,6 +41,12 @@
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #e5e7eb;
   --sidebar-ring: #8b5cf6;
+}
+
+.space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: 0;
+  margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 
 .dark {

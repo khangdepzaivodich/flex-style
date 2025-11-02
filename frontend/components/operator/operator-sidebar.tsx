@@ -24,11 +24,6 @@ const sidebarItems = [
     href: "/operator/promotion",
     icon: Gift,
   },
-  {
-    title: "Đơn hàng bị lỗi",
-    href: "/operator/errors-orders",
-    icon: TriangleAlert,
-  },
 ];
 
 export function OperatorSidebar() {

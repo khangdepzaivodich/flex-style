@@ -103,6 +103,16 @@ export class CreateDonhangDto {
   TenNM: string;
 }
 
+//create tình trạng đơn hàng
+export class CreateDonhangStatusDto {
+  @IsString()
+  @IsNotEmpty({ message: 'Mã đơn hàng không được để trống' })
+  MaDH: string;
+  @IsEnum(TrangThaiDonHang, { message: 'Trạng thái đơn hàng không hợp lệ' })
+  @IsNotEmpty({ message: 'Trạng thái không được để trống' })
+  TrangThai: TrangThaiDonHang;
+}
+
 // DTO for updating order status
 export class UpdateDonhangStatusDto {
   @ApiProperty({ 

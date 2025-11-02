@@ -17,7 +17,7 @@ export class DonhangService {
   /**
    * Tạo đơn hàng mới
    */
-  async createOrder(createDto: CreateDonhangDto){
+  async createOrder(createDto: CreateDonhangDto) {
     // Lấy thông tin chi tiết sản phẩm
     const productDetail = await this.donhangRepository.getProductDetail(
       createDto.MaCTSP,
@@ -144,22 +144,28 @@ export class DonhangService {
   /**
    * Lấy danh sách tất cả đơn hàng
    */
-  async getAllOrders(
-    MaTK_KH?: string,
-    page: number = 1,
-    limit: number = 50,
-  ) {
+  async getAllOrders(MaTK_KH?: string, page: number = 1, limit: number = 50) {
     const skip = (page - 1) * limit;
 
-    const { orders, total } = await this.donhangRepository.findAllOrdersForCustomer({
-      MaTK_KH,
-      skip,
-      take: limit,
-    });
+    const { orders, total } =
+      await this.donhangRepository.findAllOrdersForCustomer({
+        MaTK_KH,
+        skip,
+        take: limit,
+      });
 
     return { orders, total };
   }
 
+  async getAllOrderForStaff(page: number = 1, limit: number = 50) {
+    const skip = (page - 1) * limit;
+
+    const orders = await this.donhangRepository.findAllOrdersForStaff({
+      skip,
+      take: limit,
+    });
+    return orders;
+  }
   /**
    * Lấy chi tiết đơn hàng
    */
@@ -176,10 +182,7 @@ export class DonhangService {
   /**
    * Cập nhật trạng thái đơn hàng
    */
-  async updateOrderStatus(
-    MaDH: string,
-    updateDto: UpdateDonhangStatusDto,
-  ) {
+  async updateOrderStatus(MaDH: string, updateDto: UpdateDonhangStatusDto) {
     const existingOrder = await this.donhangRepository.findOrderById(MaDH);
 
     if (!existingOrder) {
@@ -334,5 +337,29 @@ export class DonhangService {
         created_at: status.created_at,
       })),
     };
+  }
+
+  // Thêm trạng thái đơn hàng
+  async addOrderStatus(body: { MaDH: string; TrangThai: TrangThaiDonHang }) {
+    const existingOrder = await this.donhangRepository.findOrderById(
+      body.MaDH,
+    );
+
+    if (!existingOrder) {
+      throw new NotFoundException('Không tìm thấy đơn hàng');
+    }
+
+    // Kiểm tra trạng thái hiện tại
+    const currentStatus = existingOrder.TINHTRANGDONHANG[0]?.TrangThai;
+
+    // Chỉ cho phép thêm trạng thái nếu đơn hàng chưa hoàn tất
+    if (currentStatus === TrangThaiDonHang.DA_GIAO || currentStatus === TrangThaiDonHang.HUY) {
+      throw new BadRequestException('Không thể thêm trạng thái cho đơn hàng đã giao');
+    }
+
+    // Thêm trạng thái mới
+    const newStatus = await this.donhangRepository.addOrderStatus(body);
+
+    return newStatus;
   }
 }
