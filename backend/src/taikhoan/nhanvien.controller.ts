@@ -13,7 +13,6 @@ import { Roles } from '../factory_function/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
 import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
-import { TrangThai, VaiTro } from './enums';
 
 @Controller('nv')
 export class NhanVienController {
@@ -48,33 +47,18 @@ export class NhanVienController {
     throw new Error('Không tìm thấy nhân viên');
   }
 
-  @Patch('status/:id')
+  @Patch(':id')
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  async updateStatusNV(
+  async updateNV(
     @Param('id') maTK: string,
-    @Body('status') status: TrangThai,
+    @Body() data: TaiKhoanNghiepVuDto,
   ): Promise<TAIKHOAN> {
     const tk = await this.taikhoanService.taikhoan(maTK);
-    if (tk?.VAITRO === 'NVVH' || tk?.VAITRO === 'NVCSKH')
-      return this.taikhoanService.updateTrangThai(maTK, status);
-    throw new Error('Không được phép thay đổi tài khoản này');
-  }
-
-  @Patch('role/:id')
-  @Roles('QLDN', 'ADMIN')
-  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  async updateVaiTroNV(
-    @Param('id') maTK: string,
-    @Body('vaiTro') vaiTro: VaiTro,
-  ): Promise<TAIKHOAN> {
-    const tk = await this.taikhoanService.taikhoan(maTK);
-    console.log('Updating role for account:', tk);
     if (tk?.VAITRO === 'NVVH' || tk?.VAITRO === 'NVCSKH') {
-      if (vaiTro === 'NVVH' || vaiTro === 'NVCSKH')
-        return this.taikhoanService.updateVaiTro(maTK, vaiTro);
-      throw new Error('Vai trò không hợp lệ cho nhân viên');
+      console.log('data update nv:', data);
+      return this.taikhoanService.updateTaiKhoanDoanhNghiep(maTK, data);
     }
-    throw new Error('Không được phép thay đổi tài khoản này');
+    throw new Error('Không tìm thấy nhân viên');
   }
 }

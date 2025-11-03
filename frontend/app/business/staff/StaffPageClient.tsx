@@ -8,6 +8,7 @@ import StaffPopup from "@/components/business/StaffPopup";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import StaffMember from "@/interfaces/staffMember";
+
 export default function StaffPageClient({
   staffData,
   sessionData,
@@ -20,20 +21,38 @@ export default function StaffPageClient({
   const [editing, setEditing] = useState<StaffMember | null>(null);
   const [search, setSearch] = useState("");
   const [errorMsg, setErrorMsg] = useState<string>("");
+
   // Save handler
   const handleSave = async (data: StaffMember | undefined) => {
-    if (!data) {
-      console.error("No data to save");
-      return;
-    }
+    if (!data) return;
+
     if (editing) {
       // Editing existing staff
-      setStaff((prev) =>
-        prev.map((p) => (p.MaTK === data.MaTK ? { ...p, ...data } : p))
-      );
+      try {
+        await axios.patch(
+          `http://localhost:8080/api/nv/${data.MaTK}`,
+          {
+            DisplayName: data.DisplayName,
+            Email: data.Email,
+            Username: data.Email.split("@")[0],
+            VAITRO: data.VAITRO,
+            Status: data.Status,
+            MatKhau: data.Password,
+          },
+          { headers: { Authorization: `Bearer ${sessionData.access_token}` } }
+        );
+
+        setStaff((prev) =>
+          prev.map((p) => (p.MaTK === data.MaTK ? { ...p, ...data } : p))
+        );
+      } catch (error: any) {
+        setErrorMsg(
+          error.response?.data?.message || "Lỗi khi cập nhật nhân viên."
+        );
+        return; // stop closing popup on error
+      }
     } else {
       // Adding new staff
-      console.log("Adding new staff:", data);
       try {
         const res = await axios.post(
           "http://localhost:8080/api/nv/dangky",
@@ -45,39 +64,38 @@ export default function StaffPageClient({
             VAITRO: data.VAITRO,
             Status: data.Status,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${sessionData.access_token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${sessionData.access_token}` } }
         );
-        console.log("Registered new staff:", res.data);
-        setStaff((prev) => [...prev, data]);
-      } catch (error) {
-        console.error("Error registering new staff:", error);
-        setErrorMsg("Lỗi khi thêm nhân viên mới.");
+
+        setStaff((prev) => [...prev, res.data]); // use returned data
+      } catch (error: any) {
+        console.error("Error adding staff:", error);
+        setErrorMsg(error.response?.data?.message || "Lỗi khi thêm nhân viên.");
+        return; // stop closing popup on error
       }
     }
+
+    // Reset popup and error on successful save
     setOpen(false);
     setEditing(null);
+    setErrorMsg("");
   };
 
   // Edit handler
   const handleEdit = (staffMember: StaffMember) => {
     setEditing(staffMember);
     setOpen(true);
+    setErrorMsg("");
   };
 
-  // Fetch staff from API
+  // Initialize staff from props
   useEffect(() => {
     setStaff(staffData);
   }, [staffData]);
 
-  // Fetch staff from API on mount
+  // Cleanup on unmount
   useEffect(() => {
-    return () => {
-      setStaff([]);
-    };
+    return () => setStaff([]);
   }, []);
 
   // Filter staff
@@ -104,13 +122,21 @@ export default function StaffPageClient({
           onClick={() => {
             setEditing(null);
             setOpen(true);
+            setErrorMsg("");
           }}
         >
           Thêm nhân viên
         </Button>
       </div>
 
-      {/* Danh sách nhân viên */}
+      {/* Error message */}
+      {errorMsg && !open && (
+        <div className="bg-red-100 text-red-700 border border-red-300 rounded-lg p-3">
+          {errorMsg}
+        </div>
+      )}
+
+      {/* Staff table */}
       {filteredStaff.length > 0 ? (
         <StaffTable staff={filteredStaff} onEdit={handleEdit} />
       ) : (
@@ -125,6 +151,7 @@ export default function StaffPageClient({
         onClose={() => {
           setOpen(false);
           setEditing(null);
+          setErrorMsg("");
         }}
         onSave={handleSave}
         errorMsg={errorMsg}
