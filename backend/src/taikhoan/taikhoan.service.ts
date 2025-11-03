@@ -48,7 +48,7 @@ export class TaikhoanService {
     });
     console.log(existingUser);
     if (existingUser) {
-      throw new Error('Tài khoản đã tồn tại');
+      throw new ConflictException('Tài khoản đã tồn tại');
     }
     let id = '';
     if (data.MaTK === undefined || data.MaTK === null) {
@@ -58,7 +58,7 @@ export class TaikhoanService {
       });
 
       if (!createUserSupabase.data.user) {
-        throw new Error(
+        throw new ConflictException(
           createUserSupabase.error?.message ||
             'Không thể tạo tài khoản Supabase',
         );

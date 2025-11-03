@@ -77,7 +77,10 @@ export class SanphamService {
       include: includeSizes
         ? {
             CHITIETSANPHAM: {
-              select: { MaCTSP: true, SoLuong: true },
+              select: { MaCTSP: true, SoLuong: true, KichCo: true },
+            },
+            DANHMUC: {
+              select: { TenDM: true, Loai: true },
             },
           }
         : undefined,
