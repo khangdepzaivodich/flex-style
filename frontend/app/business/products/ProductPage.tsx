@@ -169,7 +169,7 @@ export default function ProductsPage({
 
       <ProductViewPopup
         open={Boolean(viewProduct)}
-        product={viewProduct}
+        productDetail={viewProduct?.CHITIETSANPHAM}
         onClose={() => setViewProduct(null)}
       />
     </main>
