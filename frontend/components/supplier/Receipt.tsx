@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Download, Plus, X } from "lucide-react";
 
 type Item = {
@@ -8,36 +8,49 @@ type Item = {
   qty: number; // Số lượng
   unitPrice: number; // Đơn giá
 };
-
-export type ReceiptData = {
-  date: string; // Ngày nhập hàng
-  receiptCode: string; // Mã phiếu nhập hàng
-  supplier?: string; // Họ và tên người giao
-  item: Item[];
-  totalInWords?: string; // Tổng số tiền bằng chữ
-};
+interface phieuNhap {
+  MaPNH: string;
+  SoLuong: number;
+  MaCTSP: string;
+  MaNCC: string;
+  TrangThai: string;
+  MaTKNVQL: string;
+  MaTKNVXN: string | null;
+  NoiDung: string;
+  created_at: string;
+}
+// export type ReceiptData = {
+//   date: string; // Ngày nhập hàng
+//   receiptCode: string; // Mã phiếu nhập hàng
+//   supplier?: string; // Họ và tên người giao
+//   item: Item[];
+//   totalInWords?: string; // Tổng số tiền bằng chữ
+// };
 
 type ReceiptProps = {
-  initial?: Partial<ReceiptData>;
-  onDownloadExcel?: (data: ReceiptData) => void;
-  onCreate?: (data: ReceiptData) => void;
+  initial?: Partial<phieuNhap>;
+  onDownloadExcel?: (data: phieuNhap) => void;
+  onCreate?: (data: phieuNhap) => void;
   onClose?: () => void;
 };
-
+const formatDate = (d?: string | Date) => {
+  if (!d) return "-";
+  const dt = typeof d === "string" ? new Date(d) : d;
+  if (Number.isNaN(dt.getTime())) return "-";
+  return new Intl.DateTimeFormat("vi-VN", {
+    dateStyle: "short",
+    timeStyle: "short",
+  }).format(dt);
+};
 const formatCurrency = (v: number) =>
   new Intl.NumberFormat("vi-VN").format(v) + "₫";
-
 export default function Receipt({
   initial = {},
   onDownloadExcel,
-  onCreate,
   onClose,
 }: ReceiptProps) {
-  const [date, setDate] = useState<string>(initial.date ?? "");
-  const [receiptCode, setReceiptCode] = useState<string>(
-    initial.receiptCode ?? ""
-  );
-  const [supplier, setSupplier] = useState<string>(initial.supplier ?? "");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [items, setItems] = useState<Item[]>(() => {
     const init = (initial as any).item;
@@ -62,6 +75,7 @@ export default function Receipt({
     (s, it) => s + (Number(it.qty) || 0) * (Number(it.unitPrice) || 0),
     0
   );
+
   function buildData(): ReceiptData {
     return {
       date,
@@ -76,38 +90,15 @@ export default function Receipt({
       <div className=" max-w-5xl mx-auto bg-white p-8 text-gray-800 font-sans text-base rounded-lg shadow-lg overflow-y-auto max-h-full w-full">
         <div className="text-center relative">
           <h1 className="text-2xl font-bold">PHIẾU NHẬP HÀNG</h1>
+          <h2 className="block text-xs text-gray-600">
+            Ngày nhập hàng: {formatDate(initial.created_at)}
+          </h2>
           <span
             onClick={onClose}
             className="absolute top-2 right-2 cursor-pointer"
           >
             X
           </span>
-          <div className="mt-2 text-sm grid grid-cols-2 gap-4 items-end">
-            <div className="text-left">
-              <label className="block text-xs text-gray-600">
-                Ngày nhập hàng
-              </label>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="mt-1 border rounded px-2 py-1 w-full text-sm"
-              />
-            </div>
-
-            <div className="text-left">
-              <label className="block text-xs text-gray-600">
-                Họ và tên người giao
-              </label>
-              <input
-                type="text"
-                value={supplier}
-                onChange={(e) => setSupplier(e.target.value)}
-                placeholder="Có thể để trống"
-                className="mt-1 border rounded px-2 py-1 w-full text-sm"
-              />
-            </div>
-          </div>
         </div>
 
         <div className="mt-6 text-sm">
@@ -116,7 +107,7 @@ export default function Receipt({
               Địa điểm nhập hàng
             </label>
             <div className="mt-1 text-sm text-gray-800">
-              Nhập tại kho FlexStyle ở Quận A, Phường B, TP.HCM
+              Nhập tại kho FlexStyle ở Phường Chợ Quán, TP.HCM
             </div>
           </div>
         </div>
@@ -223,37 +214,13 @@ export default function Receipt({
               ))}
             </tbody>
           </table>
-          {/* Nút thêm sản phẩm */}
-          <div className="mt-2">
-            <button
-              type="button"
-              className="text-sm text-blue-600 p-1 rounded"
-              onClick={() =>
-                setItems((prev) => [
-                  ...prev,
-                  { name: "", size: "", unit: "", qty: 0, unitPrice: 0 },
-                ])
-              }
-              title="Thêm sản phẩm"
-              aria-label="Thêm sản phẩm"
-            >
-              <Plus className="h-4 w-4" />
-            </button>
-          </div>
         </div>
 
         <div className="mt-4 text-base font-semibold">
           <div className="flex items-center gap-4">
             <label className="text-base font-semibold">
-              Tổng số tiền (bằng chữ)
+              Tổng số tiền (bằng chữ):
             </label>
-            <input
-              type="text"
-              value={totalInWords}
-              onChange={(e) => setTotalInWords(e.target.value)}
-              placeholder="Nhập tổng số tiền bằng chữ"
-              className="mt-1 border rounded px-2 py-1 w-full text-sm flex-1"
-            />
           </div>
 
           <div className="mt-2">
@@ -298,24 +265,8 @@ export default function Receipt({
             Tải xuống excel
           </button>
           {/* Placeholder cho nút tạo phiếu */}
-          <button
-            onClick={() => {
-              const errors = validate();
-              if (errors.length > 0) {
-                alert(errors.join("\n"));
-                return;
-              }
-
-              const data = buildData();
-              if (onCreate) onCreate(data);
-              else {
-                console.log("Create receipt data:", data);
-                alert("Tạo phiếu (placeholder)");
-              }
-            }}
-            className="bg-violet-500 hover:bg-violet-600 text-white px-4 py-2 rounded shadow"
-          >
-            Đồng ý hợp đồng
+          <button className="bg-primary rounded text-white p-2">
+            Đồng ý phiếu nhập hàng
           </button>
         </div>
       </div>

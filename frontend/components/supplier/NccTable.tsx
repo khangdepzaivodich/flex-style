@@ -134,11 +134,7 @@ export default function NccTable({ nccs, onDelete }: NccTableProps) {
         </table>
       </div>
       {isOpen && selectedPnh && (
-        <Receipt
-          phieuNhapHang={selectedPnh}
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-        />
+        <Receipt initial={selectedPnh} onClose={() => setIsOpen(false)} />
       )}
     </div>
   );
