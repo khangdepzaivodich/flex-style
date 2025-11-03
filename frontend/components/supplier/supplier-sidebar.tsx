@@ -4,12 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
-  Package,
-  Truck,
-  BarChart3,
   Home,
-  Settings,
-  AlertCircle,
 } from "lucide-react";
 
 const navigation = [{ name: "Dashboard", href: "/supplier", icon: Home }];

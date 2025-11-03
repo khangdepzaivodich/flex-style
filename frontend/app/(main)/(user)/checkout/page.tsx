@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { v4 as uuidv4 } from "uuid";
-import { use, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import { useCart } from "@/contexts/cart-context";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
@@ -21,7 +21,7 @@ import { CartItem } from "@/lib/types";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 import { useOrder } from "@/contexts/order-context";
 export default function CheckoutPage() {
-  const { items, total } = useCart();
+  const { items} = useCart();
   const searchParams = useSearchParams();
   const selectedProductId = searchParams.get("productId");
   const [selectedItem, setSelectedItem] = useState<CartItem | undefined>();
@@ -35,7 +35,7 @@ export default function CheckoutPage() {
   const [checkVoucher, setCheckVoucher] = useState(false);
   const { user } = useAuth();
   const { suKienUuDais } = useSuKienUuDai();
-  const [userInfo, setUserInfo] = useState(user);
+  const [userInfo] = useState(user);
   const { order, setOrder } = useOrder();
   const [formData, setFormData] = useState(() => {
     return {
@@ -64,7 +64,7 @@ export default function CheckoutPage() {
     // "postalCode",
   ];
 
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isProcessing] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   useEffect(() => {
     setOrderId(uuidv4());
@@ -272,7 +272,7 @@ export default function CheckoutPage() {
     if (formData.saveInfo) {
       localStorage.setItem("userInfo", JSON.stringify(formData));
     }
-  }, [formData.saveInfo]);
+  }, [formData, formData.saveInfo]);
 
   if (items.length === 0) {
     return (

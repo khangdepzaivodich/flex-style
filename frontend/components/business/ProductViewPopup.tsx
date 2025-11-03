@@ -2,10 +2,8 @@
 
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useEffect, useState } from "react";
-import { Save, X } from "lucide-react";
+import { X } from "lucide-react";
 
 interface VariantRow {
 	id: string; // uuid, không hiển thị

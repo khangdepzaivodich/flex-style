@@ -1,8 +1,7 @@
 "use client";
-import { Gift, Ticket, CalendarDays, ArrowRight } from "lucide-react";
+import { Gift, Ticket, CalendarDays} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import type { SuKienUuDai, Voucher } from "@/lib/types";
 import { useState, useEffect } from "react";
 
@@ -22,6 +21,7 @@ export default function EventVoucherSlider({
   events,
   vouchers,
 }: EventVoucherSliderProps) {
+  
   if (events.length === 0 && vouchers.length === 0) {
     return null;
   }
@@ -57,6 +57,7 @@ export default function EventVoucherSlider({
     }, 3500);
     return () => clearTimeout(timer);
   }, [current, slides.length]);
+  
   const slide = slides[current];
   const color = colors[current % colors.length];
 

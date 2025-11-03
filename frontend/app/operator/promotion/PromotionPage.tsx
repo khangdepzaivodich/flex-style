@@ -1,7 +1,7 @@
 "use client";
 
 import PromotionPopupChange from "@/components/operator/PromotionPopupChange";
-import { use, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import PromotionTable from "@/components/operator/PromotionTable";
@@ -98,7 +98,7 @@ export default function PromotionPage({
   const handleSaveSelected = async () => {
     // TODO: Gọi API lưu thông báo sự kiện
     const supabase = await createClient();
-    const { data, error } = await supabase.auth.getSession();
+    const { data} = await supabase.auth.getSession();
     if (selectedPromotions.length === 0) {
       const response = await fetch(
         "http://localhost:8080/api/thongbao/sukienuudai/delete",

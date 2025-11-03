@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { OrderResponse } from "@/lib/types";
 import ViewOrderModal from "@/components/customer-service/ViewOrderModal";
 import ChangeStatusModal from "@/components/customer-service/ChangeStatusModal";
@@ -9,22 +8,11 @@ import {
   CircleCheckBig,
   PencilLine,
   ScanEye,
-  Search,
   TriangleAlert,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getAccessToken } from "@/lib/userInfo";
 import { createClient } from "@/lib/supabase/client";
 import axios from "axios";
-
-const STATUS_ORDER = [
-  "LOI",
-  "XAC_NHAN_LOI",
-  "CHUA_GIAO",
-  "DANG_GIAO",
-  "DA_GIAO",
-  "HUY",
-];
 
 export default function OrderManagementPage({
   order,
@@ -35,7 +23,7 @@ export default function OrderManagementPage({
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [isLastPage, setIsLastPage] = useState(order.length < limit);
-  const [totalPages, setTotalPages] = useState(order.length < limit ? 1 : 2);
+  const [totalPages] = useState(order.length < limit ? 1 : 2);
   const [searchStatus, setSearchStatus] = useState("");
   const [searchCustomer, setSearchCustomer] = useState("");
   const [searchProduct, setSearchProduct] = useState("");
@@ -45,6 +33,8 @@ export default function OrderManagementPage({
   const [selectedOrder, setSelectedOrder] = useState<OrderResponse | null>(
     null
   );
+  const [filteredOrders, setFilteredOrders] = useState<OrderResponse[]>(order);
+  const supabase = createClient();
 
   // Cache các trang đã tải
   const [orderCache, setOrderCache] = useState<{
@@ -79,25 +69,39 @@ export default function OrderManagementPage({
   };
 
   // Lọc và sắp xếp
-  const filteredOrders = orders
-    .filter((ord) => {
-      const matchStatus = searchStatus
-        ? ord.TINHTRANGDONHANG[0].TrangThai === searchStatus
-        : true;
-      const matchCustomer = ord.TenNM.toLowerCase().includes(
-        searchCustomer.toLowerCase()
-      );
-      const matchProduct =
-        ord.CHITIETSANPHAM.SANPHAM.TenSP.toLowerCase().includes(
-          searchProduct.toLowerCase()
-        );
-      return matchStatus && matchCustomer && matchProduct;
-    })
-    .sort((a, b) => {
-      const aStatus = a.TINHTRANGDONHANG[0].TrangThai;
-      const bStatus = b.TINHTRANGDONHANG[0].TrangThai;
-      return STATUS_ORDER.indexOf(aStatus) - STATUS_ORDER.indexOf(bStatus);
-    });
+  useEffect(() => {
+    setFilteredOrders(
+      orders
+        .filter((ord) => {
+          const lastStatus = ord.TINHTRANGDONHANG[0].TrangThai;
+          const matchStatus = searchStatus ? lastStatus === searchStatus : true;
+          const matchCustomer = ord.TenNM.toLowerCase().includes(
+            searchCustomer.toLowerCase()
+          );
+          const matchProduct =
+            ord.CHITIETSANPHAM.SANPHAM.TenSP.toLowerCase().includes(
+              searchProduct.toLowerCase()
+            );
+          return matchStatus && matchCustomer && matchProduct;
+        })
+        .sort((a, b) => {
+          const aStatus = a.TINHTRANGDONHANG[0].TrangThai;
+          const bStatus = b.TINHTRANGDONHANG[0].TrangThai;
+          // Định nghĩa thứ tự ưu tiên
+          const statusOrder = [
+            "LOI",
+            "XAC_NHAN_LOI",
+            "CHUA_GIAO",
+            "DANG_GIAO",
+            "DA_GIAO",
+            "HUY",
+          ];
+          const aIndex = statusOrder.indexOf(aStatus);
+          const bIndex = statusOrder.indexOf(bStatus);
+          return aIndex - bIndex;
+        })
+    );
+  }, [orders]);
 
   // pageOrder là slice của orders
   const pageOrder = orders.slice((page - 1) * limit, page * limit);
@@ -160,13 +164,6 @@ export default function OrderManagementPage({
       return;
     }
     if (
-      selectedOrder.TINHTRANGDONHANG[0].TrangThai === "LOI" &&
-      ["CHUA_GIAO", "DA_GIAO", "DANG_GIAO", "LOI", "HUY"].includes(newStatus)
-    ) {
-      alert("Không thể chuyển trạng thái từ LOI sang trạng thái này");
-      return;
-    }
-    if (
       selectedOrder.TINHTRANGDONHANG[0].TrangThai === "XAC_NHAN_LOI" &&
       ["CHUA_GIAO", "DA_GIAO", "DANG_GIAO", "LOI", "XAC_NHAN_LOI"].includes(
         newStatus
@@ -191,8 +188,8 @@ export default function OrderManagementPage({
     }
 
     // TODO: Gọi API đổi trạng thái
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.getSession();
+    const { data } = await supabase.auth.getSession();
+
     const response = await fetch(
       "http://localhost:8080/api/donhang/status/add",
       {
@@ -217,9 +214,11 @@ export default function OrderManagementPage({
                 ...ord,
                 TINHTRANGDONHANG: [
                   {
-                    ...ord.TINHTRANGDONHANG[0],
+                    ...ord.TINHTRANGDONHANG[ord.TINHTRANGDONHANG.length - 1],
                     TrangThai: newStatus,
+                    created_at: new Date().toISOString(),
                   },
+                  ...ord.TINHTRANGDONHANG,
                 ],
               }
             : ord
@@ -240,7 +239,7 @@ export default function OrderManagementPage({
                           ord.TINHTRANGDONHANG.length - 1
                         ],
                         TrangThai: newStatus,
-                        created_at: new Date().toISOString(), // hoặc thời gian thực tế
+                        created_at: Date.now().toLocaleString(), // hoặc thời gian thực tế
                       },
                     ],
                   }
@@ -249,12 +248,86 @@ export default function OrderManagementPage({
         });
         return updatedCache;
       });
+      closeAllModals();
     } else {
       alert("Đổi trạng thái thất bại");
     }
   };
-  const handleHandleIssue = (note: string) => {
+  const handleHandleIssue = async (newStatus: string) => {
     // TODO: Gọi API xử lý vấn đề
+    if (!selectedOrder) return;
+    if (
+      selectedOrder.TINHTRANGDONHANG[0].TrangThai === "LOI" &&
+      ["CHUA_GIAO", "DA_GIAO", "LOI", "HUY"].includes(newStatus)
+    ) {
+      alert("Không thể chuyển trạng thái từ LOI sang trạng thái này");
+      return;
+    }
+    const { data } = await supabase.auth.getSession();
+    const response = await fetch(
+      "http://localhost:8080/api/donhang/status/add",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${data?.session?.access_token}`,
+        },
+        body: JSON.stringify({
+          MaDH: selectedOrder.MaDH,
+          TrangThai: newStatus,
+        }),
+      }
+    );
+    if (response.ok) {
+      alert("Xử lý thành công");
+      // Cập nhật lại trạng thái trong danh sách
+      setOrders((prevOrders) =>
+        prevOrders.map((ord) =>
+          ord.MaDH === selectedOrder.MaDH
+            ? {
+                ...ord,
+                TINHTRANGDONHANG: [
+                  {
+                    ...ord.TINHTRANGDONHANG[ord.TINHTRANGDONHANG.length - 1],
+                    TrangThai: newStatus,
+                    created_at: new Date().toISOString(),
+                  },
+                  ...ord.TINHTRANGDONHANG,
+                ],
+              }
+            : ord
+        )
+      );
+      //thêm trạng thái vào cache
+      setOrderCache((prevCache) => {
+        const updatedCache = { ...prevCache };
+        Object.keys(updatedCache).forEach((pageKey) => {
+          updatedCache[Number(pageKey)] = updatedCache[Number(pageKey)].map(
+            (ord) =>
+              ord.MaDH === selectedOrder.MaDH
+                ? {
+                    ...ord,
+                    TINHTRANGDONHANG: [
+                      {
+                        ...ord.TINHTRANGDONHANG[
+                          ord.TINHTRANGDONHANG.length - 1
+                        ],
+                        TrangThai: newStatus,
+                        created_at: Date.now().toLocaleString(), // hoặc thời gian thực tế
+                      },
+                    ],
+                  }
+                : ord
+          );
+        });
+        closeAllModals();
+
+        return updatedCache;
+      });
+      closeAllModals();
+    } else {
+      alert("Xử lý thất bại");
+    }
     closeAllModals();
   };
 
@@ -411,11 +484,6 @@ export default function OrderManagementPage({
           </tbody>
         </table>
       </div>
-      <ViewOrderModal
-        open={viewModalOpen}
-        order={selectedOrder}
-        onClose={closeAllModals}
-      />
       <ChangeStatusModal
         open={changeStatusOpen}
         order={selectedOrder}
@@ -427,6 +495,11 @@ export default function OrderManagementPage({
         order={selectedOrder}
         onClose={closeAllModals}
         onHandle={handleHandleIssue}
+      />
+      <ViewOrderModal
+        open={viewModalOpen}
+        order={selectedOrder}
+        onClose={closeAllModals}
       />
     </div>
   );

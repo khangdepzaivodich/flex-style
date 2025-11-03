@@ -2,8 +2,6 @@
 import { useState } from "react";
 import type { VerifyReturnUrl } from "vnpay/types-only"; // ✅ Chỉ import types
 import Image from "next/image";
-import { Fullscreen } from "lucide-react";
-import { inherits } from "util";
 // import { useCart } from "@/contexts/cart-context";
 
 interface PaymentButtonProps {
@@ -14,7 +12,6 @@ interface PaymentButtonProps {
 export const VNPAY: React.FC<PaymentButtonProps> = ({
   amount,
   orderId,
-  onPaymentResult,
 }) => {
   const [loading, setLoading] = useState(false);
   // const { removeItem } = useCart();
