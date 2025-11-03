@@ -214,7 +214,7 @@ model PHIEUNHAPHANG {
   TrangThai  TrangThaiPhieuNhapHang
   MaTKNVQL   String
   MaTKNVXN   String?
-  NoiDung    String
+  NoiDung    String?
 
   TaiKhoanNCC    TAIKHOAN?       @relation("PhieuNhap_NCC", fields: [MaNCC], references: [MaTK])
   TaiKhoanNVQL   TAIKHOAN?       @relation("PhieuNhap_NVQL", fields: [MaTKNVQL], references: [MaTK])
