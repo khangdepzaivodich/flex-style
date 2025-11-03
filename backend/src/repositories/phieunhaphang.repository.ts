@@ -20,7 +20,6 @@ export class PhieuNhapHangRepository {
     return phieuNhapHang ? PhieuNhapHangMapper.toEntity(phieuNhapHang) : null;
   }
   async findByIdNcc(id: string) {
-    console.log('Repository - findByIdNcc called with id:', id);
     const phieuNhapHang = await this.prisma.pHIEUNHAPHANG.findMany({
       where: { MaNCC: id },
     });

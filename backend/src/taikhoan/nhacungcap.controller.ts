@@ -41,6 +41,14 @@ export class NhaCungCapController {
     return this.taikhoanService.taikhoansNCC();
   }
 
+  // Public list of suppliers (minimal fields) - no auth required so frontend can populate selects
+  @Get('public')
+  async getPublicNCC() {
+    const list = await this.taikhoanService.taikhoansNCC();
+    // return only minimal fields to avoid leaking sensitive info
+    return list.map((s) => ({ MaTK: s.MaTK, DisplayName: s.DisplayName, Email: s.Email, VAITRO: s.VAITRO }));
+  }
+
   @Get(':id')
   @Roles('ADMIN', 'NCC')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)

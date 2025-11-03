@@ -7,6 +7,7 @@ import { DanhMucModule } from './danhmuc/danhmuc.module';
 import { SuKienUuDaiModule } from './sukienuudai/sukienuudai.module';
 import { SanphamModule } from './sanpham/sanpham.module';
 import { ChitietsanphamModule } from './chitietsanpham/chitietsanpham.module';
+import { ChitietnhaphangModule } from './chitietnhaphang/chitietnhaphang.module';
 import { GiohangModule } from './giohang/giohang.module';
 import { DonhangModule } from './donhang/donhang.module';
 import { TinhtrangDonhangModule } from './tinhtrangdonhang/tinhtrangdonhang.module';
@@ -43,6 +44,7 @@ import { ThongbaoModule } from './thongbao/thongbao.module';
     SuKienUuDaiModule,
     SanphamModule,
     ChitietsanphamModule,
+  ChitietnhaphangModule,
     GiohangModule,
     DonhangModule,
     TinhtrangDonhangModule,

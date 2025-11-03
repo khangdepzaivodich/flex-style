@@ -16,7 +16,6 @@ export class PhieuNhapHangController {
   @Get('/ncc/:id')
   @ResponseMessage('Lấy phiếu nhập hàng theo id thành công')
   getByIdNcc(@Param('id') id: string) {
-    console.log('Fetching phieu nhap hang for NCC ID:', id);
     return this.phieuNhapHangService.findByIdNcc(id);
   }
   //lấy phiếu nhập hàng theo id

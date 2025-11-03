@@ -31,6 +31,8 @@
     "date-fns": "^4.1.0",
     "geist": "^1.5.1",
     "google-one-tap": "^1.0.6",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.3",
     "lucide-react": "^0.511.0",
     "next": "latest",
     "next-themes": "^0.4.6",
