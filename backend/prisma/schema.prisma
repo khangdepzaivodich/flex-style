@@ -7,6 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model CHITIETNHAPHANG {
+  MaCTNH     String    @id @default(uuid())
+  created_at DateTime  @default(now())
+  DonGia     Int
+  SoLuong    Int
+  MaPNH      String
+  MaCTSP     String
+  CHITIETSANPHAM CHITIETSANPHAM @relation(fields: [MaCTSP], references: [MaCTSP])
+  PHIEUNHAPHANG PHIEUNHAPHANG @relation(fields: [MaPNH], references: [MaPNH])
+}
+
+
 model CHITIETGIOHANG {
   MaCTGH         String         @id @default(uuid())
   created_at     DateTime       @default(now())
@@ -28,7 +40,8 @@ model CHITIETSANPHAM {
   CHITIETGIOHANG CHITIETGIOHANG[]
   SANPHAM        SANPHAM          @relation(fields: [MaSP], references: [MaSP])
   DONHANG        DONHANG[]
-  PHIEUNHAPHANG  PHIEUNHAPHANG[]
+  CHITIETNHAPHANG CHITIETNHAPHANG[]
+
 }
 
 model DANHMUC {
@@ -197,17 +210,17 @@ model PHIEUNHAPHANG {
   MaPNH     String    @id @default(uuid())
   created_at  DateTime  @default(now())
   SoLuong    Int
-  MaCTSP     String
   MaNCC      String
   TrangThai  TrangThaiPhieuNhapHang
   MaTKNVQL   String
   MaTKNVXN   String?
   NoiDung    String
 
-  CHITIETSANPHAM CHITIETSANPHAM? @relation(fields: [MaCTSP], references: [MaCTSP])
   TaiKhoanNCC    TAIKHOAN?       @relation("PhieuNhap_NCC", fields: [MaNCC], references: [MaTK])
   TaiKhoanNVQL   TAIKHOAN?       @relation("PhieuNhap_NVQL", fields: [MaTKNVQL], references: [MaTK])
   TaiKhoanNVXN   TAIKHOAN?       @relation("PhieuNhap_NVXN", fields: [MaTKNVXN], references: [MaTK])
+
+  CHITIETNHAPHANG CHITIETNHAPHANG[]
 }
 
 model THONGBAO{
