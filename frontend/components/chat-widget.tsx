@@ -83,7 +83,7 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
       });
 
       if (!res.ok) throw new Error("Failed to get bot response");
-
+      console.log();
       // Safe JSON parsing
       const text = await res.text();
       let data: { output?: string } = {};

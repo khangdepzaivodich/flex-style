@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from 'src/supabase/types';
@@ -138,6 +143,7 @@ export class TaikhoanService {
         'Vai trò phải là nhân viên (NVVH hoặc NVCSKH)',
       );
     }
+
     if (data.MatKhau.length < 6) {
       throw new BadRequestException('Mật khẩu phải có ít nhất 6 ký tự');
     }
@@ -148,21 +154,30 @@ export class TaikhoanService {
     });
 
     if (!createUserSupabase.data.user) {
-      throw new Error(
-        `Lỗi khi tạo tài khoản Supabase: ${createUserSupabase.error?.message}`,
+      throw new ConflictException(`${createUserSupabase.error?.message}`);
+    }
+
+    try {
+      const res = await this.prisma.tAIKHOAN.create({
+        data: {
+          MaTK: createUserSupabase.data.user.id,
+          Username: data.Username,
+          DisplayName: data.DisplayName,
+          Email: data.Email,
+          Status: 'ACTIVE',
+          VAITRO: data.VAITRO,
+          updated_at: new Date(),
+        },
+      });
+      return res;
+    } catch (error: any) {
+      if (error.code === 'P2002') {
+        throw new ConflictException('Email đã được sử dụng');
+      }
+      throw new InternalServerErrorException(
+        'Lỗi khi tạo tài khoản trong cơ sở dữ liệu',
       );
     }
-    return this.prisma.tAIKHOAN.create({
-      data: {
-        MaTK: createUserSupabase.data.user.id,
-        Username: data.Username,
-        DisplayName: data.DisplayName,
-        Email: data.Email,
-        Status: 'ACTIVE',
-        VAITRO: data.VAITRO,
-        updated_at: new Date(),
-      },
-    });
   }
 
   // Lay tat ca tai khoan cua khach hang
@@ -205,18 +220,42 @@ export class TaikhoanService {
     maTK: string,
     data: UpdateTaiKhoanNghiepVuDto,
   ): Promise<TAIKHOAN> {
-    if ('VaiTro' in data) {
+    if ('VAITRO' in data) {
       throw new Error(
         'Không thể cập nhật trạng thái tài khoản qua endpoint này',
       );
-    } else if ('TrangThai' in data) {
+    } else if ('Status' in data) {
       throw new Error(
         'Không thể cập nhật trạng thái tài khoản qua endpoint này',
       );
     }
     return this.prisma.tAIKHOAN.update({
       where: { MaTK: maTK },
-      data: data as any,
+      data: data,
+    });
+  }
+
+  // Cap nhat tai khoan nghiep vu
+  async updateTaiKhoanDoanhNghiep(
+    maTK: string,
+    data: UpdateTaiKhoanNghiepVuDto,
+  ): Promise<TAIKHOAN> {
+    try {
+      await this.supabase.auth.admin.updateUserById(maTK, {
+        email: data.Email,
+        password: data.MatKhau,
+      });
+
+      console.log('Updated Supabase user successfully');
+    } catch (error) {
+      console.error('Error updating Supabase user:', error);
+      throw new Error('Không thể cập nhật thông tin tài khoản Supabase');
+    }
+
+    const { MatKhau, ...dataWithoutPassword } = data;
+    return this.prisma.tAIKHOAN.update({
+      where: { MaTK: maTK },
+      data: dataWithoutPassword,
     });
   }
 
@@ -224,7 +263,7 @@ export class TaikhoanService {
   async updateVaiTro(maTK: string, vaiTro: VaiTro): Promise<TAIKHOAN> {
     return this.prisma.tAIKHOAN.update({
       where: { MaTK: maTK },
-      data: { VAITRO: vaiTro as any },
+      data: { VAITRO: vaiTro },
     });
   }
 
