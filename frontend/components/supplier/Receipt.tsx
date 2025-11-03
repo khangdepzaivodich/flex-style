@@ -34,7 +34,7 @@ export default function Receipt({
   onClose,
 }: ReceiptProps) {
   const [date, setDate] = useState<string>(initial.date ?? "");
-  const [receiptCode] = useState<string>(
+  const [receiptCode, setReceiptCode] = useState<string>(
     initial.receiptCode ?? ""
   );
   const [supplier, setSupplier] = useState<string>(initial.supplier ?? "");

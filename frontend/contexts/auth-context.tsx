@@ -98,13 +98,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           redirectTo: `${window.location.origin}/auth/callback`,
         },
       });
-    } else if (provider === "fb") {
-      supabase.auth.signInWithOAuth({
-        provider: "facebook",
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
     }
   };
 
@@ -181,6 +174,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       user: null,
       isLoading: false,
     });
+    router.push("/auth/login");
   };
   const updatePassword = async (password: string): Promise<boolean> => {
     try {

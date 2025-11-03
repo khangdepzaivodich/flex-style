@@ -13,12 +13,19 @@ export class PhieuNhapHangController {
   getAll() {
     return this.phieuNhapHangService.findAll();
   }
+  @Get('/ncc/:id')
+  @ResponseMessage('Lấy phiếu nhập hàng theo id thành công')
+  getByIdNcc(@Param('id') id: string) {
+    console.log('Fetching phieu nhap hang for NCC ID:', id);
+    return this.phieuNhapHangService.findByIdNcc(id);
+  }
   //lấy phiếu nhập hàng theo id
   @Get(':id')
   @ResponseMessage('Lấy phiếu nhập hàng theo id thành công')
   getById(@Param('id') id: string) {
     return this.phieuNhapHangService.findById(id);
   }
+
   //tạo phiếu nhập hàng
   @Roles('QLDN')
   @Post()

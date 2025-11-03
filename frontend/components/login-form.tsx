@@ -15,7 +15,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import SignInWithGoogle from "./providers/SignInWithGoogle";
-import SignInWithFacebook from "./providers/SignInWithFacebook";
 import { useAuth } from "@/contexts/auth-context";
 export function LoginForm({
   className,
@@ -95,7 +94,6 @@ export function LoginForm({
             </Button>
             <div className="flex flex-col gap-2">
               <SignInWithGoogle />
-              <SignInWithFacebook />
             </div>
             <div className="mt-4 text-center text-sm">
               Chưa có tài khoản?{" "}
