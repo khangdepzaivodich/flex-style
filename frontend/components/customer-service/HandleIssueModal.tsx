@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { OrderResponse } from "@/lib/types";
 export default function HandleIssueModal({
   open,
@@ -13,7 +12,6 @@ export default function HandleIssueModal({
   onClose: () => void;
   onHandle: (note: string) => void;
 }) {
-  const [note, setNote] = useState("");
   if (!open || !order) return null;
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
@@ -61,7 +59,7 @@ export default function HandleIssueModal({
           </button>
           <button
             className="px-4 py-2 bg-red-500 text-white rounded"
-            onClick={() => onHandle(note)}
+            onClick={() => onHandle("XAC_NHAN_LOI")}
           >
             Xử lý
           </button>

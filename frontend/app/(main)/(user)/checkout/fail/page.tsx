@@ -1,11 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useOrder } from "@/contexts/order-context";
-import { CheckCircle, Package, Truck, Mail } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function CheckoutFailPage() {
   const { clearOrder } = useOrder();

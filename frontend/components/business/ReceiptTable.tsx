@@ -22,7 +22,7 @@ interface ReceiptTableProps {
     onView?: (id: string) => void;
 }
 
-export default function ReceiptTable({ receipts = [], receiptsBusiness, receiptsSupplier, onView}: ReceiptTableProps) {
+export default function ReceiptTable({ receipts = [], receiptsBusiness}: ReceiptTableProps) {
     const [viewOpen, setViewOpen] = useState(false);
     const [selectedReceipt, setSelectedReceipt] = useState<Receipt | null>(null);
     const business = receiptsBusiness ?? receipts;

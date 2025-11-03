@@ -32,12 +32,12 @@ export interface OrderResponse {
     };
   };
   // Tình trạng đơn hàng (chỉ lấy bản ghi mới nhất)
-  TINHTRANGDONHANG: [{
-    MaTTDH: string;
-    created_at: string;
-    TrangThai: string;
-    MaDH: string;
-  }];
+  TINHTRANGDONHANG: Array<{
+  MaTTDH: string;
+  created_at: string;
+  TrangThai: string;
+  MaDH: string;
+}>;
 }
 export interface Product {
   MaSP: number;

@@ -80,7 +80,7 @@ export default function PromotionPopupChange({
     };
     console.log("Submitting form:", payload);
     const supabase = await createClient();
-    const { data, error } = await supabase.auth.getSession();
+    const { data} = await supabase.auth.getSession();
     let response = null;
     if (payload.MaSK != "") {
       response = await fetch(

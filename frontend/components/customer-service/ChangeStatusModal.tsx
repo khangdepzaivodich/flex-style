@@ -1,7 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { OrderResponse } from "@/lib/types";
-type ChangeStatusModalProps = {};
 
 export default function ChangeStatusModal({
   open,
@@ -17,6 +16,10 @@ export default function ChangeStatusModal({
   const [status, setStatus] = useState(
     order?.TINHTRANGDONHANG?.[0]?.TrangThai || ""
   );
+  // Nếu order thay đổi, cập nhật lại trạng thái mặc định
+  useEffect(() => {
+    setStatus(order?.TINHTRANGDONHANG?.[0]?.TrangThai || "");
+  }, [order]);
   if (!open || !order) return null;
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 bt-15">
@@ -31,7 +34,6 @@ export default function ChangeStatusModal({
           <option value="DANG_GIAO">Đang giao hàng</option>
           <option value="DA_GIAO">Đã giao hàng</option>
           <option value="LOI">Bị lỗi</option>
-          <option value="XAC_NHAN_LOI">Xác nhận lỗi</option>
           <option value="HUY">Hủy</option>
         </select>
         <div className="flex gap-2 justify-end">

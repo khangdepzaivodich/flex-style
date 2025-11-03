@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "lucide-react";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectTrigger,
@@ -81,7 +81,7 @@ export default function VoucherPopup({
 
   const handleSubmit = async () => {
     const supabase = createClient();
-    const { data, error } = await supabase.auth.getSession();
+    const { data} = await supabase.auth.getSession();
     let response = null;
     console.log("form:", form);
     if (form.MaVoucher != "") {

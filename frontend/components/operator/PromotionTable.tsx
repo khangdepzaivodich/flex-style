@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, Pencil, Trash2 } from "lucide-react";
+import { Calendar, Pencil} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SuKienUuDai } from "@/lib/types";
 

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import VoucherPopup from "@/components/operator/VoucherPopup";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ThongBao, Voucher } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
 
@@ -17,7 +17,6 @@ interface VoucherPageProps {
 export default function VoucherPage({
   vouchers,
   notifications,
-  onEdit,
 }: VoucherPageProps) {
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState<Voucher | null>(null);
@@ -92,7 +91,7 @@ export default function VoucherPage({
   // Xử lý khi lưu danh sách voucher đã chọn
   const handleSaveSelected = async () => {
     const supabase = await createClient();
-    const { data, error } = await supabase.auth.getSession();
+    const { data} = await supabase.auth.getSession();
     if (selectedVouchers.length === 0) {
       const response = await fetch(
         "http://localhost:8080/api/thongbao/voucher/delete",

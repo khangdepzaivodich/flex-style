@@ -12,7 +12,7 @@ export default function ViewOrderModal({
   if (!open || !order) return null;
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl p-6 w-1/2 shadow-lg relative">
+      <div className="bg-white rounded-xl p-6 w-1/2 shadow-lg relative w-4/5">
         <button
           className="absolute top-4 right-4 text-gray-500 text-xl hover:text-gray-700"
           onClick={onClose}
@@ -25,8 +25,8 @@ export default function ViewOrderModal({
             <table key={index} className="mb-6 w-full  shadow-sm">
               <thead>
                 <tr>
-                  <th className="text-left pr-4 pb-2">Mã đơn hàng</th>
-                  <th className="text-left pb-2">Trạng thái hiện tại</th>
+                  <th className="text-left pb-2">Mã đơn hàng</th>
+                  <th className="text-left pb-2">Trạng thái</th>
                   <th className="text-left pb-2">Thời gian</th>
                 </tr>
               </thead>
@@ -34,8 +34,8 @@ export default function ViewOrderModal({
                 <tr>
                   <td className="py-2 font-medium">{order.MaDH}</td>
                   <td className="font-semibold flex justify-center py-1 text-xs rounded-lg font-bold items-center">
-                    <span
-                      className={`px-3 py-1 rounded-lg flex justify-center font-bold
+                    <div
+                      className={`py-1 rounded-lg flex justify-center font-bold w-3/4
                         ${
                           status.TrangThai === "CHUA_GIAO"
                             ? "bg-yellow-700 text-white"
@@ -50,8 +50,8 @@ export default function ViewOrderModal({
                             : "bg-red-500 text-white"
                         }`}
                     >
-                      {status.TrangThai}
-                    </span>
+                      <div>{status.TrangThai}</div>
+                    </div>
                   </td>
                   <td className="text-gray-600">
                     {new Date(status.created_at).toLocaleString()}

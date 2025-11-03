@@ -1,4 +1,4 @@
-import { OrderResponse, ThongBao, Voucher } from "@/lib/types";
+import { OrderResponse} from "@/lib/types";
 import OrderManagementPage from "@/app/customer-service/order-management/OrderMangement";
 import { getUserId, getAccessToken } from "@/lib/userInfo";
 
