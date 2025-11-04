@@ -13,17 +13,17 @@ export class ChitietnhaphangController {
   async getByPhieu(@Param('MaPNH') MaPNH: string) {
     return this.service.findByPhieu(MaPNH);
   }
-  // danh sách các biến thể sản phẩm
+  // danh sách các CTSP sản phẩm
   @Get('variants')
   async getVariants() {
     return this.service.listVariants();
   }
-  // tìm kiếm biến thể sản phẩm theo từ khóa
+  // tìm kiếm CTSP sản phẩm theo từ khóa
   @Get('variants/search')
   async searchVariants(@Query('q') q: string) {
     return this.service.searchVariants(q);
   }
-  // lấy biến thể sản phẩm theo mã
+  // lấy CTSP sản phẩm theo mã
   @Get('variants/:MaCTSP')
   async getVariantById(@Param('MaCTSP') MaCTSP: string) {
     return this.service.getVariant(MaCTSP);
