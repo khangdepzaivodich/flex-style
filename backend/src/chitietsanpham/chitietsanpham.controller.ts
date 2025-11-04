@@ -7,6 +7,7 @@ import {
   Delete,
   Param,
   Query,
+  Patch,
 } from '@nestjs/common';
 import { ChitietsanphamService } from './chitietsanpham.service';
 import { ChiTietSanPhamDto } from './dto/chitietsanpham.dto';
@@ -43,7 +44,7 @@ export class ChitietsanphamController {
   }
 
   // Cap nhat chi tiet san pham
-  @Put(':id')
+  @Patch(':id')
   async update(@Param('id') id: string, @Body() data: ChiTietSanPhamDto) {
     return this.chitietsanphamService.updateChitietsanpham({
       where: { MaCTSP: id },

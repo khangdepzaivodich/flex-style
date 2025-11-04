@@ -18,10 +18,6 @@ import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
 export class NhanVienController {
   constructor(private readonly taikhoanService: TaikhoanService) {}
 
-  // ============================================================
-  // 👷 NHÂN VIÊN
-  // ============================================================
-
   @Post('dangky')
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)

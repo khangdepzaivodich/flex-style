@@ -132,7 +132,7 @@ export default function ProductTable({
                       : "-"}
                   </td>
                   <td className="px-4 py-2 text-left">{p.MauSac ?? "-"}</td>
-                  <td className="px-4 py-2">
+                  <td className="px-4 py-2 whitespace-nowrap">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
                         p.TrangThai === "ACTIVE"
