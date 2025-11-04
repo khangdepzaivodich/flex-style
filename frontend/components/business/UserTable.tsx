@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+// Removed Trash2 and Button imports because delete action/column was removed
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
@@ -49,22 +48,16 @@ export default function UserTable({ users, onDelete, onStatusChange }: UserTable
       <div className="overflow-x-auto">
         <table className="min-w-full text-sm border-t border-gray-200 table-fixed">
           <colgroup>
-            <col style={{ width: "28%" }} />
-            <col style={{ width: "22%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "12%" }} />
-            <col style={{ width: "10%" }} />
-            <col style={{ width: "8%" }} />
+            <col style={{ width: "50%" }} />
+            <col style={{ width: "35%" }} />
+            <col style={{ width: "15%" }} />
           </colgroup>
 
           <thead className="bg-gray-100 text-gray-700 font-medium">
             <tr className="border-b">
               <th className="text-left px-4 py-2">Tên người dùng</th>
-              <th className="text-left px-4 py-2">Địa chỉ</th>
               <th className="text-left px-4 py-2">Email</th>
-              <th className="text-left px-4 py-2">SĐT</th>
               <th className="text-left px-4 py-2">Trạng thái</th>
-              <th className="text-left px-4 py-2">Thao tác</th>
             </tr>
           </thead>
 
@@ -72,9 +65,7 @@ export default function UserTable({ users, onDelete, onStatusChange }: UserTable
             {(users || []).map((u) => (
               <tr key={u.id} data-id={u.id} className="border-b hover:bg-gray-50 transition-colors">
                 <td className="px-4 py-3 text-gray-800 font-medium truncate">{u.name}</td>
-                <td className="px-4 py-3 text-gray-600 truncate" title={u.address}>{u.address ?? "-"}</td>
                 <td className="px-4 py-3 text-gray-600 truncate" title={u.email}>{u.email ?? "-"}</td>
-                <td className="px-4 py-3 text-gray-600 truncate">{u.phone ?? "-"}</td>
                 <td className="px-4 py-3">
                   <Select value={localStatus[u.id] ?? (u.status ?? "active")} onValueChange={(val) => handleStatusChange(u.id, val)}>
                     <SelectTrigger
@@ -90,14 +81,6 @@ export default function UserTable({ users, onDelete, onStatusChange }: UserTable
                       <SelectItem value="inactive">Ngừng hoạt động</SelectItem>
                     </SelectContent>
                   </Select>
-                </td>
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <Button size="sm" variant="outline" className="flex items-center gap-1 hover:bg-red-100 hover:text-red-600" onClick={() => onDelete?.(u.id)}>
-                      <Trash2 className="w-4 h-4" />
-                      Xóa
-                    </Button>
-                  </div>
                 </td>
               </tr>
             ))}
