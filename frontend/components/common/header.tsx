@@ -1,3 +1,5 @@
+"use client";
+
 import { Bell, User, LogOut, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,57 +15,70 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/auth-context";
 import { usePathname } from "next/navigation";
 
-const titleMap: Record<string, string> = {
-  "/business": "Tổng quan doanh nghiệp",
-  "/business/staff": "Quản lý nhân viên",
-  "/business/products": "Quản lý sản phẩm",
-  "/business/stats": "Thống kê",
-  "/business/feedback": "Phản hồi người dùng",
-  "/business/users": "Quản lý người dùng",
-  "/business/categories": "Danh mục sản phẩm",
-  "/business/create-stock-in": "Tạo phiếu nhập hàng",
-  "/business/confirm-stock-in": "Xác nhận nhập hàng",
+type HeaderProps = {
+  titleMap?: Record<string, string>;
+  showNotifications?: boolean;
+  notifications?: React.ReactNode;
+  onLogout?: () => Promise<void> | void;
+  rightContent?: React.ReactNode;
 };
 
-export function BusinessHeader() {
+export default function Header({
+  titleMap = {},
+  showNotifications = true,
+  notifications,
+  onLogout,
+  rightContent,
+}: HeaderProps) {
   const { user, logout } = useAuth();
   const pathName = usePathname();
+
+  const handleLogout = async () => {
+    if (onLogout) return onLogout();
+    return logout();
+  };
 
   return (
     <header className="h-16 border-b border-border bg-background px-6 flex items-center justify-between">
       <div className="flex items-center space-x-4 flex-1 text-3xl font-bold">
-        {titleMap[pathName] || "Business Dashboard"}
+        {titleMap[pathName] || "Dashboard"}
       </div>
 
       <div className="flex items-center space-x-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5" />
-              <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
-                3
-              </Badge>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80 bg-white">
-            <DropdownMenuLabel>Thông báo</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <div className="space-y-2 p-2">
-              <div className="p-3 bg-muted rounded-lg">
-                <p className="text-sm font-medium">Đơn hàng mới</p>
-                <p className="text-xs text-muted-foreground">5 đơn hàng cần xử lý</p>
-              </div>
-              <div className="p-3 bg-muted rounded-lg">
-                <p className="text-sm font-medium">Sản phẩm sắp hết</p>
-                <p className="text-xs text-muted-foreground">3 sản phẩm cần nhập thêm</p>
-              </div>
-              <div className="p-3 bg-muted rounded-lg">
-                <p className="text-sm font-medium">Khách hàng mới</p>
-                <p className="text-xs text-muted-foreground">12 khách hàng đăng ký hôm nay</p>
-              </div>
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {showNotifications && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="relative">
+                <Bell className="h-5 w-5" />
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
+                  3
+                </Badge>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-80 bg-white">
+              <DropdownMenuLabel>Thông báo</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {notifications ?? (
+                <div className="space-y-2 p-2">
+                  <div className="p-3 bg-muted rounded-lg">
+                    <p className="text-sm font-medium">Đơn hàng mới</p>
+                    <p className="text-xs text-muted-foreground">5 đơn hàng cần xử lý</p>
+                  </div>
+                  <div className="p-3 bg-muted rounded-lg">
+                    <p className="text-sm font-medium">Sản phẩm sắp hết</p>
+                    <p className="text-xs text-muted-foreground">3 sản phẩm cần nhập thêm</p>
+                  </div>
+                  <div className="p-3 bg-muted rounded-lg">
+                    <p className="text-sm font-medium">Khách hàng mới</p>
+                    <p className="text-xs text-muted-foreground">12 khách hàng đăng ký hôm nay</p>
+                  </div>
+                </div>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+
+        {rightContent}
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -91,7 +106,7 @@ export function BusinessHeader() {
               <span>Cài đặt</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={logout}>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Đăng xuất</span>
             </DropdownMenuItem>
