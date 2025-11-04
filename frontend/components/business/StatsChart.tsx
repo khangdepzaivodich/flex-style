@@ -125,52 +125,56 @@ export default function StatsChart({ data = defaultData, height = 300 }: Props) 
 	const chartData = normalizeTo12Months(data);
 	const countsData = normalizeCountsTo12Months(defaultCounts);
 	return (
-		<div className="space-y-6">
-			<Card className="bg-transparent border border-slate-200">
-				<CardHeader>
-					<CardTitle>Doanh thu theo tháng</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<div style={{ width: "100%", height }}>
-						<ResponsiveContainer width="100%" height="100%">
-							<LineChart data={chartData} margin={{ top: 10, right: 10, left: 56, bottom: 10 }}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="month" />
-								<YAxis
-									width={80}
-									tickMargin={8}
-									tickFormatter={(v) => new Intl.NumberFormat("vi-VN").format(Number(v))}
-								/>
-								<Tooltip content={<CustomTooltip />} />
-								<Legend verticalAlign="top" align="right" />
-								<Line type="monotone" dataKey="revenue" name="Doanh thu" stroke="#8B5CF6" strokeWidth={2} dot={{ r: 3 }} />
-								<Line type="monotone" dataKey="capital" name="Vốn" stroke="#F97316" strokeWidth={2} dot={{ r: 3 }} />
-							</LineChart>
-						</ResponsiveContainer>
-					</div>
-				</CardContent>
-			</Card>
-
-			<Card className="bg-transparent border border-slate-200">
-				<CardHeader>
-					<CardTitle>Đơn hàng và khách hàng theo tháng</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<div style={{ width: "100%", height }}>
-						<ResponsiveContainer width="100%" height="100%">
-							<LineChart data={countsData} margin={{ top: 10, right: 10, left: 56, bottom: 10 }}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="month" />
-								<YAxis width={80} tickMargin={8} />
-								<Tooltip content={<CountsTooltip />} />
-								<Legend verticalAlign="top" align="right" />
-								<Line type="monotone" dataKey="orders" name="Đơn hàng" stroke="#10B981" strokeWidth={2} dot={{ r: 3 }} />
-								<Line type="monotone" dataKey="customers" name="Khách hàng" stroke="#06B6D4" strokeWidth={2} dot={{ r: 3 }} />
-							</LineChart>
-						</ResponsiveContainer>
-					</div>
-				</CardContent>
-			</Card>
+	    <div>
+			<div className="mt-6">
+			    <Card className="bg-transparent border border-slate-200">
+					<CardHeader>
+						<CardTitle>Doanh thu theo tháng</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<div style={{ width: "100%", height }}>
+							<ResponsiveContainer width="100%" height="100%">
+								<LineChart data={chartData} margin={{ top: 10, right: 10, left: 56, bottom: 10 }}>
+									<CartesianGrid strokeDasharray="3 3" />
+									<XAxis dataKey="month" />
+									<YAxis
+										width={80}
+										tickMargin={8}
+										tickFormatter={(v) => new Intl.NumberFormat("vi-VN").format(Number(v))}
+									/>
+									<Tooltip content={<CustomTooltip />} />
+									<Legend verticalAlign="top" align="right" />
+									<Line type="monotone" dataKey="revenue" name="Doanh thu" stroke="#8B5CF6" strokeWidth={2} dot={{ r: 3 }} />
+									<Line type="monotone" dataKey="capital" name="Vốn" stroke="#F97316" strokeWidth={2} dot={{ r: 3 }} />
+								</LineChart>
+							</ResponsiveContainer>
+						</div>
+					</CardContent>
+				</Card>
+			</div>
+		    
+			<div className="mt-6">
+				<Card className="bg-transparent border border-slate-200">
+					<CardHeader>
+						<CardTitle>Đơn hàng và khách hàng theo tháng</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<div style={{ width: "100%", height }}>
+							<ResponsiveContainer width="100%" height="100%">
+								<LineChart data={countsData} margin={{ top: 10, right: 10, left: 56, bottom: 10 }}>
+									<CartesianGrid strokeDasharray="3 3" />
+									<XAxis dataKey="month" />
+									<YAxis width={80} tickMargin={8} />
+									<Tooltip content={<CountsTooltip />} />
+									<Legend verticalAlign="top" align="right" />
+									<Line type="monotone" dataKey="orders" name="Đơn hàng" stroke="#10B981" strokeWidth={2} dot={{ r: 3 }} />
+									<Line type="monotone" dataKey="customers" name="Khách hàng" stroke="#06B6D4" strokeWidth={2} dot={{ r: 3 }} />
+								</LineChart>
+							</ResponsiveContainer>
+						</div>
+					</CardContent>
+				</Card>
+			</div>
 		</div>
 	);
 }

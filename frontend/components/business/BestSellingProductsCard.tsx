@@ -20,7 +20,7 @@ function formatCurrency(v?: number) {
 // Component hiển thị thẻ sản phẩm bán chạy
 export default function BestSellingProductsCard({ title = 'Sản phẩm bán chạy', items }: Props) {
   return (
-    <div className="rounded-lg bg-white/90 dark:bg-slate-800/70 p-6 shadow-sm border border-slate-200 dark:border-slate-700 w-full h-full flex flex-col">
+    <div className="mt-6 rounded-lg bg-white/90 dark:bg-slate-800/70 p-6 shadow-sm border border-slate-200 dark:border-slate-700 w-full h-full flex flex-col">
       <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h3>
       <div className="mt-4 space-y-5 flex-1">
         {items.map((it) => (

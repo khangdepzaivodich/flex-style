@@ -122,25 +122,6 @@ export default function UserManagementPage() {
             </SelectContent>
           </Select>
         </div>
-
-        <div className="w-44">
-          <Select
-            value={statusFilter}
-            onValueChange={(val) =>
-              setStatusFilter(val as "all" | "active" | "inactive")
-            }
-          >
-            <SelectTrigger className="w-44 relative pl-9 border-gray-200">
-              <Funnel className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <SelectValue placeholder="Tất cả" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Tất cả</SelectItem>
-              <SelectItem value="active">Còn hoạt động</SelectItem>
-              <SelectItem value="inactive">Ngừng hoạt động</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
       </div>
 
       <section>

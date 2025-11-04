@@ -36,7 +36,9 @@ export default function Page() {
       <div className="p-6 space-y-6">
         <StatsGrid />
         <PerformanceCardDisplay />
-        <StatsChart />
+        <div className="mt-6 border-t border-transparent pt-6">
+          <StatsChart />
+        </div>
       </div>
     </div>
   )

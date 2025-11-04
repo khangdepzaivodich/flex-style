@@ -21,7 +21,7 @@ function formatCurrency(v?: number | string) {
 // Component hiển thị thẻ hiệu suất theo danh mục
 export default function CategoryPerformanceCard({ title = 'Hiệu suất theo danh mục', items }: Props) {
   return (
-    <div className="rounded-lg bg-white/90 dark:bg-slate-800/70 p-6 shadow-sm border border-slate-200 dark:border-slate-700 w-full h-full flex flex-col">
+    <div className="mt-6 rounded-lg bg-white/90 dark:bg-slate-800/70 p-6 shadow-sm border border-slate-200 dark:border-slate-700 w-full h-full flex flex-col">
       <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h3>
 
       <div className="mt-4 space-y-4 flex-1">

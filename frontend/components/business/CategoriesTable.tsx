@@ -18,7 +18,7 @@ interface CategoriesTableProps {
 
 export default function CategoriesTable({ categories, onEdit, onDelete }: CategoriesTableProps) {
 	return (
-		<div className="bg-gray-50 rounded-xl border p-6">
+		<div className="mt-6 bg-gray-50 rounded-xl border p-6">
 			<div className="mb-4">
 				<h2 className="text-xl font-semibold text-gray-800">Danh sách danh mục</h2>
 				<p className="text-sm text-gray-500">Quản lý các danh mục sản phẩm</p>

@@ -118,8 +118,10 @@ export default function CategoriesPage() {
 					</Select>
 				</div>
 			</div>
-
-			<CategoriesTable categories={filtered} onEdit={handleEdit} onDelete={handleDelete} />
+			<div className="mt-6">
+				<CategoriesTable categories={filtered} onEdit={handleEdit} onDelete={handleDelete} />
+			</div>
+			
 
 			<CategoryPopup open={open} onClose={() => { setOpen(false); setEditing(null); }} onSave={handleSave} initialData={editing ?? undefined} />
 		</main>
