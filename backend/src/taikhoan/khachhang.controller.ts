@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Post,
-  Patch,
+  Put,
   Param,
   Body,
   UseGuards,
@@ -13,8 +13,10 @@ import { TAIKHOAN } from './taikhoan.service';
 import { Roles } from '../factory_function/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
+
 import { VaiTro, TrangThai } from './enums';
-import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
+import { TaiKhoanNghiepVuDto, UpdateTaiKhoanKH } from './dto/taikhoannghiepvu.dto';
+
 
 interface User {
   id: string;
@@ -73,11 +75,11 @@ export class KhachHangController {
     throw new Error('Không có quyền truy cập');
   }
 
-  @Patch(':id')
+  @Put('/update/:id')
   @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') maTK: string,
-    @Body() data: TaiKhoanNghiepVuDto,
+    @Body() data: UpdateTaiKhoanKH,
     @Req() req,
   ): Promise<TAIKHOAN> {
     const user = req.user as User;

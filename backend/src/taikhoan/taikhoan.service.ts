@@ -235,6 +235,16 @@ export class TaikhoanService {
     });
   }
 
+    async updateTaiKhoanKhachHang(
+    maTK: string,
+    data: UpdateTaiKhoanNghiepVuDto,
+  ): Promise<TAIKHOAN> {
+    return this.prisma.tAIKHOAN.update({
+      where: { MaTK: maTK },
+      data: data,
+    });
+  }
+
   // Cap nhat tai khoan nghiep vu
   async updateTaiKhoanDoanhNghiep(
     maTK: string,
@@ -274,4 +284,6 @@ export class TaikhoanService {
       data: { Status: trangThai },
     });
   }
+
+  
 }

@@ -51,7 +51,7 @@ async function fetchThongBaoVC() {
       console.log("vouchers is not an array:", data);
     }
   }
-  console.log("setVouchers", setVouchers);
+  // console.log("setVouchers", setVouchers);
   return setVouchers;
 }
 
@@ -79,7 +79,7 @@ async function fetchThongBaoSK() {
       }
     }
   }
-  console.log("setSukienuudai", setSukienuudai);
+  // console.log("setSukienuudai", setSukienuudai);
   return setSukienuudai;
 }
 

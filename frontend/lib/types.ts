@@ -334,3 +334,15 @@ export type UploadedImage = {
   data: string;
   mimeType: string;
 } | null;
+
+export interface KhachHangUser{
+  MaTK: string;
+  DisplayName: string | null;
+  Username: string | null;
+  Email: string | null;
+  Avatar: string | null;
+  VAITRO: VaiTro;
+  Status: TrangThai;
+  created_at: Date;
+  updated_at: Date; 
+}

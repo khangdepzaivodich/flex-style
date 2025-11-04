@@ -53,3 +53,9 @@ export class TaiKhoanNghiepVuDto {
 export class UpdateTaiKhoanNghiepVuDto extends PartialType(
   TaiKhoanNghiepVuDto,
 ) {}
+
+export class UpdateTaiKhoanKH{
+  @IsNotEmpty()
+  @IsString()
+  DisplayName: string;
+}
