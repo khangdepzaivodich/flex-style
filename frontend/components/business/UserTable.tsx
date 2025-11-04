@@ -40,7 +40,7 @@ export default function UserTable({ users, onDelete, onStatusChange }: UserTable
   };
 
   return (
-    <div className="bg-gray-50 rounded-xl border p-6">
+    <div className="mt-6 bg-gray-50 rounded-xl border p-6">
       <div className="mb-4">
         <h2 className="text-xl font-semibold text-gray-800">Danh sách người dùng</h2>
         <p className="text-sm text-gray-500">Quản lý tài khoản khách hàng</p>

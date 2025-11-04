@@ -19,7 +19,7 @@ const columns = {
 };
 export default function StaffTable({ staff, onEdit }: StaffTableProps) {
   return (
-    <div className="bg-gray-50 rounded-xl border p-6">
+    <div className="mt-6 bg-gray-50 rounded-xl border p-6">
       <div className="mb-4">
         <h2 className="text-xl font-semibold text-gray-800">
           Danh sách nhân viên

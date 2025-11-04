@@ -138,9 +138,11 @@ export default function StaffPageClient({
 
       {/* Staff table */}
       {filteredStaff.length > 0 ? (
-        <StaffTable staff={filteredStaff} onEdit={handleEdit} />
+        <div className="mt-6">
+          <StaffTable staff={filteredStaff} onEdit={handleEdit} />
+        </div>
       ) : (
-        <p className="text-muted-foreground text-center py-6">
+        <p className="text-muted-foreground text-center py-6 mt-6">
           Không có nhân viên nào.
         </p>
       )}
