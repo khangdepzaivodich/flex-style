@@ -3,7 +3,7 @@
 import React from "react";
 import axios from 'axios';
 const supplierCache = new Map<string, string>();
-import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import type { Item, ReceiptData } from '@/interfaces/receipt';
 
@@ -110,9 +110,10 @@ export default function ReceiptView({ open, onOpenChange, data, onConfirm }: { o
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="p-0 overflow-hidden w-full max-w-[1100px] sm:max-w-[1100px] md:max-w-[1200px] max-h-[90vh]">
+				<DialogTitle className="sr-only">Phiếu nhập hàng</DialogTitle>
 				{/* Header band */}
 						<div className="w-full bg-[#8B5CF6] py-8 text-center">
-						<h3 className="text-white text-xl font-semibold tracking-wider">{supplierNameLocal ?? (data as any)?.raw?.TenNCC ?? (data as any)?.raw?.TenNhaCungCap ?? 'PHIẾU NHẬP HÀNG'}</h3>
+						<h3 className="text-white text-xl font-semibold tracking-wider">PHIẾU NHẬP HÀNG</h3>
 						</div>
 
 						<div className="p-6 bg-white overflow-auto" style={{ maxHeight: 'calc(90vh - 120px)' }}>

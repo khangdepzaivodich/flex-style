@@ -8,6 +8,7 @@ import { JwtAuthGuard } from 'src/jwt/jwt.guard';
 @Controller('chitietnhaphang')
 export class ChitietnhaphangController {
   constructor(private readonly service: ChitietnhaphangService) {}
+
   // lấy chi tiết nhập hàng theo mã phiếu
   @Get('phieu/:MaPNH')
   async getByPhieu(@Param('MaPNH') MaPNH: string) {
@@ -29,7 +30,6 @@ export class ChitietnhaphangController {
     return this.service.getVariant(MaCTSP);
   }
 
-  
 
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
