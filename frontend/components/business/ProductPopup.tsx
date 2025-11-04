@@ -26,6 +26,8 @@ interface ProductPopupProps {
   onClose: () => void;
   onSave: (data: Product) => void;
   initialData?: Product;
+  selectedSizeIndex: number;
+  setSelectedSizeIndex: (index: number) => void;
 }
 
 export default function ProductPopup({
@@ -33,6 +35,8 @@ export default function ProductPopup({
   onClose,
   onSave,
   initialData,
+  selectedSizeIndex,
+  setSelectedSizeIndex,
 }: ProductPopupProps) {
   const [form, setForm] = useState<Product>(
     initialData ?? {
@@ -57,7 +61,6 @@ export default function ProductPopup({
 
   const [previews, setPreviews] = useState<(string | File)[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [selectedSizeIndex, setSelectedSizeIndex] = useState<number>(0);
 
   useEffect(() => {
     if (open && initialData) {
@@ -162,7 +165,6 @@ export default function ProductPopup({
     if (!form.DANHMUC.Loai.trim()) e.category = "Chọn danh mục";
     if (!form.GiaBan || Number(form.GiaBan) <= 0) e.price = "Giá phải > 0";
     if (!form.MauSac.trim()) e.color = "Nhập màu sắc";
-    if (!form.MoTa?.trim()) e.description = "Nhập mô tả";
     if (previews.length === 0) e.image = "Chọn ít nhất 1 ảnh";
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -185,17 +187,6 @@ export default function ProductPopup({
     });
 
     form.HinhAnh?.forEach((file) => fd.append("HinhAnh", file));
-
-    const res = await fetch("http://localhost:8080/api/sanpham", {
-      method: initialData ? "PATCH" : "POST",
-      body: fd,
-    });
-
-    if (!res.ok) {
-      alert("Lưu thất bại");
-      return;
-    }
-
     onSave(form);
     onClose();
   };

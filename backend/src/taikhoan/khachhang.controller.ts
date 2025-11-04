@@ -50,12 +50,13 @@ export class KhachHangController {
   async getById(@Param('id') maTK: string, @Req() req) {
     const user = req.user as User;
     const tk = await this.taikhoanService.taikhoan(maTK);
+    const reqUser = await this.taikhoanService.taikhoan(user.id);
     console.log(maTK, user.id);
     console.log(user.role);
 
     if (user.id === maTK) return tk;
     if (
-      user.role === 'QLDN' &&
+      reqUser?.VAITRO === 'QLDN' &&
       tk?.VAITRO !== 'ADMIN' &&
       tk?.VAITRO !== 'NCC'
     ) {
@@ -63,7 +64,7 @@ export class KhachHangController {
     }
 
     if (
-      user.role === 'ADMIN' &&
+      reqUser?.VAITRO === 'ADMIN' &&
       (tk?.VAITRO === 'QLDN' || tk?.VAITRO === 'NCC')
     ) {
       return tk;
@@ -79,9 +80,9 @@ export class KhachHangController {
     @Body() data: TaiKhoanNghiepVuDto,
     @Req() req,
   ): Promise<TAIKHOAN> {
-    const user = req.user as { MaTK: string; Role: string };
+    const user = req.user as User;
     const tk = await this.taikhoanService.taikhoan(maTK);
-    if (user.MaTK === tk?.MaTK)
+    if (user.id === tk?.MaTK)
       return this.taikhoanService.updateTaiKhoan(maTK, data);
     throw new Error('Không có quyền cập nhật');
   }

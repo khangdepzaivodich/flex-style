@@ -1,7 +1,7 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { Search, Filter as FilterIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import ProductTable from "@/components/business/ProductTable";
 import ProductPopup from "@/components/business/ProductPopup";
@@ -13,9 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Filter as FilterIcon } from "lucide-react";
 import Product from "@/interfaces/product";
 import axios from "axios";
+
 export default function ProductsPage({
   productData,
   sessionData,
@@ -23,9 +23,10 @@ export default function ProductsPage({
   productData: Product[];
   sessionData: any;
 }) {
-  const [open, setOpen] = useState(false); // trạng thái mở popup thêm/chỉnh sửa
-  const [editing, setEditing] = useState<Product | null>(null); // trạng thái sản phẩm đang chỉnh sửa
-  const [viewProduct, setViewProduct] = useState<Product | null>(null); // trạng thái xem chi tiết sản phẩm
+  const [open, setOpen] = useState(false);
+  const [editing, setEditing] = useState<Product | null>(null);
+  const [viewProduct, setViewProduct] = useState<Product | null>(null);
+  const [selectedSizeIndex, setSelectedSizeIndex] = useState<number>(0);
 
   enum Filter {
     All = "all",
@@ -39,11 +40,16 @@ export default function ProductsPage({
     PHU_KIEN: "Phụ kiện",
   };
 
-  const [filter, setFilter] = useState<Filter>(Filter.All); // Trạng thái lọc sản phẩm
+  const [filter, setFilter] = useState<Filter>(Filter.All);
   const [products, setProducts] = useState<Product[]>(productData);
-  const [search, setSearch] = useState<string>(""); // Tìm kiếm theo mã hoặc tên
+  const [search, setSearch] = useState<string>("");
 
-  // Lọc sản phẩm theo trạng thái
+  // Keep products synced when productData changes (important for sorted backend data)
+  useEffect(() => {
+    setProducts(productData);
+  }, [productData]);
+
+  // 🔍 filter by status
   const filtered = products.filter((p) => {
     if (filter === Filter.All) return true;
     if (filter === Filter.Active)
@@ -53,6 +59,7 @@ export default function ProductsPage({
     return true;
   });
 
+  // 🔍 search filter
   const filteredProducts = filtered.filter((p) =>
     [
       p.TenSP,
@@ -61,10 +68,40 @@ export default function ProductsPage({
     ].some((field) => field?.toLowerCase().includes(search.toLowerCase()))
   );
 
-  const handleSave = (data: Product) => {
-    // Cập nhật hoặc thêm mới sản phẩm.
+  const handleSave = async (data: Product) => {
     if (!data) return;
-    if (!editing) {
+    data.HinhAnh = data.HinhAnh?.map((file) => file.toString()) ?? [];
+
+    if (editing) {
+      const requestProduct = {
+        TenSP: data.TenSP,
+        GiaBan: data.GiaBan,
+        MauSac: data.MauSac,
+        TrangThai: data.TrangThai,
+        MoTa: data.MoTa,
+        HinhAnh: data.HinhAnh,
+      };
+      try {
+        const res = await axios.patch(
+          `http://localhost:8080/api/sanpham/${data.MaSP}`,
+          requestProduct,
+          { headers: { Authorization: `Bearer ${sessionData.access_token}` } }
+        );
+        console.log("Update product successfully", res);
+      } catch (error) {
+        console.error("Error updating product:", error);
+      }
+      const requestProductDetail = data.CHITIETSANPHAM[selectedSizeIndex];
+      try {
+        const res = await axios.patch(
+          `http://localhost:8080/api/chitietsanpham/${requestProductDetail.MaCTSP}`,
+          requestProductDetail,
+          { headers: { Authorization: `Bearer ${sessionData.access_token}` } }
+        );
+        console.log("Update product detail successfully", res);
+      } catch (error) {
+        console.error("Error updating product detail", error);
+      }
     }
     setOpen(false);
     setEditing(null);
@@ -76,13 +113,10 @@ export default function ProductsPage({
 
   const handleEdit = (id: string) => {
     const p = products.find((x) => x.MaSP === id);
-    if (p) {
-      // Mở popup chỉnh sửa với dữ liệu sản phẩm đã chọn
-      setEditing(p);
-    }
+    if (p) setEditing(p);
   };
 
-  // Xem chi tiết sản phẩm
+  // 👀 open view popup
   const handleViewOpen = (id: string) => {
     const p = products.find((x) => x.MaSP === id);
     if (p) setViewProduct(p);
@@ -96,7 +130,7 @@ export default function ProductsPage({
     <main className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 w-full max-w-2xl mb-4">
-          <div className="relative w-full max-w-md ">
+          <div className="relative w-full max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               placeholder="Tìm kiếm theo mã hoặc tên..."
@@ -107,24 +141,7 @@ export default function ProductsPage({
           </div>
           <Button
             onClick={() => {
-              setEditing({
-                MaSP: "",
-                TenSP: "",
-                DANHMUC: {
-                  MaDM: "",
-                  TenDM: "",
-                  MoTa: "",
-                  Loai: "",
-                },
-                GiaBan: 0,
-                MauSac: "",
-                TrangThai: "ACTIVE",
-                CHITIETSANPHAM: [],
-                MoTa: "",
-                HinhAnh: [],
-                slug: "",
-                MaDM: "",
-              });
+              setEditing(null);
               setOpen(true);
             }}
           >
@@ -164,6 +181,8 @@ export default function ProductsPage({
           setEditing(null);
         }}
         onSave={handleSave}
+        selectedSizeIndex={selectedSizeIndex}
+        setSelectedSizeIndex={setSelectedSizeIndex}
         initialData={editing ?? undefined}
       />
 
