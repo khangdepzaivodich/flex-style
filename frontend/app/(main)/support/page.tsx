@@ -77,9 +77,9 @@ export default function SupportPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
-            <p className="font-medium mb-2">+84 909090099</p>
+            <p className="font-medium mb-2">+84 903 990 421</p>
             <p className="text-sm text-muted-foreground mb-4">
-              Thứ hai - thứ sáu: 9AM-6PM EST
+              Thứ hai - thứ sáu: 6AM-6PM EST
             </p>
           </CardContent>
         </Card>
@@ -93,7 +93,7 @@ export default function SupportPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
-            <p className="font-medium mb-2">support@flexstyle.com</p>
+            <p className="font-medium mb-2">huynguyengiapoti@gmail.com</p>
             <p className="text-sm text-muted-foreground mb-4">
               Phản hồi trong vòng 24 giờ
             </p>

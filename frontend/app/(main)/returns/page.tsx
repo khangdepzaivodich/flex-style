@@ -269,13 +269,13 @@ export default function ReturnsPage() {
               href="tel:19001234"
               className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
             >
-              Hotline: 1900 1234
+              Hotline: 0903 990 421
             </a>
             <a
-              href="mailto:support@flexstyle.vn"
+              href="mailto:huynguyengiapoti@gmail.com"
               className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-3 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
             >
-              Email: support@FlexStyle.vn
+              Email: huynguyengiapoti@gmail.com
             </a>
           </div>
         </CardContent>

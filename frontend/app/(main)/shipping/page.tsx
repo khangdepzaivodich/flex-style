@@ -16,7 +16,6 @@ export default function ShippingPage() {
       icon: Truck,
       name: "Giao hàng tiêu chuẩn",
       time: "5-7 ngày làm việc",
-      cost: "30.000₫",
       description:
         "Phù hợp cho các đơn hàng thông thường, giao hàng an toàn và đáng tin cậy.",
     },
@@ -24,7 +23,6 @@ export default function ShippingPage() {
       icon: Package,
       name: "Giao hàng nhanh",
       time: "2-3 ngày làm việc",
-      cost: "50.000₫",
       description:
         "Dành cho khách hàng cần nhận hàng gấp, ưu tiên xử lý và vận chuyển.",
     },
@@ -32,16 +30,15 @@ export default function ShippingPage() {
       icon: Clock,
       name: "Giao hàng trong ngày",
       time: "Trong vòng 24h",
-      cost: "100.000₫",
       description: "Chỉ áp dụng tại TP.HCM, đặt hàng trước 14h.",
     },
   ];
 
   const regions = [
-    { name: "TP.HCM", time: "1-2 ngày", cost: "30.000₫" },
-    { name: "Các tỉnh thành lớn", time: "3-5 ngày", cost: "35.000₫" },
-    { name: "Các tỉnh miền núi", time: "5-7 ngày", cost: "45.000₫" },
-    { name: "Các đảo xa", time: "5-7 ngày", cost: "60.000₫" },
+    { name: "TP.HCM", time: "1-2 ngày"},
+    { name: "Các tỉnh thành lớn", time: "3-5 ngày"},
+    { name: "Các tỉnh miền núi", time: "5-7 ngày"},
+    { name: "Các đảo xa", time: "5-7 ngày"},
   ];
 
   return (
@@ -93,9 +90,9 @@ export default function ShippingPage() {
           <Shield className="h-16 w-16 text-primary mx-auto mb-4" />
           <h3 className="text-2xl font-bold mb-4">Miễn Phí Giao Hàng</h3>
           <p className="text-lg mb-4">
-            <span className="font-bold text-primary">MIỄN PHÍ</span> giao hàng
+            <span className="font-bold text-primary">Tính PHÍ</span> giao hàng
             toàn quốc cho đơn hàng từ{" "}
-            <span className="font-bold">500.000₫</span>
+            <span className="font-bold">0₫</span>
           </p>
           <p className="text-muted-foreground">
             Áp dụng cho tất cả các phương thức giao hàng tiêu chuẩn và nhanh
@@ -226,10 +223,10 @@ export default function ShippingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="tel:19001234"
+              href="tel:0903990421"
               className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
             >
-              Gọi Hotline: 1900 1234
+              Gọi Hotline: 0903 990 421
             </a>
             <a
               href="/contact"
