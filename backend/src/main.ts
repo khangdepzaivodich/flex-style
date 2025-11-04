@@ -2,6 +2,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
+import * as bodyParser from 'body-parser';
 // import cookieParser from 'cookie-parser';
 import { ResponseInterceptor } from './core/response.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -15,9 +16,8 @@ async function bootstrap() {
   // app.useGlobalGuards(new SupabaseAuthGuard());
   app.useGlobalInterceptors(new ResponseInterceptor(reflector));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  // app.use(cookieParser());
   app.setGlobalPrefix('api');
-
+  app.use(bodyParser.json({ limit: '10mb' }));
   app.enableCors({
     origin: 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

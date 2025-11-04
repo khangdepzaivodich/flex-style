@@ -27,6 +27,7 @@ import { PaypalModule } from './paypal/paypal.module';
 import { VNPAYModule } from './vnpay/vnpay.module';
 import { ThanhtoanModule } from './thanhtoan/thanhtoan.module';
 import { ThongbaoModule } from './thongbao/thongbao.module';
+import { GeminiModule } from './gemini/gemini.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -56,6 +57,7 @@ import { ThongbaoModule } from './thongbao/thongbao.module';
     VNPAYModule,
     ThanhtoanModule,
     ThongbaoModule,
+    GeminiModule,
   ],
   controllers: [
     AppController,
