@@ -2,42 +2,42 @@
 
 import type React from "react";
 
-import { useState } from "react";
+// import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
+// import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { MapPin, Phone, Mail, Clock, MessageCircle, Send } from "lucide-react";
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   email: "",
+  //   phone: "",
+  //   subject: "",
+  //   message: "",
+  // });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  // const handleInputChange = (field: string, value: string) => {
+  //   setFormData((prev) => ({ ...prev, [field]: value }));
+  // };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+  //   // Simulate form submission
+  //   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    alert("Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong vòng 24 giờ.");
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
-    setIsSubmitting(false);
-  };
+  //   alert("Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong vòng 24 giờ.");
+  //   setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+  //   setIsSubmitting(false);
+  // };
 
   const contactInfo = [
     {
@@ -48,12 +48,12 @@ export default function ContactPage() {
     {
       icon: Phone,
       title: "Số điện thoại",
-      details: ["Hotline: 1900 1234", "Zalo: 0987 654 321"],
+      details: ["Hotline: 0903 990 421", "Zalo: 0903 990 421"],
     },
     {
       icon: Mail,
       title: "Email",
-      details: ["info@FlexStyle.vn", "support@FlexStyle.vn"],
+      details: ["huynguyengiapoti@gmail.com", "khoahocgiahuy@gmail.com"],
     },
     {
       icon: Clock,
@@ -85,22 +85,22 @@ export default function ContactPage() {
       {/* Hero Section */}
       <div className="text-center mb-12">
         <Badge className="mb-4">LIÊN HỆ</Badge>
-        <h1 className="text-4xl md:text-6xl font-bold mb-6">
+        <h1 className="text-3xl md:text-5xl font-bold mb-6">
           Chúng Tôi Luôn <span className="text-primary">Lắng Nghe</span>
         </h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
           Có câu hỏi, góp ý hay cần hỗ trợ? Đừng ngần ngại liên hệ với chúng
           tôi. Đội ngũ FlexStyle luôn sẵn sàng hỗ trợ bạn 24/7.
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-12 mb-16">
+      <div className="flex flex-col lg:flex-row w-full gap-8 lg:gap-12 justify-between items-stretch">
         {/* Map Section */}
-        <Card>
+        <Card className="w-full lg:w-3/5 mb-8 lg:mb-0">
           <CardHeader>
-            {/* <CardTitle className="text-center text-xl">
+            <CardTitle className="text-center text-xl">
               Vị trí cửa hàng
-            </CardTitle> */}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
@@ -112,7 +112,7 @@ export default function ContactPage() {
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.6505251921226!2d106.67960847485665!3d10.761393989386459!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1b91dddf0b%3A0x1ab004c91f448812!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBTxrAgcGjhuqFtIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaA!5e0!3m2!1svi!2s!4v1758353056756!5m2!1svi!2s"
                   width="100%"
-                  height="160%"
+                  height="100%"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
@@ -196,7 +196,7 @@ export default function ContactPage() {
         </Card> */}
 
         {/* Contact Information */}
-        <div className="space-y-6">
+        <div className="flex flex-col gap-6 w-full lg:w-2/5">
           {contactInfo.map((info, index) => (
             <Card key={index}>
               <CardContent className="pt-6">
@@ -224,13 +224,15 @@ export default function ContactPage() {
       {/* FAQ Section */}
       <div className="mb-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Câu Hỏi Thường Gặp</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">
+            Câu Hỏi Thường Gặp
+          </h2>
           <p className="text-muted-foreground">
             Những câu hỏi phổ biến từ khách hàng và câu trả lời từ chúng tôi
           </p>
         </div>
 
-        <div className="grid md:grid-cols-1 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {faqs.map((faq, index) => (
             <Card key={index}>
               <CardContent className="pt-6">

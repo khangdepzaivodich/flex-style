@@ -25,24 +25,24 @@ export function Footer() {
               chất lượng cao với giá cả hợp lý.
             </p>
             <div className="flex space-x-4">
-              <Link
+              {/* <Link
                 href="#"
                 className="text-muted-foreground hover:text-primary transition-colors"
-              >
+              > */}
                 <Facebook className="h-5 w-5" />
-              </Link>
-              <Link
+              {/* </Link> */}
+              {/* <Link
                 href="#"
                 className="text-muted-foreground hover:text-primary transition-colors"
-              >
+              > */}
                 <Instagram className="h-5 w-5" />
-              </Link>
-              <Link
+              {/* </Link> */}
+              {/* <Link
                 href="#"
                 className="text-muted-foreground hover:text-primary transition-colors"
-              >
+              > */}
                 <Twitter className="h-5 w-5" />
-              </Link>
+              {/* </Link> */}
             </div>
           </div>
 
@@ -107,18 +107,18 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/products/nam"
+                  href="/products/nao"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Thời trang Nam
+                  Thời trang áo
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/products/nu"
+                  href="/products/quan"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Thời trang Nữ
+                  Thời trang quần
                 </Link>
               </li>
               <li>
@@ -153,13 +153,13 @@ export function Footer() {
               <li className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">
-                  0123 456 789
+                  0903 990 421
                 </span>
               </li>
               <li className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">
-                  info@FlexStyle.com
+                  huynguyengiapoti@gmail.com
                 </span>
               </li>
             </ul>
