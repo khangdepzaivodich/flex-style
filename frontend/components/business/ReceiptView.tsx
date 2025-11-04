@@ -1,101 +1,175 @@
 "use client";
 
 import React from "react";
+import axios from 'axios';
+const supplierCache = new Map<string, string>();
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import type { Item, ReceiptData } from '@/interfaces/receipt';
 
-interface ReceiptItem {
-	name: string;
-	code?: string;
-	unit?: string;
-	qty?: number;
-	price?: number;
-}
+export default function ReceiptView({ open, onOpenChange, data, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; data?: ReceiptData; onConfirm?: () => void }) {
+	const items = (data?.items ?? []) as any[];
+	const normalizedItems: Item[] = (items || []).map((it: any) => ({
+		MaCTNH: it.MaCTNH ?? it.MaCTNH,
+		MaPNH: it.MaPNH ?? it.MaPNH,
+		MaCTSP: it.MaCTSP ?? it.MaCTSP ?? it.MaCTSP,
+		MaSP: it.MaSP ?? it.MaSP,
+		TenSP: it.TenSP ?? it.TenSanPham ?? it.Ten ?? it.TenHang ?? '',
+		KichCo: it.KichCo ?? it.size ?? it.KichCo ?? '',
+		SoLuong: Number(it.SoLuong ?? it.SoLuongNhap ?? it.quantity ?? it.qty) || 0,
+		DonGia: Number(it.GiaMua ?? it.DonGia ?? it.price ?? it.GiaTien) || undefined,
+	} as Item));
 
-interface ReceiptDetails {
-	id?: string;
-	date?: string;
-	warehouse?: string;
-	address?: string;
-	items?: ReceiptItem[];
-	total?: number;
-}
+	const [itemsState, setItemsState] = React.useState<Item[]>(normalizedItems);
 
-interface ReceiptViewProps {
-	open: boolean;
-	onOpenChange: (open: boolean) => void;
-	data?: ReceiptDetails;
-	onConfirm?: () => void;
-}
+	const [supplierNameLocal, setSupplierNameLocal] = React.useState<string | undefined>(() => {
+		return (data as any)?.supplierName ?? (data as any)?.raw?.TenNCC ?? (data as any)?.raw?.TenNhaCungCap ?? undefined;
+	});
 
-export default function ReceiptView({ open, onOpenChange, data, onConfirm }: ReceiptViewProps) {
-	const items = data?.items ?? [];
-	const total = typeof data?.total === "number" ? data!.total : items.reduce((s, it) => s + (it.price ?? 0) * (it.qty ?? 0), 0);
+	React.useEffect(() => {
+		let mounted = true;
+		const provided = (data as any)?.supplierName ?? (data as any)?.raw?.TenNCC ?? (data as any)?.raw?.TenNhaCungCap;
+		if (provided) {
+			setSupplierNameLocal(provided);
+			return;
+		}
+		const ma = (data as any)?.MaNCC ?? (data as any)?.raw?.MaNCC ?? (data as any)?.raw?.MaTK ?? (data as any)?.raw?.MaNhaCungCap ?? null;
+		if (!ma) return;
+		const key = String(ma);
+		if (supplierCache.has(key)) {
+			setSupplierNameLocal(supplierCache.get(key));
+			return;
+		}
+		(async () => {
+			try {
+				const res = await axios.get('http://localhost:8080/api/ncc/public');
+				const list = res?.data?.data ?? res?.data ?? [];
+				const found = (list || []).find((x: any) => String(x.MaTK ?? x.MaNCC ?? x.id) === key || String(x.MaTK ?? x.MaNCC ?? x.id) === String(ma));
+				const name = found?.DisplayName ?? found?.TenNCC ?? found?.TenNhaCungCap ?? found?.Displayname ?? undefined;
+				if (name) supplierCache.set(key, name);
+				if (mounted) setSupplierNameLocal(name);
+			} catch (e) {
+				// ignore
+			}
+		})();
+		return () => { mounted = false; };
+	}, [data]);
+
+	React.useEffect(() => {
+		let mounted = true;
+		const base: Item[] = (data?.items ?? []).map((it: any) => ({
+			MaCTNH: it.MaCTNH ?? it.MaCTNH,
+			MaPNH: it.MaPNH ?? it.MaPNH,
+			MaCTSP: it.MaCTSP ?? it.MaCTSP ?? it.MaCTSP,
+			MaSP: it.MaSP ?? it.MaSP,
+			TenSP: it.TenSP ?? it.TenSanPham ?? it.Ten ?? it.TenHang ?? '',
+			KichCo: it.KichCo ?? it.size ?? it.KichCo ?? '',
+			SoLuong: Number(it.SoLuong ?? it.SoLuongNhap ?? it.quantity ?? it.qty) || 0,
+			DonGia: Number(it.GiaMua ?? it.DonGia ?? it.price ?? it.GiaTien) || undefined,
+		} as Item));
+		setItemsState(base);
+
+		const need = Array.from(new Set(base.filter((b) => (!b.TenSP || !b.KichCo) && (b.MaCTSP || b.MaSP)).map((b) => b.MaCTSP ?? b.MaSP)));
+		if (need.length === 0) return;
+
+		(async () => {
+			try {
+				const promises = need.map((c) => axios.get(`http://localhost:8080/api/chitietnhaphang/variants/${encodeURIComponent(String(c))}`));
+				const results = await Promise.allSettled(promises);
+				const map: Record<string, any> = {};
+				for (const r of results) {
+					if (r.status === 'fulfilled' && r.value?.data) {
+						const payload = r.value.data?.data ?? r.value.data;
+						if (payload) map[String(payload.MaCTSP ?? payload.MaCTSP ?? payload.MaCTSP)] = payload;
+					}
+				}
+				if (!mounted) return;
+				setItemsState((prev) => prev.map((it) => {
+					const code = it.MaCTSP ?? it.MaSP;
+					if (!code) return it;
+					const v = map[String(code)];
+					if (!v) return it;
+					return {
+						...it,
+						TenSP: it.TenSP || v.TenSP || v.TenSanPham || (v.SANPHAM && v.SANPHAM.TenSP) || it.TenSP,
+						KichCo: it.KichCo || v.KichCo || v.size || it.KichCo,
+						DonGia: it.DonGia ?? v.GiaMua ?? v.GiaMua ?? it.DonGia,
+					} as Item;
+				}));
+			} catch (e) {
+				// ignore enrichment errors
+			}
+		})();
+
+		return () => { mounted = false; };
+	}, [data]);
+
+	const total = itemsState.reduce((s, it) => s + (Number(it.DonGia ?? 0) * Number(it.SoLuong ?? 0)), 0);
+	const status = (data?.TrangThai as string) ?? (data as any)?.raw?.TrangThai ?? (data as any)?.raw?.trangThai ?? 'DANG_CHO';
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="p-0 overflow-hidden w-full max-w-[1100px] sm:max-w-[1100px] md:max-w-[1200px] max-h-[90vh]">
 				{/* Header band */}
 						<div className="w-full bg-[#8B5CF6] py-8 text-center">
-					<h3 className="text-white text-xl font-semibold tracking-wider">PHIẾU NHẬP HÀNG</h3>
-				</div>
+						<h3 className="text-white text-xl font-semibold tracking-wider">{supplierNameLocal ?? (data as any)?.raw?.TenNCC ?? (data as any)?.raw?.TenNhaCungCap ?? 'PHIẾU NHẬP HÀNG'}</h3>
+						</div>
 
 						<div className="p-6 bg-white overflow-auto" style={{ maxHeight: 'calc(90vh - 120px)' }}>
 					<div className="grid grid-cols-2 gap-6 mb-4">
 						<div>
 							<div className="text-sm font-medium text-gray-700">Ngày nhập hàng</div>
-							<div className="mt-1 text-gray-900">{data?.date ?? "-"}</div>
+							<div className="mt-1 text-gray-900">{data?.created_at ? new Date(String(data.created_at)).toLocaleString() : "-"}</div>
 						</div>
 						<div>
-							<div className="text-sm font-medium text-gray-700">Phiếu nhập hàng</div>
-							<div className="mt-1 text-gray-900">{data?.id ?? "-"}</div>
+							<div className="text-sm font-medium text-gray-700">Nhà cung cấp</div>
+							<div className="mt-1 text-gray-900">{supplierNameLocal ?? (data as any)?.raw?.TenNCC ?? data?.MaNCC ?? "-"}</div>
 						</div>
 						<div>
 							<div className="text-sm font-medium text-gray-700">Nhập tại kho</div>
-							<div className="mt-1 text-gray-900">{data?.warehouse ?? "-"}</div>
+							<div className="mt-1 text-gray-900">Kho FlexStyle</div>
 						</div>
 						<div>
 							<div className="text-sm font-medium text-gray-700">Địa chỉ</div>
-							<div className="mt-1 text-gray-900">{data?.address ?? "-"}</div>
+							<div className="mt-1 text-gray-900">Phường Chợ Quán, TP.HCM</div>
 						</div>
 					</div>
 
-					<div className="overflow-x-auto border border-gray-200 rounded-md">
-						<table className="min-w-full text-sm table-fixed">
-							<colgroup>
-								<col style={{ width: "30%" }} />
-								<col style={{ width: "14%" }} />
-								<col style={{ width: "14%" }} />
-								<col style={{ width: "14%" }} />
-								<col style={{ width: "14%" }} />
-								<col style={{ width: "14%" }} />
-							</colgroup>
-							<thead className="bg-gray-100 text-gray-700 font-medium">
-								<tr>
-									<th className="text-left px-4 py-2">Tên</th>
-									<th className="text-left px-4 py-2">Mã SP</th>
-									<th className="text-left px-4 py-2">Đơn vị tính</th>
-									<th className="text-left px-4 py-2">Số lượng</th>
-									<th className="text-left px-4 py-2">Đơn giá</th>
-									<th className="text-left px-4 py-2">Thành tiền</th>
-								</tr>
-							</thead>
-							<tbody>
-								{items.length === 0 ? (
+						<div className="overflow-x-auto border border-gray-200 rounded-md">
+							<table className="min-w-full text-sm table-fixed">
+								<colgroup>
+									<col style={{ width: "40%" }} />
+									<col style={{ width: "18%" }} />
+									<col style={{ width: "14%" }} />
+									<col style={{ width: "14%" }} />
+									<col style={{ width: "14%" }} />
+								</colgroup>
+								<thead className="bg-gray-100 text-gray-700 font-medium">
 									<tr>
-										<td className="px-4 py-6 text-center text-gray-500" colSpan={6}>
+										<th className="text-left px-4 py-2">Tên</th>
+										<th className="text-left px-4 py-2">Kích cỡ</th>
+										<th className="text-left px-4 py-2">Số lượng</th>
+										<th className="text-left px-4 py-2">Đơn giá</th>
+										<th className="text-left px-4 py-2">Thành tiền</th>
+									</tr>
+								</thead>
+							<tbody>
+								{itemsState.length === 0 ? (
+									<tr>
+										<td className="px-4 py-6 text-center text-gray-500" colSpan={5}>
 											Không có sản phẩm
 										</td>
 									</tr>
 								) : (
-									items.map((it, idx) => (
+									itemsState.map((it, idx) => (
 										<tr key={idx} className="border-t">
-											<td className="px-4 py-3 text-gray-700">{it.name}</td>
-											<td className="px-4 py-3 text-gray-600">{it.code ?? "-"}</td>
-											<td className="px-4 py-3 text-gray-600">{it.unit ?? "-"}</td>
-											<td className="px-4 py-3 text-gray-700">{it.qty ?? 0}</td>
-											<td className="px-4 py-3 text-gray-700">{typeof it.price === "number" ? new Intl.NumberFormat("vi-VN").format(it.price) + " đ" : "-"}</td>
-											<td className="px-4 py-3 text-gray-800">{typeof it.price === "number" && typeof it.qty === "number" ? new Intl.NumberFormat("vi-VN").format((it.price ?? 0) * (it.qty ?? 0)) + " đ" : "-"}</td>
+											<td className="px-4 py-3 text-gray-700">{it.TenSP ?? "-"}</td>
+												<td className="px-4 py-3 text-gray-600">{it.KichCo ?? "-"}</td>
+												<td className="px-4 py-3 text-gray-700">{it.SoLuong ?? 0}</td>
+												<td className="px-4 py-3 text-gray-700">{typeof it.DonGia === "number" ? new Intl.NumberFormat("vi-VN").format(it.DonGia) + " đ" : "-"}</td>
+												<td className="px-4 py-3 text-gray-800">{typeof it.DonGia === "number" && typeof it.SoLuong === "number" ? 
+													new Intl.NumberFormat("vi-VN").format((it.DonGia ?? 0) * (it.SoLuong ?? 0)) + " đ" : "-"
+													}</td>
 										</tr>
 									))
 								)}
@@ -103,23 +177,22 @@ export default function ReceiptView({ open, onOpenChange, data, onConfirm }: Rec
 						</table>
 					</div>
 
-					<div className="mt-4 grid grid-cols-2 gap-4">
+					<div className="mt-4 gap-4">
 						<div>
-							<div className="text-sm font-semibold">Tổng số tiền (bằng chữ)</div>
-							<input readOnly value={""} className="mt-1 w-full rounded border px-3 py-2 text-sm bg-white" />
-						</div>
-						<div>
-							<div className="text-sm font-semibold">Tổng số tiền (bằng số)</div>
-							<div className="mt-1 text-lg font-semibold text-gray-900">{new Intl.NumberFormat("vi-VN").format(total)} đ</div>
+							<div className="text-sm font-semibold">Tổng số tiền: 
+							<span className="ml-2 text-lg font-semibold text-gray-900">{new Intl.NumberFormat("vi-VN").format(total)} đ</span>
+							</div>
 						</div>
 					</div>
 				</div>
 
 				<DialogFooter className="p-6 bg-white">
 					<div className="flex gap-3 mx-auto">
-						<Button variant="default" onClick={() => { onConfirm?.(); onOpenChange(false); }}>
-							Xác nhận
-						</Button>
+						{status === 'NCC_XACNHAN' ? (
+							<Button variant="default" onClick={() => { onConfirm?.(); onOpenChange(false); }}>
+								Xác nhận
+							</Button>
+						) : null}
 					</div>
 				</DialogFooter>
 			</DialogContent>

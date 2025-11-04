@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { DateTime } from 'luxon';
 import Receipt from '@/components/business/Receipt';
 import { ReceiptData } from '@/interfaces/receipt';
 import { createClient } from '@/lib/supabase/client';
@@ -50,10 +51,12 @@ export default function CreateStockClient({
         return;
       }
 
+      const createdAtIsoVn = DateTime.now().setZone('Asia/Ho_Chi_Minh').toISO();
+
       const payload = {
         MaNCC: data.MaNCC,
         MaTKNVQL: userId,
-        created_at: (data.created_at as any) ? new Date(data.created_at as any) : new Date(),
+        created_at: createdAtIsoVn,
         NoiDung: (data as any).NoiDung ?? '',
         TrangThai: 'DANG_CHO',
         SoLuong: totalQty,

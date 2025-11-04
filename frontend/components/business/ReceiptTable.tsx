@@ -2,72 +2,93 @@
 
 import { Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
-import ReceiptView from "./ReceiptView";
-
-interface Receipt {
-    id: string; // Mã phiếu
-    date: string; // Ngày nhập hàng
-    //warehouse?: string; // Kho hàng
-    //address?: string; // Địa chỉ
-    status?: "đã xác nhận" | "Chờ xác nhận" | "từ chối" | string; // Trạng thái
-    total?: number; // Tổng tiền
-}
+import React from "react";
+import type { ReceiptData, Item } from "@/interfaces/receipt";
+// filter is controlled by parent (ConfirmStockClient)
 
 interface ReceiptTableProps {
-    receipts?: Receipt[];
-    receiptsBusiness?: Receipt[];
-    receiptsSupplier?: Receipt[];
-    statusOptions?: Array<"đã xác nhận" | "Chờ xác nhận" | "từ chối">;
-    onView?: (id: string) => void;
+    receipts?: ReceiptData[];
+    statusFilter?: string;
+    onStatusChange?: (s: string) => void;
+    onView?: (id?: string) => void;
+    onLoadMore?: () => Promise<void> | void;
+    hasMore?: boolean;
+    loadingMore?: boolean;
+    onReload?: () => Promise<void> | void;
 }
 
-export default function ReceiptTable({ receipts = [], receiptsBusiness}: ReceiptTableProps) {
-    const [viewOpen, setViewOpen] = useState(false);
-    const [selectedReceipt, setSelectedReceipt] = useState<Receipt | null>(null);
-    const business = receiptsBusiness ?? receipts;
-    
+const ALLOWED_STATUSES = new Set(["DANG_CHO", "NCC_XACNHAN", "NV_XACNHAN", "TU_CHOI"]);
 
-    function renderBusinessRows(list: Receipt[]) {
-        return (
-            <>
-                {list.map((r, idx) => {
-                    const label = r.status ? (r.status === "Chờ xác nhận" ? r.status : `Nhà cung cấp ${r.status}`) : "-";
-                    return (
-                        <tr key={idx} className="border-b hover:bg-gray-50 transition-colors" data-id={r.id}>
-                            <td className="px-4 py-3 text-gray-700 text-left">{r.date}</td>
-                            <td className="px-4 py-3 text-gray-600 text-left">Kho FlexStyle</td>
-                            <td className="px-4 py-3 text-gray-600 text-left">Quận A, Phường B, TP.HCM</td>
-                            <td className="px-4 py-3">
-                                <span
-                                    title={label}
-                                        className={`px-3 py-1 rounded-full text-xs font-medium inline-flex items-center justify-center text-center whitespace-nowrap max-w-[160px] truncate ${
-                                        r.status === "đã xác nhận"
-                                            ? "bg-green-100 text-green-700"
-                                            : r.status === "Chờ xác nhận"
-                                            ? "bg-blue-100 text-blue-700"
-                                            : r.status === "từ chối"
-                                            ? "bg-red-100 text-red-600"
-                                            : "bg-gray-100 text-gray-700"
-                                    }`}
-                                >
-                                    {label}
-                                </span>
-                            </td>
-                            <td className="px-4 py-3 text-gray-800 text-left">
-                                {typeof r.total === "number" ? new Intl.NumberFormat("vi-VN").format(r.total) + " đ" : "-"}
-                            </td>
-                            <td className="px-4 py-2 flex gap-2 justify-start">
-                                <Button size="sm" variant="outline" className="flex items-center gap-1" onClick={() => { setSelectedReceipt(r); setViewOpen(true); }}>
-                                    <Eye className="w-4 h-4" />
-                                    Xem
-                                </Button>
-                            </td>
-                        </tr>
-                    )
-                })}
-            </>
-        );
+function formatCurrency(v?: number) {
+    if (typeof v !== "number") return "-";
+    return new Intl.NumberFormat("vi-VN").format(v) + " đ";
+}
+
+function getStatusInfo(statusRaw?: string) {
+    const raw = statusRaw ?? 'DANG_CHO';
+    const status = ALLOWED_STATUSES.has(raw) ? raw : 'DANG_CHO';
+    switch (status) {
+        case 'NCC_XACNHAN':
+            return { status, label: 'Nhà cung cấp xác nhận', badge: 'bg-green-100 text-green-700' };
+        case 'NV_XACNHAN':
+            return { status, label: 'Nhân viên xác nhận', badge: 'bg-emerald-100 text-emerald-700' };
+        case 'TU_CHOI':
+            return { status, label: 'Từ chối', badge: 'bg-red-100 text-red-600' };
+        case 'DANG_CHO':
+        default:
+            return { status: 'DANG_CHO', label: 'Đang chờ', badge: 'bg-blue-100 text-blue-700' };
+    }
+}
+
+export default function ReceiptTable({ receipts = [], statusFilter: statusFilterProp = 'ALL', onStatusChange, onView, onLoadMore, hasMore, loadingMore, onReload }: ReceiptTableProps) {
+    const business = receipts ?? [];
+    function calcTotal(itms?: Item[], rawItems?: any[], computed?: number) {
+        if (typeof computed === 'number') return computed;
+        const list = itms ?? rawItems ?? [];
+        return list.reduce((s: number, it: any) => s + (Number(it?.SoLuong) || 0) * (Number(it?.DonGia) || 0), 0);
+    }
+
+    const filtered = React.useMemo(() => {
+        if (statusFilterProp === 'ALL') return business;
+        return business.filter(b => ((b.TrangThai ?? (b as any).trangThai) ?? 'DANG_CHO') === statusFilterProp);
+    }, [business, statusFilterProp]);
+
+    function renderBusinessRows(list: ReceiptData[]) {
+        if (!list || list.length === 0) {
+            return (
+                <tr>
+                    <td className="px-4 py-6 text-center text-gray-500" colSpan={6}>
+                        Không có dữ liệu
+                    </td>
+                </tr>
+            );
+        }
+
+        return list.map((r, idx) => {
+            const { status, label: statusLabel, badge } = getStatusInfo((r.TrangThai as string) ?? (r as any).trangThai);
+            const total = calcTotal(r.items, (r as any).raw?.items, (r as any).__computedTotal);
+            const dateStr = r.created_at ?? (r as any).createdAt;
+
+            return (
+                <tr key={idx} className="border-b hover:bg-gray-50 transition-colors" data-id={r.MaPNH}>
+                    <td className="px-4 py-3 text-gray-700 text-left">{dateStr ? new Date(dateStr as any).toLocaleDateString('vi-VN') : "-"}</td>
+                    <td className="px-4 py-3 text-gray-600 text-left">Kho FlexStyle</td>
+                    <td className="px-4 py-3 text-gray-600 text-left">Phường Chợ Quán, TP.HCM</td>
+                    <td className="px-4 py-3">
+                        <span title={statusLabel} className={`px-3 py-1 rounded-full text-xs font-medium inline-flex items-center justify-center text-center whitespace-nowrap ${badge}`}>
+                            {statusLabel}
+                        </span>
+                    </td>
+                    <td className="px-4 py-3 text-gray-800 text-left">{formatCurrency(total)}</td>
+                    <td className="px-4 py-2 flex gap-2 justify-start">
+                        <Button size="sm" variant="outline" className="flex items-center gap-1" onClick={() => onView?.(r.MaPNH ?? (r as any).id)}>
+                            <Eye className="w-4 h-4" />
+                            Xem
+                        </Button>
+                    </td>
+                </tr>
+            );
+        });
     }
 
     return (
@@ -93,18 +114,28 @@ export default function ReceiptTable({ receipts = [], receiptsBusiness}: Receipt
                             <th className="text-left px-4 py-2">Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody>{renderBusinessRows(business)}</tbody>
+                    <tbody>{renderBusinessRows(filtered)}</tbody>
                 </table>
             </div>
+            {/* Nút xem thêm */}
+            {hasMore && (
+                <div className="mt-4 flex justify-center">
+                    <Button
+                        variant="outline"
+                        onClick={onLoadMore}
+                        disabled={!!loadingMore}
+                    >
+                        {loadingMore ? 'Đang tải...' : 'Xem thêm'}
+                    </Button>
+                </div>
+            )}
+            {/* Nút tải lại */}
+            {onReload && (
+                <div className="mt-2 flex justify-center">
+                    <Button variant="ghost" onClick={onReload}>Tải lại</Button>
+                </div>
+            )}
         </div>
-        <ReceiptView
-            open={viewOpen}
-            onOpenChange={(o) => setViewOpen(o)}
-            data={selectedReceipt ?? undefined}
-            onConfirm={() => {
-                // gọi hàm bên ngoài hoặc cập nhật state
-            }}
-        />
         </>
     );
 }
