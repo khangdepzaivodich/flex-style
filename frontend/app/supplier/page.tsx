@@ -10,6 +10,7 @@ async function getPhieuNhap() {
     const res = await fetch(
       `http://localhost:8080/api/phieunhaphang/ncc/${userId}`,
       {
+        method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       }
     );
