@@ -1,6 +1,8 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import SlugPage from "./SlugPage";
+// import Head from "next/head";
+
 
 type Props = {
   params: Promise<{ slug: string }>; // Type cho async params (Next.js 15)
@@ -51,7 +53,7 @@ export default async function Page({ params }: Props) {
       }
       throw new Error(`Failed to fetch product: ${res.status}`);
     }
-    
+
     const productData = await res.json();
     if (!productData || !productData.data) {
       throw new Error("Invalid product data");
@@ -59,14 +61,26 @@ export default async function Page({ params }: Props) {
 
     const relatedProducts = await getRelatedProducts(trimmedSlug);
     const feedbacks = await getReply(trimmedSlug);
-
+    console.log("Product Data:", productData);
     return (
-      <SlugPage
-        product={productData.data}
-        relatedProducts={relatedProducts.data}
-        feedbacks={feedbacks.data.feedbacks}
-        feedbacksCustomer={feedbacks.data.feedbacksCustomer}
-      />
+      <>
+        {/* <Head>
+          <meta property="og:title" content={productData.data.TenSP} />
+          <meta property="og:description" content={productData.data.MoTa || ""} />
+          <meta property="og:image" content={"https:" + productData.data.HinhAnh[0]} />
+          <meta
+            property="og:url"
+            content={"https://yame.vn"}
+          />
+          <meta property="og:type" content="product" />
+        </Head> */}
+        <SlugPage
+          product={productData.data}
+          relatedProducts={relatedProducts.data}
+          feedbacks={feedbacks.data.feedbacks}
+          feedbacksCustomer={feedbacks.data.feedbacksCustomer}
+        />
+      </>
     );
   } catch (error) {
     console.error("Error fetching product:", error);

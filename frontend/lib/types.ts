@@ -323,3 +323,14 @@ export interface SupportResponse {
   createdAt: string;
   attachments?: string[];
 }
+
+
+export interface ImagePart {
+  data: string;
+  mimeType: string;
+}
+
+export type UploadedImage = {
+  data: string;
+  mimeType: string;
+} | null;
