@@ -4,32 +4,21 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import {
-  Package,
-  MessageSquare,
-  Users,
-  Layers,
-  PlusSquare,
-  CheckSquare,
-  ChevronLeft,
-  ChevronRight,
-  SquareKanban,
-  UserSquare,
-} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const sidebarItems = [
-  { title: "Quản lý nhân viên", href: "/business/staff", icon: Users },
-  { title: "Quản lý sản phẩm", href: "/business/products", icon: Package },
-  { title: "Thống kê", href: "/business/stats", icon: SquareKanban },
-  { title: "Phản hồi người dùng", href: "/business/feedback", icon: MessageSquare },
-  { title: "Quản lý người dùng", href: "/business/users", icon: UserSquare },
-  { title: "Danh mục sản phẩm", href: "/business/categories", icon: Layers },
-  { title: "Tạo phiếu nhập hàng", href: "/business/create-stock-in", icon: PlusSquare },
-  { title: "Xác nhận nhập hàng", href: "/business/confirm-stock-in", icon: CheckSquare },
-];
+type SidebarItem = {
+  title: string;
+  href: string;
+  icon: any;
+};
 
-export function BusinessSidebar() {
+type SidebarProps = {
+  title: string;
+  items: SidebarItem[];
+};
+
+export default function Sidebar({ title, items }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
 
@@ -44,7 +33,7 @@ export function BusinessSidebar() {
       <div className="flex h-16 items-center justify-between px-4 border-b border-sidebar-border">
         {!collapsed && (
           <div className="flex items-center space-x-2">
-            <span className="text-lg font-bold text-sidebar-foreground">Quản lý doanh nghiệp</span>
+            <span className="text-lg font-bold text-sidebar-foreground">{title}</span>
           </div>
         )}
         <Button
@@ -58,7 +47,7 @@ export function BusinessSidebar() {
       </div>
 
       <nav className="p-2 space-y-2 overflow-y-auto" style={{ maxHeight: "calc(100vh - 4rem)" }}>
-        {sidebarItems.map((item) => {
+        {items.map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link key={item.href} href={item.href}>
