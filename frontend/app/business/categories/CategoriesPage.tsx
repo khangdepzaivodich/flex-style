@@ -15,8 +15,6 @@ import CategoriesTable from "@/components/business/CategoriesTable";
 import CategoryPopup from "@/components/business/CategoryPopup";
 import { Category } from "@/lib/types";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export default function CategoriesPage({
   fetchCategories,
@@ -75,7 +73,7 @@ export default function CategoriesPage({
     const normType = normalize(data.Loai) || "AO";
 
     if (!normName || !normType) {
-      alert("Vui lòng điền đầy đủ Mã, Tên và Loại danh mục.");
+      toast.error("Vui lòng điền đầy đủ Mã, Tên và Loại danh mục.");
       return;
     }
 
@@ -90,7 +88,7 @@ export default function CategoriesPage({
     }
 
     if (duplicates.length > 0) {
-      alert(`Thông tin trùng: ${Array.from(new Set(duplicates)).join(", ")}`);
+      toast.error(`Thông tin trùng: ${Array.from(new Set(duplicates)).join(", ")}`);
       return;
     }
     if (editing) {
@@ -155,7 +153,6 @@ export default function CategoriesPage({
 
   return (
     <main className="space-y-6">
-      <ToastContainer />
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 w-full max-w-2xl">
           <div className="relative w-full max-w-md">

@@ -7,8 +7,6 @@ import FeedbackTable from "@/components/business/FeedbackTable";
 import { Filter as FilterIcon } from "lucide-react";
 import { PhanHoiForNV } from "@/lib/types";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 // const initialFeedbacks = [
 // 	{
@@ -78,7 +76,6 @@ export default function FeedbackPage({ fetchFeedbacks, accessToken }: { fetchFee
 
 	return (
 		<div className="p-6">
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
 			<div className="mb-6">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-4 w-full max-w-2xl">

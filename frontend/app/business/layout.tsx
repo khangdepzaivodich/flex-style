@@ -5,6 +5,8 @@ import ProtectedRoute from "@/components/protected-route";
 import Sidebar from "@/components/common/sidebar";
 import Header from "@/components/common/header";
 import { Users, Package, SquareKanban, MessageSquare, UserSquare, Layers, PlusSquare, CheckSquare } from "lucide-react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function BusinessLayout({
   children,
@@ -25,6 +27,7 @@ export default function BusinessLayout({
 
   return (
     <ProtectedRoute Role={"QLDN"}>
+      <ToastContainer />
       <div className="flex h-screen bg-background">
         <Sidebar
           title="Quản lý doanh nghiệp"

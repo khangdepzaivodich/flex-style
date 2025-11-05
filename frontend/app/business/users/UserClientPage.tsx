@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Search, Funnel } from "lucide-react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function UserClientPage({
   users: initial,
@@ -54,8 +55,8 @@ export default function UserClientPage({
     } catch (e: any) {
       setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, status: u.status === "active" ? "inactive" : "active" } : u)));
       console.error("Failed to update status", e);
-      // friendly alert for users
-      alert(e?.response?.data?.message || 'Không thể cập nhật trạng thái — vui lòng thử lại');
+      // friendly toast for users
+      toast.error(e?.response?.data?.message || 'Không thể cập nhật trạng thái — vui lòng thử lại');
     }
   };
 
