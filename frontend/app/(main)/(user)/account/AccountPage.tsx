@@ -212,14 +212,24 @@ export default function AccountPage({
               <CardContent className="space-y-6">
                 {/* Avatar */}
                 <div className="flex items-center space-x-4">
-                  <Avatar className="h-20 w-20">
-                    <AvatarImage
-                      src={taiKhoan?.Avatar || "/placeholder.svg"}
-                      alt={taiKhoan.Email ?? ""}
-                    />
-                    {/* <AvatarFallback>{user.name.charAt(0)}</AvatarFallback> */}
-                    <AvatarFallback>{taiKhoan.Email?.charAt(0)}</AvatarFallback>
-                  </Avatar>
+                  {taiKhoan.Avatar ? (
+                    <Avatar className="h-20 w-20">
+                      <AvatarImage
+                        src={taiKhoan?.Avatar || "/placeholder.svg"}
+                        alt={taiKhoan.Email ?? ""}
+                      />
+                      {/* <AvatarFallback>{user.name.charAt(0)}</AvatarFallback> */}
+                      <AvatarFallback>
+                        {taiKhoan.Email?.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                  ) : (
+                    <div className="h-20 w-20 rounded-full bg-red-500 flex items-center justify-center">
+                      <span className="text-3xl text-white">
+                        {taiKhoan.Email?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
                   <div>
                     <h3 className="text-lg font-semibold">
                       {taiKhoan.DisplayName}
