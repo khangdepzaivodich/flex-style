@@ -50,12 +50,18 @@ export class PhanHoiService {
     }
     return await this.phanHoiRepository.getCustomerFeedback(MaSP, MaTKKH);
   }
+
+  //lấy phản hồi của khách hàng theo sản phẩm cho nhân viên
+  async getCustomerFeedbackForNV() {
+    return await this.phanHoiRepository.getCustomerFeedbackForNV();
+  }
   //xóa phản hồi
-  async delete(MaPH: string, MaTKKH: string) {
+  async delete(MaPH: string) {
+    console.log("MaPH in service:", MaPH);
     const exsitingPhanHoi = await this.phanHoiRepository.findById(MaPH);
     if (!exsitingPhanHoi) {
       throw new Error('Phản hồi không tồn tại');
     }
-    return await this.phanHoiRepository.delete(MaPH, MaTKKH);
+    return await this.phanHoiRepository.delete(MaPH);
   }
 }

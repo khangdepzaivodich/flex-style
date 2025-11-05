@@ -3,18 +3,11 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Trash2, Star } from "lucide-react";
+import { PhanHoiForNV } from "@/lib/types";
 
-interface Feedback {
-  id: string; // Mã phản hồi uuid
-  updatedAt?: string | Date; // Ngày cập nhật
-  customerAccountId?: string; // Tên khách hàng
-  productId?: string; // Tên sản phẩm
-  rating?: number; // Số sao
-  comment?: string; // Bình luận
-}
 
 interface FeedbackTableProps {
-  feedbacks: Feedback[];
+  feedbacks: PhanHoiForNV[];
   onDelete?: (id: string) => void;
 }
 
@@ -69,23 +62,23 @@ export default function FeedbackTable({
           <tbody>
             {feedbacks.map((f, idx) => (
               <tr
-                key={f.id ?? idx}
+                key={f.MaPH ?? idx}
                 className="border-b hover:bg-gray-50 transition-colors"
               >
                 <td className="px-4 py-2 text-left">
-                  {formatDate(f.updatedAt)}
+                  {formatDate(f.updated_at)}
                 </td>
                 <td className="px-4 py-2 text-gray-600 text-left">
-                  {f.customerAccountId ?? "-"}
+                  {f.TAIKHOAN?.Username ?? "-"}
                 </td>
                 <td className="px-4 py-2 text-gray-600 text-left">
-                  {f.productId ?? "-"}
+                  {f.SANPHAM.TenSP ?? "-"}
                 </td>
                 <td className="px-4 py-2 text-left">
-                  {typeof f.rating === "number" ? (
+                  {typeof f.SoSao === "number" ? (
                     <div
                       className="flex items-center gap-1"
-                      aria-label={`Rating: ${f.rating} out of 5`}
+                      aria-label={`Rating: ${f.SoSao} out of 5`}
                     >
                       {Array.from({ length: 5 }, (_, i) => {
                         const idx = i + 1;
@@ -93,7 +86,7 @@ export default function FeedbackTable({
                           <Star
                             key={idx}
                             className={`w-4 h-4 ${
-                              idx <= (f.rating ?? 0)
+                              idx <= (f.SoSao ?? 0)
                                 ? "text-amber-400"
                                 : "text-gray-200"
                             }`}
@@ -106,14 +99,14 @@ export default function FeedbackTable({
                   )}
                 </td>
                 <td className="px-4 py-2 text-gray-800 text-left">
-                  {f.comment ?? "-"}
+                  {f.BinhLuan ?? "-"}
                 </td>
                 <td className="px-4 py-2 flex gap-2">
                   <Button
                     size="sm"
                     variant="outline"
                     className="flex items-center gap-1 hover:bg-red-100 hover:text-red-600"
-                    onClick={() => onDelete?.(f.id)}
+                    onClick={() => onDelete?.(f.MaPH)}
                   >
                     <Trash2 className="w-4 h-4" />
                     Xóa
