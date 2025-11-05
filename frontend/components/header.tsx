@@ -155,19 +155,31 @@ export function Header() {
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="relative h-8 w-8 rounded-full"
+                      className={`relative h-8 w-8 rounded-full ${
+                        user.user_metadata?.avatar_url
+                          ? "p-0"
+                          : "bg-red-500 text-white font-semibold"
+                      }`}
                     >
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage
-                          src={
-                            user?.user_metadata?.avatar_url ||
-                            "/placeholder.svg"
-                          }
-                          alt={user.email}
-                        />
-                        {/* <AvatarFallback>{user.name.charAt(0)}</AvatarFallback> */}
-                        <AvatarFallback>{user.email?.charAt(0)}</AvatarFallback>
-                      </Avatar>
+                      {user.user_metadata?.avatar_url ? (
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage
+                            src={
+                              user?.user_metadata?.avatar_url ||
+                              "/placeholder.svg"
+                            }
+                            alt={user.email}
+                          />
+                          {/* <AvatarFallback>{user.name.charAt(0)}</AvatarFallback> */}
+                          <AvatarFallback className="bg-red text-white font-semibold">
+                            {user.email?.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                      ) : (
+                        <div className="w-full h-full rounded-full bg-muted flex items-center justify-center text-base font-semibold text-white">
+                          {user.email?.toUpperCase().charAt(0)}
+                        </div>
+                      )}
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
@@ -264,19 +276,19 @@ export function Header() {
                   href="/products/men"
                   className="text-sm font-medium hover:text-primary transition-colors py-2"
                 >
-                  {t("nav.men")}
+                  {t("nav.ao")}
                 </Link>
                 <Link
                   href="/products/women"
                   className="text-sm font-medium hover:text-primary transition-colors py-2"
                 >
-                  {t("nav.women")}
+                  {t("nav.quan")}
                 </Link>
                 <Link
                   href="/products/accessories"
                   className="text-sm font-medium hover:text-primary transition-colors py-2"
                 >
-                  {t("nav.accessories")}
+                  {t("nav.phukien")}
                 </Link>
                 <Link
                   href="/sale"

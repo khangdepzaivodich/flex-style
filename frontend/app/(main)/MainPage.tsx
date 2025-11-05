@@ -119,10 +119,10 @@ export default function MainPage({
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <Badge variant="secondary" className="w-fit">
+              {/* <Badge variant="secondary" className="w-fit">
                 Bộ sưu tập mới 2024
-              </Badge>
-              <h1 className="text-4xl lg:text-6xl font-bold text-balance">
+              </Badge> */}
+              <h1 className="text-4xl lg:text-6xl font-bold text-balance -translate-y-[1rem]">
                 Thời trang hiện đại cho{" "}
                 <span className="text-primary">phong cách</span> của bạn
               </h1>
@@ -259,16 +259,16 @@ export default function MainPage({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Link href="/products/nam" className="group">
+            <Link href="/products/ao" className="group">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
                 <img
                   src="/men-s-fashion-clothing-collection.jpg"
-                  alt="Thời trang Nam"
+                  alt="Áo thanh lịch"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
                 <div className="absolute bottom-6 left-6 text-white">
-                  <h3 className="text-2xl font-bold mb-2">Thời trang Nam</h3>
+                  <h3 className="text-2xl font-bold mb-2">Áo thanh lịch</h3>
                   <p className="text-sm opacity-90">
                     Phong cách lịch lãm, hiện đại
                   </p>
@@ -276,16 +276,16 @@ export default function MainPage({
               </div>
             </Link>
 
-            <Link href="/products/nu" className="group">
+            <Link href="/products/quan" className="group">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
                 <img
                   src="/women-s-fashion-clothing-collection.jpg"
-                  alt="Thời trang Nữ"
+                  alt="Quần quý phái"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
                 <div className="absolute bottom-6 left-6 text-white">
-                  <h3 className="text-2xl font-bold mb-2">Thời trang Nữ</h3>
+                  <h3 className="text-2xl font-bold mb-2">Quần quý phái</h3>
                   <p className="text-sm opacity-90">Thanh lịch, quyến rũ</p>
                 </div>
               </div>

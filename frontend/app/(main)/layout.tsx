@@ -26,7 +26,7 @@ async function fetchSukienuudais() {
 }
 
 async function fetchThongBaoVC() {
-  let setVouchers: Voucher[] = [];
+  const setVouchers: Voucher[] = [];
   const res = await fetch("http://localhost:8080/api/thongbao/voucher", {
     cache: "no-store",
   });
@@ -51,12 +51,12 @@ async function fetchThongBaoVC() {
       console.log("vouchers is not an array:", data);
     }
   }
-  // console.log("setVouchers", setVouchers);
+
   return setVouchers;
 }
 
 async function fetchThongBaoSK() {
-  let setSukienuudai: SuKienUuDai[] = [];
+  const setSukienuudai: SuKienUuDai[] = [];
   const res = await fetch("http://localhost:8080/api/thongbao/sukienuudai", {
     cache: "no-store",
   });
@@ -79,7 +79,6 @@ async function fetchThongBaoSK() {
       }
     }
   }
-  // console.log("setSukienuudai", setSukienuudai);
   return setSukienuudai;
 }
 

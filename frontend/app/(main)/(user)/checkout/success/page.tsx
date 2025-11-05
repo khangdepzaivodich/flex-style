@@ -4,20 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Package, Truck, Mail } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useCart } from "@/contexts/cart-context";
 
 export default function CheckoutSuccessPage() {
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useMemo(
+    () => new URLSearchParams(window.location.search),
+    []
+  );
   const { removeItem } = useCart();
   const [orderID, setOrderId] = useState<string>("");
   useEffect(() => {
     const id = searchParams.get("orderID") || searchParams.get("vnp_TxnRef");
-    console.log("Search Params Order ID:", searchParams.get("orderID"));
-    console.log(
-      "Search Params VNPAY Transaction ID:",
-      searchParams.get("vnp_TxnRef")
-    );
+
     if (id) {
       setOrderId(id);
     } else window.location.href = "/checkout/fail";
@@ -26,7 +25,7 @@ export default function CheckoutSuccessPage() {
   const createDonHang = async () => {
     const orderRaw = localStorage.getItem("order");
     const order = orderRaw ? JSON.parse(orderRaw) : null;
-    console.log("Creating order with ID:", orderID, "and order data:", order);
+
     try {
       if (order != null) {
         removeItem(order?.MaCTSP);
@@ -46,7 +45,7 @@ export default function CheckoutSuccessPage() {
           }),
         });
         const data = await response.json();
-        console.log("Order creation response:", data);
+
         if (data && data.statusCode === 201) {
           localStorage.removeItem("order");
           if (order?.MaVoucher) {
@@ -90,7 +89,7 @@ export default function CheckoutSuccessPage() {
     if (orderID) {
       createDonHang();
     }
-  }, [orderID]);
+  });
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto text-center">

@@ -15,19 +15,13 @@ import {
 } from "../ui/select";
 
 type TrangThai = "ACTIVE" | "INACTIVE";
-type VaiTro = "NCC" | "KH" | "QLDN" | "NVVH" | "NVCSKH" | "ADMIN";
 
 interface AddSupplierProps {
   open: boolean;
   onClose: () => void;
-  onCreated?: () => void;
 }
 
-export default function AddSupplierPopup({
-  open,
-  onClose,
-  onCreated,
-}: AddSupplierProps) {
+export default function AddSupplierPopup({ open, onClose }: AddSupplierProps) {
   const router = useRouter();
   const supabase = createClient();
 
@@ -129,13 +123,8 @@ export default function AddSupplierPopup({
 
       alert("Tạo nhà cung cấp thành công");
       onClose();
-      onCreated?.();
-      // trigger server fetch if page is server component
-      try {
-        router.refresh();
-      } catch (e) {}
+      router.refresh();
     } catch (err: any) {
-      console.error("Create supplier error:", err?.response ?? err);
       const msg =
         err?.response?.data?.message ?? err?.message ?? "Tạo thất bại";
       setError(Array.isArray(msg) ? JSON.stringify(msg) : String(msg));

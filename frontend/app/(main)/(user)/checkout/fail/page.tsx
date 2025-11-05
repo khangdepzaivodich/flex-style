@@ -10,7 +10,7 @@ export default function CheckoutFailPage() {
   const { clearOrder } = useOrder();
   useEffect(() => {
     clearOrder();
-  }, []);
+  });
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto text-center">
@@ -18,7 +18,8 @@ export default function CheckoutFailPage() {
           <CheckCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
           <h1 className="text-3xl font-bold mb-2">Đặt hàng thất bại!</h1>
           <p className="text-muted-foreground">
-            Rất tiếc, đã có lỗi xảy ra trong quá trình đặt hàng của bạn. Liên hệ với nhân viên chăm sóc khách hàng để được hỗ trợ.
+            Rất tiếc, đã có lỗi xảy ra trong quá trình đặt hàng của bạn. Liên hệ
+            với nhân viên chăm sóc khách hàng để được hỗ trợ.
           </p>
         </div>
 

@@ -52,32 +52,17 @@ export default function AdminSuppliersPage({ nccs }: { nccs: Supplier[] }) {
     }
   };
 
-  // const getPerformanceBadge = (performance: string) => {
-  //   switch (performance) {
-  //     case "excellent":
-  //       return <Badge className="bg-green-600">Xuất sắc</Badge>;
-  //     case "good":
-  //       return <Badge className="bg-blue-600">Tốt</Badge>;
-  //     case "average":
-  //       return <Badge className="bg-yellow-600">Trung bình</Badge>;
-  //     case "poor":
-  //       return <Badge className="bg-red-600">Kém</Badge>;
-  //     default:
-  //       return <Badge>Chưa đánh giá</Badge>;
-  //   }
-  // };
-
   return (
     <>
       <AddSupplierPopup
         open={isAddPopupOpen}
         onClose={() => setIsAddPopupOpen(false)}
-        onCreated={() => {
-          // Refresh the supplier list or perform any other action
-        }}
+        // onCreated={() => {
+        //   // Refresh the supplier list or perform any other action
+        // }}
       />
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-2">
           <Button onClick={() => setIsAddPopupOpen(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Thêm NCC
