@@ -5,27 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Trash2 } from "lucide-react";
 import Receipt from "../supplier/Receipt";
-
-interface phieuNhap {
-  MaPNH: string;
-  SoLuong: number;
-  MaCTSP: string;
-  MaNCC: string;
-  TrangThai: string;
-  MaTKNVQL: string;
-  MaTKNVXN: string | null;
-  NoiDung: string;
-  created_at: string;
-}
+import { ReceiptData } from "@/interfaces/receipt";
+import axios from "axios";
 
 interface NccTableProps {
-  nccs: phieuNhap[];
+  nccs: ReceiptData[];
   onDelete?: (id: string) => void;
 }
 
 // Component hiển thị bảng đánh giá / phản hồi
 export default function NccTable({ nccs, onDelete }: NccTableProps) {
-  const [selectedPnh, setSelectedPnh] = useState<phieuNhap | null>(null);
+  const [selectedPnh, setSelectedPnh] = useState<ReceiptData | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   // Hàm định dạng ngày tháng
@@ -84,17 +74,17 @@ export default function NccTable({ nccs, onDelete }: NccTableProps) {
                 <td className="px-4 py-2 text-left">
                   <Badge
                     className={`${
-                      f.TrangThai === "NCC_XACNHAN"
+                      f.TrangThai === "NV_XACNHAN"
                         ? "bg-green-600"
-                        : f.TrangThai === "NV_XACNHAN"
+                        : f.TrangThai === "NCC_XACNHAN"
                         ? "bg-blue-600"
                         : f.TrangThai === "DANG_CHO"
                         ? "bg-yellow-600"
                         : "bg-red-600"
                     } hover:${
-                      f.TrangThai === "NCC_XACNHAN"
+                      f.TrangThai === "NV_XACNHAN"
                         ? "bg-green-300"
-                        : f.TrangThai === "NV_XACNHAN"
+                        : f.TrangThai === "NCC_XACNHAN"
                         ? "bg-blue-300"
                         : f.TrangThai === "DANG_CHO"
                         ? "bg-yellow-300"
@@ -121,7 +111,7 @@ export default function NccTable({ nccs, onDelete }: NccTableProps) {
                       size="sm"
                       variant="outline"
                       className="flex items-center gap-1 hover:bg-red-100 hover:text-red-600"
-                      onClick={() => onDelete?.(f.MaPNH)}
+                      onClick={() => onDelete?.(f.MaPNH || "")}
                     >
                       <Trash2 className="w-4 h-4" />
                       Từ chối
@@ -134,7 +124,18 @@ export default function NccTable({ nccs, onDelete }: NccTableProps) {
         </table>
       </div>
       {isOpen && selectedPnh && (
-        <Receipt initial={selectedPnh} onClose={() => setIsOpen(false)} />
+        <Receipt
+          initial={selectedPnh}
+          onAgree={async () => {
+            await axios.put(
+              `http://localhost:8080/api/phieunhaphang/${selectedPnh.MaPNH}/nhacungcapxacnhan`,
+              {
+                NoiDung: "NCC_XACNHAN",
+              }
+            );
+          }}
+          onClose={() => setIsOpen(false)}
+        />
       )}
     </div>
   );

@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/language-context";
 import { useAuth } from "@/contexts/auth-context";
+import { toast } from "react-toastify";
 
 export function ForgotPasswordForm({
   className,
@@ -34,8 +35,12 @@ export function ForgotPasswordForm({
     setError(null);
 
     const load = await resetPasswordForEmail(email);
-    if (load) setSuccess(true);
-    else setError("Có lỗi xảy ra!");
+    if (load) {
+      toast.success("Email đã được gửi!");
+      setSuccess(true);
+    } else {
+      toast.error("Có lỗi xảy ra!");
+    }
     setIsLoading(false);
   };
 
@@ -65,7 +70,7 @@ export function ForgotPasswordForm({
         <Card>
           <CardHeader>
             <CardTitle className="text-2xl text-center">
-              {t("auth.resetPassword")}
+              {"auth.resetPassword"}
             </CardTitle>
             <CardDescription>
               Nhập email của bạn để xác minh. Chúng tôi sẽ gửi bạn link thay đổi

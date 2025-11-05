@@ -5,8 +5,6 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User, UserRole } from "@/lib/types";
 import { useRouter } from "next/navigation";
-import { stat } from "fs";
-// import { hasPermission, hasAnyPermission, canAccessRoute } from "@/lib/rbac";
 interface AuthState {
   user: User | null;
   isLoading: boolean;

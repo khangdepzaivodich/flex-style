@@ -6,6 +6,9 @@ import Receipt from '@/components/business/Receipt';
 import { ReceiptData } from '@/interfaces/receipt';
 import { createClient } from '@/lib/supabase/client';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 type Variant = { MaCTSP: string; TenSP: string; KichCo: string; SoLuong: number };
 type Supplier = { MaTK: string; DisplayName?: string; Email?: string };
@@ -27,7 +30,7 @@ export default function CreateStockClient({
         data: { session },
       } = await supabase.auth.getSession();
       if (!session) {
-        alert('Bạn chưa đăng nhập');
+        toast.error('Bạn chưa đăng nhập');
         setIsCreating(false);
         return;
       }
@@ -35,7 +38,7 @@ export default function CreateStockClient({
       const userId = (session.user as any)?.id;
 
       if (!data.MaNCC) {
-        alert('Vui lòng chọn nhà cung cấp');
+        toast.error('Vui lòng chọn nhà cung cấp');
         return;
       }
 
@@ -47,7 +50,7 @@ export default function CreateStockClient({
       const totalQty = filtered.reduce((s, it) => s + (Number(it.SoLuong) || 0), 0);
 
       if (filtered.length === 0) {
-        alert('Không có sản phẩm hợp lệ (không có MaCTSP).');
+        toast.error('Không có sản phẩm hợp lệ (không có MaCTSP).');
         return;
       }
 
@@ -69,7 +72,7 @@ export default function CreateStockClient({
       const created = res.data?.data ?? res.data;
       const MaPNH = created?.MaPNH ?? created?.maPNH;
       if (!MaPNH) {
-        alert('Tạo phiếu thất bại: không nhận được MaPNH từ server');
+        toast.error('Tạo phiếu thất bại: không nhận được MaPNH từ server');
         console.error('Create phieu response', res.data);
         return;
       }
@@ -78,7 +81,7 @@ export default function CreateStockClient({
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
-      alert('Tạo phiếu nhập hàng thành công');
+      toast.success('Tạo phiếu nhập hàng thành công');
     } catch (err: any) {
       const serverData = err?.response?.data;
       let messageToShow: any = serverData ?? err?.message ?? 'Tạo thất bại';
@@ -86,7 +89,7 @@ export default function CreateStockClient({
         if (typeof messageToShow === 'object') messageToShow = JSON.stringify(messageToShow, null, 2);
       } catch (e) {
       }
-      alert(String(messageToShow));
+      toast.error(String(messageToShow));
     } finally {
       setIsCreating(false);
     }

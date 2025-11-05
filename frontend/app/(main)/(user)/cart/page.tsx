@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
@@ -9,7 +9,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/contexts/cart-context";
 import { formatPrice } from "@/lib/help";
-
 
 export default function CartPage() {
   const { items, total, itemCount, updateQuantity, removeItem, clearCart } =
@@ -89,7 +88,7 @@ export default function CartPage() {
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="font-bold text-primary">
-                            {formatPrice(item.price) }
+                            {formatPrice(item.price)}
                           </span>
 
                           {/* Quantity Controls */}
@@ -161,7 +160,7 @@ export default function CartPage() {
                       <span>Tổng cộng</span>
                       <span className="text-primary">{formatPrice(total)}</span>
                     </div>
-                  <Separator className="border-b border-purple-200"/>
+                    <Separator className="border-b border-purple-200" />
                   </div>
 
                   <div className="space-y-3">

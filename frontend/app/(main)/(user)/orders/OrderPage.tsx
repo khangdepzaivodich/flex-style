@@ -29,7 +29,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -43,6 +43,7 @@ import { formatPrice } from "@/lib/help";
 import type { OrderResponse } from "@/lib/types";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 export default function OrdersPage({
   initialOrderData,
@@ -73,7 +74,7 @@ export default function OrdersPage({
       setFilteredOrders(initialOrderData?.orders || []);
     }
     console.log("User orders:", orders);
-  }, [user]);
+  }, [user, initialOrderData?.orders, orders]);
 
   useEffect(() => {
     let filtered = orders;
@@ -326,9 +327,11 @@ export default function OrdersPage({
                                 key={ctsp.MaCTSP}
                                 className="flex items-center gap-4"
                               >
-                                <img
-                                  src={ctsp.SANPHAM.HinhAnh[0]}
+                                <Image
+                                  src={"https:" + ctsp.SANPHAM.HinhAnh[0]}
                                   alt={ctsp.SANPHAM.TenSP}
+                                  width={100}
+                                  height={100}
                                   className="w-16 h-16 object-cover rounded"
                                 />
                                 <div>
@@ -343,8 +346,13 @@ export default function OrdersPage({
                             ))
                           ) : (
                             <div className="flex items-center gap-4">
-                              <img
-                                src={order.CHITIETSANPHAM.SANPHAM.HinhAnh[0]}
+                              <Image
+                                width={100}
+                                height={100}
+                                src={
+                                  "https:" +
+                                  order.CHITIETSANPHAM.SANPHAM.HinhAnh[0]
+                                }
                                 alt={order.CHITIETSANPHAM.SANPHAM.TenSP}
                                 className="w-16 h-16 object-cover rounded"
                               />

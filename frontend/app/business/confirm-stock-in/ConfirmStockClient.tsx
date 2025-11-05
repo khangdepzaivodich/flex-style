@@ -8,6 +8,7 @@ import ReceiptView from '@/components/business/ReceiptView';
 import type { ReceiptData } from '@/interfaces/receipt';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { Filter } from 'lucide-react';
+import { toast } from "react-toastify";
 
 export default function ConfirmStockClient({ initialReceipts = [], totalCount = 0, pageSize = 10 }: { initialReceipts?: any[]; totalCount?: number; pageSize?: number }) {
   const supabase = createClient();
@@ -102,8 +103,8 @@ export default function ConfirmStockClient({ initialReceipts = [], totalCount = 
         data: { session },
       } = await supabase.auth.getSession();
       if (!session) {
-        alert('Bạn chưa đăng nhập');
-        
+        toast.error('Bạn chưa đăng nhập');
+        return;
       }
       const accessToken = (session as any).access_token;
       const userId = (session as any).user?.id;
@@ -115,11 +116,11 @@ export default function ConfirmStockClient({ initialReceipts = [], totalCount = 
         if (pid === id) return { ...prev, status: 'NV_XACNHAN', TrangThai: 'NV_XACNHAN' } as any;
         return prev;
       });
-      alert('Xác nhận phiếu thành công');
+      toast.success('Xác nhận phiếu thành công');
     } catch (err: any) {
       console.error('Confirm as staff error', err?.response ?? err);
       const msg = err?.response?.data?.message ?? err?.message ?? 'Xác nhận thất bại';
-      alert(Array.isArray(msg) ? JSON.stringify(msg) : String(msg));
+      toast.error(Array.isArray(msg) ? JSON.stringify(msg) : String(msg));
     } finally {
       setLoading(false);
     }

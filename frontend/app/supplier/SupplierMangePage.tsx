@@ -22,46 +22,15 @@ import {
 import NccTable from "@/components/supplier/NccTable";
 import axios from "axios";
 import { type DateRange } from "react-day-picker";
-import { useAuth } from "@/contexts/auth-context";
+import { ReceiptData } from "@/interfaces/receipt";
 
-interface phieuNhap {
-  MaPNH: string;
-  SoLuong: number;
-  MaCTSP: string;
-  MaNCC: string;
-  TrangThai: string;
-  MaTKNVQL: string;
-  MaTKNVXN: string | null;
-  NoiDung: string;
-  created_at: string;
-}
-const initialNccs = [
-  {
-    id: "FB001",
-    createdAt: new Date().toISOString(),
-    trangthai: "Đã nhận hàng",
-  },
-  {
-    id: "FB003",
-    createdAt: new Date().toISOString(),
-    trangthai: "Đã xác nhận",
-  },
-  {
-    id: "FB002",
-    createdAt: new Date().toISOString(),
-    trangthai: "Chờ xác nhận",
-  },
-  {
-    id: "FB004",
-    createdAt: new Date().toISOString(),
-    trangthai: "Từ chối yêu cầu",
-  },
-];
-
-export default function SupplierPage({ initData }: { initData: phieuNhap[] }) {
+export default function SupplierPage({
+  initData,
+}: {
+  initData: ReceiptData[];
+}) {
   const supabase = createClient();
-  const { user } = useAuth();
-  const [nccs, setNccs] = useState<phieuNhap[]>(initData);
+  const [nccs, setNccs] = useState<ReceiptData[]>(initData);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -117,7 +86,7 @@ export default function SupplierPage({ initData }: { initData: phieuNhap[] }) {
   };
 
   const filtered = useMemo(() => {
-    if (!dateRange && !trangthaiFilter) return nccs;
+    if (!dateRange) return nccs;
     return nccs.filter((f) => {
       if (dateRange?.from && f.created_at) {
         const createdAtDate = new Date(f.created_at);

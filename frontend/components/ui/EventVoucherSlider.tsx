@@ -1,7 +1,7 @@
 "use client";
-import { Gift, Ticket, CalendarDays} from "lucide-react";
+import { Gift, Ticket, CalendarDays } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import type { SuKienUuDai, Voucher } from "@/lib/types";
 import { useState, useEffect } from "react";
 
@@ -21,10 +21,6 @@ export default function EventVoucherSlider({
   events,
   vouchers,
 }: EventVoucherSliderProps) {
-  
-  if (events.length === 0 && vouchers.length === 0) {
-    return null;
-  }
   const slides = [
     ...events.map((e) => ({
       type: "event" as const,
@@ -50,14 +46,28 @@ export default function EventVoucherSlider({
     })),
   ];
   const [current, setCurrent] = useState(0);
-  // Auto-play
+  // Auto-play: only run when there is at least one slide
   useEffect(() => {
+    if (slides.length === 0) return;
     const timer = setTimeout(() => {
-      setCurrent((current + 1) % slides.length);
+      setCurrent((c) => (slides.length > 0 ? (c + 1) % slides.length : c));
     }, 3500);
     return () => clearTimeout(timer);
-  }, [current, slides.length]);
-  
+  }, [slides.length]);
+
+  // Ensure current index stays valid when slides change
+  useEffect(() => {
+    if (slides.length === 0) {
+      setCurrent(0);
+    } else if (current >= slides.length) {
+      setCurrent(0);
+    }
+  }, [slides.length, current]);
+
+  if (slides.length === 0) {
+    return null;
+  }
+
   const slide = slides[current];
   const color = colors[current % colors.length];
 
@@ -88,7 +98,11 @@ export default function EventVoucherSlider({
         <Badge variant="secondary" className="ml-auto text-base px-3 py-1">
           {slide.type === "event"
             ? `${slide.percent}%`
-            : `${slide.loai === "GiamGia" ? `Giảm ${slide.percent} đ` : "Miễn phí vận chuyển"}`}
+            : `${
+                slide.loai === "GiamGia"
+                  ? `Giảm ${slide.percent} đ`
+                  : "Miễn phí vận chuyển"
+              }`}
         </Badge>
       </div>
       <p className="text-base text-gray-700 leading-relaxed mb-4 bg-gradient-to-r from-transparent via-pink-100 to-transparent rounded px-2 py-1 font-semibold">
@@ -104,7 +118,7 @@ export default function EventVoucherSlider({
             Xem chi tiết <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button> */}
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           <Button
             size="icon"
             variant="ghost"
@@ -121,7 +135,7 @@ export default function EventVoucherSlider({
           >
             &gt;
           </Button>
-        </div>
+        </div> */}
       </div>
       <div className="flex justify-center gap-2 mt-3">
         {slides.map((_, idx) => (

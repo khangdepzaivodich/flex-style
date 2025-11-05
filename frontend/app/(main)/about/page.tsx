@@ -90,10 +90,12 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="relative">
-          <img
+          <Image
             src="/modern-fashion-store.png"
             alt="FlexStyle Interior"
             className="rounded-lg shadow-lg w-full"
+            width={600}
+            height={400}
           />
         </div>
       </div>

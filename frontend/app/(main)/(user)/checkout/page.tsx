@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { v4 as uuidv4 } from "uuid";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "@/contexts/cart-context";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
@@ -20,8 +20,9 @@ import { X, Tickets } from "lucide-react";
 import { CartItem } from "@/lib/types";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 import { useOrder } from "@/contexts/order-context";
+import Image from "next/image";
 export default function CheckoutPage() {
-  const { items} = useCart();
+  const { items } = useCart();
   const searchParams = useSearchParams();
   const selectedProductId = searchParams.get("productId");
   const [selectedItem, setSelectedItem] = useState<CartItem | undefined>();
@@ -109,7 +110,7 @@ export default function CheckoutPage() {
     } catch (e) {
       console.error("Failed to parse user info:", e);
     }
-  }, []);
+  }, [selectedProductId, items, userInfo, selectedItem]);
   useEffect(() => {
     setShippingCost(Math.round(invoiceTotal * 0.05));
   }, [invoiceTotal]);
@@ -484,9 +485,11 @@ export default function CheckoutPage() {
                     className="flex gap-3"
                   >
                     <div className="relative">
-                      <img
-                        src={item.image || "/placeholder.svg"}
+                      <Image
+                        src={"https:" + item.image || "/placeholder.svg"}
                         alt={item.name}
+                        width={100}
+                        height={100}
                         className="w-16 h-16 object-cover rounded-lg"
                       />
                       <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -513,7 +516,9 @@ export default function CheckoutPage() {
                 <div className="flex justify-between">
                   <span> Mã voucher đã dùng: </span>
                   {checkVoucher == true ? (
-                    <span className="text-green-600">{voucherCodeCustomer}</span>
+                    <span className="text-green-600">
+                      {voucherCodeCustomer}
+                    </span>
                   ) : (
                     <span className="text-red-600">Không hợp lệ</span>
                   )}
@@ -557,8 +562,8 @@ export default function CheckoutPage() {
 
               <p className="text-xs text-muted-foreground text-center">
                 Bằng cách đặt hàng, bạn đồng ý với{" "}
-                <a href="/terms" className="underline">
-                  Điều khoản dịch vụ
+                <a href="/return" className="underline">
+                  Chính sách đổi trả
                 </a>{" "}
                 và{" "}
                 <a href="/privacy" className="underline">

@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Patch,
   Param,
   Body,
@@ -13,8 +14,10 @@ import { TAIKHOAN } from './taikhoan.service';
 import { Roles } from '../factory_function/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
-import { VaiTro } from './enums';
-import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
+
+import { VaiTro, TrangThai } from './enums';
+import { TaiKhoanNghiepVuDto, UpdateTaiKhoanKH } from './dto/taikhoannghiepvu.dto';
+
 
 interface User {
   id: string;
@@ -73,11 +76,11 @@ export class KhachHangController {
     throw new Error('Không có quyền truy cập');
   }
 
-  @Patch(':id')
+  @Put('/update/:id')
   @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') maTK: string,
-    @Body() data: TaiKhoanNghiepVuDto,
+    @Body() data: UpdateTaiKhoanKH,
     @Req() req,
   ): Promise<TAIKHOAN> {
     const user = req.user as User;
@@ -85,5 +88,33 @@ export class KhachHangController {
     if (user.id === tk?.MaTK)
       return this.taikhoanService.updateTaiKhoan(maTK, data);
     throw new Error('Không có quyền cập nhật');
+  }
+
+  // Allow QLDN or ADMIN to change status of customer accounts (KH)
+  @Patch('status/:id')
+  @Roles('QLDN', 'ADMIN')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  async updateStatus(
+    @Param('id') maTK: string,
+    @Body('status') status: TrangThai,
+    @Req() req,
+  ) {
+    const user = req.user as User;
+    const tk = await this.taikhoanService.taikhoan(maTK);
+    const reqUser = await this.taikhoanService.taikhoan(user.id);
+
+    if (!tk) throw new Error('Không tìm thấy tài khoản');
+
+    // QLDN may update KH accounts (not ADMIN/NCC)
+    if (reqUser?.VAITRO === 'QLDN' && tk?.VAITRO === 'KH') {
+      return this.taikhoanService.updateTrangThai(maTK, status);
+    }
+
+    // ADMIN can update any account status (keeps existing ADMIN behavior)
+    if (reqUser?.VAITRO === 'ADMIN') {
+      return this.taikhoanService.updateTrangThai(maTK, status);
+    }
+
+    throw new Error('Không có quyền cập nhật trạng thái');
   }
 }

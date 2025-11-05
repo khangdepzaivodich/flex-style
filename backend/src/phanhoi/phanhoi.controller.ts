@@ -1,8 +1,11 @@
-import { Controller, Get, Query, Body } from '@nestjs/common';
+import { Controller, Get, Query, Body, Delete } from '@nestjs/common';
 import { PhanHoiService } from './phanhoi.service';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 import { PhanHoiDto } from './dto/phanhoi.dto';
-
+import { Roles } from 'src/factory_function/role';
+import { TaiKhoanGuard } from 'src/taikhoan/taikhoan.guard';
+import { JwtAuthGuard } from 'src/jwt/jwt.guard';
+import { UseGuards } from '@nestjs/common/decorators';
 @Controller('phanhoi')
 export class PhanHoiController {
   constructor(private readonly phanHoiService: PhanHoiService) {}
@@ -33,10 +36,21 @@ export class PhanHoiController {
   async getCustomerFeedback(@Query() MaSP: string, @Query() MaTKKH: string) {
     return await this.phanHoiService.getCustomerFeedback(MaSP, MaTKKH);
   }
+  //lấy phản hồi của khách hàng theo sản phẩm
+  @Roles('QLDN')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  @Get('/all/customer-feedback')
+  @ResponseMessage('Lấy phản hồi của khách hàng theo sản phẩm thành công')
+  async getCustomerFeedbackForNV() {
+    const feedbacks = await this.phanHoiService.getCustomerFeedbackForNV();
+    return feedbacks;
+  }
   //xóa phản hồi
-  @Get('delete')
+  @Roles('QLDN')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  @Delete('delete')
   @ResponseMessage('Xóa phản hồi thành công')
-  async delete(@Query() MaPH: string, @Body() MaTKKH: string) {
-    return await this.phanHoiService.delete(MaPH, MaTKKH);
+  async delete(@Query('MaPH') MaPH: string) {
+    return await this.phanHoiService.delete(MaPH);
   }
 }
