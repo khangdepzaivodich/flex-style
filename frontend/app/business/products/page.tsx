@@ -1,8 +1,8 @@
-import ProductsPage from "./ProductPage";
 import Product from "@/interfaces/product";
 import { createClient } from "@/lib/supabase/server";
+import ProductsPageClient from "./ProductPage";
 
-export default async function StaffPage() {
+export default async function ProductPage() {
   const supabase = createClient();
 
   const {
@@ -31,7 +31,5 @@ export default async function StaffPage() {
     return product;
   });
 
-  console.log("Product data (sorted):", productData);
-
-  return <ProductsPage productData={productData} sessionData={session} />;
+  return <ProductsPageClient sessionData={session} />;
 }

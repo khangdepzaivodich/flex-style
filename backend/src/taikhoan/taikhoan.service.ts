@@ -220,15 +220,6 @@ export class TaikhoanService {
     maTK: string,
     data: UpdateTaiKhoanNghiepVuDto,
   ): Promise<TAIKHOAN> {
-    if ('VAITRO' in data) {
-      throw new Error(
-        'Không thể cập nhật trạng thái tài khoản qua endpoint này',
-      );
-    } else if ('Status' in data) {
-      throw new Error(
-        'Không thể cập nhật trạng thái tài khoản qua endpoint này',
-      );
-    }
     return this.prisma.tAIKHOAN.update({
       where: { MaTK: maTK },
       data: data,

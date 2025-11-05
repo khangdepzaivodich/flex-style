@@ -28,6 +28,7 @@ export class SanPhamDto {
   @Min(0, { message: 'Giá bán không được âm.' })
   GiaBan: number;
 
+  @IsOptional()
   @IsInt({ message: 'Giá mua phải là số nguyên.' })
   @Min(0, { message: 'Giá mua không được âm.' })
   GiaMua: number;
@@ -44,9 +45,7 @@ export class SanPhamDto {
   @IsNotEmpty({ message: 'Mã danh mục không được để trống.' })
   MaDM: string;
 
-  @IsEnum({
-    message: 'Màu sắc không hợp lệ',
-  })
+  @IsString()
   MauSac: string;
   @IsString({ message: 'Slug phải là chuỗi ký tự.' })
   @IsNotEmpty({ message: 'Slug không được để trống.' })

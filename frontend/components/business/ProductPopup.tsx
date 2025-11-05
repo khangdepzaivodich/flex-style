@@ -16,11 +16,12 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Save, X } from "lucide-react";
 import Product from "@/interfaces/product";
 import ProductDetail from "@/interfaces/productDetail";
-
+import { CategoryContext } from "@/app/business/context/CategoryContext";
+import Image from "next/image";
 interface ProductPopupProps {
   open: boolean;
   onClose: () => void;
@@ -28,6 +29,8 @@ interface ProductPopupProps {
   initialData?: Product;
   selectedSizeIndex: number;
   setSelectedSizeIndex: (index: number) => void;
+  error: string | null;
+  setError: (error: string | null) => void;
 }
 
 export default function ProductPopup({
@@ -37,17 +40,14 @@ export default function ProductPopup({
   initialData,
   selectedSizeIndex,
   setSelectedSizeIndex,
+  error,
+  setError,
 }: ProductPopupProps) {
   const [form, setForm] = useState<Product>(
     initialData ?? {
       MaSP: "",
       TenSP: "",
-      DANHMUC: {
-        MaDM: "",
-        TenDM: "",
-        MoTa: "",
-        Loai: "",
-      },
+      DANHMUC: { MaDM: "", TenDM: "", MoTa: "", Loai: "" },
       GiaBan: 0,
       MauSac: "",
       TrangThai: "ACTIVE",
@@ -61,7 +61,10 @@ export default function ProductPopup({
 
   const [previews, setPreviews] = useState<(string | File)[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
-
+  const sizes = ["S", "M", "L", "XL", "XXL"];
+  const { categories, loading } = useContext(CategoryContext);
+  const [loadingImage, setLoading] = useState(false);
+  // Reset form when popup opens or closes
   useEffect(() => {
     if (open && initialData) {
       setForm({
@@ -88,12 +91,7 @@ export default function ProductPopup({
       setForm({
         MaSP: "",
         TenSP: "",
-        DANHMUC: {
-          MaDM: "",
-          TenDM: "",
-          MoTa: "",
-          Loai: "",
-        },
+        DANHMUC: { MaDM: "", TenDM: "", MoTa: "", Loai: "" },
         GiaBan: 0,
         MauSac: "",
         TrangThai: "ACTIVE",
@@ -112,14 +110,18 @@ export default function ProductPopup({
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
+
     const arr = Array.from(files);
-    if (arr.length + previews.length > 10)
+    if (arr.length + previews.length > 10) {
       return setErrors({ image: "Tối đa 10 ảnh" });
+    }
     setForm((f) => ({
       ...f!,
       HinhAnh: [...(f?.HinhAnh || []), ...arr],
     }));
 
+    // Show previews
+    setLoading(true);
     const readers = arr.map(
       (file) =>
         new Promise<string>((resolve) => {
@@ -128,7 +130,10 @@ export default function ProductPopup({
           reader.readAsDataURL(file);
         })
     );
-    Promise.all(readers).then((urls) => setPreviews((p) => [...p, ...urls]));
+
+    Promise.all(readers)
+      .then((urls) => setPreviews((p) => [...p, ...urls]))
+      .finally(() => setLoading(false));
   };
 
   const removeImageAt = (i: number) => {
@@ -145,7 +150,6 @@ export default function ProductPopup({
     value: any
   ) => {
     setForm((prev) => {
-      if (!prev) return prev;
       const details = [...prev.CHITIETSANPHAM];
       details[index] = { ...details[index], [field]: value };
       return { ...prev, CHITIETSANPHAM: details };
@@ -153,16 +157,13 @@ export default function ProductPopup({
   };
 
   const setField = (field: keyof Product, value: any) => {
-    setForm((prev) => {
-      if (!prev) return prev;
-      return { ...prev, [field]: value };
-    });
+    setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.TenSP.trim()) e.name = "Tên không được trống";
-    if (!form.DANHMUC.Loai.trim()) e.category = "Chọn danh mục";
+    if (!form.DANHMUC.TenDM.trim()) e.category = "Chọn danh mục";
     if (!form.GiaBan || Number(form.GiaBan) <= 0) e.price = "Giá phải > 0";
     if (!form.MauSac.trim()) e.color = "Nhập màu sắc";
     if (previews.length === 0) e.image = "Chọn ít nhất 1 ảnh";
@@ -173,22 +174,17 @@ export default function ProductPopup({
   const handleSave = async () => {
     if (!validate()) return;
 
-    const fd = new FormData();
-    fd.append("TenSP", form.TenSP);
-    fd.append("GiaBan", form.GiaBan.toString());
-    fd.append("MauSac", form.MauSac);
-    fd.append("TrangThai", form.TrangThai);
-    fd.append("MoTa", form.MoTa ?? "");
-    fd.append("MaDM", form.MaDM);
-
-    form.CHITIETSANPHAM.forEach((d, i) => {
-      fd.append(`CHITIETSANPHAM[${i}][KichCo]`, d.KichCo);
-      fd.append(`CHITIETSANPHAM[${i}][SoLuong]`, d.SoLuong?.toString() ?? "0");
-    });
-
-    form.HinhAnh?.forEach((file) => fd.append("HinhAnh", file));
-    onSave(form);
-    onClose();
+    try {
+      setLoading(true);
+      if (onSave) {
+        await onSave(form);
+      }
+      onClose();
+    } catch (err) {
+      console.error("Save failed", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -201,7 +197,7 @@ export default function ProductPopup({
         </DialogHeader>
 
         <div className="grid grid-cols-2 gap-4">
-          {/* Tên sản phẩm */}
+          {/* Basic fields */}
           <div>
             <label>Tên sản phẩm</label>
             <Input
@@ -213,22 +209,42 @@ export default function ProductPopup({
             )}
           </div>
 
-          {/* Danh mục */}
           <div>
-            <label>Loại danh mục</label>
+            <label>Danh mục</label>
             <Select
-              value={form.DANHMUC.Loai}
-              onValueChange={(v) =>
-                setField("DANHMUC", { ...form.DANHMUC, Loai: v })
-              }
+              value={form.DANHMUC.TenDM}
+              onValueChange={(v) => {
+                // Find the selected category object
+                const selectedCat = categories.find((cat) => cat.TenDM === v);
+                if (selectedCat) {
+                  setField("DANHMUC", {
+                    TenDM: selectedCat.TenDM,
+                    MaDM: selectedCat.MaDM,
+                    MoTa: selectedCat.MoTa,
+                    Loai: selectedCat.Loai,
+                  });
+                } else {
+                  // fallback if not found
+                  setField("DANHMUC", {
+                    TenDM: v,
+                    MaDM: "",
+                    MoTa: "",
+                    Loai: "",
+                  });
+                }
+              }}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Chọn danh mục" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="AO">Áo</SelectItem>
-                <SelectItem value="QUAN">Quần</SelectItem>
-                <SelectItem value="PHU_KIEN">Phụ kiện</SelectItem>
+              <SelectContent className="max-h-80">
+                {!loading &&
+                  Array.isArray(categories) &&
+                  categories.map((cat) => (
+                    <SelectItem key={cat.MaDM} value={cat.TenDM}>
+                      {cat.TenDM}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
             {errors.category && (
@@ -236,7 +252,6 @@ export default function ProductPopup({
             )}
           </div>
 
-          {/* Giá bán */}
           <div>
             <label>Giá bán</label>
             <Input
@@ -249,7 +264,6 @@ export default function ProductPopup({
             )}
           </div>
 
-          {/* Màu sắc */}
           <div>
             <label>Màu sắc</label>
             <Input
@@ -277,50 +291,44 @@ export default function ProductPopup({
               </SelectContent>
             </Select>
           </div>
-          {form.CHITIETSANPHAM.length > 0 && (
-            <div className="col-span-2">
-              <label>Chọn size</label>
-              <Select
-                value={form.CHITIETSANPHAM[selectedSizeIndex]?.KichCo || ""}
-                onValueChange={(v) => {
-                  const idx = form.CHITIETSANPHAM.findIndex(
-                    (d) => d.KichCo === v
-                  );
-                  if (idx !== -1) setSelectedSizeIndex(idx);
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Chọn size" />
-                </SelectTrigger>
-                <SelectContent>
-                  {form.CHITIETSANPHAM.map((d, i) => (
-                    <SelectItem key={i} value={d.KichCo}>
-                      {d.KichCo}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
 
-              {/* Quantity input for selected size */}
-              <div className="mt-2">
-                <label>
-                  Số lượng cho size{" "}
-                  {form.CHITIETSANPHAM[selectedSizeIndex]?.KichCo}
-                </label>
-                <Input
-                  type="number"
-                  value={form.CHITIETSANPHAM[selectedSizeIndex]?.SoLuong || 0}
-                  onChange={(e) =>
-                    setDetailField(
-                      selectedSizeIndex,
-                      "SoLuong",
-                      Number(e.target.value)
-                    )
-                  }
-                />
-              </div>
+          <div className="col-span-2">
+            <label>Chọn size</label>
+            <Select
+              value={sizes[selectedSizeIndex]}
+              onValueChange={(v) => {
+                const idx = sizes.findIndex((d) => d === v);
+                setSelectedSizeIndex(idx !== -1 ? idx : 0);
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Chọn size" />
+              </SelectTrigger>
+              <SelectContent>
+                {sizes.map((d, i) => (
+                  <SelectItem key={i} value={sizes[i]}>
+                    {sizes[i]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <div className="mt-2">
+              <label>Số lượng cho size {sizes[selectedSizeIndex]}</label>
+              <Input
+                type="number"
+                value={form.CHITIETSANPHAM[selectedSizeIndex]?.SoLuong || 0}
+                onChange={(e) =>
+                  setDetailField(
+                    selectedSizeIndex,
+                    "SoLuong",
+                    Number(e.target.value)
+                  )
+                }
+              />
             </div>
-          )}
+          </div>
+
           {/* Mô tả */}
           <div className="col-span-2">
             <label>Mô tả</label>
@@ -330,12 +338,7 @@ export default function ProductPopup({
               value={form.MoTa}
               onChange={(e) => setField("MoTa", e.target.value)}
             />
-            {errors.description && (
-              <p className="text-red-500 text-sm">{errors.description}</p>
-            )}
           </div>
-
-          {/* Sizes dropdown */}
 
           {/* Hình ảnh */}
           <div className="col-span-2">
@@ -352,11 +355,20 @@ export default function ProductPopup({
             <div className="grid grid-cols-4 gap-2 mt-2">
               {previews.map((src, i) => (
                 <div key={i} className="relative">
-                  <img
-                    src={src}
-                    alt=""
-                    className="w-full h-24 object-cover rounded border"
-                  />
+                  <div className="relative w-full h-24">
+                    <Image
+                      src={
+                        (src as string).startsWith("//")
+                          ? "https:" + (src as string)
+                          : (src as string)
+                      }
+                      alt="product"
+                      fill
+                      style={{ objectFit: "cover" }}
+                      className="rounded border"
+                    />
+                  </div>
+
                   <button
                     onClick={() => removeImageAt(i)}
                     className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1"
@@ -371,12 +383,14 @@ export default function ProductPopup({
 
         <DialogFooter className="justify-center mt-4">
           <Button variant="outline" onClick={onClose}>
-            <X className="w-4 h-4 mr-1" />
-            Hủy
+            <X className="w-4 h-4 mr-1" /> Hủy
           </Button>
-          <Button onClick={handleSave} className="bg-[#8B5CF6] text-white">
-            <Save className="w-4 h-4 mr-1" />
-            Lưu
+          <Button
+            onClick={handleSave}
+            className="bg-[#8B5CF6] text-white "
+            disabled={loadingImage}
+          >
+            <Save className="w-4 h-4 mr-1" /> Lưu
           </Button>
         </DialogFooter>
       </DialogContent>
