@@ -486,8 +486,10 @@ export default function CheckoutPage() {
                   >
                     <div className="relative">
                       <Image
-                        src={item.image || "/placeholder.svg"}
+                        src={"https:" + item.image || "/placeholder.svg"}
                         alt={item.name}
+                        width={100}
+                        height={100}
                         className="w-16 h-16 object-cover rounded-lg"
                       />
                       <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -560,8 +562,8 @@ export default function CheckoutPage() {
 
               <p className="text-xs text-muted-foreground text-center">
                 Bằng cách đặt hàng, bạn đồng ý với{" "}
-                <a href="/terms" className="underline">
-                  Điều khoản dịch vụ
+                <a href="/return" className="underline">
+                  Chính sách đổi trả
                 </a>{" "}
                 và{" "}
                 <a href="/privacy" className="underline">
