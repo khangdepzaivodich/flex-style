@@ -28,6 +28,9 @@ import { VNPAYModule } from './vnpay/vnpay.module';
 import { ThanhtoanModule } from './thanhtoan/thanhtoan.module';
 import { ThongbaoModule } from './thongbao/thongbao.module';
 import { GeminiModule } from './gemini/gemini.module';
+import { ThongkeController } from './thongke/thongke.controller';
+import { ThongkeService } from './thongke/thongke.service';
+import { ThongkeModule } from './thongke/thongke.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -58,6 +61,7 @@ import { GeminiModule } from './gemini/gemini.module';
     ThanhtoanModule,
     ThongbaoModule,
     GeminiModule,
+    ThongkeModule,
   ],
   controllers: [
     AppController,
@@ -65,8 +69,9 @@ import { GeminiModule } from './gemini/gemini.module';
     NhanVienController,
     QuanLyController,
     NhaCungCapController,
+    ThongkeController,
   ],
-  providers: [AppService, TaikhoanService, JwtService],
+  providers: [AppService, TaikhoanService, JwtService, ThongkeService],
 })
 export class AppModule {
   constructor() {
