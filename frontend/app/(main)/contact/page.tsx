@@ -2,43 +2,12 @@
 
 import type React from "react";
 
-// import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
-// import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, Phone, Mail, Clock, MessageCircle, Send } from "lucide-react";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
 export default function ContactPage() {
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   email: "",
-  //   phone: "",
-  //   subject: "",
-  //   message: "",
-  // });
-
-  // const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // const handleInputChange = (field: string, value: string) => {
-  //   setFormData((prev) => ({ ...prev, [field]: value }));
-  // };
-
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setIsSubmitting(true);
-
-  //   // Simulate form submission
-  //   await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  //   alert("Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong vòng 24 giờ.");
-  //   setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
-  //   setIsSubmitting(false);
-  // };
-
   const contactInfo = [
     {
       icon: MapPin,
@@ -77,6 +46,11 @@ export default function ContactPage() {
       question: "Có hỗ trợ giao hàng toàn quốc không?",
       answer:
         "Có, chúng tôi giao hàng toàn quốc với phí ship từ 30.000đ. Miễn phí ship cho đơn hàng trên 500.000đ.",
+    },
+    {
+      question: "Làm sao để liên hệ bộ phận hỗ trợ khách hàng?",
+      answer:
+        "Bạn có thể liên hệ qua số hotline 0903 990 421 hoặc gửi email đến hotrokhachhang@flexstyle.com",
     },
   ];
 
@@ -125,75 +99,6 @@ export default function ContactPage() {
             </div>
           </CardContent>
         </Card>
-        {/* Contact Form */}
-        {/* <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <MessageCircle className="h-5 w-5" />
-              Gửi tin nhắn cho chúng tôi
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form
-              onSubmit={handleSubmit}
-              className="space-y-4 focus:ring-ring/50"
-            >
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="name">Họ và tên *</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => handleInputChange("name", e.target.value)}
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="phone">Số điện thoại</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => handleInputChange("phone", e.target.value)}
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="email">Email *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="subject">Chủ đề *</Label>
-                <Input
-                  id="subject"
-                  value={formData.subject}
-                  onChange={(e) => handleInputChange("subject", e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="message">Nội dung *</Label>
-                <Textarea
-                  id="message"
-                  rows={5}
-                  value={formData.message}
-                  onChange={(e) => handleInputChange("message", e.target.value)}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                <Send className="h-4 w-4 mr-2" />
-                {isSubmitting ? "Đang gửi..." : "Gửi tin nhắn"}
-              </Button>
-            </form>
-          </CardContent>
-        </Card> */}
 
         {/* Contact Information */}
         <div className="flex flex-col gap-6 w-full lg:w-2/5">

@@ -1,13 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { products } from "@/data/products.json";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Percent, Clock, Star, TrendingUp } from "lucide-react";
+import { Percent, Clock } from "lucide-react";
 import { Product } from "@/lib/types";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
@@ -44,7 +41,7 @@ export default function SalePage({
             return 0;
         }
       });
-  }, [sortBy]);
+  }, [sortBy, products, suKienUuDais]);
 
   return (
     <div className="container mx-auto px-4 py-8">

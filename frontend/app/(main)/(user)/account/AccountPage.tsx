@@ -78,7 +78,7 @@ export default function AccountPage({
         toast.success("Cập nhật thành công!");
         setIsEditing(false);
       }
-    } catch (error) {
+    } catch {
       toast.error("Cập nhật thất bại. Vui lòng thử lại.");
     } finally {
       setIsUpdating(false);

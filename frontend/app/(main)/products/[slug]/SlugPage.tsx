@@ -9,7 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Star,
-  Heart,
   Share2,
   ShoppingCart,
   Minus,
@@ -186,25 +185,25 @@ export default function SlugPage({
       (prev) => (prev - 1 + product.HinhAnh.length) % product.HinhAnh.length
     );
   };
-  const copyToClipboard = async (text: string) => {
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(text);
-      } else {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.left = "-9999px";
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textarea);
-      }
-      alert("Liên kết đã được sao chép vào bộ nhớ tạm!");
-    } catch {
-      alert("Không thể sao chép liên kết. Vui lòng sao chép thủ công.");
-    }
-  };
+  // const copyToClipboard = async (text: string) => {
+  //   try {
+  //     if (navigator.clipboard?.writeText) {
+  //       await navigator.clipboard.writeText(text);
+  //     } else {
+  //       const textarea = document.createElement("textarea");
+  //       textarea.value = text;
+  //       textarea.style.position = "fixed";
+  //       textarea.style.left = "-9999px";
+  //       document.body.appendChild(textarea);
+  //       textarea.select();
+  //       document.execCommand("copy");
+  //       document.body.removeChild(textarea);
+  //     }
+  //     alert("Liên kết đã được sao chép vào bộ nhớ tạm!");
+  //   } catch {
+  //     alert("Không thể sao chép liên kết. Vui lòng sao chép thủ công.");
+  //   }
+  // };
 
   // Xử lý khi chọn ảnh thử trang phục
   // const handleTryOnImageChange = (file: File | null) => {

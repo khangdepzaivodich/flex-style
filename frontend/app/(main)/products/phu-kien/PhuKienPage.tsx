@@ -63,7 +63,7 @@ export default function PhuKienPage({
         // return b.rating - a.rating;
       }
     });
-  }, [sortBy, selectedCategory, allPhuKienProducts, categories]);
+  }, [sortBy, selectedCategory, allPhuKienProducts]);
 
   return (
     <div className="container mx-auto px-4 py-8">

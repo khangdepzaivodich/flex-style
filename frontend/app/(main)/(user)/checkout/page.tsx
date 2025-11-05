@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { v4 as uuidv4 } from "uuid";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "@/contexts/cart-context";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
@@ -20,8 +20,9 @@ import { X, Tickets } from "lucide-react";
 import { CartItem } from "@/lib/types";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 import { useOrder } from "@/contexts/order-context";
+import Image from "next/image";
 export default function CheckoutPage() {
-  const { items} = useCart();
+  const { items } = useCart();
   const searchParams = useSearchParams();
   const selectedProductId = searchParams.get("productId");
   const [selectedItem, setSelectedItem] = useState<CartItem | undefined>();
@@ -109,7 +110,7 @@ export default function CheckoutPage() {
     } catch (e) {
       console.error("Failed to parse user info:", e);
     }
-  }, []);
+  }, [selectedProductId, items, userInfo, selectedItem]);
   useEffect(() => {
     setShippingCost(Math.round(invoiceTotal * 0.05));
   }, [invoiceTotal]);
@@ -484,7 +485,7 @@ export default function CheckoutPage() {
                     className="flex gap-3"
                   >
                     <div className="relative">
-                      <img
+                      <Image
                         src={item.image || "/placeholder.svg"}
                         alt={item.name}
                         className="w-16 h-16 object-cover rounded-lg"
@@ -513,7 +514,9 @@ export default function CheckoutPage() {
                 <div className="flex justify-between">
                   <span> Mã voucher đã dùng: </span>
                   {checkVoucher == true ? (
-                    <span className="text-green-600">{voucherCodeCustomer}</span>
+                    <span className="text-green-600">
+                      {voucherCodeCustomer}
+                    </span>
                   ) : (
                     <span className="text-red-600">Không hợp lệ</span>
                   )}
