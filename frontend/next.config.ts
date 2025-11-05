@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 // Thêm cấu hình cho phép truy cập từ yame.vn
-const allowedDomains = ["yame.vn", "res.cloudinary.com", "https"];
+const allowedDomains = ["yame.vn", "res.cloudinary.com"];
 
 const nextConfig: NextConfig = {
   images: {

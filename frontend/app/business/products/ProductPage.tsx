@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Search, Filter as FilterIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -16,11 +17,9 @@ import {
 import Product from "@/interfaces/product";
 import axios from "axios";
 
-export default function ProductsPage({
-  productData,
+export default function ProductsPageClient({
   sessionData,
 }: {
-  productData: Product[];
   sessionData: any;
 }) {
   const [open, setOpen] = useState(false);
@@ -28,11 +27,25 @@ export default function ProductsPage({
   const [viewProduct, setViewProduct] = useState<Product | null>(null);
   const [selectedSizeIndex, setSelectedSizeIndex] = useState<number>(0);
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [search, setSearch] = useState<string>("");
+
+  // Pagination
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [noMoreProducts, setNoMoreProducts] = useState(false);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
   enum Filter {
     All = "all",
     Active = "active",
     Inactive = "inactive",
   }
+  const [filter, setFilter] = useState<Filter>(Filter.All);
 
   const categoryMap = {
     AO: "Áo",
@@ -40,39 +53,134 @@ export default function ProductsPage({
     PHU_KIEN: "Phụ kiện",
   };
 
-  const [filter, setFilter] = useState<Filter>(Filter.All);
-  const [products, setProducts] = useState<Product[]>(productData);
-  const [search, setSearch] = useState<string>("");
+  const sizes = ["S", "M", "L", "XL", "XXL"];
 
-  // Keep products synced when productData changes (important for sorted backend data)
+  const sortProductSizes = (data: Product[]): Product[] => {
+    return data.map((product) => {
+      if (product.CHITIETSANPHAM && Array.isArray(product.CHITIETSANPHAM)) {
+        product.CHITIETSANPHAM = [...product.CHITIETSANPHAM].sort((a, b) => {
+          const ia = sizes.indexOf(a.KichCo);
+          const ib = sizes.indexOf(b.KichCo);
+          if (ia === -1 && ib === -1) return a.KichCo.localeCompare(b.KichCo);
+          if (ia === -1) return 1;
+          if (ib === -1) return -1;
+          return ia - ib;
+        });
+      }
+      return product;
+    });
+  };
+
+  const fetchProducts = async (pageNum: number) => {
+    if (loading || noMoreProducts) return;
+    setLoading(true);
+    setError(null);
+
+    try {
+      const skip = (pageNum - 1) * pageSize;
+      const take = pageSize;
+
+      const res = await axios.get("http://localhost:8080/api/sanpham", {
+        params: { skip, take, includeSizes: true },
+        headers: { Authorization: `Bearer ${sessionData.access_token}` },
+      });
+
+      let fetchedData: Product[] = res.data.data ?? [];
+      fetchedData = sortProductSizes(fetchedData);
+
+      if (fetchedData.length === 0) {
+        setNoMoreProducts(true);
+        return;
+      }
+
+      // Merge and remove duplicates by MaSP
+      setProducts((prev) => {
+        const combined = [...prev, ...fetchedData];
+        const uniqueProducts = Array.from(
+          new Map(combined.map((p) => [p.MaSP, p])).values()
+        );
+        return uniqueProducts.sort((a, b) =>
+          (b.created_at ?? "").localeCompare(a.created_at ?? "")
+        );
+      });
+    } catch (err) {
+      console.error("Error fetching products:", err);
+      setError("Không thể tải sản phẩm");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    setProducts(productData);
-  }, [productData]);
+    fetchProducts(page);
+  }, [page]);
 
-  // 🔍 filter by status
-  const filtered = products.filter((p) => {
-    if (filter === Filter.All) return true;
-    if (filter === Filter.Active)
-      return (p.TrangThai ?? "").toString() === "ACTIVE";
-    if (filter === Filter.Inactive)
-      return (p.TrangThai ?? "").toString() === "INACTIVE";
-    return true;
-  });
-
-  // 🔍 search filter
-  const filteredProducts = filtered.filter((p) =>
-    [
-      p.TenSP,
-      p.MauSac,
-      categoryMap[p.DANHMUC.Loai as keyof typeof categoryMap],
-    ].some((field) => field?.toLowerCase().includes(search.toLowerCase()))
+  // Infinite scroll
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const target = entries[0];
+      if (target.isIntersecting && !loading && !noMoreProducts) {
+        setPage((prev) => prev + 1);
+      }
+    },
+    [loading, noMoreProducts]
   );
+
+  useEffect(() => {
+    observer.current = new IntersectionObserver(handleObserver);
+    if (loadMoreRef.current) observer.current.observe(loadMoreRef.current);
+
+    return () => {
+      if (observer.current && loadMoreRef.current)
+        observer.current.unobserve(loadMoreRef.current);
+    };
+  }, [handleObserver]);
+
+  // Filtering + search
+  const filteredProducts = products
+    .filter((p) => {
+      if (filter === Filter.All) return true;
+      if (filter === Filter.Active)
+        return (p.TrangThai ?? "").toString() === "ACTIVE";
+      if (filter === Filter.Inactive)
+        return (p.TrangThai ?? "").toString() === "INACTIVE";
+      return true;
+    })
+    .filter((p) =>
+      [
+        p.TenSP,
+        p.MauSac,
+        categoryMap[p.DANHMUC?.Loai as keyof typeof categoryMap],
+      ].some((field) => field?.toLowerCase().includes(search.toLowerCase()))
+    );
 
   const handleSave = async (data: Product) => {
     if (!data) return;
-    data.HinhAnh = data.HinhAnh?.map((file) => file.toString()) ?? [];
+    setLoading(true);
+    setError(null);
 
-    if (editing) {
+    try {
+      const uploadedUrls: string[] = [];
+
+      for (const file of data.HinhAnh || []) {
+        if (typeof file === "string") {
+          uploadedUrls.push(file);
+        } else {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", "products");
+          const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!;
+          const res = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+            { method: "POST", body: formData }
+          );
+          const json = await res.json();
+          uploadedUrls.push(json.secure_url);
+        }
+      }
+
+      data.HinhAnh = uploadedUrls;
+
       const requestProduct = {
         TenSP: data.TenSP,
         GiaBan: data.GiaBan,
@@ -80,46 +188,87 @@ export default function ProductsPage({
         TrangThai: data.TrangThai,
         MoTa: data.MoTa,
         HinhAnh: data.HinhAnh,
+        MaDM: data.DANHMUC.MaDM,
+        GiaMua: 0,
+        slug:
+          data.slug?.trim() ||
+          data.TenSP.toLowerCase()
+            .trim()
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9-]/g, "")
+            .replace(/^-+|-+$/g, ""),
       };
-      try {
-        const res = await axios.patch(
+
+      const requestProductDetail = data.CHITIETSANPHAM.map((detail, i) => ({
+        ...detail,
+        KichCo: sizes[i],
+      }));
+
+      if (editing) {
+        await axios.patch(
           `http://localhost:8080/api/sanpham/${data.MaSP}`,
           requestProduct,
-          { headers: { Authorization: `Bearer ${sessionData.access_token}` } }
+          {
+            headers: { Authorization: `Bearer ${sessionData.access_token}` },
+          }
         );
-        console.log("Update product successfully", res);
-      } catch (error) {
-        console.error("Error updating product:", error);
-      }
-      const requestProductDetail = data.CHITIETSANPHAM[selectedSizeIndex];
-      try {
-        const res = await axios.patch(
-          `http://localhost:8080/api/chitietsanpham/${requestProductDetail.MaCTSP}`,
-          requestProductDetail,
-          { headers: { Authorization: `Bearer ${sessionData.access_token}` } }
+
+        for (const detail of requestProductDetail) {
+          await axios.patch(
+            `http://localhost:8080/api/chitietsanpham/${detail.MaCTSP}`,
+            detail,
+            {
+              headers: { Authorization: `Bearer ${sessionData.access_token}` },
+            }
+          );
+        }
+      } else {
+        const res = await axios.post(
+          "http://localhost:8080/api/sanpham",
+          requestProduct,
+          {
+            headers: { Authorization: `Bearer ${sessionData.access_token}` },
+          }
         );
-        console.log("Update product detail successfully", res);
-      } catch (error) {
-        console.error("Error updating product detail", error);
+
+        const newProductId = res.data.data.MaSP;
+        for (const detail of requestProductDetail) {
+          await axios.post(
+            "http://localhost:8080/api/chitietsanpham",
+            { ...detail, MaSP: newProductId },
+            {
+              headers: { Authorization: `Bearer ${sessionData.access_token}` },
+            }
+          );
+        }
       }
+
+      // Refresh first page without duplicates
+      setProducts([]);
+      setPage(1);
+      setNoMoreProducts(false);
+    } catch (err) {
+      console.error("Error saving product:", err);
+      setError("Lưu sản phẩm thất bại");
+    } finally {
+      setLoading(false);
+      setOpen(false);
+      setEditing(null);
     }
-    setOpen(false);
-    setEditing(null);
   };
 
-  const handleDelete = (id: string) => {
-    setProducts((prev) => prev.filter((p) => p.MaSP !== id));
-  };
-
-  const handleEdit = (id: string) => {
-    const p = products.find((x) => x.MaSP === id);
-    if (p) setEditing(p);
-  };
-
-  // 👀 open view popup
-  const handleViewOpen = (id: string) => {
-    const p = products.find((x) => x.MaSP === id);
-    if (p) setViewProduct(p);
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/sanpham/${id}`, {
+        headers: { Authorization: `Bearer ${sessionData.access_token}` },
+      });
+      setProducts([]);
+      setPage(1);
+      setNoMoreProducts(false);
+    } catch (err) {
+      console.error("Error deleting product:", err);
+      setError("Xóa sản phẩm thất bại");
+    }
   };
 
   useEffect(() => {
@@ -136,7 +285,7 @@ export default function ProductsPage({
               placeholder="Tìm kiếm theo mã hoặc tên..."
               className="pl-10 bg-muted border-0 w-full"
               value={search}
-              onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <Button
@@ -144,35 +293,48 @@ export default function ProductsPage({
               setEditing(null);
               setOpen(true);
             }}
+            disabled={loading}
           >
             Thêm sản phẩm
           </Button>
         </div>
 
-        <div className="flex items-center">
-          <Select
-            onValueChange={(v) => setFilter(v as Filter)}
-            defaultValue={Filter.All}
-          >
-            <SelectTrigger className="w-48 relative pl-9 border-gray-200">
-              <FilterIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <SelectValue placeholder="Tất cả" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={Filter.All}>Tất cả</SelectItem>
-              <SelectItem value={Filter.Active}>Đang hoạt động</SelectItem>
-              <SelectItem value={Filter.Inactive}>Ngừng hoạt động</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <Select
+          onValueChange={(v) => setFilter(v as Filter)}
+          defaultValue={Filter.All}
+          disabled={loading}
+        >
+          <SelectTrigger className="w-48 relative pl-9 border-gray-200">
+            <FilterIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <SelectValue placeholder="Tất cả" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={Filter.All}>Tất cả</SelectItem>
+            <SelectItem value={Filter.Active}>Đang hoạt động</SelectItem>
+            <SelectItem value={Filter.Inactive}>Ngừng hoạt động</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
+
+      {error && <p className="text-red-500 text-center">{error}</p>}
 
       <ProductTable
         products={filteredProducts}
-        onEdit={handleEdit}
+        onEdit={(id) => setEditing(products.find((p) => p.MaSP === id) ?? null)}
         onDelete={handleDelete}
-        onView={handleViewOpen}
+        onView={(id) =>
+          setViewProduct(products.find((p) => p.MaSP === id) ?? null)
+        }
       />
+
+      <div ref={loadMoreRef} className="h-10 flex justify-center items-center">
+        {loading && <p>Đang tải...</p>}
+        {noMoreProducts && !loading && (
+          <p className="text-muted-foreground text-sm">
+            Không còn sản phẩm nào nữa
+          </p>
+        )}
+      </div>
 
       <ProductPopup
         open={open}
@@ -184,6 +346,8 @@ export default function ProductsPage({
         selectedSizeIndex={selectedSizeIndex}
         setSelectedSizeIndex={setSelectedSizeIndex}
         initialData={editing ?? undefined}
+        error={error}
+        setError={setError}
       />
 
       <ProductViewPopup

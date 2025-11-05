@@ -80,7 +80,7 @@ export class SanphamService {
               select: { MaCTSP: true, SoLuong: true, KichCo: true },
             },
             DANHMUC: {
-              select: { TenDM: true, Loai: true },
+              select: { MaDM: true, TenDM: true, Loai: true },
             },
           }
         : undefined,
@@ -107,12 +107,6 @@ export class SanphamService {
   }
   // Tao san pham moi
   async createSanpham(data: SanPhamDto): Promise<SANPHAM> {
-    if ('TrangThai' in data) {
-      throw new BadRequestException(
-        'Không được phép chỉ định trạng thái khi tạo sản phẩm ở endpoint này',
-      );
-    }
-
     const payload: Prisma.SANPHAMCreateInput = {
       TenSP: data.TenSP,
       MoTa: data.MoTa,
@@ -136,18 +130,12 @@ export class SanphamService {
     data: SanPhamDto;
   }): Promise<SANPHAM> {
     const { where, data } = params;
-    if ('TrangThai' in data) {
-      throw new BadRequestException(
-        'Không được phép thay đổi trạng thái sản phẩm ở endpoint này',
-      );
-    }
 
     const payload: Prisma.SANPHAMUpdateInput = {
       TenSP: data.TenSP,
       MoTa: data.MoTa,
       HinhAnh: data.HinhAnh,
       GiaBan: data.GiaBan,
-      GiaMua: data.GiaMua,
       MauSac: data.MauSac,
       DANHMUC: {
         connect: { MaDM: data.MaDM },
