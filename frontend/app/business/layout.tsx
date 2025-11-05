@@ -1,9 +1,10 @@
 "use client";
 
-import type React from "react";
+import React from "react";
 import ProtectedRoute from "@/components/protected-route";
 import Sidebar from "@/components/common/sidebar";
 import Header from "@/components/common/header";
+import { CategoryProvider } from "./context/CategoryContext";
 import {
   Users,
   Package,
@@ -14,8 +15,6 @@ import {
   PlusSquare,
   CheckSquare,
 } from "lucide-react";
-import { CategoryProvider } from "./context/CategoryContext";
-import { Users, Package, SquareKanban, MessageSquare, UserSquare, Layers, PlusSquare, CheckSquare } from "lucide-react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -36,78 +35,40 @@ export default function BusinessLayout({
     "/business/confirm-stock-in": "Xác nhận nhập hàng",
   };
 
+  const sidebarItems = [
+    { title: "Quản lý nhân viên", href: "/business/staff", icon: Users },
+    { title: "Quản lý sản phẩm", href: "/business/products", icon: Package },
+    { title: "Thống kê", href: "/business/stats", icon: SquareKanban },
+    {
+      title: "Phản hồi người dùng",
+      href: "/business/feedback",
+      icon: MessageSquare,
+    },
+    { title: "Quản lý người dùng", href: "/business/users", icon: UserSquare },
+    { title: "Danh mục sản phẩm", href: "/business/categories", icon: Layers },
+    {
+      title: "Tạo phiếu nhập hàng",
+      href: "/business/create-stock-in",
+      icon: PlusSquare,
+    },
+    {
+      title: "Xác nhận nhập hàng",
+      href: "/business/confirm-stock-in",
+      icon: CheckSquare,
+    },
+  ];
+
   return (
     <ProtectedRoute Role={"QLDN"}>
       <CategoryProvider>
         <div className="flex h-screen bg-background">
-          <Sidebar
-            title="Quản lý doanh nghiệp"
-            items={[
-              {
-                title: "Quản lý nhân viên",
-                href: "/business/staff",
-                icon: Users,
-              },
-              {
-                title: "Quản lý sản phẩm",
-                href: "/business/products",
-                icon: Package,
-              },
-              {
-                title: "Thống kê",
-                href: "/business/stats",
-                icon: SquareKanban,
-              },
-              {
-                title: "Phản hồi người dùng",
-                href: "/business/feedback",
-                icon: MessageSquare,
-              },
-              {
-                title: "Quản lý người dùng",
-                href: "/business/users",
-                icon: UserSquare,
-              },
-              {
-                title: "Danh mục sản phẩm",
-                href: "/business/categories",
-                icon: Layers,
-              },
-              {
-                title: "Tạo phiếu nhập hàng",
-                href: "/business/create-stock-in",
-                icon: PlusSquare,
-              },
-              {
-                title: "Xác nhận nhập hàng",
-                href: "/business/confirm-stock-in",
-                icon: CheckSquare,
-              },
-            ]}
-          />
+          <Sidebar title="Quản lý doanh nghiệp" items={sidebarItems} />
           <div className="flex-1 flex flex-col overflow-hidden">
             <Header titleMap={titleMap} />
             <main className="flex-1 overflow-y-auto p-6">{children}</main>
           </div>
-      <ToastContainer />
-      <div className="flex h-screen bg-background">
-        <Sidebar
-          title="Quản lý doanh nghiệp"
-          items={[
-            { title: "Quản lý nhân viên", href: "/business/staff", icon: Users },
-            { title: "Quản lý sản phẩm", href: "/business/products", icon: Package },
-            { title: "Thống kê", href: "/business/stats", icon: SquareKanban },
-            { title: "Phản hồi người dùng", href: "/business/feedback", icon: MessageSquare },
-            { title: "Quản lý người dùng", href: "/business/users", icon: UserSquare },
-            { title: "Danh mục sản phẩm", href: "/business/categories", icon: Layers },
-            { title: "Tạo phiếu nhập hàng", href: "/business/create-stock-in", icon: PlusSquare },
-            { title: "Xác nhận nhập hàng", href: "/business/confirm-stock-in", icon: CheckSquare },
-          ]}
-        />
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <Header titleMap={titleMap} />
-          <main className="flex-1 overflow-y-auto p-6">{children}</main>
         </div>
+        <ToastContainer />
       </CategoryProvider>
     </ProtectedRoute>
   );
