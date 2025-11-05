@@ -12,7 +12,6 @@ async function handleFetchCategories(accessToken: string) {
     throw new Error("Failed to fetch categories");
   }
   const data = await res.json();
-  console.log(data);
   return data;
 }
 export default async function CategoriesRootPage() {

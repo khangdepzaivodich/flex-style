@@ -92,6 +92,23 @@ export interface PhanHoi {
   Username?: string;
 }
 
+export interface PhanHoiForNV {
+  MaPH: string;
+  created_at: string;
+  updated_at: string;
+  MaTKKH: string;
+  MaSP: string;
+  SoSao: number;
+  BinhLuan: string;
+  Username?: string;
+  SANPHAM: {
+    TenSP: string;
+  }
+  TAIKHOAN?: {
+    Username: string;
+  };
+}
+
 export interface CartItem {
   // id: string;
   productId: string;

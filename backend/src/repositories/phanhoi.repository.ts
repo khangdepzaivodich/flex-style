@@ -20,7 +20,7 @@ export class PhanHoiRepository {
   //xem chi tiết phản hồi
   async findById(MaPH: string) {
     return await this.prisma.pHANHOI.findUnique({
-      where: { MaPH },
+      where: { MaPH: MaPH },
     });
   }
   //chỉnh sửa phản hồi
@@ -41,9 +41,28 @@ export class PhanHoiRepository {
     });
   }
   //xóa phản hồi
-  async delete(MaPH: string, MaTKKH: string) {
-    return await this.prisma.pHANHOI.deleteMany({
-      where: { MaPH, MaTKKH },
+  async delete(MaPH: string) {
+    return await this.prisma.pHANHOI.delete({
+      where: { MaPH },
+    });
+  }
+
+  //lấy phản hồi của khách hàng theo sản phẩm cho nhân viên
+  async getCustomerFeedbackForNV() {
+    return await this.prisma.pHANHOI.findMany({
+      orderBy: { created_at: 'desc' },
+      include: {
+        SANPHAM: {
+          select: {
+            TenSP: true,
+          },
+        },
+        TAIKHOAN: {
+          select: {
+            Username: true,
+          },
+        },
+      },
     });
   }
 }
