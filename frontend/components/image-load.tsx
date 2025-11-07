@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useRef } from "react";
 
 interface ImageUploadCardProps {
@@ -55,10 +56,12 @@ const ImageUploadCard: React.FC<ImageUploadCardProps> = ({
       {previewUrl && (
         <div className="mt-6 w-full max-w-xs flex flex-col items-center">
           <p className="text-sm text-gray-500 mb-2">Image Preview:</p>
-          <img
+          <Image
             src={previewUrl}
             alt="Preview"
             className="max-w-full h-auto rounded-md shadow-md object-contain max-h-48 md:max-h-64"
+            width={100}
+            height={100}
           />
         </div>
       )}

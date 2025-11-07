@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { createClient } from "@/lib/supabase/client";
 import { getRoleLink } from "@/lib/help";
+import { useAuth } from "@/contexts/auth-context";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ export default function ProtectedRoute({
   const [authorized, setAuthorized] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+  const { user } = useAuth();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -78,7 +80,7 @@ export default function ProtectedRoute({
     };
 
     checkAuth();
-  }, [router, Role, supabase]);
+  }, [router, Role, supabase, user, allowGuest]);
 
   if (loading) {
     return (

@@ -20,8 +20,8 @@ import { useState, useEffect, useContext } from "react";
 import { Save, X } from "lucide-react";
 import Product from "@/interfaces/product";
 import ProductDetail from "@/interfaces/productDetail";
-import { CategoryContext } from "@/app/business/context/CategoryContext";
 import Image from "next/image";
+
 interface ProductPopupProps {
   open: boolean;
   onClose: () => void;
@@ -105,7 +105,7 @@ export default function ProductPopup({
       setErrors({});
       setSelectedSizeIndex(0);
     }
-  }, [open, initialData]);
+  }, [open, initialData, setSelectedSizeIndex]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -147,7 +147,7 @@ export default function ProductPopup({
   const setDetailField = (
     index: number,
     field: keyof ProductDetail,
-    value: any
+    value: unknown
   ) => {
     setForm((prev) => {
       const details = [...prev.CHITIETSANPHAM];
@@ -156,8 +156,11 @@ export default function ProductPopup({
     });
   };
 
-  const setField = (field: keyof Product, value: any) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
+  const setField = (field: keyof Product, value: unknown) => {
+    setForm((prev) => {
+      if (!prev) return prev;
+      return { ...prev, [field]: value };
+    });
   };
 
   const validate = () => {

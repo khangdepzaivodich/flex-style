@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -61,11 +61,8 @@ export default function SupplierPage({
         }
       );
       alert("Tạo nhà cung cấp thành công");
-    } catch (err: any) {
-      console.error("Create supplier error:", err?.response ?? err);
-      const msg =
-        err?.response?.data?.message ?? err?.message ?? "Tạo thất bại";
-      setError(Array.isArray(msg) ? JSON.stringify(msg) : String(msg));
+    } catch (err: unknown) {
+      setError(Array.isArray(err) ? JSON.stringify(err) : String(err));
     } finally {
       setLoading(false);
     }
@@ -105,6 +102,8 @@ export default function SupplierPage({
 
   return (
     <div className="p-6">
+      {loading && <div>Loading...</div>}
+      {error && <div className="text-red-500 mb-4">{error}</div>}
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-3 w-full sm:w-auto">

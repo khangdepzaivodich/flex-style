@@ -2,7 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 // Removed Trash2 and Button imports because delete action/column was removed
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 export interface User {
@@ -17,14 +23,19 @@ export interface User {
 interface UserTableProps {
   users: User[];
   onDelete?: (id: string) => void;
-  onStatusChange?: (id: string, status: "active" | "inactive") => Promise<void> | void;
+  onStatusChange?: (
+    id: string,
+    status: "active" | "inactive"
+  ) => Promise<void> | void;
 }
 
-export default function UserTable({ users, onDelete, onStatusChange }: UserTableProps) {
+export default function UserTable({ users, onStatusChange }: UserTableProps) {
   const [localStatus, setLocalStatus] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    setLocalStatus(Object.fromEntries((users || []).map((u) => [u.id, u.status ?? "active"])));
+    setLocalStatus(
+      Object.fromEntries((users || []).map((u) => [u.id, u.status ?? "active"]))
+    );
   }, [users]);
 
   const handleStatusChange = async (id: string, next: string) => {
@@ -32,8 +43,11 @@ export default function UserTable({ users, onDelete, onStatusChange }: UserTable
     if (onStatusChange) {
       try {
         await onStatusChange(id, next as "active" | "inactive");
-      } catch (e) {
-        setLocalStatus((s) => ({ ...s, [id]: users.find((x) => x.id === id)?.status ?? "active" }));
+      } catch {
+        setLocalStatus((s) => ({
+          ...s,
+          [id]: users.find((x) => x.id === id)?.status ?? "active",
+        }));
       }
     }
   };
@@ -41,7 +55,9 @@ export default function UserTable({ users, onDelete, onStatusChange }: UserTable
   return (
     <div className="mt-6 bg-gray-50 rounded-xl border p-6">
       <div className="mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">Danh sách người dùng</h2>
+        <h2 className="text-xl font-semibold text-gray-800">
+          Danh sách người dùng
+        </h2>
         <p className="text-sm text-gray-500">Quản lý tài khoản khách hàng</p>
       </div>
 
@@ -63,15 +79,31 @@ export default function UserTable({ users, onDelete, onStatusChange }: UserTable
 
           <tbody>
             {(users || []).map((u) => (
-              <tr key={u.id} data-id={u.id} className="border-b hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-3 text-gray-800 font-medium truncate">{u.name}</td>
-                <td className="px-4 py-3 text-gray-600 truncate" title={u.email}>{u.email ?? "-"}</td>
+              <tr
+                key={u.id}
+                data-id={u.id}
+                className="border-b hover:bg-gray-50 transition-colors"
+              >
+                <td className="px-4 py-3 text-gray-800 font-medium truncate">
+                  {u.name}
+                </td>
+                <td
+                  className="px-4 py-3 text-gray-600 truncate"
+                  title={u.email}
+                >
+                  {u.email ?? "-"}
+                </td>
                 <td className="px-4 py-3">
-                  <Select value={localStatus[u.id] ?? (u.status ?? "active")} onValueChange={(val) => handleStatusChange(u.id, val)}>
+                  <Select
+                    value={localStatus[u.id] ?? u.status ?? "active"}
+                    onValueChange={(val) => handleStatusChange(u.id, val)}
+                  >
                     <SelectTrigger
                       className={cn(
                         "h-8 rounded-md px-3 text-sm font-medium flex items-center py-0 leading-none w-full",
-                        (localStatus[u.id] ?? u.status) === "active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                        (localStatus[u.id] ?? u.status) === "active"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
                       )}
                     >
                       <SelectValue />

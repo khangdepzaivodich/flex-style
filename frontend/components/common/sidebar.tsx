@@ -10,7 +10,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 type SidebarItem = {
   title: string;
   href: string;
-  icon: any;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
 
 type SidebarProps = {
@@ -33,7 +33,9 @@ export default function Sidebar({ title, items }: SidebarProps) {
       <div className="flex h-16 items-center justify-between px-4 border-b border-sidebar-border">
         {!collapsed && (
           <div className="flex items-center space-x-2">
-            <span className="text-lg font-bold text-sidebar-foreground">{title}</span>
+            <span className="text-lg font-bold text-sidebar-foreground">
+              {title}
+            </span>
           </div>
         )}
         <Button
@@ -42,11 +44,18 @@ export default function Sidebar({ title, items }: SidebarProps) {
           onClick={() => setCollapsed(!collapsed)}
           className="text-sidebar-foreground hover:bg-sidebar-primary"
         >
-          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          {collapsed ? (
+            <ChevronRight className="h-4 w-4" />
+          ) : (
+            <ChevronLeft className="h-4 w-4" />
+          )}
         </Button>
       </div>
 
-      <nav className="p-2 space-y-2 overflow-y-auto" style={{ maxHeight: "calc(100vh - 4rem)" }}>
+      <nav
+        className="p-2 space-y-2 overflow-y-auto"
+        style={{ maxHeight: "calc(100vh - 4rem)" }}
+      >
         {items.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -60,7 +69,9 @@ export default function Sidebar({ title, items }: SidebarProps) {
                 )}
               >
                 <item.icon className="h-5 w-5 flex-shrink-0" />
-                {!collapsed && <span className="font-medium">{item.title}</span>}
+                {!collapsed && (
+                  <span className="font-medium">{item.title}</span>
+                )}
               </div>
             </Link>
           );
