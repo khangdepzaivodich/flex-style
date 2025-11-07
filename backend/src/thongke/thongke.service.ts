@@ -8,4 +8,8 @@ export class ThongkeService {
     async getDoanhThu() {
         return await this.thongkeRepository.getDoanhThu();
     }
+
+    async getSLKhachHang() {
+        return await this.thongkeRepository.getSLKhachHang();
+    }
 }

@@ -32,8 +32,8 @@ export class VoucherKhachHangController {
   //kiểm tra voucher
   @Post('check')
   @ResponseMessage('Kiểm tra voucher thành công')
-  async check(@Body() body: { MaVoucherKH: string; finalTotal: number }) {
-    const result = this.voucherKhachHangService.check(body.MaVoucherKH, body.finalTotal);
+  async check(@Body() body: { MaVoucherKH: string; invoiceTotal: number }) {
+    const result = this.voucherKhachHangService.check(body.MaVoucherKH, body.invoiceTotal);
     return result;
   }
 

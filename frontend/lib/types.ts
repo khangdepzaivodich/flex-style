@@ -363,3 +363,34 @@ export interface KhachHangUser{
   created_at: Date;
   updated_at: Date; 
 }
+
+export interface ThongKeDoanhThuItem {
+  DONHANG: {
+    MaDH: string;
+    TongTien: number;
+    SoLuong: number;
+    created_at: string;
+    VOUCHER: {
+      Loai: string;
+      SoTien: number;
+    };
+    SUKIENUUDAI:{
+      PhanTramGiam: number;
+    };
+    CHITIETSANPHAM: {
+      SANPHAM: {
+        GiaMua: number;
+        GiaBan: number;
+        TenSP: string;
+        DANHMUC: {
+          TenDM: string;
+        };
+      };
+    };
+  };
+}
+
+export interface ThongKeSLKhachHangItem {
+  MaTK: string;
+  created_at: string;
+}

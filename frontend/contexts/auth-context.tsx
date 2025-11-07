@@ -82,6 +82,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         },
         isLoading: false,
       });
+      // console.log("sss",window.location.origin);
+      // alert("Đăng nhập thành công");
+      // router.push("/");
       return { success: true };
     } catch (error) {
       setState((prev) => ({ ...prev, isLoading: false }));
