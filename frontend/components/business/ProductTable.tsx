@@ -14,7 +14,6 @@ interface ProductTableProps {
 export default function ProductTable({
   products,
   onEdit,
-  onDelete,
   onView,
 }: ProductTableProps) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -163,15 +162,6 @@ export default function ProductTable({
                     >
                       <SquarePen className="w-4 h-4" />
                       Chỉnh sửa
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="flex items-center gap-1 hover:bg-red-100 hover:text-red-600"
-                      onClick={() => onDelete?.(p.MaSP)}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      Xóa
                     </Button>
                   </td>
                 </tr>

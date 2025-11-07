@@ -24,7 +24,6 @@ export default function ProductViewPopup({
   productDetail,
 }: ProductViewPopupProps) {
   const [rows, setRows] = useState<ProductDetail[]>([]);
-
   useEffect(() => {
     if (!open || !productDetail) {
       setRows([]);
