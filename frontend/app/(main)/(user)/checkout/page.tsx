@@ -38,6 +38,7 @@ export default function CheckoutPage() {
   const { suKienUuDais } = useSuKienUuDai();
   const [userInfo] = useState(user);
   const { order, setOrder } = useOrder();
+  const [discountAmount, setDiscountAmount] = useState(0);
   const [formData, setFormData] = useState(() => {
     return {
       email: user?.email || "",
@@ -234,6 +235,10 @@ export default function CheckoutPage() {
   };
 
   const handleVoucher = async (MaVoucherKH: string) => {
+    if (checkVoucher && MaVoucherKH === voucherCodeCustomer) {
+      // Nếu mã voucher đã được áp dụng thành công và không thay đổi, không cần gọi API lại
+      return;
+    }
     try {
       const response = await fetch(
         "http://localhost:8080/api/voucher-khachhang/check",
@@ -247,6 +252,7 @@ export default function CheckoutPage() {
       );
       console.log("Response status:", response);
       const data = await response.json();
+      console.log("data", data);
       if (response.status === 201) {
         setVoucherCode(data.data.MaVoucher);
         console.log("Voucher applied successfully:", data);
@@ -254,6 +260,7 @@ export default function CheckoutPage() {
           setFinalTotal(invoiceTotal);
           setShippingCost(0);
         } else {
+          setDiscountAmount(data.data.value);
           setFinalTotal(finalTotal - data.data.value);
         }
         setCheckVoucher(true);
@@ -463,7 +470,13 @@ export default function CheckoutPage() {
                   </Button>
                 </div>
                 {voucherMessage && (
-                  <div className="text-green-600 mt-2">{voucherMessage}</div>
+                  <div
+                    className={`mt-2 ${
+                      checkVoucher ? "text-green-600 " : "text-red-600 "
+                    }`}
+                  >
+                    {voucherMessage}
+                  </div>
                 )}
               </CardContent>
             </Card>
@@ -539,6 +552,10 @@ export default function CheckoutPage() {
                 <div className="flex justify-between">
                   <span>Phí vận chuyển</span>
                   <span>{shippingCost.toLocaleString("vi-VN")}₫</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Tiền giảm</span>
+                  <span>{discountAmount.toLocaleString("vi-VN")}₫</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between font-bold text-lg">

@@ -19,7 +19,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use(bodyParser.json({ limit: '10mb' }));
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: `${process.env.FRONTEND_URL}`,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     credentials: true,
@@ -34,9 +34,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
   await app.listen(configService.get('PORT') ?? 8080);
-  console.log(
-    `Server is running at http://localhost:${configService.get('PORT')}`,
-  );
 }
 
 bootstrap();

@@ -3,7 +3,6 @@ import { Button } from "../ui/button";
 import { FaGoogle } from "react-icons/fa";
 import { useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
-import PhanQuyenLink from "@/lib/rbac";
 function SignInWithGoogle(role?: string) {
   const [isLoading, setIsLoading] = useState(false);
   const { OauthLogin } = useAuth();
@@ -11,7 +10,7 @@ function SignInWithGoogle(role?: string) {
     setIsLoading(true);
     try {
       await OauthLogin("gg");
-      PhanQuyenLink(role || "KH");
+      // PhanQuyenLink(role || "KH");
     } finally {
       setIsLoading(false);
     }

@@ -14,4 +14,10 @@ export class ThongkeController {
   async getDoanhThu() {
     return await this.thongkeService.getDoanhThu();
   }
+  @Roles('QLDN')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  @Get('khachhang')
+  async getSLKhachHang() {
+    return await this.thongkeService.getSLKhachHang();
+  }
 }
