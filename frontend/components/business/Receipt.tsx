@@ -1,186 +1,263 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect, useRef } from 'react'
-import { Download, Plus, X } from 'lucide-react'
-import { Item, ReceiptData } from '@/interfaces/receipt'
-import { createClient } from '@/lib/supabase/client'
+import React, { useState, useEffect, useRef } from "react";
+import { Download, Plus, X } from "lucide-react";
+import { Item, ReceiptData } from "@/interfaces/receipt";
+import { createClient } from "@/lib/supabase/client";
 
 type ReceiptProps = {
-  initial?: Partial<ReceiptData>
-  onCreate?: (data: ReceiptData) => void
-  isSubmitting?: boolean
-  supplierOptionsInitial?: { MaTK: string; DisplayName?: string; Email?: string }[]
-  variantOptionsInitial?: { MaCTSP: string; TenSP: string; KichCo: string; SoLuong: number }[]
-}
+  initial?: Partial<ReceiptData>;
+  onCreate?: (data: ReceiptData) => void;
+  isSubmitting?: boolean;
+  supplierOptionsInitial?: {
+    MaTK: string;
+    DisplayName?: string;
+    Email?: string;
+  }[];
+  variantOptionsInitial?: {
+    MaCTSP: string;
+    TenSP: string;
+    KichCo: string;
+    SoLuong: number;
+  }[];
+};
 
 const formatCurrency = (v: number) =>
-  new Intl.NumberFormat('vi-VN').format(v) + '₫'
+  new Intl.NumberFormat("vi-VN").format(v) + "₫";
 
-export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial, variantOptionsInitial, isSubmitting = false }: ReceiptProps) {
+export default function Receipt({
+  initial = {},
+  onCreate,
+  supplierOptionsInitial,
+  variantOptionsInitial,
+  isSubmitting = false,
+}: ReceiptProps) {
   const supabase = createClient();
-  const normalizeSuppliers = (list: any[] = []): { MaTK: string; DisplayName?: string; Email?: string }[] => {
+  const normalizeSuppliers = (
+    list: any[] = []
+  ): { MaTK: string; DisplayName?: string; Email?: string }[] => {
     if (!Array.isArray(list)) return [];
     return list
-      .filter((s) => !!s && (s.VAITRO === undefined || String(s.VAITRO) === 'NCC'))
-      .map((s) => ({ MaTK: s.MaTK, DisplayName: s.DisplayName, Email: s.Email }));
+      .filter(
+        (s) => !!s && (s.VAITRO === undefined || String(s.VAITRO) === "NCC")
+      )
+      .map((s) => ({
+        MaTK: s.MaTK,
+        DisplayName: s.DisplayName,
+        Email: s.Email,
+      }));
   };
-  const [supplierOptions, setSupplierOptions] = useState<{ MaTK: string; DisplayName?: string; Email?: string }[]>(normalizeSuppliers(supplierOptionsInitial ?? [] as any));
-  const [supplierId, setSupplierId] = useState<string | undefined>((initial as any).MaNCC ?? undefined);
+  const [supplierOptions] = useState<
+    { MaTK: string; DisplayName?: string; Email?: string }[]
+  >(normalizeSuppliers(supplierOptionsInitial ?? ([] as any)));
+  const [supplierId, setSupplierId] = useState<string | undefined>(
+    (initial as any).MaNCC ?? undefined
+  );
 
   // chuẩn hóa danh sách variant từ props
-  const normalizeVariants = (v: any): { MaCTSP: string; TenSP: string; KichCo: string; SoLuong: number; GiaMua?: number }[] => {
+  const normalizeVariants = (
+    v: any
+  ): {
+    MaCTSP: string;
+    TenSP: string;
+    KichCo: string;
+    SoLuong: number;
+    GiaMua?: number;
+  }[] => {
     if (!v) return [];
     let arr: any[] = [];
     if (Array.isArray(v)) arr = v;
     else if (Array.isArray(v.data)) arr = v.data;
-    else if (typeof v === 'object') arr = Object.values(v);
+    else if (typeof v === "object") arr = Object.values(v);
     else return [];
 
-    return (arr
+    return arr
       .filter(Boolean)
       .map((item) => {
         if (!item) return null;
         return {
           MaCTSP: item.MaCTSP,
           MaSP: item.MaSP,
-          TenSP: item.TenSP ?? item.SANPHAM?.TenSP ?? '',
-          KichCo: item.KichCo ?? '',
+          TenSP: item.TenSP ?? item.SANPHAM?.TenSP ?? "",
+          KichCo: item.KichCo ?? "",
           SoLuong: item.SoLuong ?? 0,
           GiaMua: item.GiaMua ?? item.SANPHAM?.GiaMua ?? 0,
         };
       })
-      .filter(Boolean)) as { MaCTSP: string; TenSP: string; KichCo: string; SoLuong: number; GiaMua?: number }[];
+      .filter(Boolean) as {
+      MaCTSP: string;
+      TenSP: string;
+      KichCo: string;
+      SoLuong: number;
+      GiaMua?: number;
+    }[];
   };
 
-  const [variantOptions, setVariantOptions] = useState<{
-    MaCTSP: string
-    MaSP?: string
-    TenSP: string
-    KichCo: string
-    SoLuong: number
-    GiaMua?: number
-  }[]>(normalizeVariants(variantOptionsInitial ?? []) as any);
+  const [variantOptions] = useState<
+    {
+      MaCTSP: string;
+      MaSP?: string;
+      TenSP: string;
+      KichCo: string;
+      SoLuong: number;
+      GiaMua?: number;
+    }[]
+  >(normalizeVariants(variantOptionsInitial ?? []) as any);
 
   const [activeRow, setActiveRow] = useState<number | null>(null);
-  const [suggestions, setSuggestions] = useState<{
-    MaCTSP: string
-    MaSP?: string
-    TenSP: string
-    KichCo: string
-    SoLuong: number
-    GiaMua?: number
-  }[]>([]);
-  
+  const [suggestions, setSuggestions] = useState<
+    {
+      MaCTSP: string;
+      MaSP?: string;
+      TenSP: string;
+      KichCo: string;
+      SoLuong: number;
+      GiaMua?: number;
+    }[]
+  >([]);
+
   const [searchTimer, setSearchTimer] = useState<number | null>(null);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
   // Hàm xuất phiếu hiện tại ra PDF dùng html2canvas + jsPDF
   async function exportToPdf() {
     try {
-      const html2canvas = (await import('html2canvas')).default as any;
-      const { default: jsPDF } = await import('jspdf');
+      const html2canvas = (await import("html2canvas")).default as any;
+      const { default: jsPDF } = await import("jspdf");
       if (!rootRef.current) {
-        alert('Không tìm thấy nội dung để xuất PDF')
-        return
+        alert("Không tìm thấy nội dung để xuất PDF");
+        return;
       }
 
       const clone = rootRef.current.cloneNode(true) as HTMLElement;
-      clone.querySelectorAll('input, select, textarea').forEach((el) => {
+      clone.querySelectorAll("input, select, textarea").forEach((el) => {
         try {
-          const tag = (el.tagName || '').toLowerCase();
-          let text = '';
+          const tag = (el.tagName || "").toLowerCase();
+          let text = "";
 
-          if ((el as HTMLElement).dataset && (el as HTMLElement).dataset.pdfSupplier === 'true') {
-            text = selectedSupplierName || '';
-          } else if (tag === 'input' && (el as HTMLElement).dataset && typeof (el as HTMLElement).dataset.pdfSizeIndex !== 'undefined') {
+          if (
+            (el as HTMLElement).dataset &&
+            (el as HTMLElement).dataset.pdfSupplier === "true"
+          ) {
+            text = selectedSupplierName || "";
+          } else if (
+            tag === "input" &&
+            (el as HTMLElement).dataset &&
+            typeof (el as HTMLElement).dataset.pdfSizeIndex !== "undefined"
+          ) {
             const idx = Number((el as HTMLElement).dataset.pdfSizeIndex);
-            text = (items && items[idx] && (items[idx].KichCo ?? '')) || (el as HTMLInputElement).value || '';
-          } else if (tag === 'select' && (el as HTMLElement).dataset && typeof (el as HTMLElement).dataset.pdfSizeIndex !== 'undefined') {
+            text =
+              (items && items[idx] && (items[idx].KichCo ?? "")) ||
+              (el as HTMLInputElement).value ||
+              "";
+          } else if (
+            tag === "select" &&
+            (el as HTMLElement).dataset &&
+            typeof (el as HTMLElement).dataset.pdfSizeIndex !== "undefined"
+          ) {
             const idx = Number((el as HTMLElement).dataset.pdfSizeIndex);
-            text = (items && items[idx] && (items[idx].KichCo ?? '')) || '';
-          } else if (tag === 'input') {
+            text = (items && items[idx] && (items[idx].KichCo ?? "")) || "";
+          } else if (tag === "input") {
             const inp = el as HTMLInputElement;
-            if (inp.type === 'checkbox' || inp.type === 'radio') {
-              text = inp.checked ? '✓' : '✗';
+            if (inp.type === "checkbox" || inp.type === "radio") {
+              text = inp.checked ? "✓" : "✗";
             } else {
-              text = inp.value ?? '';
+              text = inp.value ?? "";
             }
-          } else if (tag === 'select') {
+          } else if (tag === "select") {
             const sel = el as HTMLSelectElement;
             // fallback to selected option text
-            text = (sel.options[sel.selectedIndex] && sel.options[sel.selectedIndex].text) || sel.value || '';
-          } else if (tag === 'textarea') {
+            text =
+              (sel.options[sel.selectedIndex] &&
+                sel.options[sel.selectedIndex].text) ||
+              sel.value ||
+              "";
+          } else if (tag === "textarea") {
             const ta = el as HTMLTextAreaElement;
-            text = ta.value || '';
+            text = ta.value || "";
           }
 
-          const span = document.createElement('div');
+          const span = document.createElement("div");
           span.textContent = text;
-          span.style.whiteSpace = 'pre-wrap';
+          span.style.whiteSpace = "pre-wrap";
           el.parentNode?.replaceChild(span, el);
-        } catch (err) {
-          // ignore replacement errors
-        }
+        } catch {}
       });
-      clone.querySelectorAll('button').forEach((n) => n.remove());
+      clone.querySelectorAll("button").forEach((n) => n.remove());
 
-      const wrapper = document.createElement('div');
-      wrapper.style.position = 'fixed';
-      wrapper.style.left = '-9999px';
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "fixed";
+      wrapper.style.left = "-9999px";
       wrapper.appendChild(clone);
       document.body.appendChild(wrapper);
 
       try {
-        clone.style.fontSize = '16px';
-        clone.style.maxWidth = '900px';
-      } catch (e) {
-      }
+        clone.style.fontSize = "16px";
+        clone.style.maxWidth = "900px";
+      } catch (e) {}
 
       const canvas = await html2canvas(clone, { scale: 3 });
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL("image/png");
 
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' } as any);
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      } as any);
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
 
-      const fileName = `phieu-nhap-${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.pdf`;
+      const fileName = `phieu-nhap-${new Date()
+        .toISOString()
+        .slice(0, 19)
+        .replace(/[:T]/g, "-")}.pdf`;
       pdf.save(fileName);
 
       document.body.removeChild(wrapper);
     } catch (e: any) {
-      console.error('Export PDF error', e);
-      alert('Không thể tạo PDF: ' + (e?.message ?? String(e)));
+      console.error("Export PDF error", e);
+      alert("Không thể tạo PDF: " + (e?.message ?? String(e)));
     }
   }
 
-  const selectedSupplierName = (supplierOptions || []).find((s) => s.MaTK === supplierId)?.DisplayName || supplierId || '';
-  const [date, setDate] = useState<string>((initial as any).date ?? '')
-  
+  const selectedSupplierName =
+    (supplierOptions || []).find((s) => s.MaTK === supplierId)?.DisplayName ||
+    supplierId ||
+    "";
+  const [date, setDate] = useState<string>((initial as any).date ?? "");
+
   const [items, setItems] = useState<Item[]>(() => {
-    const init = (initial as any).items
-    if (Array.isArray(init)) return init as Item[]
-    if (init && typeof init === 'object') return [init as Item]
+    const init = (initial as any).items;
+    if (Array.isArray(init)) return init as Item[];
+    if (init && typeof init === "object") return [init as Item];
     return [
       {
         MaCTSP: undefined,
-        TenSP: '',
-        KichCo: '',
+        TenSP: "",
+        KichCo: "",
         SoLuong: 0,
         DonGia: 0,
       } as Item,
-    ]
-  })
+    ];
+  });
   // Tổng tiền (tính theo tất cả items)
-  const total = items.reduce((s, it) => s + (Number(it.SoLuong) || 0) * (Number(it.DonGia) || 0), 0)
+  const total = items.reduce(
+    (s, it) => s + (Number(it.SoLuong) || 0) * (Number(it.DonGia) || 0),
+    0
+  );
 
   // Hàm cập nhật thông tin sản phẩm cho một dòng
-  function handleItemField<K extends keyof Item>(index: number, field: K, value: Item[K]) {
+  function handleItemField<K extends keyof Item>(
+    index: number,
+    field: K,
+    value: Item[K]
+  ) {
     setItems((prev) => {
-      const next = [...prev]
-      next[index] = { ...next[index], [field]: value }
-      return next
-    })
+      const next = [...prev];
+      next[index] = { ...next[index], [field]: value };
+      return next;
+    });
   }
 
   function buildData(): ReceiptData {
@@ -188,22 +265,26 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
       MaNCC: supplierId,
       created_at: date ? new Date(date) : new Date(),
       items: items,
-    }
+    };
   }
 
   // Nhập hay ko nhập :D
   function validate(): string[] {
-    const errors: string[] = []
-    if (!date) errors.push('Ngày nhập hàng không được để trống')
-    if (!supplierId) errors.push('Bạn phải chọn nhà cung cấp (MaNCC)')
+    const errors: string[] = [];
+    if (!date) errors.push("Ngày nhập hàng không được để trống");
+    if (!supplierId) errors.push("Bạn phải chọn nhà cung cấp (MaNCC)");
     items.forEach((it, idx) => {
-    const prefix = `Sản phẩm #${idx + 1}: `
-    if (!it.TenSP || !String(it.TenSP).trim()) errors.push(prefix + 'Tên sản phẩm không được để trống')
-    if (!it.KichCo || !String(it.KichCo).trim()) errors.push(prefix + 'Kích cỡ không được để trống')
-    if (typeof it.SoLuong !== 'number' || it.SoLuong <= 0) errors.push(prefix + 'Số lượng phải lớn hơn 0')
-    if (typeof it.DonGia !== 'number' || it.DonGia <= 0) errors.push(prefix + 'Đơn giá phải lớn hơn 0')
-  })
-    return errors
+      const prefix = `Sản phẩm #${idx + 1}: `;
+      if (!it.TenSP || !String(it.TenSP).trim())
+        errors.push(prefix + "Tên sản phẩm không được để trống");
+      if (!it.KichCo || !String(it.KichCo).trim())
+        errors.push(prefix + "Kích cỡ không được để trống");
+      if (typeof it.SoLuong !== "number" || it.SoLuong <= 0)
+        errors.push(prefix + "Số lượng phải lớn hơn 0");
+      if (typeof it.DonGia !== "number" || it.DonGia <= 0)
+        errors.push(prefix + "Đơn giá phải lớn hơn 0");
+    });
+    return errors;
   }
 
   useEffect(() => {
@@ -215,17 +296,22 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
         setActiveRow(null);
       }
     }
-    document.addEventListener('mousedown', onDocClick);
-    return () => document.removeEventListener('mousedown', onDocClick);
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
   }, [rootRef]);
 
   return (
-    <div ref={rootRef} className="max-w-5xl mx-auto bg-white p-8 text-gray-800 font-sans text-base">
+    <div
+      ref={rootRef}
+      className="max-w-5xl mx-auto bg-white p-8 text-gray-800 font-sans text-base"
+    >
       <div className="text-center">
         <h1 className="text-2xl font-bold">PHIẾU NHẬP HÀNG</h1>
         <div className="mt-2 text-sm grid grid-cols-2 gap-4 items-end">
           <div className="text-left">
-            <label className="block text-xs text-gray-600">Ngày nhập hàng</label>
+            <label className="block text-xs text-gray-600">
+              Ngày nhập hàng
+            </label>
             <input
               type="date"
               value={date}
@@ -235,9 +321,11 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
           </div>
 
           <div className="text-left">
-            <label className="block text-xs text-gray-600">Chọn nhà cung cấp</label>
+            <label className="block text-xs text-gray-600">
+              Chọn nhà cung cấp
+            </label>
             <select
-              value={supplierId ?? ''}
+              value={supplierId ?? ""}
               onChange={(e) => {
                 const sel = e.target.value || undefined;
                 setSupplierId(sel);
@@ -264,8 +352,12 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
 
       <div className="mt-6 text-sm">
         <div>
-          <label className="block text-xs text-gray-600">Địa điểm nhập hàng</label>
-          <div className="mt-1 text-sm text-gray-800">Nhập tại kho FlexStyle ở Quận A, Phường B, TP.HCM</div>
+          <label className="block text-xs text-gray-600">
+            Địa điểm nhập hàng
+          </label>
+          <div className="mt-1 text-sm text-gray-800">
+            Nhập tại kho FlexStyle ở Quận A, Phường B, TP.HCM
+          </div>
         </div>
       </div>
 
@@ -273,28 +365,42 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
         <table className="w-full table-fixed border-collapse">
           <thead>
             <tr className="bg-gray-100 text-sm">
-              <th className="border px-3 py-2" style={{ width: '45%' }}>Tên</th>
-              <th className="border px-3 py-2" style={{ width: '12%' }}>Kích cỡ</th>
-              <th className="border px-3 py-2" style={{ width: '10%' }}>Số lượng</th>
-              <th className="border px-3 py-2" style={{ width: '15%' }}>Đơn giá</th>
-              <th className="border px-3 py-2" style={{ width: '18%' }}>Thành tiền</th>
+              <th className="border px-3 py-2" style={{ width: "45%" }}>
+                Tên
+              </th>
+              <th className="border px-3 py-2" style={{ width: "12%" }}>
+                Kích cỡ
+              </th>
+              <th className="border px-3 py-2" style={{ width: "10%" }}>
+                Số lượng
+              </th>
+              <th className="border px-3 py-2" style={{ width: "15%" }}>
+                Đơn giá
+              </th>
+              <th className="border px-3 py-2" style={{ width: "18%" }}>
+                Thành tiền
+              </th>
             </tr>
           </thead>
           <tbody>
             {items.map((it, idx) => (
               <tr key={idx} className="text-sm align-top">
-                <td className="border px-3 py-2 text-left" style={{ width: '50%' }}>
+                <td
+                  className="border px-3 py-2 text-left"
+                  style={{ width: "50%" }}
+                >
                   <div className="flex gap-2 relative">
                     {/* Tìm kiếm sản phẩm */}
                     <input
                       type="text"
-                      value={it.TenSP || ''}
+                      value={it.TenSP || ""}
                       onChange={(e) => {
                         const val = e.target.value;
-                        handleItemField(idx, 'TenSP', val as any);
+                        handleItemField(idx, "TenSP", val as any);
                         setActiveRow(idx);
-                      
-                        if (searchTimer) window.clearTimeout(searchTimer as any);
+
+                        if (searchTimer)
+                          window.clearTimeout(searchTimer as any);
                         const t = window.setTimeout(async () => {
                           try {
                             const {
@@ -302,13 +408,18 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
                             } = await supabase.auth.getSession();
                             const token = session?.access_token;
                             const q = encodeURIComponent(val);
-                            const res = await fetch(`http://localhost:8080/api/chitietnhaphang/variants/search?q=${q}`, {
-                              headers: token ? { Authorization: `Bearer ${token}` } : {},
-                            });
+                            const res = await fetch(
+                              `http://localhost:8080/api/chitietnhaphang/variants/search?q=${q}`,
+                              {
+                                headers: token
+                                  ? { Authorization: `Bearer ${token}` }
+                                  : {},
+                              }
+                            );
                             const j = await res.json();
                             const list = normalizeVariants(j.data || j || []);
                             setSuggestions(list);
-                          } catch (err) {
+                          } catch {
                             setSuggestions([]);
                           }
                         }, 300);
@@ -319,21 +430,28 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
                     />
                     {/* gợi ý sản phẩm */}
                     {activeRow === idx && suggestions.length > 0 && (
-                      <div className="absolute left-0 top-full z-50 bg-white border shadow rounded mt-2 max-h-72 overflow-auto w-full" data-testid="suggestions">
+                      <div
+                        className="absolute left-0 top-full z-50 bg-white border shadow rounded mt-2 max-h-72 overflow-auto w-full"
+                        data-testid="suggestions"
+                      >
                         {suggestions.map((s) => (
                           <div
                             key={s.MaCTSP}
                             className="px-2 py-1 hover:bg-gray-100 cursor-pointer text-sm"
                             onClick={() => {
-                              handleItemField(idx, 'MaSP', (s as any).MaSP as any);
-                              handleItemField(idx, 'TenSP', s.TenSP as any);
-                              handleItemField(idx, 'MaCTSP', undefined as any);
-                              handleItemField(idx, 'KichCo', '' as any);
+                              handleItemField(
+                                idx,
+                                "MaSP",
+                                (s as any).MaSP as any
+                              );
+                              handleItemField(idx, "TenSP", s.TenSP as any);
+                              handleItemField(idx, "MaCTSP", undefined as any);
+                              handleItemField(idx, "KichCo", "" as any);
                               setSuggestions([]);
                               setActiveRow(null);
                             }}
                           >
-                              {s.TenSP}
+                            {s.TenSP}
                           </div>
                         ))}
                       </div>
@@ -343,30 +461,50 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
                 <td className="border px-3 py-2 text-center">
                   {it.MaSP ? (
                     (() => {
-                      const allSizes = Array.from(new Set(variantOptions.filter((v) => v.MaSP === it.MaSP).map((v) => v.KichCo)));
+                      const allSizes = Array.from(
+                        new Set(
+                          variantOptions
+                            .filter((v) => v.MaSP === it.MaSP)
+                            .map((v) => v.KichCo)
+                        )
+                      );
                       // Không chọn size trùng
                       const usedSizes = items
                         .map((other, i) => ({ other, i }))
                         .filter(({ i }) => i !== idx)
                         .filter(({ other }) => other && other.MaSP === it.MaSP)
                         .map(({ other }) => other.KichCo)
-                        .filter(Boolean as any) as string[];
+                        .filter(Boolean) as string[];
 
-                      let available = allSizes.filter((sz) => !usedSizes.includes(sz));
-                      if (it.KichCo && !available.includes(it.KichCo)) available = [it.KichCo, ...available];
+                      let available = allSizes.filter(
+                        (sz) => !usedSizes.includes(sz)
+                      );
+                      if (it.KichCo && !available.includes(it.KichCo))
+                        available = [it.KichCo, ...available];
 
                       return (
                         <select
-                          value={it.KichCo ?? ''}
+                          value={it.KichCo ?? ""}
                           onChange={(e) => {
                             const selected = e.target.value;
-                            handleItemField(idx, 'KichCo', selected as any);
-                            const found = variantOptions.find((v) => v.MaSP === it.MaSP && v.KichCo === selected);
+                            handleItemField(idx, "KichCo", selected as any);
+                            const found = variantOptions.find(
+                              (v) => v.MaSP === it.MaSP && v.KichCo === selected
+                            );
                             if (found) {
-                              handleItemField(idx, 'MaCTSP', found.MaCTSP as any);
-                              if (found.GiaMua !== undefined) handleItemField(idx, 'DonGia', Number(found.GiaMua) as any);
+                              handleItemField(
+                                idx,
+                                "MaCTSP",
+                                found.MaCTSP as any
+                              );
+                              if (found.GiaMua !== undefined)
+                                handleItemField(
+                                  idx,
+                                  "DonGia",
+                                  Number(found.GiaMua) as any
+                                );
                             } else {
-                              handleItemField(idx, 'MaCTSP', undefined as any);
+                              handleItemField(idx, "MaCTSP", undefined as any);
                             }
                           }}
                           className="w-full text-sm text-center"
@@ -382,16 +520,29 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
                       );
                     })()
                   ) : (
-                    <input type="text" value={it.KichCo || ''} onChange={(e) => handleItemField(idx, 'KichCo', e.target.value as any)} className="w-full text-sm text-center" data-pdf-size-index={String(idx)} />
+                    <input
+                      type="text"
+                      value={it.KichCo || ""}
+                      onChange={(e) =>
+                        handleItemField(idx, "KichCo", e.target.value as any)
+                      }
+                      className="w-full text-sm text-center"
+                      data-pdf-size-index={String(idx)}
+                    />
                   )}
-                  
                 </td>
                 <td className="border px-3 py-2 text-center">
                   <input
                     type="number"
                     min={0}
                     value={it.SoLuong as any}
-                    onChange={(e) => handleItemField(idx, 'SoLuong', Number(e.target.value) as any)}
+                    onChange={(e) =>
+                      handleItemField(
+                        idx,
+                        "SoLuong",
+                        Number(e.target.value) as any
+                      )
+                    }
                     className="w-full max-w-[100px] text-sm text-center mx-auto"
                   />
                 </td>
@@ -400,21 +551,34 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
                     type="number"
                     min={0}
                     value={it.DonGia as any}
-                    onChange={(e) => handleItemField(idx, 'DonGia', Number(e.target.value) as any)}
+                    onChange={(e) =>
+                      handleItemField(
+                        idx,
+                        "DonGia",
+                        Number(e.target.value) as any
+                      )
+                    }
                     className="w-full max-w-[140px] text-sm text-right mx-auto"
                   />
                 </td>
                 {/* Tự tính thành tiền */}
                 <td className="border px-3 py-2 text-right">
                   <div className="flex items-center justify-end gap-2">
-                    <div className="whitespace-nowrap text-right" title={formatCurrency((it.SoLuong || 0) * (it.DonGia || 0))}>
+                    <div
+                      className="whitespace-nowrap text-right"
+                      title={formatCurrency(
+                        (it.SoLuong || 0) * (it.DonGia || 0)
+                      )}
+                    >
                       {formatCurrency((it.SoLuong || 0) * (it.DonGia || 0))}
                     </div>
                     {items.length > 1 && (
                       <button
                         type="button"
                         className="text-red-600 p-1 rounded"
-                        onClick={() => setItems((prev) => prev.filter((_, i) => i !== idx))}
+                        onClick={() =>
+                          setItems((prev) => prev.filter((_, i) => i !== idx))
+                        }
                         title={`Xóa sản phẩm #${idx + 1}`}
                         aria-label={`Xóa sản phẩm ${idx + 1}`}
                       >
@@ -429,7 +593,24 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
         </table>
         {/* Nút thêm sản phẩm */}
         <div className="mt-2">
-          <button type="button" className="text-sm text-blue-600 p-1 rounded" onClick={() => setItems((prev) => [...prev, { MaCTSP: undefined, TenSP: '', KichCo: '', SoLuong: 0, DonGia: 0 } as Item])} title="Thêm sản phẩm" aria-label="Thêm sản phẩm">
+          <button
+            type="button"
+            className="text-sm text-blue-600 p-1 rounded"
+            onClick={() =>
+              setItems((prev) => [
+                ...prev,
+                {
+                  MaCTSP: undefined,
+                  TenSP: "",
+                  KichCo: "",
+                  SoLuong: 0,
+                  DonGia: 0,
+                } as Item,
+              ])
+            }
+            title="Thêm sản phẩm"
+            aria-label="Thêm sản phẩm"
+          >
             <Plus className="h-4 w-4" />
           </button>
         </div>
@@ -437,7 +618,10 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
 
       <div className="mt-4 text-base font-semibold">
         <div className="mt-2">
-          <div className="text-base font-semibold" title={formatCurrency(total)}>
+          <div
+            className="text-base font-semibold"
+            title={formatCurrency(total)}
+          >
             Tổng số tiền (bằng số): {formatCurrency(total)}
           </div>
         </div>
@@ -470,25 +654,26 @@ export default function Receipt({ initial = {}, onCreate, supplierOptionsInitial
         {/* Tạo phiếu */}
         <button
           onClick={() => {
-            const errors = validate()
+            const errors = validate();
             if (errors.length > 0) {
-              alert(errors.join('\n'))
-              return
+              alert(errors.join("\n"));
+              return;
             }
 
-            const data = buildData()
-            if (onCreate) onCreate(data)
+            const data = buildData();
+            if (onCreate) onCreate(data);
             else {
-              alert('Tạo phiếu (placeholder)')
+              alert("Tạo phiếu (placeholder)");
             }
           }}
-          className={`bg-violet-500 hover:bg-violet-600 text-white px-4 py-2 rounded shadow ${isSubmitting ? 'opacity-60 cursor-not-allowed' : ''}`}
+          className={`bg-violet-500 hover:bg-violet-600 text-white px-4 py-2 rounded shadow ${
+            isSubmitting ? "opacity-60 cursor-not-allowed" : ""
+          }`}
           disabled={isSubmitting}
         >
-          {isSubmitting ? 'Đang tạo...' : 'Tạo phiếu'}
+          {isSubmitting ? "Đang tạo..." : "Tạo phiếu"}
         </button>
       </div>
-      
     </div>
-  )
+  );
 }

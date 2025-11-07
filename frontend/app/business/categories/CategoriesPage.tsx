@@ -63,7 +63,7 @@ export default function CategoriesPage({
           })
         : []
     );
-  }, [categories, query]);
+  }, [categories, query, typeFilter]);
 
   // Kiểm tra thông tin trùng lặp trước khi lưu
   const handleSave = async (data: Category) => {
@@ -88,7 +88,9 @@ export default function CategoriesPage({
     }
 
     if (duplicates.length > 0) {
-      toast.error(`Thông tin trùng: ${Array.from(new Set(duplicates)).join(", ")}`);
+      toast.error(
+        `Thông tin trùng: ${Array.from(new Set(duplicates)).join(", ")}`
+      );
       return;
     }
     if (editing) {
@@ -176,7 +178,9 @@ export default function CategoriesPage({
 
         <div className="flex items-center">
           <Select
-            onValueChange={(v) => setTypeFilter(v as any)}
+            onValueChange={(v) =>
+              setTypeFilter(v as "all" | "AO" | "QUAN" | "PHU_KIEN")
+            }
             defaultValue="all"
           >
             <SelectTrigger className="w-48 relative pl-9 border-gray-200">

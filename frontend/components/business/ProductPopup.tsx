@@ -20,6 +20,7 @@ import { useState, useEffect } from "react";
 import { Save, X } from "lucide-react";
 import Product from "@/interfaces/product";
 import ProductDetail from "@/interfaces/productDetail";
+import Image from "next/image";
 
 interface ProductPopupProps {
   open: boolean;
@@ -107,7 +108,7 @@ export default function ProductPopup({
       setErrors({});
       setSelectedSizeIndex(0);
     }
-  }, [open, initialData]);
+  }, [open, initialData, setSelectedSizeIndex]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -142,7 +143,7 @@ export default function ProductPopup({
   const setDetailField = (
     index: number,
     field: keyof ProductDetail,
-    value: any
+    value: unknown
   ) => {
     setForm((prev) => {
       if (!prev) return prev;
@@ -152,7 +153,7 @@ export default function ProductPopup({
     });
   };
 
-  const setField = (field: keyof Product, value: any) => {
+  const setField = (field: keyof Product, value: unknown) => {
     setForm((prev) => {
       if (!prev) return prev;
       return { ...prev, [field]: value };
@@ -352,10 +353,12 @@ export default function ProductPopup({
             <div className="grid grid-cols-4 gap-2 mt-2">
               {previews.map((src, i) => (
                 <div key={i} className="relative">
-                  <img
-                    src={src}
+                  <Image
+                    src={src instanceof File ? URL.createObjectURL(src) : src}
                     alt=""
                     className="w-full h-24 object-cover rounded border"
+                    width={100}
+                    height={100}
                   />
                   <button
                     onClick={() => removeImageAt(i)}

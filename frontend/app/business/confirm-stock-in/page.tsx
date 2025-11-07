@@ -1,5 +1,5 @@
-import { createClient } from '@/lib/supabase/server'
-import ConfirmStockClient from './ConfirmStockClient'
+import { createClient } from "@/lib/supabase/server";
+import ConfirmStockClient from "./ConfirmStockClient";
 
 export default async function Page() {
   const supabase = createClient();
@@ -14,11 +14,13 @@ export default async function Page() {
 
   try {
     const headers: Record<string, string> = {};
-    if (session && (session as any).access_token) {
-      headers['Authorization'] = `Bearer ${(session as any).access_token}`;
+    if (session && session.access_token) {
+      headers["Authorization"] = `Bearer ${session.access_token}`;
     }
 
-    const res = await fetch('http://localhost:8080/api/phieunhaphang', { headers });
+    const res = await fetch("http://localhost:8080/api/phieunhaphang", {
+      headers,
+    });
     const json = await res.json();
     const list = (json.data || json || []) as any[];
 
@@ -33,23 +35,38 @@ export default async function Page() {
     const firstSlice = list.slice(0, PAGE_SIZE);
 
     // fetch chi tiết cho mỗi phiếu trong trang đầu tiên và tính tổng tiền
-    initialReceipts = await Promise.all(firstSlice.map(async (r) => {
-      const MaPNH = r.MaPNH ?? r.maPNH ?? r.MaPNNH;
-      if (!MaPNH) return { ...r, items: [], __computedTotal: 0 };
-      try {
-        const dres = await fetch(`http://localhost:8080/api/chitietnhaphang/phieu/${MaPNH}`, { headers });
-        const djson = await dres.json();
-        const items = djson.data || djson || [];
-        const total = (items || []).reduce((s: number, it: any) => s + (Number(it.SoLuong) || 0) * (Number(it.DonGia) || 0), 0);
-        return { ...r, items, __computedTotal: total };
-      } catch (e) {
-        console.error('detail fetch error', MaPNH, e);
-        return { ...r, items: [], __computedTotal: 0 };
-      }
-    }));
+    initialReceipts = await Promise.all(
+      firstSlice.map(async (r) => {
+        const MaPNH = r.MaPNH ?? r.maPNH ?? r.MaPNNH;
+        if (!MaPNH) return { ...r, items: [], __computedTotal: 0 };
+        try {
+          const dres = await fetch(
+            `http://localhost:8080/api/chitietnhaphang/phieu/${MaPNH}`,
+            { headers }
+          );
+          const djson = await dres.json();
+          const items = djson.data || djson || [];
+          const total = (items || []).reduce(
+            (s: number, it: any) =>
+              s + (Number(it.SoLuong) || 0) * (Number(it.DonGia) || 0),
+            0
+          );
+          return { ...r, items, __computedTotal: total };
+        } catch (e) {
+          console.error("detail fetch error", MaPNH, e);
+          return { ...r, items: [], __computedTotal: 0 };
+        }
+      })
+    );
   } catch (e) {
-    console.error('Server fetch error', e);
+    console.error("Server fetch error", e);
   }
 
-  return <ConfirmStockClient initialReceipts={initialReceipts} totalCount={totalCount} pageSize={PAGE_SIZE} />;
+  return (
+    <ConfirmStockClient
+      initialReceipts={initialReceipts}
+      totalCount={totalCount}
+      pageSize={PAGE_SIZE}
+    />
+  );
 }

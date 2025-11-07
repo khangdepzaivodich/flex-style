@@ -1,11 +1,21 @@
-import { Controller, Get, Post, Query, Req, Body, BadRequestException, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+  Body,
+  BadRequestException,
+  Res,
+} from '@nestjs/common';
 import { VNPAYService } from './vnpay.service';
 import { VnpayService } from 'nestjs-vnpay';
 
 @Controller('vnpay')
 export class VNPAYController {
-  constructor(private readonly vnpayService: VNPAYService,
-    private readonly vnpay: VnpayService
+  constructor(
+    private readonly vnpayService: VNPAYService,
+    private readonly vnpay: VnpayService,
   ) {}
 
   @Post('create-payment')
@@ -37,12 +47,17 @@ export class VNPAYController {
   //   const vnpResponse = this.vnpayService.verifyReturnUrl(query);
   //   return vnpResponse;
   // }
-  @Get("vnpay-checksum")
+  @Get('vnpay-checksum')
   async handleChecksum(@Res() res, @Query() query) {
     const result = await this.vnpay.verifyReturnUrl(query);
-    if (result.vnp_ResponseCode != "00"){
+    if (result.vnp_ResponseCode != '00') {
       return res.redirect(`http://localhost:3000/checkout/fail`);
     }
-    return res.redirect(`http://localhost:3000/checkout/success?type=VNPAY&orderID=${result.vnp_TxnRef}&transactionId=${result.vnp_TransactionNo}`);
+    return res.redirect(
+      `http://localhost:3000/checkout/success?type=VNPAY&orderID=${result.vnp_TxnRef}&transactionId=${result.vnp_TransactionNo}`,
+    );
   }
+}
+
+{
 }
