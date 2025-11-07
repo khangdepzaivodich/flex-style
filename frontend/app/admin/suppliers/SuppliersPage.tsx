@@ -1,13 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -19,15 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Search,
-  Plus,
-  Edit,
-  Trash2,
-  Truck,
-  Star,
-  TrendingUp,
-} from "lucide-react";
+import { Search, Plus, Edit, Truck } from "lucide-react";
 import type { Supplier } from "@/lib/types";
 import EditNccPopup from "@/components/admin/EditNccPopup";
 import AddSupplierPopup from "@/components/admin/AddNcc";

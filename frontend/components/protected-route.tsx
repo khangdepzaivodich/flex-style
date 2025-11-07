@@ -80,7 +80,7 @@ export default function ProtectedRoute({
     };
 
     checkAuth();
-  }, [router, Role, user, supabase]);
+  }, [router, Role, supabase, user, allowGuest]);
 
   if (loading) {
     return (

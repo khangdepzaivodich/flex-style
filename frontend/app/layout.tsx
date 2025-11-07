@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "FlexStyle - Thời trang hiện đại",
   description:
     "Cửa hàng thời trang trực tuyến hàng đầu Việt Nam với những sản phẩm chất lượng cao",
-  generator: "v0.app",
+  // generator: "v0.app",
 };
 
 export default async function RootLayout({

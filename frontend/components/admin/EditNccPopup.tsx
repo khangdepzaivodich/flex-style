@@ -58,11 +58,11 @@ export default function EditNccPopup({
         }
       );
       alert("Cập nhật tài khoản thành công! Vui lòng tải lại trang");
-    } catch (error: any) {
-      if (error.response) {
-        console.error("Error updating account:", error.response.data);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error("Error updating account:", error.response?.data);
         alert(
-          "Cập nhật tài khoản thất bại: " + JSON.stringify(error.response.data)
+          "Cập nhật tài khoản thất bại: " + JSON.stringify(error.response?.data)
         );
       } else {
         console.error("Error updating account:", error);

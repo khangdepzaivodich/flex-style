@@ -124,10 +124,8 @@ export default function AddSupplierPopup({ open, onClose }: AddSupplierProps) {
       alert("Tạo nhà cung cấp thành công");
       onClose();
       router.refresh();
-    } catch (err: any) {
-      const msg =
-        err?.response?.data?.message ?? err?.message ?? "Tạo thất bại";
-      setError(Array.isArray(msg) ? JSON.stringify(msg) : String(msg));
+    } catch {
+      setError("Tạo thất bại");
     } finally {
       setLoading(false);
     }

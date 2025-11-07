@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/product-card";
 import {
   ArrowRight,
@@ -11,18 +10,13 @@ import {
   Gift,
 } from "lucide-react";
 import Link from "next/link";
-import type {
-  CartItem,
-  Product,
-  SuKienUuDai,
-  ThongBao,
-  Voucher,
-} from "@/lib/types";
+import type { CartItem, Product, SuKienUuDai } from "@/lib/types";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MailChimp from "@/components/mail-chimp";
 import EventVoucherSlider from "@/components/ui/EventVoucherSlider";
 import { useThongBao } from "@/contexts/thongbao-context";
+import Image from "next/image";
 
 function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
   const startDate = new Date(suKienUuDais.NgayPH);
@@ -87,22 +81,26 @@ export default function MainPage({
     suKienUuDais && Object.keys(suKienUuDais).length > 0;
   const [popup, setPopup] = useState(isValidSuKienUuDai);
   const { suKienUuDaisPromotions, vouchersPromotions } = useThongBao();
-  const cartItems: CartItem[] = [];
-  for (const item of initialCartItems) {
-    const cartItem = {
-      productId: item.productId,
-      name: item.name,
-      price: item.price,
-      quantity: item.quantity,
-      size: item.size,
-      color: item.color,
-      image: item.image,
-    };
-    cartItems.push(cartItem);
-  }
+  const cartItems: CartItem[] = useMemo(() => {
+    const items: CartItem[] = [];
+    for (const item of initialCartItems) {
+      const cartItem: CartItem = {
+        productId: item.productId,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        size: item.size,
+        color: item.color,
+        image: item.image,
+      };
+      items.push(cartItem);
+    }
+    return items;
+  }, [initialCartItems]);
+
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
-  }, []);
+  }, [cartItems]);
   useEffect(() => {
     const timer = setTimeout(() => {
       setPopup(false);
@@ -148,10 +146,11 @@ export default function MainPage({
             </div>
             <div className="relative">
               <div className="aspect-square rounded-2xl overflow-hidden bg-muted">
-                <img
+                <Image
                   src="/modern-fashion-model-wearing-stylish-clothing.jpg"
                   alt="Fashion Model"
                   className="w-full h-full object-cover"
+                  layout="fill"
                 />
               </div>
               <div className="absolute -bottom-6 -left-6 bg-card p-4 rounded-lg shadow-lg border">
@@ -261,10 +260,11 @@ export default function MainPage({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Link href="/products/ao" className="group">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
-                <img
+                <Image
                   src="/men-s-fashion-clothing-collection.jpg"
                   alt="Áo thanh lịch"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  layout="fill"
                 />
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
                 <div className="absolute bottom-6 left-6 text-white">
@@ -278,10 +278,11 @@ export default function MainPage({
 
             <Link href="/products/quan" className="group">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
-                <img
+                <Image
                   src="/women-s-fashion-clothing-collection.jpg"
                   alt="Quần quý phái"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  layout="fill"
                 />
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
                 <div className="absolute bottom-6 left-6 text-white">
@@ -293,10 +294,11 @@ export default function MainPage({
 
             <Link href="/products/phu-kien" className="group">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
-                <img
+                <Image
                   src="/fashion-accessories-collection-bags-watches.jpg"
                   alt="Phụ kiện"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  layout="fill"
                 />
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
                 <div className="absolute bottom-6 left-6 text-white">

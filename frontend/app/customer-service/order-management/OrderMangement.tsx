@@ -10,7 +10,7 @@ import {
   ScanEye,
   TriangleAlert,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import axios from "axios";
 
@@ -33,7 +33,7 @@ export default function OrderManagementPage({
   const [selectedOrder, setSelectedOrder] = useState<OrderResponse | null>(
     null
   );
-  const [filteredOrders, setFilteredOrders] = useState<OrderResponse[]>(order);
+  // const [filteredOrders, setFilteredOrders] = useState<OrderResponse[]>(order);
   const supabase = createClient();
 
   // Cache các trang đã tải
@@ -56,7 +56,6 @@ export default function OrderManagementPage({
     }
   };
 
-  // Xử lý chuyển trang
   const handleNextPage = async () => {
     if (!isLastPage && !orderCache[page + 1]) {
       await loadOrder(page + 1);
@@ -69,39 +68,39 @@ export default function OrderManagementPage({
   };
 
   // Lọc và sắp xếp
-  useEffect(() => {
-    setFilteredOrders(
-      orders
-        .filter((ord) => {
-          const lastStatus = ord.TINHTRANGDONHANG[0].TrangThai;
-          const matchStatus = searchStatus ? lastStatus === searchStatus : true;
-          const matchCustomer = ord.TenNM.toLowerCase().includes(
-            searchCustomer.toLowerCase()
-          );
-          const matchProduct =
-            ord.CHITIETSANPHAM.SANPHAM.TenSP.toLowerCase().includes(
-              searchProduct.toLowerCase()
-            );
-          return matchStatus && matchCustomer && matchProduct;
-        })
-        .sort((a, b) => {
-          const aStatus = a.TINHTRANGDONHANG[0].TrangThai;
-          const bStatus = b.TINHTRANGDONHANG[0].TrangThai;
-          // Định nghĩa thứ tự ưu tiên
-          const statusOrder = [
-            "LOI",
-            "XAC_NHAN_LOI",
-            "CHUA_GIAO",
-            "DANG_GIAO",
-            "DA_GIAO",
-            "HUY",
-          ];
-          const aIndex = statusOrder.indexOf(aStatus);
-          const bIndex = statusOrder.indexOf(bStatus);
-          return aIndex - bIndex;
-        })
-    );
-  }, [orders]);
+  // useEffect(() => {
+  //   setFilteredOrders(
+  //     orders
+  //       .filter((ord) => {
+  //         const lastStatus = ord.TINHTRANGDONHANG[0].TrangThai;
+  //         const matchStatus = searchStatus ? lastStatus === searchStatus : true;
+  //         const matchCustomer = ord.TenNM.toLowerCase().includes(
+  //           searchCustomer.toLowerCase()
+  //         );
+  //         const matchProduct =
+  //           ord.CHITIETSANPHAM.SANPHAM.TenSP.toLowerCase().includes(
+  //             searchProduct.toLowerCase()
+  //           );
+  //         return matchStatus && matchCustomer && matchProduct;
+  //       })
+  //       .sort((a, b) => {
+  //         const aStatus = a.TINHTRANGDONHANG[0].TrangThai;
+  //         const bStatus = b.TINHTRANGDONHANG[0].TrangThai;
+  //         // Định nghĩa thứ tự ưu tiên
+  //         const statusOrder = [
+  //           "LOI",
+  //           "XAC_NHAN_LOI",
+  //           "CHUA_GIAO",
+  //           "DANG_GIAO",
+  //           "DA_GIAO",
+  //           "HUY",
+  //         ];
+  //         const aIndex = statusOrder.indexOf(aStatus);
+  //         const bIndex = statusOrder.indexOf(bStatus);
+  //         return aIndex - bIndex;
+  //       })
+  //   );
+  // }, [orders, searchStatus, searchCustomer, searchProduct]);
 
   // pageOrder là slice của orders
   const pageOrder = orders.slice((page - 1) * limit, page * limit);

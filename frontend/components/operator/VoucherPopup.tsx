@@ -26,7 +26,7 @@ interface VoucherPopupProps {
   open: boolean;
   voucher: Voucher | null;
   onClose: () => void;
-  onSave: (data: any) => void;
+  onSave: (data: Voucher) => void;
 }
 
 export default function VoucherPopup({
@@ -35,7 +35,7 @@ export default function VoucherPopup({
   onClose,
   onSave,
 }: VoucherPopupProps) {
-  const [form, setForm] = useState<Partial<Voucher>>({
+  const [form, setForm] = useState<Voucher>({
     MaVoucher: "",
     TenVoucher: "",
     Code: "",
@@ -47,7 +47,7 @@ export default function VoucherPopup({
     MoTa: "",
     TrangThai: "ACTIVE",
     SoLuong: 100,
-  });
+  } as Voucher);
 
   useEffect(() => {
     if (voucher) {
@@ -55,8 +55,8 @@ export default function VoucherPopup({
     }
   }, [voucher]);
 
-  const handleChange = (field: string, value: string | boolean) => {
-    setForm({ ...form, [field]: value });
+  const handleChange = (field: keyof Voucher, value: unknown) => {
+    setForm((prev) => ({ ...prev, [field]: value } as Voucher));
   };
 
   const formatDateForInput = (v?: Date | string) => {
@@ -81,7 +81,7 @@ export default function VoucherPopup({
 
   const handleSubmit = async () => {
     const supabase = createClient();
-    const { data} = await supabase.auth.getSession();
+    const { data } = await supabase.auth.getSession();
     let response = null;
     console.log("form:", form);
     if (form.MaVoucher != "") {
