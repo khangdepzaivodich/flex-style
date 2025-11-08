@@ -101,7 +101,7 @@ export default function PromotionPage({
     const { data} = await supabase.auth.getSession();
     if (selectedPromotions.length === 0) {
       const response = await fetch(
-        "http://localhost:8080/api/thongbao/sukienuudai/delete",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/sukienuudai/delete`,
         {
           method: "DELETE",
           headers: {
@@ -117,7 +117,7 @@ export default function PromotionPage({
       }
     } else {
       const response = await fetch(
-        "http://localhost:8080/api/thongbao/sukienuudai/update",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/sukienuudai/update`,
         {
           method: "PUT",
           headers: {

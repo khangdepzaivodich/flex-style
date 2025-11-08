@@ -54,7 +54,7 @@ export default function SupplierPage({
       }
       const accessToken = session.access_token;
       await axios.put(
-        `http://localhost:8080/api/phieunhaphang/${id}/nhacungcaptuchoi`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/${id}/nhacungcaptuchoi`,
         { NoiDung: "TU_CHOI" },
         {
           headers: { Authorization: `Bearer ${accessToken}` },

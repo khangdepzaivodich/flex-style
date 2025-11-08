@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 
       // Sync to backend
       try {
-        await fetch("http://localhost:8080/api/taikhoan/dangky", {
+        await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/taikhoan/dangky`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

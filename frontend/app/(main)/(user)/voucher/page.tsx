@@ -3,7 +3,7 @@ import { getUserId } from "@/lib/userInfo";
 
 async function getVouchers(MaAuth: string) {
   const res = await fetch(
-    `http://localhost:8080/api/voucher-khachhang?MaAuth=${MaAuth}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/voucher-khachhang?MaAuth=${MaAuth}`,
 
     {
       cache: "no-store",

@@ -42,7 +42,7 @@ export default function EditNccPopup({
 
     try {
       await axios.patch(
-        `http://localhost:8080/api/ncc/${data.MaTK}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ncc/${data.MaTK}`,
         {
           DisplayName: data.DisplayName,
           Email: data.Email,

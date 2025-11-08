@@ -1,7 +1,7 @@
 import { getAccessToken } from "@/lib/userInfo";
 import StatsPage from "./StatsPage";
 async function handleFetchStats(accessToken: string) {
-  const res = await fetch("http://localhost:8080/api/thongke/doanhthu", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongke/doanhthu`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +16,7 @@ async function handleFetchStats(accessToken: string) {
   return data;
 }
 async function handleFetchCustomer(accessToken: string) {
-  const res = await fetch("http://localhost:8080/api/thongke/khachhang", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongke/khachhang`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import ConfirmStockClient from "./ConfirmStockClient";
+import { ChiTietNhapHang, PhieuNhapHang } from "@/lib/types";
 
 export default async function Page() {
   const supabase = createClient();
@@ -9,7 +10,10 @@ export default async function Page() {
   } = await (await supabase).auth.getSession();
 
   const PAGE_SIZE = 10;
-  let initialReceipts: any[] = [];
+  let initialReceipts: (PhieuNhapHang & {
+    items: ChiTietNhapHang[];
+    __computedTotal: number;
+  })[] = [];
   let totalCount = 0;
 
   try {
@@ -18,16 +22,16 @@ export default async function Page() {
       headers["Authorization"] = `Bearer ${session.access_token}`;
     }
 
-    const res = await fetch("http://localhost:8080/api/phieunhaphang", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang`, {
       headers,
     });
     const json = await res.json();
-    const list = (json.data || json || []) as any[];
+    const list = (json.data || json || []) as PhieuNhapHang[];
 
     // Ngày tạo mới nhất ở trên cùng
     list.sort((a, b) => {
-      const da = new Date(a.created_at ?? a.createdAt ?? 0).getTime();
-      const db = new Date(b.created_at ?? b.createdAt ?? 0).getTime();
+      const da = new Date(a.created_at ?? a.created_at ?? 0).getTime();
+      const db = new Date(b.created_at ?? b.created_at ?? 0).getTime();
       return db - da;
     });
 
@@ -37,17 +41,17 @@ export default async function Page() {
     // fetch chi tiết cho mỗi phiếu trong trang đầu tiên và tính tổng tiền
     initialReceipts = await Promise.all(
       firstSlice.map(async (r) => {
-        const MaPNH = r.MaPNH ?? r.maPNH ?? r.MaPNNH;
+        const MaPNH = r.MaPNH ?? r.MaPNH ?? r.MaPNH;
         if (!MaPNH) return { ...r, items: [], __computedTotal: 0 };
         try {
           const dres = await fetch(
-            `http://localhost:8080/api/chitietnhaphang/phieu/${MaPNH}`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chitietnhaphang/phieu/${MaPNH}`,
             { headers }
           );
           const djson = await dres.json();
           const items = djson.data || djson || [];
           const total = (items || []).reduce(
-            (s: number, it: any) =>
+            (s: number, it: ChiTietNhapHang) =>
               s + (Number(it.SoLuong) || 0) * (Number(it.DonGia) || 0),
             0
           );
@@ -67,6 +71,7 @@ export default async function Page() {
       initialReceipts={initialReceipts}
       totalCount={totalCount}
       pageSize={PAGE_SIZE}
+      accessToken={session?.access_token || ""}
     />
   );
 }

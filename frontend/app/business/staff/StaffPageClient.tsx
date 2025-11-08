@@ -11,10 +11,10 @@ import StaffMember from "@/interfaces/staffMember";
 
 export default function StaffPageClient({
   staffData,
-  sessionData,
+  access_token,
 }: {
   staffData: StaffMember[];
-  sessionData: any;
+  access_token: string;
 }) {
   const [open, setOpen] = useState(false);
   const [staff, setStaff] = useState<StaffMember[]>([]);
@@ -30,7 +30,7 @@ export default function StaffPageClient({
       // Editing existing staff
       try {
         await axios.patch(
-          `http://localhost:8080/api/nv/${data.MaTK}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/nv/${data.MaTK}`,
           {
             DisplayName: data.DisplayName,
             Email: data.Email,
@@ -39,23 +39,24 @@ export default function StaffPageClient({
             Status: data.Status,
             MatKhau: data.Password,
           },
-          { headers: { Authorization: `Bearer ${sessionData.access_token}` } }
+          { headers: { Authorization: `Bearer ${access_token}` } }
         );
 
         setStaff((prev) =>
           prev.map((p) => (p.MaTK === data.MaTK ? { ...p, ...data } : p))
         );
-      } catch (error: any) {
+      } catch (error) {
         setErrorMsg(
-          error.response?.data?.message || "Lỗi khi cập nhật nhân viên."
+          "Lỗi khi cập nhật nhân viên."
         );
+        console.error("Error updating staff:", error);
         return; // stop closing popup on error
       }
     } else {
       // Adding new staff
       try {
         const res = await axios.post(
-          "http://localhost:8080/api/nv/dangky",
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/nv/dangky`,
           {
             DisplayName: data.DisplayName,
             Email: data.Email,
@@ -64,13 +65,13 @@ export default function StaffPageClient({
             VAITRO: data.VAITRO,
             Status: data.Status,
           },
-          { headers: { Authorization: `Bearer ${sessionData.access_token}` } }
+          { headers: { Authorization: `Bearer ${access_token}` } }
         );
 
         setStaff((prev) => [...prev, res.data]); // use returned data
-      } catch (error: any) {
+      } catch (error) {
         console.error("Error adding staff:", error);
-        setErrorMsg(error.response?.data?.message || "Lỗi khi thêm nhân viên.");
+        setErrorMsg("Lỗi khi thêm nhân viên.");
         return; // stop closing popup on error
       }
     }

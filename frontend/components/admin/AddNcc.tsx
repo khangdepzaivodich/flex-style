@@ -117,7 +117,7 @@ export default function AddSupplierPopup({ open, onClose }: AddSupplierProps) {
         // Address: address?.trim(),
       };
       console.log("Create supplier payload:", payload);
-      await axios.post("http://localhost:8080/api/ncc/dangky", payload, {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ncc/dangky`, payload, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 

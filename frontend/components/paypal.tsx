@@ -24,7 +24,7 @@ export default function PayPal({ value, reference_id, productDetailId }: PayPalP
   const createOrder: PayPalButtonsComponentProps["createOrder"] = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/paypal/create-paypal-order",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/paypal/create-paypal-order`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -50,7 +50,7 @@ export default function PayPal({ value, reference_id, productDetailId }: PayPalP
   const onApprove: PayPalButtonsComponentProps["onApprove"] = async (data) => {
     console.log("PayPal onApprove data:", data);
     const response = await fetch(
-      "http://localhost:8080/api/paypal/capture-paypal-order",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/paypal/capture-paypal-order`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

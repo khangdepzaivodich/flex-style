@@ -18,9 +18,9 @@ import Product from "@/interfaces/product";
 import axios from "axios";
 
 export default function ProductsPageClient({
-  sessionData,
+  access_token,
 }: {
-  sessionData: any;
+  access_token: string;
 }) {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Product | null>(null);
@@ -80,9 +80,9 @@ export default function ProductsPageClient({
       const skip = (pageNum - 1) * pageSize;
       const take = pageSize;
 
-      const res = await axios.get("http://localhost:8080/api/sanpham", {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham`, {
         params: { skip, take, includeSizes: true },
-        headers: { Authorization: `Bearer ${sessionData.access_token}` },
+        headers: { Authorization: `Bearer ${access_token}` },
       });
 
       let fetchedData: Product[] = res.data.data ?? [];
@@ -206,38 +206,38 @@ export default function ProductsPageClient({
 
       if (editing) {
         await axios.patch(
-          `http://localhost:8080/api/sanpham/${data.MaSP}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${data.MaSP}`,
           requestProduct,
           {
-            headers: { Authorization: `Bearer ${sessionData.access_token}` },
+            headers: { Authorization: `Bearer ${access_token}` },
           }
         );
 
         for (const detail of requestProductDetail) {
           await axios.patch(
-            `http://localhost:8080/api/chitietsanpham/${detail.MaCTSP}`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chitietsanpham/${detail.MaCTSP}`,
             detail,
             {
-              headers: { Authorization: `Bearer ${sessionData.access_token}` },
+              headers: { Authorization: `Bearer ${access_token}` },
             }
           );
         }
       } else {
         const res = await axios.post(
-          "http://localhost:8080/api/sanpham",
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham`,
           requestProduct,
           {
-            headers: { Authorization: `Bearer ${sessionData.access_token}` },
+            headers: { Authorization: `Bearer ${access_token}` },
           }
         );
 
         const newProductId = res.data.data.MaSP;
         for (const detail of requestProductDetail) {
           await axios.post(
-            "http://localhost:8080/api/chitietsanpham",
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chitietsanpham`,
             { ...detail, MaSP: newProductId },
             {
-              headers: { Authorization: `Bearer ${sessionData.access_token}` },
+              headers: { Authorization: `Bearer ${access_token}` },
             }
           );
         }
@@ -259,8 +259,8 @@ export default function ProductsPageClient({
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:8080/api/sanpham/${id}`, {
-        headers: { Authorization: `Bearer ${sessionData.access_token}` },
+      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${id}`, {
+        headers: { Authorization: `Bearer ${access_token}` },
       });
       setProducts([]);
       setPage(1);

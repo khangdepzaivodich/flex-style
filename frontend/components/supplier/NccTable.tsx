@@ -128,7 +128,7 @@ export default function NccTable({ nccs, onDelete }: NccTableProps) {
           initial={selectedPnh}
           onAgree={async () => {
             await axios.put(
-              `http://localhost:8080/api/phieunhaphang/${selectedPnh.MaPNH}/nhacungcapxacnhan`,
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/${selectedPnh.MaPNH}/nhacungcapxacnhan`,
               {
                 NoiDung: "NCC_XACNHAN",
               }

@@ -27,7 +27,7 @@ export default function QuanPage({
       return category?.Loai === "QUAN";
     }).length;
     const res = await fetch(
-      `http://localhost:8080/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&loaiDM=QUAN&includeTenDM=${
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&loaiDM=QUAN&includeTenDM=${
         categories.find((cat) => cat.MaDM === selectedCategory)?.TenDM || ""
       }`,
       { cache: "no-store" }

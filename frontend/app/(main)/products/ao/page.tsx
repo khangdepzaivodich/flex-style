@@ -2,7 +2,7 @@ import AoPage from "./AoPage";
 
 async function getProducts() {
   const res = await fetch(
-    "http://localhost:8080/api/sanpham?skip=0&take=50&includeSizes=true&loaiDM=AO",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham?skip=0&take=50&includeSizes=true&loaiDM=AO`,
     {
       cache: "no-store",
     }
@@ -11,7 +11,7 @@ async function getProducts() {
   return res.json();
 }
 async function getCategories() {
-  const res = await fetch("http://localhost:8080/api/danhmuc");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/danhmuc`);
   if (!res.ok) throw new Error("Failed to fetch categories");
   return res.json();
 }

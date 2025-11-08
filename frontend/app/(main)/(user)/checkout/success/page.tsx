@@ -29,7 +29,7 @@ export default function CheckoutSuccessPage() {
     try {
       if (order != null) {
         removeItem(order?.MaCTSP);
-        const response = await fetch("http://localhost:8080/api/donhang", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/donhang`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -50,7 +50,7 @@ export default function CheckoutSuccessPage() {
           localStorage.removeItem("order");
           if (order?.MaVoucher) {
             const inactiveVoucher = await fetch(
-              "http://localhost:8080/api/voucher-khachhang/inactive-status",
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/voucher-khachhang/inactive-status`,
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -64,7 +64,7 @@ export default function CheckoutSuccessPage() {
             console.log("Inactive voucher response:", inactiveData);
           }
           const createPayment = await fetch(
-            "http://localhost:8080/api/thanhtoan/create",
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thanhtoan/create`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

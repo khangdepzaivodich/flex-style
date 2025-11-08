@@ -40,8 +40,8 @@ export default function ProductPopup({
   initialData,
   selectedSizeIndex,
   setSelectedSizeIndex,
-  error,
-  setError,
+  // error,
+  // setError,
 }: ProductPopupProps) {
   const [form, setForm] = useState<Product>(
     initialData ?? {

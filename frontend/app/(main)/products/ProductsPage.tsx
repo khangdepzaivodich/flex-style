@@ -121,7 +121,7 @@ export default function ProductsPage({
       }).length || products.length;
 
     const res = await fetch(
-      `http://localhost:8080/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&includeTenDM=${categories
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&includeTenDM=${categories
         .filter((cat) => selectedCategories.includes(cat.MaDM))
         .map((cat) => cat.TenDM)
         .join(",")}`,

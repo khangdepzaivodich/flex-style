@@ -2,7 +2,7 @@ import SalePage from "./Salepage";
 
 async function getProducts() {
   const res = await fetch(
-    "http://localhost:8080/api/sanpham?skip=0&take=50&includeSizes=true",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham?skip=0&take=50&includeSizes=true`,
     {
       cache: "no-store",
     }

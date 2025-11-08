@@ -7,7 +7,7 @@ export default async function StaffPage() {
   const {
     data: { session },
   } = await (await supabase).auth.getSession();
-  const res = await fetch("http://localhost:8080/api/nv", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/nv`, {
     headers: {
       Authorization: `Bearer ${session?.access_token}`,
     },
@@ -15,5 +15,5 @@ export default async function StaffPage() {
   const json = await res.json();
   const staffData: StaffMember[] = json.data;
   console.log("Staff Data:", staffData);
-  return <StaffPageClient staffData={staffData} sessionData={session} />;
+  return <StaffPageClient staffData={staffData} access_token={session?.access_token ?? ""} />;
 }

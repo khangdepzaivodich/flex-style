@@ -34,12 +34,25 @@ export default function Receipt({
 }: ReceiptProps) {
   const supabase = createClient();
   const normalizeSuppliers = (
-    list: any[] = []
+    list: unknown[] = []
   ): { MaTK: string; DisplayName?: string; Email?: string }[] => {
     if (!Array.isArray(list)) return [];
     return list
       .filter(
-        (s) => !!s && (s.VAITRO === undefined || String(s.VAITRO) === "NCC")
+        (
+          s
+        ): s is {
+          MaTK: string;
+          DisplayName?: string;
+          Email?: string;
+          VAITRO?: string;
+        } => {
+          if (!s || typeof s !== "object" || !("MaTK" in s)) return false;
+          const supplier = s as { MaTK: string; VAITRO?: string };
+          return (
+            supplier.VAITRO === undefined || String(supplier.VAITRO) === "NCC"
+          );
+        }
       )
       .map((s) => ({
         MaTK: s.MaTK,
@@ -49,39 +62,56 @@ export default function Receipt({
   };
   const [supplierOptions] = useState<
     { MaTK: string; DisplayName?: string; Email?: string }[]
-  >(normalizeSuppliers(supplierOptionsInitial ?? ([] as any)));
+  >(normalizeSuppliers(supplierOptionsInitial ?? []));
   const [supplierId, setSupplierId] = useState<string | undefined>(
-    (initial as any).MaNCC ?? undefined
+    initial.MaNCC ?? undefined
   );
 
   // chuẩn hóa danh sách variant từ props
   const normalizeVariants = (
-    v: any
+    v: unknown
   ): {
     MaCTSP: string;
+    MaSP?: string;
     TenSP: string;
     KichCo: string;
     SoLuong: number;
     GiaMua?: number;
   }[] => {
     if (!v) return [];
-    let arr: any[] = [];
+    let arr: unknown[] = [];
     if (Array.isArray(v)) arr = v;
-    else if (Array.isArray(v.data)) arr = v.data;
-    else if (typeof v === "object") arr = Object.values(v);
+    else if (
+      typeof v === "object" &&
+      v !== null &&
+      "data" in v &&
+      Array.isArray((v as { data?: unknown[] }).data)
+    )
+      arr = (v as { data?: unknown[] }).data ?? [];
+    else if (typeof v === "object" && v !== null)
+      arr = Object.values(v as object);
     else return [];
 
     return arr
       .filter(Boolean)
       .map((item) => {
-        if (!item) return null;
+        if (!item || typeof item !== "object") return null;
+        const it = item as {
+          MaCTSP: string;
+          MaSP?: string;
+          TenSP?: string;
+          SANPHAM?: { TenSP?: string; GiaMua?: number };
+          KichCo?: string;
+          SoLuong?: number;
+          GiaMua?: number;
+        };
         return {
-          MaCTSP: item.MaCTSP,
-          MaSP: item.MaSP,
-          TenSP: item.TenSP ?? item.SANPHAM?.TenSP ?? "",
-          KichCo: item.KichCo ?? "",
-          SoLuong: item.SoLuong ?? 0,
-          GiaMua: item.GiaMua ?? item.SANPHAM?.GiaMua ?? 0,
+          MaCTSP: it.MaCTSP,
+          MaSP: it.MaSP,
+          TenSP: it.TenSP ?? it.SANPHAM?.TenSP ?? "",
+          KichCo: it.KichCo ?? "",
+          SoLuong: it.SoLuong ?? 0,
+          GiaMua: it.GiaMua ?? it.SANPHAM?.GiaMua ?? 0,
         };
       })
       .filter(Boolean) as {
@@ -102,7 +132,7 @@ export default function Receipt({
       SoLuong: number;
       GiaMua?: number;
     }[]
-  >(normalizeVariants(variantOptionsInitial ?? []) as any);
+  >(normalizeVariants(variantOptionsInitial ?? []));
 
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [suggestions, setSuggestions] = useState<
@@ -122,7 +152,7 @@ export default function Receipt({
   // Hàm xuất phiếu hiện tại ra PDF dùng html2canvas + jsPDF
   async function exportToPdf() {
     try {
-      const html2canvas = (await import("html2canvas")).default as any;
+      const html2canvas = (await import("html2canvas")).default;
       const { default: jsPDF } = await import("jspdf");
       if (!rootRef.current) {
         alert("Không tìm thấy nội dung để xuất PDF");
@@ -194,7 +224,9 @@ export default function Receipt({
       try {
         clone.style.fontSize = "16px";
         clone.style.maxWidth = "900px";
-      } catch (e) {}
+      } catch (e) {
+        console.log("Error setting clone styles:", e);
+      }
 
       const canvas = await html2canvas(clone, { scale: 3 });
       const imgData = canvas.toDataURL("image/png");
@@ -203,7 +235,7 @@ export default function Receipt({
         orientation: "portrait",
         unit: "mm",
         format: "a4",
-      } as any);
+      });
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
@@ -215,9 +247,8 @@ export default function Receipt({
       pdf.save(fileName);
 
       document.body.removeChild(wrapper);
-    } catch (e: any) {
+    } catch (e) {
       console.error("Export PDF error", e);
-      alert("Không thể tạo PDF: " + (e?.message ?? String(e)));
     }
   }
 
@@ -225,10 +256,12 @@ export default function Receipt({
     (supplierOptions || []).find((s) => s.MaTK === supplierId)?.DisplayName ||
     supplierId ||
     "";
-  const [date, setDate] = useState<string>((initial as any).date ?? "");
+  const [date, setDate] = useState<string>(
+    (initial as { date?: string })?.date ?? ""
+  );
 
   const [items, setItems] = useState<Item[]>(() => {
-    const init = (initial as any).items;
+    const init = (initial as { items?: Item[] | Item })?.items;
     if (Array.isArray(init)) return init as Item[];
     if (init && typeof init === "object") return [init as Item];
     return [
@@ -238,7 +271,7 @@ export default function Receipt({
         KichCo: "",
         SoLuong: 0,
         DonGia: 0,
-      } as Item,
+      },
     ];
   });
   // Tổng tiền (tính theo tất cả items)
@@ -396,11 +429,10 @@ export default function Receipt({
                       value={it.TenSP || ""}
                       onChange={(e) => {
                         const val = e.target.value;
-                        handleItemField(idx, "TenSP", val as any);
+                        handleItemField(idx, "TenSP", val);
                         setActiveRow(idx);
 
-                        if (searchTimer)
-                          window.clearTimeout(searchTimer as any);
+                        if (searchTimer) window.clearTimeout(searchTimer);
                         const t = window.setTimeout(async () => {
                           try {
                             const {
@@ -409,7 +441,7 @@ export default function Receipt({
                             const token = session?.access_token;
                             const q = encodeURIComponent(val);
                             const res = await fetch(
-                              `http://localhost:8080/api/chitietnhaphang/variants/search?q=${q}`,
+                              `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chitietnhaphang/variants/search?q=${q}`,
                               {
                                 headers: token
                                   ? { Authorization: `Bearer ${token}` }
@@ -423,7 +455,7 @@ export default function Receipt({
                             setSuggestions([]);
                           }
                         }, 300);
-                        setSearchTimer(t as any);
+                        setSearchTimer(t);
                       }}
                       placeholder="(nhập tên sản phẩm)"
                       className="w-full text-base"
@@ -439,14 +471,10 @@ export default function Receipt({
                             key={s.MaCTSP}
                             className="px-2 py-1 hover:bg-gray-100 cursor-pointer text-sm"
                             onClick={() => {
-                              handleItemField(
-                                idx,
-                                "MaSP",
-                                (s as any).MaSP as any
-                              );
-                              handleItemField(idx, "TenSP", s.TenSP as any);
-                              handleItemField(idx, "MaCTSP", undefined as any);
-                              handleItemField(idx, "KichCo", "" as any);
+                              handleItemField(idx, "MaSP", s.MaSP);
+                              handleItemField(idx, "TenSP", s.TenSP);
+                              handleItemField(idx, "MaCTSP", undefined);
+                              handleItemField(idx, "KichCo", "");
                               setSuggestions([]);
                               setActiveRow(null);
                             }}
@@ -487,24 +515,20 @@ export default function Receipt({
                           value={it.KichCo ?? ""}
                           onChange={(e) => {
                             const selected = e.target.value;
-                            handleItemField(idx, "KichCo", selected as any);
+                            handleItemField(idx, "KichCo", selected);
                             const found = variantOptions.find(
                               (v) => v.MaSP === it.MaSP && v.KichCo === selected
                             );
                             if (found) {
-                              handleItemField(
-                                idx,
-                                "MaCTSP",
-                                found.MaCTSP as any
-                              );
+                              handleItemField(idx, "MaCTSP", found.MaCTSP);
                               if (found.GiaMua !== undefined)
                                 handleItemField(
                                   idx,
                                   "DonGia",
-                                  Number(found.GiaMua) as any
+                                  Number(found.GiaMua)
                                 );
                             } else {
-                              handleItemField(idx, "MaCTSP", undefined as any);
+                              handleItemField(idx, "MaCTSP", undefined);
                             }
                           }}
                           className="w-full text-sm text-center"
@@ -524,7 +548,7 @@ export default function Receipt({
                       type="text"
                       value={it.KichCo || ""}
                       onChange={(e) =>
-                        handleItemField(idx, "KichCo", e.target.value as any)
+                        handleItemField(idx, "KichCo", e.target.value)
                       }
                       className="w-full text-sm text-center"
                       data-pdf-size-index={String(idx)}
@@ -535,13 +559,9 @@ export default function Receipt({
                   <input
                     type="number"
                     min={0}
-                    value={it.SoLuong as any}
+                    value={it.SoLuong}
                     onChange={(e) =>
-                      handleItemField(
-                        idx,
-                        "SoLuong",
-                        Number(e.target.value) as any
-                      )
+                      handleItemField(idx, "SoLuong", Number(e.target.value))
                     }
                     className="w-full max-w-[100px] text-sm text-center mx-auto"
                   />
@@ -550,13 +570,9 @@ export default function Receipt({
                   <input
                     type="number"
                     min={0}
-                    value={it.DonGia as any}
+                    value={it.DonGia}
                     onChange={(e) =>
-                      handleItemField(
-                        idx,
-                        "DonGia",
-                        Number(e.target.value) as any
-                      )
+                      handleItemField(idx, "DonGia", Number(e.target.value))
                     }
                     className="w-full max-w-[140px] text-sm text-right mx-auto"
                   />

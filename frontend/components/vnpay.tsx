@@ -21,7 +21,7 @@ export const VNPAY: React.FC<PaymentButtonProps> = ({
     try {
       // ✅ Gọi API backend thay vì import trực tiếp
       const response = await fetch(
-        "http://localhost:8080/api/vnpay/create-payment",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/vnpay/create-payment`,
         {
           method: "POST",
           headers: {

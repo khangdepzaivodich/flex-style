@@ -17,10 +17,10 @@ import { toast } from "react-toastify";
 
 export default function UserClientPage({
   users: initial,
-  sessionData,
+  access_token,
 }: {
   users: UsersModel[];
-  sessionData: any;
+  access_token: string;
 }) {
   // map backend UsersModel (TAIKHOAN) to UI-friendly shape expected by UserTable
   const mapUser = (u: UsersModel) => ({
@@ -47,16 +47,14 @@ export default function UserClientPage({
     try {
       // Only call the taikhoan status endpoint. Backend enforces roles server-side.
       const desiredStatus = status === "active" ? "ACTIVE" : "INACTIVE";
-      const url = `http://localhost:8080/api/taikhoan/status/${encodeURIComponent(id)}`;
-      const res = await axios.patch(url, { status: desiredStatus }, { headers: { Authorization: `Bearer ${sessionData?.access_token}` } });
+      const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/taikhoan/status/${encodeURIComponent(id)}`;
+      const res = await axios.patch(url, { status: desiredStatus }, { headers: { Authorization: `Bearer ${access_token}` } });
       if (!(res.status >= 200 && res.status < 300)) {
         throw new Error('Failed to update status');
       }
-    } catch (e: any) {
+    } catch (e) {
       setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, status: u.status === "active" ? "inactive" : "active" } : u)));
-      console.error("Failed to update status", e);
-      // friendly toast for users
-      toast.error(e?.response?.data?.message || 'Không thể cập nhật trạng thái — vui lòng thử lại');
+      toast.error('Không thể cập nhật trạng thái — vui lòng thử lại' + e);
     }
   };
 

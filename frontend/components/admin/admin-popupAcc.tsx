@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import EditVaiTroPopup from "./EditVaiTroPopup";
+import Image from "next/image";
 
 interface AccountListPopupProps {
   open: boolean;
@@ -50,7 +51,7 @@ export default function AccountListPopup({
 
     try {
       await axios.patch(
-        `http://localhost:8080/api/ql/${data.MaTK}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ql/${data.MaTK}`,
         {
           DisplayName: data.DisplayName,
           Email: data.Email,
@@ -66,16 +67,8 @@ export default function AccountListPopup({
         }
       );
       alert("Cập nhật tài khoản thành công! Vui lòng tải lại trang");
-    } catch (error: any) {
-      if (error.response) {
-        console.error("Error updating account:", error.response.data);
-        alert(
-          "Cập nhật tài khoản thất bại: " + JSON.stringify(error.response.data)
-        );
-      } else {
-        console.error("Error updating account:", error);
-        alert("Cập nhật tài khoản thất bại. Vui lòng thử lại.");
-      }
+    } catch (error) {
+      console.error("Error updating account:", error);
     }
   };
   const handleSaveRole = async (data: VaiTro) => {
@@ -90,7 +83,7 @@ export default function AccountListPopup({
     const accessToken = session.access_token;
     try {
       await axios.patch(
-        `http://localhost:8080/api/nv/role/${selectedAccount?.MaTK}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/nv/role/${selectedAccount?.MaTK}`,
         {
           vaiTro: data,
         },
@@ -101,16 +94,8 @@ export default function AccountListPopup({
         }
       );
       alert("Cập nhật vai trò thành công! Vui lòng tải lại trang");
-    } catch (error: any) {
-      if (error.response) {
-        console.error("Error updating account:", error.response.data);
-        alert(
-          "Cập nhật vai trò thất bại: " + JSON.stringify(error.response.data)
-        );
-      } else {
-        console.error("Error updating account:", error);
-        alert("Cập nhật vai trò thất bại. Vui lòng thử lại.");
-      }
+    } catch (error) {
+      console.error("Error updating role:", error);
     }
   };
   const handleClick = (acc: NhanVien) => {
@@ -245,7 +230,7 @@ export default function AccountListPopup({
                     <td className="px-2 py-1">{acc.Email ?? "-"}</td>
                     <td className="px-2 py-1 flex items-center justify-center">
                       {acc.Avatar ? (
-                        <img
+                        <Image
                           src={acc.Avatar}
                           alt="avatar"
                           className="w-8 h-8 rounded-full object-cover"

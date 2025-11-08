@@ -10,10 +10,9 @@ import {
   Line,
   Legend,
 } from "recharts";
-import { ThongKeDoanhThuItem, ThongKeSLKhachHangItem } from "@/lib/types";
+// import { ThongKeDoanhThuItem, ThongKeSLKhachHangItem } from "@/lib/types";
 
 // Dữ liệu doanh thu và vốn
-
 
 // const defaultData: MonthlyPoint[] = [
 //   { month: "Jan", revenue: 40000000, capital: 22000000 },
@@ -33,7 +32,6 @@ import { ThongKeDoanhThuItem, ThongKeSLKhachHangItem } from "@/lib/types";
 
 // Dữ liệu đếm đơn hàng và khách hàng
 
-
 // const defaultCounts: CountPoint[] = [
 //   { month: "Jan", orders: 120, customers: 80 },
 //   { month: "Feb", orders: 98, customers: 70 },
@@ -49,20 +47,23 @@ import { ThongKeDoanhThuItem, ThongKeSLKhachHangItem } from "@/lib/types";
 //   { month: "Dec", orders: 165, customers: 200 },
 // ];
 
-
-
 // Hàm định dạng tiền tệ VND
 function formatVND(n?: number | null) {
   if (n == null) return "0₫";
   return new Intl.NumberFormat("vi-VN").format(n) + "₫";
 }
 
-
 // Tùy chỉnh tooltip để hiển thị thông tin doanh thu
-function CustomTooltip({ active, payload, label }: any) {
+type TooltipProps = {
+  active?: boolean;
+  payload?: Array<{ dataKey: string; value: number }>;
+  label?: string;
+};
+
+function CustomTooltip({ active, payload, label }: TooltipProps) {
   if (!active || !payload) return null;
-  const rev = payload.find((p: any) => p.dataKey === "revenue")?.value;
-  const cap = payload.find((p: any) => p.dataKey === "capital")?.value;
+  const rev = payload.find((p: { dataKey: string; value: number }) => p.dataKey === "revenue")?.value;
+  const cap = payload.find((p: { dataKey: string; value: number }) => p.dataKey === "capital")?.value;
   return (
     <div className="bg-white rounded shadow-md p-2 min-w-[160px] text-sm text-gray-900">
       <div className="font-semibold mb-1">{label}</div>
@@ -73,10 +74,10 @@ function CustomTooltip({ active, payload, label }: any) {
 }
 
 // Tùy chỉnh tooltip để hiển thị thông tin đơn hàng và khách hàng
-function CountsTooltip({ active, payload, label }: any) {
+function CountsTooltip({ active, payload, label }: TooltipProps) {
   if (!active || !payload) return null;
-  const ord = payload.find((p: any) => p.dataKey === "orders")?.value;
-  const cus = payload.find((p: any) => p.dataKey === "customers")?.value;
+  const ord = payload.find((p: { dataKey: string; value: number }) => p.dataKey === "orders")?.value;
+  const cus = payload.find((p: { dataKey: string; value: number }) => p.dataKey === "customers")?.value;
   return (
     <div className="bg-white rounded shadow-md p-2 min-w-[160px] text-sm text-gray-900">
       <div className="font-semibold mb-1">{label}</div>
@@ -107,7 +108,11 @@ type Props = {
   height?: number;
 };
 
-export default function StatsChart({ chartData, countData, height = 300 }: Props) {
+export default function StatsChart({
+  chartData,
+  countData,
+  height = 300,
+}: Props) {
   // const { chartData, ordersData } = mapThongKeToMonthlyPoints(stats);
   // const countsData = mapCustomersToCountPoints(customers);
   // const mergedCountsData = countsData.map((item) => {

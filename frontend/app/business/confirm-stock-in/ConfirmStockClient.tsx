@@ -15,22 +15,33 @@ import {
 } from "@/components/ui/select";
 import { Filter } from "lucide-react";
 import { toast } from "react-toastify";
+import { ChiTietNhapHang, PhieuNhapHang } from "@/lib/types";
 
 export default function ConfirmStockClient({
   initialReceipts = [],
   totalCount = 0,
   pageSize = 10,
+  accessToken,
 }: {
-  initialReceipts?: any[];
+  initialReceipts?: (PhieuNhapHang & {
+    items: ChiTietNhapHang[];
+    __computedTotal: number;
+  })[];
   totalCount?: number;
   pageSize?: number;
+  accessToken?: string;
 }) {
   const supabase = createClient();
-  const [receipts, setReceipts] = React.useState<any[]>(initialReceipts || []);
+  const [receipts, setReceipts] = React.useState<
+    (PhieuNhapHang & {
+      items: ChiTietNhapHang[];
+      __computedTotal: number;
+    })[]
+  >(initialReceipts || []);
   const [loading, setLoading] = React.useState(false);
   const [loadingMore, setLoadingMore] = React.useState(false);
   const [viewOpen, setViewOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState<any | null>(null);
+  const [selected, setSelected] = React.useState<ReceiptData | null>(null);
   const [page, setPage] = React.useState(1);
   const [total, setTotal] = React.useState<number>(totalCount || 0);
   const [statusFilter, setStatusFilter] = React.useState<string>("ALL");
@@ -41,29 +52,39 @@ export default function ConfirmStockClient({
     const iv = setInterval(async () => {
       try {
         const res = await fetch(
-          `/api/phieunhaphang/paged?page=1&pageSize=1&status=${encodeURIComponent(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/paged?page=1&pageSize=1&status=${encodeURIComponent(
             statusFilter
-          )}${dateFilter ? `&date=${encodeURIComponent(dateFilter)}` : ""}`
+          )}${dateFilter ? `&date=${encodeURIComponent(dateFilter)}` : ""}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
         if (!res.ok) return;
         const json = await res.json();
         const newest = (json.data && json.data[0]) ?? null;
         if (!newest) return;
-        const currentTop = receipts[0]?.MaPNH ?? receipts[0]?.id;
+        const currentTop = receipts[0]?.MaPNH ?? receipts[0]?.MaPNH;
         if (currentTop !== (newest.MaPNH ?? newest.maPNH ?? newest.MaPNNH)) {
           // Nếu có phiếu nhập hàng mới -> tải lại trang đầu và thêm vào đầu danh sách
           const firstPageRes = await fetch(
-            `/api/phieunhaphang/paged?page=1&pageSize=${pageSize}&status=${encodeURIComponent(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/paged?page=1&pageSize=${pageSize}&status=${encodeURIComponent(
               statusFilter
-            )}${dateFilter ? `&date=${encodeURIComponent(dateFilter)}` : ""}`
+            )}${dateFilter ? `&date=${encodeURIComponent(dateFilter)}` : ""}`,
+            {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
           );
           if (!firstPageRes.ok) return;
           const pj = await firstPageRes.json();
           const newList = pj.data ?? [];
           setReceipts((prev) => {
-            const seen = new Set(prev.map((p) => p.MaPNH ?? p.maPNH ?? p.id));
+            const seen = new Set(prev.map((p) => p.MaPNH));
             const toPrepend = newList.filter(
-              (n: any) => !seen.has(n.MaPNH ?? n.maPNH ?? n.id)
+              (n: { MaPNH: string }) => !seen.has(n.MaPNH)
             );
             return [...toPrepend, ...prev];
           });
@@ -82,17 +103,22 @@ export default function ConfirmStockClient({
     setLoadingMore(true);
     try {
       const res = await fetch(
-        `/api/phieunhaphang/paged?page=${next}&pageSize=${pageSize}&status=${encodeURIComponent(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/paged?page=${next}&pageSize=${pageSize}&status=${encodeURIComponent(
           statusFilter
-        )}${dateFilter ? `&date=${encodeURIComponent(dateFilter)}` : ""}`
+        )}${dateFilter ? `&date=${encodeURIComponent(dateFilter)}` : ""}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
       if (!res.ok) throw new Error("Load more failed");
       const json = await res.json();
       const more = json.data ?? [];
       setReceipts((prev) => {
-        const seen = new Set(prev.map((p) => p.MaPNH ?? p.maPNH ?? p.id));
+        const seen = new Set(prev.map((p) => p.MaPNH));
         const toAppend = more.filter(
-          (m: any) => !seen.has(m.MaPNH ?? m.maPNH ?? m.id)
+          (m: { MaPNH: string }) => !seen.has(m.MaPNH)
         );
         return [...prev, ...toAppend];
       });
@@ -112,9 +138,14 @@ export default function ConfirmStockClient({
       const s = typeof status === "string" ? status : statusFilter;
       const d = typeof dateArg !== "undefined" ? dateArg : dateFilter;
       const res = await fetch(
-        `/api/phieunhaphang/paged?page=1&pageSize=${pageSize}&status=${encodeURIComponent(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/paged?page=1&pageSize=${pageSize}&status=${encodeURIComponent(
           s
-        )}${d ? `&date=${encodeURIComponent(d)}` : ""}`
+        )}${d ? `&date=${encodeURIComponent(d)}` : ""}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
       if (!res.ok) throw new Error("Reload failed");
       const json = await res.json();
@@ -140,37 +171,35 @@ export default function ConfirmStockClient({
         toast.error("Bạn chưa đăng nhập");
         return;
       }
-      const accessToken = (session as any).access_token;
-      const userId = (session as any).user?.id;
+      const accessToken = session.access_token;
+      const userId = session.user?.id;
       await axios.put(
-        `http://localhost:8080/api/phieunhaphang/${id}/nhanvienxacnhan`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/${id}/nhanvienxacnhan`,
         { MaTKNVXN: userId, NoiDung: "NV_XACNHAN" },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       setReceipts((prev) =>
         prev.map((r) =>
-          (r.MaPNH ?? r.id) === id
+          (r.MaPNH ?? r.MaPNH) === id
             ? { ...r, status: "NV_XACNHAN", TrangThai: "NV_XACNHAN" }
             : r
         )
       );
-      setSelected((prev: any) => {
+      setSelected((prev: ReceiptData | null) => {
         if (!prev) return prev;
-        const pid = prev.MaPNH ?? prev.id;
+        const pid = prev.MaPNH;
         if (pid === id)
           return {
             ...prev,
             status: "NV_XACNHAN",
             TrangThai: "NV_XACNHAN",
-          } as any;
+          };
         return prev;
       });
       toast.success("Xác nhận phiếu thành công");
-    } catch (err: any) {
-      console.error("Confirm as staff error", err?.response ?? err);
-      const msg =
-        err?.response?.data?.message ?? err?.message ?? "Xác nhận thất bại";
-      toast.error(Array.isArray(msg) ? JSON.stringify(msg) : String(msg));
+    } catch (err) {
+      console.error("Confirm as staff error", err);
+      toast.error("xác nhận thất bại");
     } finally {
       setLoading(false);
     }
@@ -178,7 +207,7 @@ export default function ConfirmStockClient({
 
   // Xử lý khi người dùng xem chi tiết một phiếu nhập hàng
   function handleView(id?: string) {
-    const found = receipts.find((r) => (r.MaPNH ?? r.maPNH ?? r.id) === id);
+    const found = receipts.find((r) => r.MaPNH === id);
     if (!found) {
       setSelected(null);
       setViewOpen(false);
@@ -267,7 +296,12 @@ export default function ConfirmStockClient({
           </div>
         </div>
       </div>
-
+      {loading && (
+        <div className="text-center my-4">
+          <span>Đang tải dữ liệu...</span>
+          {/* Hoặc dùng spinner/icon nếu có */}
+        </div>
+      )}
       <ReceiptTable
         receipts={receipts}
         statusFilter={statusFilter}
@@ -287,35 +321,9 @@ export default function ConfirmStockClient({
       <ReceiptView
         open={viewOpen}
         onOpenChange={(o) => setViewOpen(o)}
-        data={
-          selected
-            ? ({
-                MaPNH: selected.MaPNH ?? selected.id,
-                created_at: selected.created_at ?? selected.date,
-                items: selected.items ?? selected.raw?.items ?? [],
-                TrangThai:
-                  selected.TrangThai ??
-                  selected.status ??
-                  selected.raw?.TrangThai ??
-                  selected.raw?.trangThai,
-                MaNCC:
-                  selected.MaNCC ??
-                  selected.raw?.MaNCC ??
-                  selected.MaNhaCungCap ??
-                  selected.NhaCungCap,
-                supplierName:
-                  (selected as any)?.supplierName ??
-                  selected.raw?.TenNCC ??
-                  selected.raw?.TenNhaCungCap ??
-                  selected.TenNCC ??
-                  selected.TenNhaCungCap ??
-                  undefined,
-                raw: selected.raw ?? selected,
-              } as ReceiptData)
-            : undefined
-        }
+        data={selected ?? undefined}
         onConfirm={() => {
-          const id = selected?.MaPNH ?? selected?.id;
+          const id = selected?.MaPNH;
           if (id) confirmAsStaff(id);
         }}
       />

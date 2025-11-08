@@ -38,13 +38,13 @@ export default function VoucherPage({
   const handleVoucherCode = async (code: string) => {
     const voucherCode = code.toUpperCase();
     const respone = await fetch(
-      `http://localhost:8080/api/voucher/code/${voucherCode}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/voucher/code/${voucherCode}`,
       { cache: "no-store" }
     );
     const voucher = await respone.json();
     console.log(voucher.message);
     if (voucher.statusCode === 200 && voucher.data) {
-      const resultAdd = await fetch(`http://localhost:8080/api/voucher-khachhang/add`, {
+      const resultAdd = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/voucher-khachhang/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -2,15 +2,15 @@
 
 import React from "react";
 // import StatsGrid from '../../../components/business/StatsGrid'
-import PerformanceCardDisplay from "../../../components/business/PerformanceCardDisplay";
+// import PerformanceCardDisplay from "../../../components/business/PerformanceCardDisplay";
 import StatsChart from "../../../components/business/StatsChart";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectTrigger,
+//   SelectValue,
+//   SelectContent,
+//   SelectItem,
+// } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { ThongKeDoanhThuItem } from "@/lib/types";
@@ -167,7 +167,7 @@ function mapCustomersToCountPoints(
     });
   }
 
-  return months.map(({ key, label, year, month }) => {
+  return months.map(({ label, year, month }) => {
     const count = (customers || []).filter((c) => {
       const d = new Date(c.created_at);
       return d.getFullYear() === year && d.getMonth() + 1 === month;
@@ -202,12 +202,12 @@ export default function StatsPage({
   const thisMonthRevenue = chartData[chartData.length - 1]?.revenue;
   const lastMonthRevenue = chartData[chartData.length - 2]?.revenue;
 
-  const thisMonthCategories =
-    categoryAndProductData[categoryAndProductData.length - 1]?.categories || [];
-  const lastMonthCategories =
-    categoryAndProductData[categoryAndProductData.length - 2]?.categories || [];
-  const thisMonthProductsObj =
-    categoryAndProductData[categoryAndProductData.length - 1]?.products || [];
+  // const thisMonthCategories =
+  //   categoryAndProductData[categoryAndProductData.length - 1]?.categories || [];
+  // const lastMonthCategories =
+  //   categoryAndProductData[categoryAndProductData.length - 2]?.categories || [];
+  // const thisMonthProductsObj =
+  //   categoryAndProductData[categoryAndProductData.length - 1]?.products || [];
   return (
     <div>
       <ToastContainer />

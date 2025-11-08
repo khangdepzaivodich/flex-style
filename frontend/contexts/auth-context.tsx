@@ -112,7 +112,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       console.log("Registering customer");
       const response = await fetch(
-        `http://localhost:8080/api/taikhoan/dangky`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/taikhoan/dangky`,
         {
           method: "POST",
           headers: {
@@ -160,7 +160,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }));
       // 2. Gọi API lưu giỏ hàng
       await fetch(
-        `http://localhost:8080/api/giohang/update-cart?MaTKKH=${userId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/giohang/update-cart?MaTKKH=${userId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

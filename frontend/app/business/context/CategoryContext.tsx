@@ -23,7 +23,7 @@ export const CategoryProvider = ({ children }: { children: ReactNode }) => {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:8080/api/danhmuc");
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/danhmuc`);
       setCategories(res.data.data);
     } catch (error) {
       console.error("Error fetching categories", error);

@@ -68,7 +68,7 @@ export default function Receipt({
     const fetchData = async () => {
       try {
         const res = await axios.get<{ data: Item[] }>(
-          `http://localhost:8080/api/chitietnhaphang/phieu/${encodeURIComponent(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chitietnhaphang/phieu/${encodeURIComponent(
             String(MaPNH)
           )}`
         );
@@ -81,7 +81,7 @@ export default function Receipt({
             if (!element.MaCTSP) return;
             try {
               const variantRes = await axios.get<{ data: Partial<Item> }>(
-                `http://localhost:8080/api/chitietnhaphang/variants/${encodeURIComponent(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chitietnhaphang/variants/${encodeURIComponent(
                   String(element.MaCTSP)
                 )}`
               );

@@ -5,7 +5,7 @@ async function getQL() {
   const token = await getAccessToken();
 
   try {
-    const res = await fetch("http://localhost:8080/api/ql", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ql`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -20,7 +20,7 @@ async function getNVVH() {
   const token = await getAccessToken();
 
   try {
-    const res = await fetch("http://localhost:8080/api/nv", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/nv`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 

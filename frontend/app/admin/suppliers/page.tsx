@@ -2,7 +2,7 @@ import { getAccessToken } from "@/lib/userInfo";
 import AdminSuppliersPage from "./SuppliersPage";
 async function getNccs() {
   const token = await getAccessToken();
-  const res = await fetch(`http://localhost:8080/api/ncc`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ncc`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
