@@ -9,11 +9,15 @@ import {
   Query,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { GiohangService } from './giohang.service';
 import { AddToCartDto, UpdateQuantityDto} from './dto/giohang.dto';
 import { ResponseMessage } from 'src/decorators/response.decorator';
+import { JwtAuthGuard } from 'src/jwt/jwt.guard';
+import { Roles } from 'src/factory_function/role';
+import { TaiKhoanGuard } from 'src/taikhoan/taikhoan.guard';
 
 @ApiTags('Giỏ hàng')
 @Controller('giohang')
@@ -22,6 +26,8 @@ export class GiohangController {
     console.log('[GiohangController] Loaded');
   }
 
+  @Roles('KH')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   @Put('/update-cart')
   @ApiOperation({ summary: 'Cập nhật sản phẩm vào giỏ hàng' })
   @ApiResponse({ status: 404, description: 'Không tìm thấy sản phẩm' })
@@ -33,6 +39,8 @@ export class GiohangController {
     return result;
   }
 
+  @Roles('KH')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   @Get()
   @ApiOperation({ summary: 'Hiển thị tất cả sản phẩm trong giỏ hàng' })
   @ApiQuery({ name: 'MaTKKH', required: false, description: 'Mã tài khoản khách hàng' })
@@ -148,6 +156,7 @@ export class GiohangController {
   // }
 
   //tạo giỏ hàng
+  
   @Post('create-cart')
   @ApiOperation({ summary: 'Tạo giỏ hàng cho khách hàng' })
   @ApiQuery({ name: 'MaTKKH', required: false, description: 'Mã tài khoản khách hàng' })

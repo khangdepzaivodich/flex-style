@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PhieuNhapHangDto } from './dto/phieunhaphang.dto';
 import { PhieuNhapHangRepository } from 'src/repositories/phieunhaphang.repository';
-import { TrangThaiPhieuNhapHang } from 'src/constant';
+import { TrangThaiPhieuNhapHang } from '@prisma/client';
 @Injectable()
 export class PhieuNhapHangService {
   constructor(
@@ -101,5 +101,15 @@ export class PhieuNhapHangService {
       id,
       TrangThai as TrangThaiPhieuNhapHang,
     );
+  }
+
+  //lấy phiếu nhập hàng phân trang
+  async findPaged(params: {
+    page: number;
+    pageSize: number;
+    status?: TrangThaiPhieuNhapHang;
+    date?: string;
+  }) {
+    return this.phieuNhapHangRepository.findPaged(params);
   }
 }

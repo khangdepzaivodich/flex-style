@@ -1,8 +1,12 @@
-import { Controller, Get, Param, Put, Body, Post } from '@nestjs/common';
+ 
+import { Controller, Get, Param, Put, Body, Post, UseGuards } from '@nestjs/common';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 import { PhieuNhapHangDto } from './dto/phieunhaphang.dto';
 import { PhieuNhapHangService } from './phieunhaphang.service';
 import { Roles } from 'src/factory_function/role';
+import { JwtAuthGuard } from 'src/jwt/jwt.guard';
+import { TaiKhoanGuard } from 'src/taikhoan/taikhoan.guard';
+import { TrangThaiPhieuNhapHang } from '@prisma/client';
 
 @Controller('phieunhaphang')
 export class PhieuNhapHangController {
@@ -23,6 +27,30 @@ export class PhieuNhapHangController {
   @ResponseMessage('Lấy phiếu nhập hàng theo id thành công')
   getById(@Param('id') id: string) {
     return this.phieuNhapHangService.findById(id);
+  }
+
+   // Lấy danh sách phiếu nhập hàng có phân trang, lọc trạng thái và ngày
+  @Roles('QLDN')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  @Get('paged')
+  @ResponseMessage('Lấy danh sách phiếu nhập hàng phân trang thành công')
+  async getPaged(
+    @Param('page') page?: string,
+    @Param('pageSize') pageSize?: string,
+    @Param('status') status?: TrangThaiPhieuNhapHang,
+    @Param('date') date?: string,
+  ) {
+    // Lấy query từ request
+    // Nếu dùng @Query thì cần import Query từ @nestjs/common
+    // Sử dụng @Query thay vì @Param cho query string
+    // Sửa lại cho đúng NestJS
+    // ...existing code...
+    return this.phieuNhapHangService.findPaged({
+      page: Number(page) || 1,
+      pageSize: Number(pageSize) || 10,
+      status,
+      date,
+    });
   }
 
   //tạo phiếu nhập hàng

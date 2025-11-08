@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TrangThai, TrangThaiPhieuNhapHang } from '@prisma/client';
+import {  TrangThaiPhieuNhapHang } from '@prisma/client';
 import { PhieuNhapHangMapper } from 'src/phieunhaphang/entity/phieunhaphang.mapper';
 import { PrismaService } from 'src/prisma.service';
 @Injectable()
@@ -75,5 +75,23 @@ export class PhieuNhapHangRepository {
       },
     });
     return PhieuNhapHangMapper.toEntity(phieuNhapHang);
+  }
+
+  //lấy phiếu nhập hàng phân trang
+  async findPaged(params: {
+    page: number;
+    pageSize: number;
+    status?: TrangThaiPhieuNhapHang;
+    date?: string;
+  }) {
+    const { page, pageSize, status, date } = params;
+    return this.prisma.pHIEUNHAPHANG.findMany({
+      where: {
+        ...(status && { TrangThai: status }),
+        ...(date && { NgayNhap: date }),
+      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    });
   }
 }

@@ -30,7 +30,7 @@ export class NhanVienController {
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   async getAllNV(): Promise<TAIKHOAN[]> {
     const nv = await this.taikhoanService.taikhoansNV();
-    console.log('nv:', nv);
+    // console.log('nv:', nv);
     return nv;
   }
 

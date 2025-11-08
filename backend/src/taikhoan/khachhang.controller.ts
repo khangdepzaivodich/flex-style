@@ -54,8 +54,8 @@ export class KhachHangController {
     const user = req.user as User;
     const tk = await this.taikhoanService.taikhoan(maTK);
     const reqUser = await this.taikhoanService.taikhoan(user.id);
-    console.log(maTK, user.id);
-    console.log(user.role);
+    // console.log(maTK, user.id);
+    // console.log(user.role);
 
     if (user.id === maTK) return tk;
     if (
