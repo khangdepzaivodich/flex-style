@@ -42,11 +42,11 @@ export class TaikhoanService {
   }
   // Dang ky tai khoan moi
   async dangKy(data: TaiKhoanNghiepVuDto): Promise<TAIKHOAN> {
-    console.log(data);
+    // console.log(data);
     const existingUser = await this.prisma.tAIKHOAN.findFirst({
       where: { Username: data.Username },
     });
-    console.log(existingUser);
+    // console.log(existingUser);
     if (existingUser) {
       throw new ConflictException('Tài khoản đã tồn tại');
     }
@@ -94,7 +94,7 @@ export class TaikhoanService {
       email: data.Email,
       password: data.MatKhau,
     });
-    console.log(createUserSupabase);
+    // console.log(createUserSupabase);
     if (createUserSupabase.error) {
       throw new Error(
         `Lỗi khi tạo tài khoản Supabase: ${createUserSupabase.error.message}`,
