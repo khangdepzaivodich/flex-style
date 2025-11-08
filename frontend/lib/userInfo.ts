@@ -28,7 +28,7 @@ export async function getAccessToken() {
 }
 export async function getGioHang(MaAuth: string, accessToken: string) {
   const res = await fetch(
-    `http://localhost:8080/api/giohang?MaTKKH=${MaAuth}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/giohang?MaTKKH=${MaAuth}`,
     {
       // cache: "no-store",
       headers: {

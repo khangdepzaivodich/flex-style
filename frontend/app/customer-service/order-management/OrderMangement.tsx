@@ -45,7 +45,7 @@ export default function OrderManagementPage({
   const loadOrder = async (nextPage: number) => {
     try {
       const res = await axios.get(
-        `http://localhost:8080/api/donhang/allOrders?page=${nextPage}&limit=${limit}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/donhang/allOrders?page=${nextPage}&limit=${limit}`
       );
       setOrderCache((prev) => ({ ...prev, [nextPage]: res.data.data }));
       setOrders((prev) => [...prev, ...res.data.data]);
@@ -190,7 +190,7 @@ export default function OrderManagementPage({
     const { data } = await supabase.auth.getSession();
 
     const response = await fetch(
-      "http://localhost:8080/api/donhang/status/add",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/donhang/status/add`,
       {
         method: "POST",
         headers: {
@@ -264,7 +264,7 @@ export default function OrderManagementPage({
     }
     const { data } = await supabase.auth.getSession();
     const response = await fetch(
-      "http://localhost:8080/api/donhang/status/add",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/donhang/status/add`,
       {
         method: "POST",
         headers: {

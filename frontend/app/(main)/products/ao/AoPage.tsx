@@ -27,7 +27,7 @@ export default function AoPage({
       return category?.Loai === "AO";
     }).length;
     const res = await fetch(
-      `http://localhost:8080/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&loaiDM=AO&includeTenDM=${
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&loaiDM=AO&includeTenDM=${
         categories.find((cat) => cat.MaDM === selectedCategory)?.TenDM || ""
       }`,
       { cache: "no-store" }

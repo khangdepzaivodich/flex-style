@@ -241,7 +241,7 @@ export default function CheckoutPage() {
     }
     try {
       const response = await fetch(
-        "http://localhost:8080/api/voucher-khachhang/check",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/voucher-khachhang/check`,
         {
           method: "POST",
           headers: {

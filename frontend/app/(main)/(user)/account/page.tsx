@@ -1,7 +1,7 @@
 import { getAccessToken, getUserId } from "@/lib/userInfo";
 import AccountPage from "./AccountPage";
 async function handleFetchTaiKhoan(userId: string, accessToken: string) {
-  const res = await fetch(`http://localhost:8080/api/taikhoan/${userId}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/taikhoan/${userId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

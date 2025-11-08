@@ -94,7 +94,7 @@ export default function VoucherPage({
     const { data} = await supabase.auth.getSession();
     if (selectedVouchers.length === 0) {
       const response = await fetch(
-        "http://localhost:8080/api/thongbao/voucher/delete",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/voucher/delete`,
         {
           method: "DELETE",
           headers: {
@@ -110,7 +110,7 @@ export default function VoucherPage({
       }
     } else {
       const response = await fetch(
-        "http://localhost:8080/api/thongbao/voucher/update",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/voucher/update`,
         {
           method: "PUT",
           headers: {

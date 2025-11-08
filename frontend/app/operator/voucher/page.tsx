@@ -3,7 +3,7 @@ import VoucherPage from "./VoucherPage";
 import { getUserId, getAccessToken } from "@/lib/userInfo";
 
 async function fetchVouchers(accessToken: string) {
-  const res = await fetch("http://localhost:8080/api/voucher/all", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/voucher/all`, {
     cache: "no-store",
     headers: {
       "Content-Type": "application/json",
@@ -15,7 +15,7 @@ async function fetchVouchers(accessToken: string) {
 }
 
 async function fetchNotification(accessToken: string) {
-  const res = await fetch("http://localhost:8080/api/thongbao/voucher", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/voucher`, {
     cache: "no-store",
     headers: {
       "Content-Type": "application/json",

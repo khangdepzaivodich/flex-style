@@ -8,7 +8,7 @@ async function getPhieuNhap() {
 
   try {
     const res = await fetch(
-      `http://localhost:8080/api/phieunhaphang/ncc/${userId}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/ncc/${userId}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },

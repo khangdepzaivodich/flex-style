@@ -97,7 +97,7 @@ export default function CategoriesPage({
       console.log("updating", data);
       // Gọi API cập nhật danh mục
       const res = await fetch(
-        `http://localhost:8080/api/danhmuc/update/${editing.MaDM}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/danhmuc/update/${editing.MaDM}`,
         {
           method: "PUT",
           headers: {
@@ -116,7 +116,7 @@ export default function CategoriesPage({
       console.log("creating", data);
       console.log("accessToken", accessToken);
       // Gọi API tạo mới danh mục
-      const res = await fetch(`http://localhost:8080/api/danhmuc`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/danhmuc`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

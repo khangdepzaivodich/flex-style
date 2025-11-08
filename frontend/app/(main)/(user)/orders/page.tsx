@@ -1,7 +1,7 @@
 import OrdersPage from "./OrderPage";
 async function getOrder() {
   // Fetch order data here if needed
-  const response = await fetch("http://localhost:8080/api/donhang/all", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/donhang/all`, {
     cache: "no-store",
   });
   console.log("Fetched order data:", response);

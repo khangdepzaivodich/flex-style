@@ -14,15 +14,10 @@ export default async function UserManagementPage() {
     headers["Authorization"] = `Bearer ${session.access_token}`;
   }
 
-  const res = await fetch("http://localhost:8080/api/taikhoan", { headers });
-  let json: any;
-  try {
-    json = await res.json();
-  } catch (e) {
-    json = null;
-  }
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/taikhoan`, { headers });
+  const json = await res.json();
   const raw = json?.data ?? json ?? [];
   const taikhoanArray = Array.isArray(raw) ? raw : [];
 
-  return <UserClientPage users={taikhoanArray} sessionData={session} />;
+  return <UserClientPage users={taikhoanArray} access_token={session?.access_token ?? ""} />;
 }

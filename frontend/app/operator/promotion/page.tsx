@@ -3,7 +3,7 @@ import PromotionPage from "./PromotionPage";
 import { getUserId, getAccessToken } from "@/lib/userInfo";
 
 async function fetchPromotions(accessToken: string) {
-  const res = await fetch("http://localhost:8080/api/sukienuudai/all", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sukienuudai/all`, {
     cache: "no-store",
     headers: {
       "Content-Type": "application/json",
@@ -15,7 +15,7 @@ async function fetchPromotions(accessToken: string) {
 }
 
 async function fetchNotification(accessToken: string) {
-  const res = await fetch("http://localhost:8080/api/thongbao/sukienuudai", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/sukienuudai`, {
     cache: "no-store",
     headers: {
       "Content-Type": "application/json",

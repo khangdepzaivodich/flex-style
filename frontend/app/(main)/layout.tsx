@@ -16,7 +16,7 @@ import { OrderProvider } from "@/contexts/order-context";
 import { ThongBaoProvider } from "@/contexts/thongbao-context";
 
 async function fetchSukienuudais() {
-  const res = await fetch(`http://localhost:8080/api/sukienuudai`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sukienuudai`, {
     cache: "no-store",
   });
   if (!res.ok) {
@@ -27,7 +27,7 @@ async function fetchSukienuudais() {
 
 async function fetchThongBaoVC() {
   const setVouchers: Voucher[] = [];
-  const res = await fetch("http://localhost:8080/api/thongbao/voucher", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/voucher`, {
     cache: "no-store",
   });
   if (res.status !== 200 && res.status !== 201) {
@@ -38,7 +38,7 @@ async function fetchThongBaoVC() {
     if (Array.isArray(data)) {
       for (const note of data) {
         const voucher = await fetch(
-          `http://localhost:8080/api/voucher/${note.MaVoucher}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/voucher/${note.MaVoucher}`
         );
         if (voucher.status === 200 || voucher.status === 201) {
           const { data } = await voucher.json();
@@ -57,7 +57,7 @@ async function fetchThongBaoVC() {
 
 async function fetchThongBaoSK() {
   const setSukienuudai: SuKienUuDai[] = [];
-  const res = await fetch("http://localhost:8080/api/thongbao/sukienuudai", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/sukienuudai`, {
     cache: "no-store",
   });
   if (res.status !== 200 && res.status !== 201) {
@@ -68,7 +68,7 @@ async function fetchThongBaoSK() {
     if (Array.isArray(data)) {
       for (const note of data) {
         const sukienuudai = await fetch(
-          `http://localhost:8080/api/sukienuudai/${note.MaSK}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sukienuudai/${note.MaSK}`
         );
         if (sukienuudai.status === 200 || sukienuudai.status === 201) {
           const { data } = await sukienuudai.json();

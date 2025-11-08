@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { Search, Funnel } from "lucide-react";
+import { Search} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import FeedbackTable from "@/components/business/FeedbackTable";
 import { Filter as FilterIcon } from "lucide-react";
@@ -42,7 +42,7 @@ export default function FeedbackPage({ fetchFeedbacks, accessToken }: { fetchFee
 	const handleDelete = async (id?: string) => {
         if (!id) return;
         console.log("Deleting feedback with id:", id);
-        const response = await fetch(`http://localhost:8080/api/phanhoi/delete?MaPH=${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phanhoi/delete?MaPH=${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

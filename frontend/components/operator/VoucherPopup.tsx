@@ -86,7 +86,7 @@ export default function VoucherPopup({
     console.log("form:", form);
     if (form.MaVoucher != "") {
       response = await fetch(
-        `http://localhost:8080/api/voucher/update/${form.MaVoucher}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/voucher/update/${form.MaVoucher}`,
         {
           method: "PUT",
           headers: {
@@ -108,7 +108,7 @@ export default function VoucherPopup({
         }
       );
     } else {
-      response = await fetch(`http://localhost:8080/api/voucher/add`, {
+      response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/voucher/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -60,7 +60,7 @@ export default function AccountPage({
     setIsUpdating(true);
     try {
       const res = await fetch(
-        `http://localhost:8080/api/taikhoan/update/${taiKhoan.MaTK}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/taikhoan/update/${taiKhoan.MaTK}`,
         {
           method: "PUT",
           headers: {

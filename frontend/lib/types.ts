@@ -33,11 +33,11 @@ export interface OrderResponse {
   };
   // Tình trạng đơn hàng (chỉ lấy bản ghi mới nhất)
   TINHTRANGDONHANG: Array<{
-  MaTTDH: string;
-  created_at: string;
-  TrangThai: string;
-  MaDH: string;
-}>;
+    MaTTDH: string;
+    created_at: string;
+    TrangThai: string;
+    MaDH: string;
+  }>;
 }
 export interface Product {
   MaSP: number;
@@ -103,7 +103,7 @@ export interface PhanHoiForNV {
   Username?: string;
   SANPHAM: {
     TenSP: string;
-  }
+  };
   TAIKHOAN?: {
     Username: string;
   };
@@ -341,7 +341,6 @@ export interface SupportResponse {
   attachments?: string[];
 }
 
-
 export interface ImagePart {
   data: string;
   mimeType: string;
@@ -352,7 +351,7 @@ export type UploadedImage = {
   mimeType: string;
 } | null;
 
-export interface KhachHangUser{
+export interface KhachHangUser {
   MaTK: string;
   DisplayName: string | null;
   Username: string | null;
@@ -361,7 +360,7 @@ export interface KhachHangUser{
   VAITRO: VaiTro;
   Status: TrangThai;
   created_at: Date;
-  updated_at: Date; 
+  updated_at: Date;
 }
 
 export interface ThongKeDoanhThuItem {
@@ -374,7 +373,7 @@ export interface ThongKeDoanhThuItem {
       Loai: string;
       SoTien: number;
     };
-    SUKIENUUDAI:{
+    SUKIENUUDAI: {
       PhanTramGiam: number;
     };
     CHITIETSANPHAM: {
@@ -393,4 +392,24 @@ export interface ThongKeDoanhThuItem {
 export interface ThongKeSLKhachHangItem {
   MaTK: string;
   created_at: string;
+}
+
+export interface ChiTietNhapHang {
+  MaCTNH: string;
+  SoLuong: number;
+  DonGia: number;
+  MaPNH: string;
+  MaCTSP: string;
+  created_at: Date;
+}
+
+export interface PhieuNhapHang {
+  MaPNH: string;
+  MaNCC: string;
+  MaNV: string;
+  MaTKNVQL: string;
+  created_at: Date;
+  TrangThai: string;
+  MaTKNVXN: string;
+  NoiDung: string;
 }

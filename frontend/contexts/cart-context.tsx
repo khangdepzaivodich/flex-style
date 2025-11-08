@@ -183,7 +183,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           KichCo: item.size,
         }));
         await fetch(
-          `http://localhost:8080/api/giohang/update-cart?MaTKKH=${userId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/giohang/update-cart?MaTKKH=${userId}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },

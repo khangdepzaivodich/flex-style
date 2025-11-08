@@ -4,7 +4,7 @@ import { getUserId, getAccessToken } from "@/lib/userInfo";
 
 async function getOrders(access_token: string) {
   const res = await fetch(
-    "http://localhost:8080/api/donhang/allOrders?page=1&limit=10",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/donhang/allOrders?page=1&limit=10`,
     {
       cache: "no-store",
       headers: {

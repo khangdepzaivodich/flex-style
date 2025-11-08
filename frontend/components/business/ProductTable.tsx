@@ -1,6 +1,6 @@
 "use client";
 
-import { SquarePen, Trash2, ChevronDown, ChevronUp, Eye } from "lucide-react";
+import { SquarePen, ChevronDown, ChevronUp, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import Product from "@/interfaces/product";

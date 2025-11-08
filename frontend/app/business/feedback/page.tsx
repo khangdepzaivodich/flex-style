@@ -2,7 +2,7 @@ import { getAccessToken } from "@/lib/userInfo";
 import FeedbackPage from "./FeedbackPage";
 async function fetchFeedbacks(accessToken: string) {
   const response = await fetch(
-    "http://localhost:8080/api/phanhoi/all/customer-feedback",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phanhoi/all/customer-feedback`,
     {
       method: "GET",
       headers: {

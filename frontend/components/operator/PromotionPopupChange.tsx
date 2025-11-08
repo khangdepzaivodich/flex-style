@@ -84,7 +84,7 @@ export default function PromotionPopupChange({
     let response = null;
     if (payload.MaSK != "") {
       response = await fetch(
-        `http://localhost:8080/api/sukienuudai/update/${payload.MaSK}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sukienuudai/update/${payload.MaSK}`,
         {
           method: "PUT",
           headers: {
@@ -103,7 +103,7 @@ export default function PromotionPopupChange({
       );
     } else {
       response = await fetch(
-        `http://localhost:8080/api/sukienuudai/add`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sukienuudai/add`,
         {
           method: "POST",
           headers: {
