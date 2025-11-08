@@ -17,6 +17,36 @@ import {
 import Product from "@/interfaces/product";
 import axios from "axios";
 
+const sizes = ["S", "M", "L", "XL", "XXL"];
+
+// Debounce hook
+function useDebounce<T>(value: T, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+// Helper: sort product sizes
+const sortProductSizes = (data: Product[]): Product[] =>
+  data.map((product) => {
+    if (product.CHITIETSANPHAM && Array.isArray(product.CHITIETSANPHAM)) {
+      product.CHITIETSANPHAM = [...product.CHITIETSANPHAM].sort((a, b) => {
+        const ia = sizes.indexOf(a.KichCo);
+        const ib = sizes.indexOf(b.KichCo);
+        if (ia === -1 && ib === -1) return a.KichCo.localeCompare(b.KichCo);
+        if (ia === -1) return 1;
+        if (ib === -1) return -1;
+        return ia - ib;
+      });
+    }
+    return product;
+  });
+
 export default function ProductsPageClient({
   access_token,
 }: {
@@ -31,13 +61,12 @@ export default function ProductsPageClient({
   const [error, setError] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState<string>("");
+  const debouncedSearch = useDebounce(search, 300);
 
-  // Pagination
   const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
   const [noMoreProducts, setNoMoreProducts] = useState(false);
 
-  const observer = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   enum Filter {
@@ -47,75 +76,70 @@ export default function ProductsPageClient({
   }
   const [filter, setFilter] = useState<Filter>(Filter.All);
 
-  const categoryMap = {
-    AO: "Áo",
-    QUAN: "Quần",
-    PHU_KIEN: "Phụ kiện",
-  };
+  const fetchProducts = useCallback(
+    async (pageNum: number) => {
+      if (loading || (noMoreProducts && pageNum > 1)) return;
 
-  const sizes = ["S", "M", "L", "XL", "XXL"];
+      setLoading(true);
+      setError(null);
 
-  const sortProductSizes = (data: Product[]): Product[] => {
-    return data.map((product) => {
-      if (product.CHITIETSANPHAM && Array.isArray(product.CHITIETSANPHAM)) {
-        product.CHITIETSANPHAM = [...product.CHITIETSANPHAM].sort((a, b) => {
-          const ia = sizes.indexOf(a.KichCo);
-          const ib = sizes.indexOf(b.KichCo);
-          if (ia === -1 && ib === -1) return a.KichCo.localeCompare(b.KichCo);
-          if (ia === -1) return 1;
-          if (ib === -1) return -1;
-          return ia - ib;
-        });
-      }
-      return product;
-    });
-  };
+      try {
+        const skip = (pageNum - 1) * pageSize;
 
-  const fetchProducts = async (pageNum: number) => {
-    if (loading || noMoreProducts) return;
-    setLoading(true);
-    setError(null);
+        const params = {
+          skip: skip,
+          take: pageSize,
+          includeSizes: true,
+          orderByField: "created_at",
+          orderByDirection: "desc",
+          search: "",
+          status: "",
+        };
 
-    try {
-      const skip = (pageNum - 1) * pageSize;
-      const take = pageSize;
+        if (debouncedSearch && debouncedSearch.trim() !== "") {
+          params.search = debouncedSearch.trim();
+        }
 
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham`, {
-        params: { skip, take, includeSizes: true },
-        headers: { Authorization: `Bearer ${access_token}` },
-      });
+        if (filter !== Filter.All) {
+          params.status = filter;
+        }
 
-      let fetchedData: Product[] = res.data.data ?? [];
-      fetchedData = sortProductSizes(fetchedData);
-
-      if (fetchedData.length === 0) {
-        setNoMoreProducts(true);
-        return;
-      }
-
-      // Merge and remove duplicates by MaSP
-      setProducts((prev) => {
-        const combined = [...prev, ...fetchedData];
-        const uniqueProducts = Array.from(
-          new Map(combined.map((p) => [p.MaSP, p])).values()
+        const res = await axios.get<{ data: Product[] }>(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham`,
+          {
+            params,
+            headers: { Authorization: `Bearer ${access_token}` },
+          }
         );
-        return uniqueProducts.sort((a, b) =>
-          (b.created_at ?? "").localeCompare(a.created_at ?? "")
-        );
-      });
-    } catch (err) {
-      console.error("Error fetching products:", err);
-      setError("Không thể tải sản phẩm");
-    } finally {
-      setLoading(false);
-    }
-  };
 
+        const fetchedData: Product[] = sortProductSizes(res.data.data ?? []);
+
+        if (fetchedData.length < pageSize) setNoMoreProducts(true);
+        else setNoMoreProducts(false);
+
+        setProducts((prev) =>
+          pageNum === 1 ? fetchedData : [...prev, ...fetchedData]
+        );
+
+        console.log("Fetched products:", fetchedData);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        setError("Không thể tải sản phẩm");
+      } finally {
+        console.log("Fetching products done");
+        setLoading(false);
+      }
+    },
+    [access_token, debouncedSearch, filter, Filter]
+  );
+
+  // Fetch first page or whenever search/filter changes
   useEffect(() => {
-    fetchProducts(page);
-  }, [page]);
+    setPage(1);
+    fetchProducts(1);
+  }, [debouncedSearch, filter]);
 
-  // Infinite scroll
+  // Infinite scroll observer
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const target = entries[0];
@@ -127,33 +151,19 @@ export default function ProductsPageClient({
   );
 
   useEffect(() => {
-    observer.current = new IntersectionObserver(handleObserver);
-    if (loadMoreRef.current) observer.current.observe(loadMoreRef.current);
-
-    return () => {
-      if (observer.current && loadMoreRef.current)
-        observer.current.unobserve(loadMoreRef.current);
-    };
+    if (!loadMoreRef.current) return;
+    const obs = new IntersectionObserver(handleObserver, { threshold: 1.0 });
+    obs.observe(loadMoreRef.current);
+    return () => obs.disconnect();
   }, [handleObserver]);
 
-  // Filtering + search
-  const filteredProducts = products
-    .filter((p) => {
-      if (filter === Filter.All) return true;
-      if (filter === Filter.Active)
-        return (p.TrangThai ?? "").toString() === "ACTIVE";
-      if (filter === Filter.Inactive)
-        return (p.TrangThai ?? "").toString() === "INACTIVE";
-      return true;
-    })
-    .filter((p) =>
-      [
-        p.TenSP,
-        p.MauSac,
-        categoryMap[p.DANHMUC?.Loai as keyof typeof categoryMap],
-      ].some((field) => field?.toLowerCase().includes(search.toLowerCase()))
-    );
+  // Load more whenever page increases
+  useEffect(() => {
+    if (page === 1) return;
+    fetchProducts(page);
+  }, [page]);
 
+  // Save product
   const handleSave = async (data: Product) => {
     if (!data) return;
     setLoading(true);
@@ -206,7 +216,7 @@ export default function ProductsPageClient({
 
       if (editing) {
         await axios.patch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${data.MaSP}`,
+          `http://localhost:8080/api/sanpham/${data.MaSP}`,
           requestProduct,
           {
             headers: { Authorization: `Bearer ${access_token}` },
@@ -215,7 +225,7 @@ export default function ProductsPageClient({
 
         for (const detail of requestProductDetail) {
           await axios.patch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chitietsanpham/${detail.MaCTSP}`,
+            `http://localhost:8080/api/chitietsanpham/${detail.MaCTSP}`,
             detail,
             {
               headers: { Authorization: `Bearer ${access_token}` },
@@ -224,7 +234,7 @@ export default function ProductsPageClient({
         }
       } else {
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham`,
+          "http://localhost:8080/api/sanpham",
           requestProduct,
           {
             headers: { Authorization: `Bearer ${access_token}` },
@@ -234,7 +244,7 @@ export default function ProductsPageClient({
         const newProductId = res.data.data.MaSP;
         for (const detail of requestProductDetail) {
           await axios.post(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chitietsanpham`,
+            "http://localhost:8080/api/chitietsanpham",
             { ...detail, MaSP: newProductId },
             {
               headers: { Authorization: `Bearer ${access_token}` },
@@ -243,9 +253,10 @@ export default function ProductsPageClient({
         }
       }
 
-      // Refresh first page without duplicates
+      // Refresh to first page
       setProducts([]);
       setPage(1);
+      fetchProducts(1);
       setNoMoreProducts(false);
     } catch (err) {
       console.error("Error saving product:", err);
@@ -257,24 +268,6 @@ export default function ProductsPageClient({
     }
   };
 
-  const handleDelete = async (id: string) => {
-    try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${id}`, {
-        headers: { Authorization: `Bearer ${access_token}` },
-      });
-      setProducts([]);
-      setPage(1);
-      setNoMoreProducts(false);
-    } catch (err) {
-      console.error("Error deleting product:", err);
-      setError("Xóa sản phẩm thất bại");
-    }
-  };
-
-  useEffect(() => {
-    if (editing) setOpen(true);
-  }, [editing]);
-
   return (
     <main className="space-y-6">
       <div className="flex items-center justify-between">
@@ -282,7 +275,7 @@ export default function ProductsPageClient({
           <div className="relative w-full max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
-              placeholder="Tìm kiếm theo mã hoặc tên..."
+              placeholder="Tìm kiếm sản phẩm..."
               className="pl-10 bg-muted border-0 w-full"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -319,9 +312,8 @@ export default function ProductsPageClient({
       {error && <p className="text-red-500 text-center">{error}</p>}
 
       <ProductTable
-        products={filteredProducts}
+        products={products}
         onEdit={(id) => setEditing(products.find((p) => p.MaSP === id) ?? null)}
-        onDelete={handleDelete}
         onView={(id) =>
           setViewProduct(products.find((p) => p.MaSP === id) ?? null)
         }

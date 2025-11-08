@@ -35,5 +35,4 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
   await app.listen(configService.get('PORT') ?? 8080);
 }
-
 bootstrap();

@@ -13,6 +13,7 @@ import { SanPhamDto } from './dto/sanpham.dto';
 import { Roles } from 'src/factory_function/role';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
 import { TaiKhoanGuard } from 'src/taikhoan/taikhoan.guard';
+import { Prisma } from '@prisma/client';
 @Controller('sanpham')
 export class SanphamController {
   constructor(private readonly sanphamService: SanphamService) {}
@@ -25,17 +26,27 @@ export class SanphamController {
     @Query('includeSizes') includeSizes?: string,
     @Query('includeTenDM') includeTenDM?: string,
     @Query('loaiDM') loaiDM?: string,
+    @Query('search') search?: string,
+    @Query('status') status?: string,
+    @Query('orderByField')
+    orderByField?: keyof Prisma.SANPHAMOrderByWithRelationInput,
+    @Query('orderByDirection') orderByDirection?: 'asc' | 'desc',
   ) {
-    // Decode cho an toàn với dấu cách
-
-    const res = await this.sanphamService.sanphams({
+    const params = {
       skip: skip ? Number(skip) : 0,
       take: take ? Number(take) : 50,
       includeSizes: includeSizes === 'true',
-      includeTenDM: includeTenDM,
-      loaiDM: loaiDM,
-    });
-    return res;
+      includeTenDM,
+      loaiDM,
+      search,
+      status,
+      orderBy:
+        orderByField && orderByDirection
+          ? { field: orderByField, direction: orderByDirection }
+          : undefined,
+    };
+
+    return this.sanphamService.sanphams(params);
   }
 
   // Lay san pham theo slug

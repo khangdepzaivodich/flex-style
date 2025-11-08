@@ -1,5 +1,5 @@
 export default interface ProductDetail {
-  MaCTSP: string;
+  MaCTSP?: string;
   SoLuong: number;
   KichCo: string;
 }

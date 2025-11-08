@@ -21,7 +21,6 @@ import { TaikhoanModule } from './taikhoan/taikhoan.module';
 import { VoucherKhachHangModule } from './voucher_khachhang/voucher_khachhang.module';
 import { PhanHoiModule } from './phanhoi/phanhoi.module';
 import { PhieuNhapHangModule } from './phieunhaphang/phieunhaphang.module';
-import { JwtAuthGuard } from './jwt/jwt.guard';
 import { JwtService } from '@nestjs/jwt';
 import { PaypalModule } from './paypal/paypal.module';
 import { VNPAYModule } from './vnpay/vnpay.module';
@@ -48,7 +47,7 @@ import { ThongkeModule } from './thongke/thongke.module';
     SuKienUuDaiModule,
     SanphamModule,
     ChitietsanphamModule,
-  ChitietnhaphangModule,
+    ChitietnhaphangModule,
     GiohangModule,
     DonhangModule,
     TinhtrangDonhangModule,

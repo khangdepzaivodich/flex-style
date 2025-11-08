@@ -21,6 +21,7 @@ import { Save, X } from "lucide-react";
 import Product from "@/interfaces/product";
 import ProductDetail from "@/interfaces/productDetail";
 import Image from "next/image";
+import { CategoryContext } from "@/app/business/context/CategoryContext";
 
 interface ProductPopupProps {
   open: boolean;
@@ -40,30 +41,28 @@ export default function ProductPopup({
   initialData,
   selectedSizeIndex,
   setSelectedSizeIndex,
-  // error,
-  // setError,
 }: ProductPopupProps) {
-  const [form, setForm] = useState<Product>(
-    initialData ?? {
-      MaSP: "",
-      TenSP: "",
-      DANHMUC: { MaDM: "", TenDM: "", MoTa: "", Loai: "" },
-      GiaBan: 0,
-      MauSac: "",
-      TrangThai: "ACTIVE",
-      CHITIETSANPHAM: [],
-      MoTa: "",
-      HinhAnh: [],
-      slug: "",
-      MaDM: "",
-    }
-  );
+  const sizes = ["S", "M", "L", "XL", "XXL"];
+  const { categories, loading } = useContext(CategoryContext);
+
+  const [form, setForm] = useState<Product>({
+    MaSP: "",
+    TenSP: "",
+    DANHMUC: { MaDM: "", TenDM: "", MoTa: "", Loai: "" },
+    GiaBan: 0,
+    MauSac: "",
+    TrangThai: "ACTIVE",
+    CHITIETSANPHAM: sizes.map((size) => ({ KichCo: size, SoLuong: 0 })),
+    MoTa: "",
+    HinhAnh: [],
+    slug: "",
+    MaDM: "",
+  });
 
   const [previews, setPreviews] = useState<(string | File)[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const sizes = ["S", "M", "L", "XL", "XXL"];
-  const { categories, loading } = useContext(CategoryContext);
   const [loadingImage, setLoading] = useState(false);
+
   // Reset form when popup opens or closes
   useEffect(() => {
     if (open && initialData) {
@@ -79,11 +78,14 @@ export default function ProductPopup({
         GiaBan: initialData.GiaBan ?? 0,
         MauSac: initialData.MauSac ?? "",
         TrangThai: initialData.TrangThai ?? "ACTIVE",
-        CHITIETSANPHAM: initialData.CHITIETSANPHAM ?? [],
+        CHITIETSANPHAM: sizes.map((size, i) => ({
+          KichCo: size,
+          SoLuong: initialData.CHITIETSANPHAM?.[i]?.SoLuong ?? 0,
+        })),
         MoTa: initialData.MoTa ?? "",
         HinhAnh: initialData.HinhAnh ?? [],
-        slug: initialData.slug,
-        MaDM: initialData.MaDM,
+        slug: initialData.slug ?? "",
+        MaDM: initialData.MaDM ?? "",
       });
       setPreviews(initialData.HinhAnh ?? []);
       setSelectedSizeIndex(0);
@@ -95,7 +97,7 @@ export default function ProductPopup({
         GiaBan: 0,
         MauSac: "",
         TrangThai: "ACTIVE",
-        CHITIETSANPHAM: [],
+        CHITIETSANPHAM: sizes.map((size) => ({ KichCo: size, SoLuong: 0 })),
         MoTa: "",
         HinhAnh: [],
         slug: "",
@@ -115,6 +117,7 @@ export default function ProductPopup({
     if (arr.length + previews.length > 10) {
       return setErrors({ image: "Tối đa 10 ảnh" });
     }
+
     setForm((f) => ({
       ...f!,
       HinhAnh: [...(f?.HinhAnh || []), ...arr],
@@ -157,10 +160,7 @@ export default function ProductPopup({
   };
 
   const setField = (field: keyof Product, value: unknown) => {
-    setForm((prev) => {
-      if (!prev) return prev;
-      return { ...prev, [field]: value };
-    });
+    setForm((prev) => (prev ? { ...prev, [field]: value } : prev));
   };
 
   const validate = () => {
@@ -179,9 +179,7 @@ export default function ProductPopup({
 
     try {
       setLoading(true);
-      if (onSave) {
-        await onSave(form);
-      }
+      await onSave(form);
       onClose();
     } catch (err) {
       console.error("Save failed", err);
@@ -217,17 +215,10 @@ export default function ProductPopup({
             <Select
               value={form.DANHMUC.TenDM}
               onValueChange={(v) => {
-                // Find the selected category object
                 const selectedCat = categories.find((cat) => cat.TenDM === v);
                 if (selectedCat) {
-                  setField("DANHMUC", {
-                    TenDM: selectedCat.TenDM,
-                    MaDM: selectedCat.MaDM,
-                    MoTa: selectedCat.MoTa,
-                    Loai: selectedCat.Loai,
-                  });
+                  setField("DANHMUC", selectedCat);
                 } else {
-                  // fallback if not found
                   setField("DANHMUC", {
                     TenDM: v,
                     MaDM: "",
@@ -295,6 +286,7 @@ export default function ProductPopup({
             </Select>
           </div>
 
+          {/* Size selection */}
           <div className="col-span-2">
             <label>Chọn size</label>
             <Select
@@ -332,7 +324,7 @@ export default function ProductPopup({
             </div>
           </div>
 
-          {/* Mô tả */}
+          {/* Description */}
           <div className="col-span-2">
             <label>Mô tả</label>
             <textarea
@@ -343,7 +335,7 @@ export default function ProductPopup({
             />
           </div>
 
-          {/* Hình ảnh */}
+          {/* Images */}
           <div className="col-span-2">
             <label>Hình ảnh (tối đa 10)</label>
             <input
@@ -371,7 +363,6 @@ export default function ProductPopup({
                       className="rounded border"
                     />
                   </div>
-
                   <button
                     onClick={() => removeImageAt(i)}
                     className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1"
@@ -390,7 +381,7 @@ export default function ProductPopup({
           </Button>
           <Button
             onClick={handleSave}
-            className="bg-[#8B5CF6] text-white "
+            className="bg-[#8B5CF6] text-white"
             disabled={loadingImage}
           >
             <Save className="w-4 h-4 mr-1" /> Lưu

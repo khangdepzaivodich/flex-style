@@ -1,11 +1,8 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { LoaiDanhMuc, Prisma } from '@prisma/client';
+import { LoaiDanhMuc, Prisma, KichCo } from '@prisma/client';
 import { SanPhamDto } from './dto/sanpham.dto';
+import { stat } from 'fs';
 
 export interface SANPHAM {
   MaSP: string;
@@ -21,7 +18,19 @@ export interface SANPHAM {
   MauSac: string;
   slug: string;
 }
-
+interface SanphamsParams {
+  skip?: number;
+  take?: number;
+  includeSizes?: boolean;
+  includeTenDM?: string;
+  loaiDM?: string;
+  orderBy?: {
+    field: keyof Prisma.SANPHAMOrderByWithRelationInput;
+    direction: 'asc' | 'desc';
+  };
+  search?: string;
+  status?: string;
+}
 @Injectable()
 export class SanphamService {
   constructor(private prisma: PrismaService) {}
@@ -38,42 +47,81 @@ export class SanphamService {
     });
   }
 
-  // Lấy danh sách sản phẩm
-  async sanphams(params: {
-    skip?: number;
-    take?: number;
-    includeSizes?: boolean;
-    includeTenDM?: string;
-    loaiDM?: string;
-    // cursor?: { MaSP: string };
-    // where?: any;
-    // orderBy?: any;
-  }): Promise<SANPHAM[]> {
+  async sanphams(params: SanphamsParams): Promise<SANPHAM[]> {
     const {
       skip = 0,
       take = 50,
       includeSizes = false,
       includeTenDM = '',
       loaiDM = '',
+      search = '',
+      status = '',
+      orderBy,
     } = params;
+
+    const where: Prisma.SANPHAMWhereInput = {};
+    // CATEGORY FILTER
     const tenCacDM = includeTenDM
       ? decodeURIComponent(includeTenDM)
           .split(',')
           .map((s) => s.trim())
           .filter(Boolean)
       : [];
-    const whereClause: any = {};
+
     if (tenCacDM.length > 0) {
-      whereClause.DANHMUC = {
+      where.DANHMUC = {
         TenDM: { in: tenCacDM },
-        LoaiDanhMuc: loaiDM ? (loaiDM as LoaiDanhMuc) : undefined,
+        Loai: loaiDM ? (loaiDM as LoaiDanhMuc) : undefined,
       };
     }
 
-    const items = await this.prisma.sANPHAM.findMany({
+    // STATUS FILTER
+    if (status === 'active') where.TrangThai = 'ACTIVE';
+    if (status === 'inactive') where.TrangThai = 'INACTIVE';
+
+    // SEARCH FILTER
+    if (search.trim()) {
+      const s = search.trim();
+
+      const ALL_SIZES = Object.values(KichCo);
+      const matchedSize = ALL_SIZES.find(
+        (size) => size.toLowerCase() === s.toLowerCase(),
+      );
+
+      const orFilters: Prisma.SANPHAMWhereInput[] = [];
+
+      orFilters.push({
+        TenSP: { contains: s, mode: 'insensitive' },
+      });
+
+      orFilters.push({
+        MauSac: { contains: s, mode: 'insensitive' },
+      });
+
+      orFilters.push({
+        DANHMUC: {
+          TenDM: { contains: s, mode: 'insensitive' },
+        },
+      });
+
+      if (matchedSize) {
+        orFilters.push({
+          CHITIETSANPHAM: {
+            some: { KichCo: { equals: matchedSize } },
+          },
+        });
+      }
+
+      if (orFilters.length > 0) {
+        where.OR = orFilters;
+      }
+    }
+
+    // QUERY OPTIONS
+    const queryOptions: Prisma.SANPHAMFindManyArgs = {
       skip,
       take,
-      where: Object.keys(whereClause).length ? whereClause : undefined,
+      where: Object.keys(where).length > 0 ? where : undefined,
       include: includeSizes
         ? {
             CHITIETSANPHAM: {
@@ -84,10 +132,15 @@ export class SanphamService {
             },
           }
         : undefined,
-    });
+    };
 
-    return items;
+    if (orderBy) {
+      queryOptions.orderBy = { [orderBy.field]: orderBy.direction };
+    }
+
+    return await this.prisma.sANPHAM.findMany(queryOptions);
   }
+
   async findRelated(tenSP: string): Promise<SANPHAM[]> {
     const product = await this.prisma.sANPHAM.findFirst({
       where: { TenSP: tenSP },

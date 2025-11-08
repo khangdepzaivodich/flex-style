@@ -8,7 +8,6 @@ import Image from "next/image";
 interface ProductTableProps {
   products: Product[];
   onEdit?: (id: string) => void;
-  onDelete?: (id: string) => void;
   onView: (id: string) => void;
 }
 export default function ProductTable({

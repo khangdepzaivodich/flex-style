@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { createClient } from "@/lib/supabase/client";
 import { getRoleLink } from "@/lib/help";
-import { useAuth } from "@/contexts/auth-context";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
   Role?: string;
   allowGuest?: boolean;
 }
+const supabase = createClient();
 export default function ProtectedRoute({
   children,
   Role,
@@ -20,8 +20,6 @@ export default function ProtectedRoute({
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
-  const { user } = useAuth();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -80,7 +78,7 @@ export default function ProtectedRoute({
     };
 
     checkAuth();
-  }, [router, Role, supabase, user, allowGuest]);
+  }, []);
 
   if (loading) {
     return (
