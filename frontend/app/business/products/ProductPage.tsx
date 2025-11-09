@@ -216,7 +216,7 @@ export default function ProductsPageClient({
 
       if (editing) {
         await axios.patch(
-          `http://localhost:8080/api/sanpham/${data.MaSP}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${data.MaSP}`,
           requestProduct,
           {
             headers: { Authorization: `Bearer ${access_token}` },
@@ -225,7 +225,7 @@ export default function ProductsPageClient({
 
         for (const detail of requestProductDetail) {
           await axios.patch(
-            `http://localhost:8080/api/chitietsanpham/${detail.MaCTSP}`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chitietsanpham/${detail.MaCTSP}`,
             detail,
             {
               headers: { Authorization: `Bearer ${access_token}` },
@@ -234,7 +234,7 @@ export default function ProductsPageClient({
         }
       } else {
         const res = await axios.post(
-          "http://localhost:8080/api/sanpham",
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham`,
           requestProduct,
           {
             headers: { Authorization: `Bearer ${access_token}` },
@@ -244,7 +244,7 @@ export default function ProductsPageClient({
         const newProductId = res.data.data.MaSP;
         for (const detail of requestProductDetail) {
           await axios.post(
-            "http://localhost:8080/api/chitietsanpham",
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chitietsanpham`,
             { ...detail, MaSP: newProductId },
             {
               headers: { Authorization: `Bearer ${access_token}` },
