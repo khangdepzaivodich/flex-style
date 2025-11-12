@@ -13,6 +13,7 @@ import { Roles } from '../factory_function/role';
 import { TaiKhoanGuard } from './taikhoan.guard';
 import { JwtAuthGuard } from 'src/jwt/jwt.guard';
 import { TaiKhoanNghiepVuDto } from './dto/taikhoannghiepvu.dto';
+import { VaiTro } from './enums';
 
 @Controller('nv')
 export class NhanVienController {
@@ -40,6 +41,21 @@ export class NhanVienController {
   async getNV(@Param('id') maTK: string): Promise<TAIKHOAN> {
     const tk = await this.taikhoanService.taikhoan(maTK);
     if (tk?.VAITRO === 'NVVH' || tk?.VAITRO === 'NVCSKH') return tk;
+    throw new Error('Không tìm thấy nhân viên');
+  }
+
+  @Patch('role/:id')
+  @Roles('QLDN', 'ADMIN')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  async updateRoleNV(
+    @Param('id') maTK: string,
+    @Body('vaiTro') vaiTro: VaiTro,
+  ): Promise<TAIKHOAN> {
+    const tk = await this.taikhoanService.taikhoan(maTK);
+
+    if (tk?.VAITRO === 'NVVH' || tk?.VAITRO === 'NVCSKH') {
+      return this.taikhoanService.updateVaiTro(maTK, vaiTro);
+    }
     throw new Error('Không tìm thấy nhân viên');
   }
 

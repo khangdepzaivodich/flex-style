@@ -27,11 +27,9 @@ export default function AdminSuppliersPage({ nccs }: { nccs: Supplier[] }) {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "active":
+      case "ACTIVE":
         return <Badge className="bg-green-600">Hoạt động</Badge>;
-      case "warning":
-        return <Badge className="bg-yellow-600">Cảnh báo</Badge>;
-      case "blocked":
+      case "INACTIVE":
         return <Badge className="bg-red-600">Bị khóa</Badge>;
       default:
         return <Badge>Không xác định</Badge>;
