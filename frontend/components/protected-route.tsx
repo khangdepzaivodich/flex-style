@@ -46,7 +46,7 @@ export default function ProtectedRoute({
 
         // Fetch user info from backend
         const res = await axios.get(
-          `http://localhost:8080/api/taikhoan/${user.id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/taikhoan/${user.id}`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
