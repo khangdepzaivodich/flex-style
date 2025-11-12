@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { DateTime } from "luxon";
 import { createClient } from "@/lib/supabase/server";
 
-const BACKEND = process.env.BACKEND_URL ?? "http://localhost:8080";
+const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8080";
 
 // Types (avoid `any`)
 type PhieuNhapRaw = {
