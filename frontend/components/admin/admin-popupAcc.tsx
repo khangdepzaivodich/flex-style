@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import EditVaiTroPopup from "./EditVaiTroPopup";
 import Image from "next/image";
+import { v4 as uuidv4 } from "uuid";
 
 interface AccountListPopupProps {
   open: boolean;
@@ -93,7 +94,7 @@ export default function AccountListPopup({
           },
         }
       );
-      alert("Cập nhật vai trò thành công! Vui lòng tải lại trang");
+      alert("Cập nhật vai trò thành công! Vui lòng tải lại trang:");
     } catch (error) {
       console.error("Error updating role:", error);
     }
@@ -113,6 +114,7 @@ export default function AccountListPopup({
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/40">
       <EditAccountPopup
+        key={uuidv4()}
         open={editOpen && role === "QLDN"}
         onClose={() => setEditOpen(false)}
         account={selectedAccount}
@@ -120,6 +122,7 @@ export default function AccountListPopup({
       />
 
       <EditVaiTroPopup
+        key={uuidv4()}
         open={roleOpen && role !== "QLDN"}
         onClose={() => setRoleOpen(false)}
         onSave={handleSaveRole}

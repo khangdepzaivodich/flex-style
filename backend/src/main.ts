@@ -12,6 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const reflector = app.get(Reflector);
+  const front_end = process.env.FRONTEND_URL;
 
   // app.useGlobalGuards(new SupabaseAuthGuard());
   app.useGlobalInterceptors(new ResponseInterceptor(reflector));
@@ -19,7 +20,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use(bodyParser.json({ limit: '10mb' }));
   app.enableCors({
-    origin: `${process.env.FRONTEND_URL}`,
+    origin: front_end,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     credentials: true,
