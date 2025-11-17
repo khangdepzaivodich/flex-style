@@ -115,7 +115,7 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
         <button
           onClick={() => setOpen(true)}
           style={{ backgroundColor: primaryColor }}
-          className="fixed bottom-5 right-[100px] w-[60px] h-[60px] rounded-full text-white text-xl flex items-center justify-center shadow-lg hover:opacity-90 transition"
+          className="fixed bottom-[90px] right-7 w-[60px] h-[60px] rounded-full text-white text-xl flex items-center justify-center shadow-lg hover:opacity-90 transition"
         >
           <Bot size={28} />
         </button>
@@ -123,7 +123,7 @@ export default function ChatWidget({ config }: ChatWidgetProps) {
 
       {open && (
         <div
-          className="fixed bottom-10 right-[100px] flex flex-col rounded-xl shadow-xl overflow-hidden"
+          className="fixed bottom-[90px] right-7 flex flex-col rounded-xl shadow-xl overflow-hidden"
           style={{
             width: "350px",
             height: "500px",

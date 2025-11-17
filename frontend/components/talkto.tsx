@@ -3,7 +3,7 @@ import Script from "next/script";
 
 function talkto() {
   return (
-    <div>
+    <div className="fixed bottom-5 right-5 z-50">
       <Script
         id="tawk-init"
         strategy="afterInteractive"
