@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -20,14 +20,16 @@ export default function QuanPage({
   >("featured");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [hasMore, setHasMore] = useState(true);
 
   const addMore = async () => {
     const currentLength = products.filter((product) => {
-      const category = categories.find((cat) => cat.MaDM === product.MaDM);
-      return category?.Loai === "QUAN";
+      return categories.find((cat) => cat.MaDM === product.MaDM);
     }).length;
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&loaiDM=QUAN&includeTenDM=${
+      `${
+        process.env.NEXT_PUBLIC_BACKEND_URL
+      }/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&loaiDM=QUAN&includeTenDM=${
         categories.find((cat) => cat.MaDM === selectedCategory)?.TenDM || ""
       }`,
       { cache: "no-store" }
@@ -35,6 +37,7 @@ export default function QuanPage({
     const data = await res.json();
     const newProducts = data.data || [];
     setProducts((prev) => [...prev, ...newProducts]);
+    if (newProducts.length < 10) setHasMore(false);
   };
   const allQuanProducts = useMemo(() => {
     return products.filter((product) => {
@@ -42,6 +45,22 @@ export default function QuanPage({
       return category?.Loai === "QUAN";
     });
   }, [products, categories]);
+  useEffect(() => {
+    // Khi selectedCategory thay đổi, tải lại sản phẩm từ đầu
+    const fetchProductsByCategory = async () => {
+      const res = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_BACKEND_URL
+        }/api/sanpham?skip=0&take=15&includeSizes=true&loaiDM=QUAN&includeTenDM=${
+          categories.find((cat) => cat.MaDM === selectedCategory)?.TenDM || ""
+        }`,
+        { cache: "no-store" }
+      );
+      const data = await res.json();
+      setProducts(data.data || []);
+    };
+    fetchProductsByCategory();
+  }, [selectedCategory, categories]);
   const quanProducts = useMemo(() => {
     let filtered = allQuanProducts;
 
@@ -168,15 +187,23 @@ export default function QuanPage({
           </Button>
         </div>
       )}
-      <div className="mt-8 text-center">
-        <Button variant="outline" onClick={addMore}>
-          Xem thêm
-        </Button>
-      </div>
+      {hasMore ? (
+        <div className="mt-8 text-center">
+          <Button variant="outline" onClick={addMore}>
+            Xem thêm
+          </Button>
+        </div>
+      ) : (
+        <div className="mt-8 text-center">
+          <p className="text-sm text-muted-foreground">
+            Không còn sản phẩm nào để hiển thị
+          </p>
+        </div>
+      )}
       <Separator className="my-12" />
 
       {/* Newsletter Section */}
-      <div className="text-center">
+      {/* <div className="text-center">
         <h3 className="text-2xl font-bold mb-4">
           Xu hướng thời trang mới nhất
         </h3>
@@ -192,7 +219,7 @@ export default function QuanPage({
           />
           <Button>Đăng ký</Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

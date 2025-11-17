@@ -100,7 +100,7 @@ export function Header() {
               href="/products/phu-kien"
               className="text-sm font-medium hover:text-primary transition-colors"
             >
-              {t("nav.phu-kien")}
+              {t("nav.phukien")}
             </Link>
             <Link
               href="/sale"
