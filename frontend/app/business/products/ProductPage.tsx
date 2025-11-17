@@ -313,7 +313,10 @@ export default function ProductsPageClient({
 
       <ProductTable
         products={products}
-        onEdit={(id) => setEditing(products.find((p) => p.MaSP === id) ?? null)}
+        onEdit={(id) => {
+          setOpen(true);
+          setEditing(products.find((p) => p.MaSP === id) ?? null);
+        }}
         onView={(id) =>
           setViewProduct(products.find((p) => p.MaSP === id) ?? null)
         }

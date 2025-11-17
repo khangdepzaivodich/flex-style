@@ -46,9 +46,7 @@ export default function StaffPageClient({
           prev.map((p) => (p.MaTK === data.MaTK ? { ...p, ...data } : p))
         );
       } catch (error) {
-        setErrorMsg(
-          "Lỗi khi cập nhật nhân viên."
-        );
+        setErrorMsg("Lỗi khi cập nhật nhân viên.");
         console.error("Error updating staff:", error);
         return; // stop closing popup on error
       }
@@ -160,6 +158,7 @@ export default function StaffPageClient({
         errorMsg={errorMsg}
         setErrorMsg={setErrorMsg}
         initialData={editing ?? undefined}
+        editStaff={editing}
       />
     </main>
   );

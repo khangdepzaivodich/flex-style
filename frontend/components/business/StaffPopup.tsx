@@ -28,6 +28,7 @@ type StaffPopupProps = {
   errorMsg: string;
   setErrorMsg: (msg: string) => void;
   initialData?: StaffMember | null;
+  editStaff?: StaffMember | null;
 };
 const staffRoles = {
   "Nhân viên CSKH": "NVCSKH",
@@ -45,6 +46,7 @@ export default function StaffPopup({
   errorMsg,
   setErrorMsg,
   initialData,
+  editStaff,
 }: StaffPopupProps) {
   const [form, setForm] = useState<StaffMember>({
     MaTK: "",
@@ -67,14 +69,18 @@ export default function StaffPopup({
       setErrorMsg("Vui lòng điền đầy đủ thông tin bắt buộc.");
       return;
     }
-    if (form.Password && form.Password.length < 6) {
-      setErrorMsg("Mật khẩu phải có ít nhất 6 ký tự.");
-      return;
+    if (!editStaff) {
+      if (form.Password && form.Password.length < 6) {
+        console.log("Edit staff ", editStaff);
+        setErrorMsg("Mật khẩu phải có ít nhất 6 ký tự.");
+        return;
+      }
+      if (form.Password !== ConfirmPassword) {
+        setErrorMsg("Mật khẩu và xác nhận mật khẩu không khớp.");
+        return;
+      }
     }
-    if (form.Password !== ConfirmPassword) {
-      setErrorMsg("Mật khẩu và xác nhận mật khẩu không khớp.");
-      return;
-    }
+
     if (form.Email.indexOf("@") === -1 || form.Email.indexOf(".") === -1) {
       setErrorMsg("Email không hợp lệ.");
       return;
