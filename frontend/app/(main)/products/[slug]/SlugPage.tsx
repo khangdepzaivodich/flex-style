@@ -331,7 +331,11 @@ export default function SlugPage({
                     onClick={() => setSelectedImageIndex(index)}
                   >
                     <Image
-                      src={"https:" + image || "/placeholder.svg"}
+                      src={
+                        image.includes("https")
+                          ? image
+                          : "https:" + image || "/placeholder.svg"
+                      }
                       alt={`${product.TenSP} ${index + 1}`}
                       fill
                       className="object-cover"
