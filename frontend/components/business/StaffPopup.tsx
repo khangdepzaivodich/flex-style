@@ -69,16 +69,21 @@ export default function StaffPopup({
       setErrorMsg("Vui lòng điền đầy đủ thông tin bắt buộc.");
       return;
     }
-    if (!editStaff) {
-      if (form.Password && form.Password.length < 6) {
-        console.log("Edit staff ", editStaff);
-        setErrorMsg("Mật khẩu phải có ít nhất 6 ký tự.");
-        return;
-      }
-      if (form.Password !== ConfirmPassword) {
-        setErrorMsg("Mật khẩu và xác nhận mật khẩu không khớp.");
-        return;
-      }
+
+    if (form.Password && form.Password.length < 6 && !editStaff) {
+      console.log("Edit staff ", editStaff);
+      setErrorMsg("Mật khẩu phải có ít nhất 6 ký tự.");
+      return;
+    }
+    if (form.Password !== ConfirmPassword && form.Password) {
+      console.log(
+        "Form pass ",
+        form.Password,
+        " confirm pass ",
+        ConfirmPassword
+      );
+      setErrorMsg("Mật khẩu và xác nhận mật khẩu không khớp.");
+      return;
     }
 
     if (form.Email.indexOf("@") === -1 || form.Email.indexOf(".") === -1) {
