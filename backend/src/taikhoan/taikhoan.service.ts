@@ -226,7 +226,7 @@ export class TaikhoanService {
     });
   }
 
-    async updateTaiKhoanKhachHang(
+  async updateTaiKhoanKhachHang(
     maTK: string,
     data: UpdateTaiKhoanNghiepVuDto,
   ): Promise<TAIKHOAN> {
@@ -241,16 +241,18 @@ export class TaikhoanService {
     maTK: string,
     data: UpdateTaiKhoanNghiepVuDto,
   ): Promise<TAIKHOAN> {
-    try {
-      await this.supabase.auth.admin.updateUserById(maTK, {
-        email: data.Email,
-        password: data.MatKhau,
-      });
+    if (data.MatKhau) {
+      try {
+        await this.supabase.auth.admin.updateUserById(maTK, {
+          email: data.Email,
+          password: data.MatKhau,
+        });
 
-      console.log('Updated Supabase user successfully');
-    } catch (error) {
-      console.error('Error updating Supabase user:', error);
-      throw new Error('Không thể cập nhật thông tin tài khoản Supabase');
+        console.log('Updated Supabase user successfully');
+      } catch (error) {
+        console.error('Error updating Supabase user:', error);
+        throw new Error('Không thể cập nhật thông tin tài khoản Supabase');
+      }
     }
 
     const { MatKhau, ...dataWithoutPassword } = data;
@@ -275,6 +277,4 @@ export class TaikhoanService {
       data: { Status: trangThai },
     });
   }
-
-  
 }
