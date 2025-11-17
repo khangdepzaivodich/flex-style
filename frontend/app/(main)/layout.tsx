@@ -8,7 +8,7 @@ import { Analytics } from "@vercel/analytics/next";
 import ChatWidget from "@/components/chat-widget";
 import { SuKienUuDaiProvider } from "@/contexts/sukienuudai-context";
 import ProtectedRoute from "@/components/protected-route";
-
+import MessengerButton from "@/components/messenger-button";
 import talkto from "@/components/talkto";
 
 import type { SuKienUuDai, Voucher } from "@/lib/types";
@@ -16,9 +16,12 @@ import { OrderProvider } from "@/contexts/order-context";
 import { ThongBaoProvider } from "@/contexts/thongbao-context";
 
 async function fetchSukienuudais() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sukienuudai`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sukienuudai`,
+    {
+      cache: "no-store",
+    }
+  );
   if (!res.ok) {
     throw new Error("Failed to fetch sự kiện ưu đãi");
   }
@@ -27,9 +30,12 @@ async function fetchSukienuudais() {
 
 async function fetchThongBaoVC() {
   const setVouchers: Voucher[] = [];
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/voucher`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/voucher`,
+    {
+      cache: "no-store",
+    }
+  );
   if (res.status !== 200 && res.status !== 201) {
     console.log("Failed to fetch voucher notifications", res);
     return [];
@@ -57,9 +63,12 @@ async function fetchThongBaoVC() {
 
 async function fetchThongBaoSK() {
   const setSukienuudai: SuKienUuDai[] = [];
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/sukienuudai`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/sukienuudai`,
+    {
+      cache: "no-store",
+    }
+  );
   if (res.status !== 200 && res.status !== 201) {
     console.log("Failed to fetch sự kiện ưu đãi notifications");
     return [];
@@ -132,6 +141,7 @@ export default async function layout({
                         process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || "",
                     }}
                   />
+                  <MessengerButton />
                   {talkto()}
                 </SuKienUuDaiProvider>
               </ThongBaoProvider>
