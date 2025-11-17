@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, Filter, Grid, List, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -121,7 +121,9 @@ export default function ProductsPage({
       }).length || products.length;
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&includeTenDM=${categories
+      `${
+        process.env.NEXT_PUBLIC_BACKEND_URL
+      }/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&includeTenDM=${categories
         .filter((cat) => selectedCategories.includes(cat.MaDM))
         .map((cat) => cat.TenDM)
         .join(",")}`,
@@ -172,6 +174,33 @@ export default function ProductsPage({
       </div>
     </div>
   );
+  useEffect(() => {
+    const fetchProductsByCategory = async () => {
+      const res = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_BACKEND_URL
+        }/api/sanpham?skip=0&take=15&includeSizes=true&includeTenDM=${
+          categories.find((cat) => selectedCategories.includes(cat.MaDM))
+            ?.TenDM || ""
+        }`,
+        { cache: "no-store" }
+      );
+      const data = await res.json();
+      setProducts(data.data || []);
+    };
+    fetchProductsByCategory();
+  }, [selectedCategories, categories]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham?skip=0&take=50&includeSizes=true&search=${searchQuery}`,
+        { cache: "no-store" }
+      );
+      const data = await res.json();
+      setProducts(data.data || []);
+    };
+    fetchProducts();
+  }, [searchQuery]);
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Page Header */}

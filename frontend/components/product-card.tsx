@@ -34,7 +34,9 @@ export function ProductCard({ product }: ProductCardProps) {
             <Image
               src={
                 product.HinhAnh && product.HinhAnh.length > 0
-                  ? "https:" + product.HinhAnh[0]
+                  ? product.HinhAnh[0].includes("https")
+                    ? product.HinhAnh[0]
+                    : "https:" + product.HinhAnh[0]
                   : "/placeholder.svg"
               }
               alt={product.TenSP}
