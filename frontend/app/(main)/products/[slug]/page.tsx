@@ -6,9 +6,12 @@ import SlugPage from "./SlugPage";
 // const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 async function getRelatedProducts(slug: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/related/${slug}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/related/${slug}`,
+    {
+      cache: "no-store",
+    }
+  );
   if (!res.ok) {
     throw new Error("Failed to fetch related products");
   }
@@ -19,9 +22,12 @@ async function getRelatedProducts(slug: string) {
   return data;
 }
 async function getReply(slug: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phanhoi?slug=${slug}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phanhoi?slug=${slug}`,
+    {
+      cache: "no-store",
+    }
+  );
   if (!res.ok) {
     throw new Error("Failed to fetch related reply");
   }
@@ -33,13 +39,16 @@ async function getReply(slug: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const slug = await params.slug?.trim();
-  if (!slug) return {};
+  const {slug} = await params;
+  const trimmedSlug = slug?.trim();
+  if (!trimmedSlug) return {};
   try {
     const res = await fetch(
-      `http://localhost:8080/api/sanpham/${encodeURIComponent(slug)}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${encodeURIComponent(
+        trimmedSlug
+      )}`,
       {
         cache: "no-store",
       }
@@ -56,10 +65,17 @@ export async function generateMetadata({
     const images =
       Array.isArray(product.HinhAnh) && product.HinhAnh.length
         ? product.HinhAnh.map((src: string) =>
-            src.startsWith("http") ? src : `${process.env.NEXT_PUBLIC_FRONTEND_URL}${src}`
+            src.startsWith("http")
+              ? src
+              : `${process.env.NEXT_PUBLIC_FRONTEND_URL}${src}`
           )
-        : [`${process.env.NEXT_PUBLIC_FRONTEND_URL}/og-default.png`];
-
+        : [
+            `${
+              process.env.NEXT_PUBLIC_FRONTEND_URL
+                ? process.env.NEXT_PUBLIC_FRONTEND_URL
+                : "https://flex-style.vercel.app"
+            }/og-default.png`,
+          ];
     return {
       title,
       description,
@@ -68,7 +84,9 @@ export async function generateMetadata({
         description,
         siteName: "FlexStyle",
         type: "website",
-        url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/products/${encodeURIComponent(slug)}`,
+        url: `${
+          process.env.NEXT_PUBLIC_FRONTEND_URL
+        }/products/${encodeURIComponent(slug)}`,
         images: images.map((url: string) => ({ url })),
       },
       twitter: {
