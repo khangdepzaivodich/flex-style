@@ -23,45 +23,48 @@ function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
   const endDate = new Date(suKienUuDais.NgayKT);
 
   return (
-    <div className="fixed top-20 right-4 bg-gradient-to-br from-rose-50 via-pink-50 to-orange-50 border border-rose-200 rounded-xl shadow-2xl p-6 w-72 z-50 animate-in slide-in-from-top-2 duration-300 fade-in-50">
-      {/* Header with icon, event name, and vibrant title */}
-      <div className="flex items-center mb-3">
-        <Gift className="h-6 w-6 text-yellow-500 mr-2 animate-pulse" />
-        <div>
-          <h3 className="font-bold text-lg text-rose-700 tracking-wide">
-            {suKienUuDais.TenSK}
-          </h3>
-          <span className="text-xs text-pink-600 font-medium">
-            Ưu đãi đặc biệt! ✨
+    
+    <>
+      <div className="fixed top-20 right-4 bg-gradient-to-br from-rose-50 via-pink-50 to-orange-50 border border-rose-200 rounded-xl shadow-2xl p-6 w-72 z-50 animate-in slide-in-from-top-2 duration-300 fade-in-50">
+        {/* Header with icon, event name, and vibrant title */}
+        <div className="flex items-center mb-3">
+          <Gift className="h-6 w-6 text-yellow-500 mr-2 animate-pulse" />
+          <div>
+            <h3 className="font-bold text-lg text-rose-700 tracking-wide">
+              {suKienUuDais.TenSK}
+            </h3>
+            <span className="text-xs text-pink-600 font-medium">
+              Ưu đãi đặc biệt! ✨
+            </span>
+          </div>
+        </div>
+  
+        {/* Date info with colorful badge */}
+        <div className="bg-white/80 rounded-full px-3 py-1 mb-3 inline-block border border-rose-300">
+          <span className="text-sm font-medium text-orange-600">
+            Chỉ từ {startDate.getDate()}/{startDate.getMonth() + 1} đến{" "}
+            {endDate.getDate()}/{endDate.getMonth() + 1}
           </span>
         </div>
+  
+        {/* Description with subtle gradient text */}
+        <p className="text-sm text-gray-700 leading-relaxed mb-4 bg-gradient-to-r from-transparent via-pink-100 to-transparent rounded px-2 py-1">
+          Nhận ngay ưu đãi `&quot;`nóng hổi`&quot;` khi mua sắm tại FlexStyle.
+          Đừng bỏ lỡ cơ hội vàng này nhé! 🔥
+        </p>
+  
+        {/* Enhanced button with gradient */}
+        <Button
+          size="sm"
+          className="mt-4 w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-500 text-white font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+          asChild
+        >
+          <Link href="/sale">
+            Xem ưu đãi ngay <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
       </div>
-
-      {/* Date info with colorful badge */}
-      <div className="bg-white/80 rounded-full px-3 py-1 mb-3 inline-block border border-rose-300">
-        <span className="text-sm font-medium text-orange-600">
-          Chỉ từ {startDate.getDate()}/{startDate.getMonth() + 1} đến{" "}
-          {endDate.getDate()}/{endDate.getMonth() + 1}
-        </span>
-      </div>
-
-      {/* Description with subtle gradient text */}
-      <p className="text-sm text-gray-700 leading-relaxed mb-4 bg-gradient-to-r from-transparent via-pink-100 to-transparent rounded px-2 py-1">
-        Nhận ngay ưu đãi `&quot;`nóng hổi`&quot;` khi mua sắm tại FlexStyle.
-        Đừng bỏ lỡ cơ hội vàng này nhé! 🔥
-      </p>
-
-      {/* Enhanced button with gradient */}
-      <Button
-        size="sm"
-        className="mt-4 w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-500 text-white font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-        asChild
-      >
-        <Link href="/sale">
-          Xem ưu đãi ngay <ArrowRight className="ml-2 h-4 w-4" />
-        </Link>
-      </Button>
-    </div>
+    </>
   );
 }
 

@@ -14,6 +14,7 @@ import talkto from "@/components/talkto";
 import type { SuKienUuDai, Voucher } from "@/lib/types";
 import { OrderProvider } from "@/contexts/order-context";
 import { ThongBaoProvider } from "@/contexts/thongbao-context";
+import Script from "next/script";
 
 async function fetchSukienuudais() {
   const res = await fetch(
@@ -112,6 +113,20 @@ export default async function layout({
 
   return (
     <>
+      <Script
+        strategy="afterInteractive"
+        src="https://www.googletagmanager.com/gtag/js?id=G-DWW4CGCHK9"
+      />
+
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DWW4CGCHK9');
+  `}
+      </Script>
+
       <ProtectedRoute Role="KH" allowGuest={true}>
         <LanguageProvider initialLanguage={language as "en" | "vi"}>
           <CartProvider>
