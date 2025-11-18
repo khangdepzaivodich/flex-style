@@ -185,25 +185,25 @@ export default function SlugPage({
       (prev) => (prev - 1 + product.HinhAnh.length) % product.HinhAnh.length
     );
   };
-  // const copyToClipboard = async (text: string) => {
-  //   try {
-  //     if (navigator.clipboard?.writeText) {
-  //       await navigator.clipboard.writeText(text);
-  //     } else {
-  //       const textarea = document.createElement("textarea");
-  //       textarea.value = text;
-  //       textarea.style.position = "fixed";
-  //       textarea.style.left = "-9999px";
-  //       document.body.appendChild(textarea);
-  //       textarea.select();
-  //       document.execCommand("copy");
-  //       document.body.removeChild(textarea);
-  //     }
-  //     alert("Liên kết đã được sao chép vào bộ nhớ tạm!");
-  //   } catch {
-  //     alert("Không thể sao chép liên kết. Vui lòng sao chép thủ công.");
-  //   }
-  // };
+  const copyToClipboard = async (text: string) => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+      alert("Liên kết đã được sao chép vào bộ nhớ tạm!");
+    } catch {
+      alert("Không thể sao chép liên kết. Vui lòng sao chép thủ công.");
+    }
+  };
 
   // Xử lý khi chọn ảnh thử trang phục
   // const handleTryOnImageChange = (file: File | null) => {
@@ -501,17 +501,10 @@ export default function SlugPage({
                   variant="outline"
                   size="lg"
                   className="flex-1 bg-transparent"
-                  onClick={() =>
-                    window.open(
-                      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                        `https://yame.vn/products/ao-thun-pique-thoang-mat-seventy-seven-13-den-0023217`
-                      )}`,
-                      "_blank"
-                    )
-                  }
+                  onClick={() => copyToClipboard(window.location.href)}
                 >
                   <Share2 className="h-5 w-5 mr-2" />
-                  Chia sẻ Facebook
+                  Chia sẻ
                 </Button>
                 <Button
                   variant="outline"
