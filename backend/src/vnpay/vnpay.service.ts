@@ -11,7 +11,7 @@ export class VNPAYService {
             vnp_OrderInfo: `Thanh toan don hang ${orderId}`,
             vnp_TxnRef: orderId,
             vnp_IpAddr: ipAddr,
-            vnp_ReturnUrl: `${process.env.FRONTEND_URL}/api/vnpay/vnpay-checksum`, // Thay đổi URL trả về theo frontend của bạn
+            vnp_ReturnUrl: `${process.env.FRONTEND_URL}/checkout/success`, // Thay đổi URL trả về theo frontend của bạn
         });
     }
 }
