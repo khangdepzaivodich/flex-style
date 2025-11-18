@@ -1,5 +1,5 @@
  
-import { Controller, Get, Param, Put, Body, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Put, Body, Post, UseGuards, Query } from '@nestjs/common';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 import { PhieuNhapHangDto } from './dto/phieunhaphang.dto';
 import { PhieuNhapHangService } from './phieunhaphang.service';
@@ -22,35 +22,40 @@ export class PhieuNhapHangController {
   getByIdNcc(@Param('id') id: string) {
     return this.phieuNhapHangService.findByIdNcc(id);
   }
-  //lấy phiếu nhập hàng theo id
-  @Get(':id')
-  @ResponseMessage('Lấy phiếu nhập hàng theo id thành công')
-  getById(@Param('id') id: string) {
-    return this.phieuNhapHangService.findById(id);
-  }
-
    // Lấy danh sách phiếu nhập hàng có phân trang, lọc trạng thái và ngày
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
   @Get('paged')
   @ResponseMessage('Lấy danh sách phiếu nhập hàng phân trang thành công')
   async getPaged(
-    @Param('page') page?: string,
-    @Param('pageSize') pageSize?: string,
-    @Param('status') status?: TrangThaiPhieuNhapHang,
-    @Param('date') date?: string,
+    @Query('page') page?: string,
+    @Query('pageSize') pageSize?: string,
+    @Query('status') status?: string,
+    @Query('date') date?: string,
   ) {
-    // Lấy query từ request
-    // Nếu dùng @Query thì cần import Query từ @nestjs/common
-    // Sử dụng @Query thay vì @Param cho query string
-    // Sửa lại cho đúng NestJS
-    // ...existing code...
-    return this.phieuNhapHangService.findPaged({
-      page: Number(page) || 1,
-      pageSize: Number(pageSize) || 10,
-      status,
-      date,
-    });
+    try {
+      const p = Number(page) || 1;
+      const ps = Number(pageSize) || 10;
+      // Validate status against enum values
+      const allowedStatuses = Object.values(TrangThaiPhieuNhapHang) as string[];
+      const st = status && allowedStatuses.includes(status) ? (status as any) : undefined;
+      return this.phieuNhapHangService.findPaged({
+        page: p,
+        pageSize: ps,
+        status: st,
+        date,
+      });
+    } catch (err) {
+      console.error('[PhieuNhapHangController.getPaged] error', err);
+      throw err;
+    }
+  }
+
+  //lấy phiếu nhập hàng theo id
+  @Get(':id')
+  @ResponseMessage('Lấy phiếu nhập hàng theo id thành công')
+  getById(@Param('id') id: string) {
+    return this.phieuNhapHangService.findById(id);
   }
 
   //tạo phiếu nhập hàng
