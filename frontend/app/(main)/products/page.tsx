@@ -1,8 +1,10 @@
 import ProductsPage from "./ProductsPage";
 
-async function getProducts() {
+async function getProducts(q: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham?skip=0&take=50&includeSizes=true`,
+    `${
+      process.env.NEXT_PUBLIC_BACKEND_URL
+    }/api/sanpham?skip=0&take=50&includeSizes=true&search=${q || ""}`,
     {
       cache: "no-store",
     }
@@ -21,12 +23,11 @@ export default async function ProductsCarousel({
 }: {
   searchParams: Promise<{ [key: string]: string }>;
 }) {
-  const products = await getProducts();
-  const categories = await getCategories();
   const { query } = await searchParams;
-
   // Lấy giá trị searchQuery từ URL
   const initialQuery = query || "";
+  const products = await getProducts(initialQuery);
+  const categories = await getCategories();
 
   return (
     <div>
