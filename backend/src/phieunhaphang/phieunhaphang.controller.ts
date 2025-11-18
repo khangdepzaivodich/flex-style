@@ -1,5 +1,13 @@
- 
-import { Controller, Get, Param, Put, Body, Post, UseGuards, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Put,
+  Body,
+  Post,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 import { PhieuNhapHangDto } from './dto/phieunhaphang.dto';
 import { PhieuNhapHangService } from './phieunhaphang.service';
@@ -12,20 +20,20 @@ import { TrangThaiPhieuNhapHang } from '@prisma/client';
 export class PhieuNhapHangController {
   constructor(private readonly phieuNhapHangService: PhieuNhapHangService) {}
   //lấy danh sách phiếu nhập hàng
-  @Get()
-  @ResponseMessage('Lấy danh sách phiếu nhập hàng thành công')
-  getAll() {
-    return this.phieuNhapHangService.findAll();
-  }
   @Get('/ncc/:id')
   @ResponseMessage('Lấy phiếu nhập hàng theo id thành công')
   getByIdNcc(@Param('id') id: string) {
     return this.phieuNhapHangService.findByIdNcc(id);
   }
-   // Lấy danh sách phiếu nhập hàng có phân trang, lọc trạng thái và ngày
+  //lấy phiếu nhập hàng theo id
+  @Get()
+  @ResponseMessage('Lấy danh sách phiếu nhập hàng thành công')
+  getAll() {
+    return this.phieuNhapHangService.findAll();
+  }
   @Roles('QLDN')
   @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  @Get('paged')
+  @Get('/paged')
   @ResponseMessage('Lấy danh sách phiếu nhập hàng phân trang thành công')
   async getPaged(
     @Query('page') page?: string,
@@ -33,30 +41,26 @@ export class PhieuNhapHangController {
     @Query('status') status?: string,
     @Query('date') date?: string,
   ) {
-    try {
-      const p = Number(page) || 1;
-      const ps = Number(pageSize) || 10;
-      // Validate status against enum values
-      const allowedStatuses = Object.values(TrangThaiPhieuNhapHang) as string[];
-      const st = status && allowedStatuses.includes(status) ? (status as any) : undefined;
-      return this.phieuNhapHangService.findPaged({
-        page: p,
-        pageSize: ps,
-        status: st,
-        date,
-      });
-    } catch (err) {
-      console.error('[PhieuNhapHangController.getPaged] error', err);
-      throw err;
-    }
+    console.log('Received paged query:', { page, pageSize, status, date });
+    const pageNum = Number(page) || 1;
+    const pageSizeNum = Number(pageSize) || 10;
+    const statusEnum = status
+      ? (status as unknown as TrangThaiPhieuNhapHang)
+      : undefined;
+    return this.phieuNhapHangService.findPaged({
+      page: pageNum,
+      pageSize: pageSizeNum,
+      status: statusEnum,
+      date,
+    });
   }
-
-  //lấy phiếu nhập hàng theo id
   @Get(':id')
   @ResponseMessage('Lấy phiếu nhập hàng theo id thành công')
   getById(@Param('id') id: string) {
     return this.phieuNhapHangService.findById(id);
   }
+
+  // Lấy danh sách phiếu nhập hàng có phân trang, lọc trạng thái và ngày
 
   //tạo phiếu nhập hàng
   @Roles('QLDN')

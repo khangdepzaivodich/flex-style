@@ -661,7 +661,14 @@ export default function Receipt({
       <div className="mt-8 flex justify-center gap-6">
         {/* Tải xuống PDF */}
         <button
-          onClick={() => exportToPdf()}
+          onClick={() => {
+            const errors = validate();
+            if (errors.length > 0) {
+              alert(errors.join("\n"));
+              return;
+            }
+            exportToPdf();
+          }}
           className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded shadow"
         >
           <Download className="h-4 w-4" />

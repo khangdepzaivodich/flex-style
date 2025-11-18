@@ -66,6 +66,8 @@ export default function ReceiptTable({
   loadingMore,
   onReload,
 }: ReceiptTableProps) {
+  const business = receipts ?? [];
+  console.log("Rendering ReceiptTable with receipts:", loadingMore);
   function calcTotal(itms?: Item[], rawItems?: Item[], computed?: number) {
     if (typeof computed === "number") return computed;
     const list = itms ?? rawItems ?? [];

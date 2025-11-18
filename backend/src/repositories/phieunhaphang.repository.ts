@@ -85,7 +85,7 @@ export class PhieuNhapHangRepository {
     date?: string;
   }) {
     const { page, pageSize, status, date } = params;
-    return this.prisma.pHIEUNHAPHANG.findMany({
+    const list = await this.prisma.pHIEUNHAPHANG.findMany({
       where: {
         ...(status && { TrangThai: status }),
         ...(date && { NgayNhap: date }),
@@ -93,5 +93,13 @@ export class PhieuNhapHangRepository {
       skip: (page - 1) * pageSize,
       take: pageSize,
     });
+    //lấy tổng số bản ghi
+    const total = await this.prisma.pHIEUNHAPHANG.count({
+      where: {
+        ...(status && { TrangThai: status }),
+        ...(date && { NgayNhap: date }),
+      },
+    });
+    return { list, total };
   }
 }
