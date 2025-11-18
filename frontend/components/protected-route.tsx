@@ -56,7 +56,7 @@ export default function ProtectedRoute({
           return;
         }
         const role = res.data.data.VAITRO;
-        console.log("User role from backend:", role);
+
         // Allow if not in blockedRoles
         if (Role === role) {
           setAuthorized(true);

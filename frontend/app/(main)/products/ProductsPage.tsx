@@ -53,9 +53,11 @@ export default function ProductsPage({
 
     if (searchQuery) {
       const normalizedQuery = removeVietnameseTones(searchQuery.toLowerCase());
+
       filtered = filtered.filter((product) => {
         const name = removeVietnameseTones(product.TenSP.toLowerCase());
         const desc = removeVietnameseTones((product?.MoTa ?? "").toLowerCase());
+
         return name.includes(normalizedQuery) || desc.includes(normalizedQuery);
       });
     }
@@ -123,7 +125,7 @@ export default function ProductsPage({
     const res = await fetch(
       `${
         process.env.NEXT_PUBLIC_BACKEND_URL
-      }/api/sanpham?skip=${currentLength}&take=10&includeSizes=true&includeTenDM=${categories
+      }/api/sanpham?skip=${currentLength}&take=10&search=${searchQuery}&includeSizes=true&includeTenDM=${categories
         .filter((cat) => selectedCategories.includes(cat.MaDM))
         .map((cat) => cat.TenDM)
         .join(",")}`,
@@ -186,21 +188,26 @@ export default function ProductsPage({
         { cache: "no-store" }
       );
       const data = await res.json();
-      setProducts(data.data || []);
+      const newProducts = data.data || [];
+      setProducts((prev) => [...prev, ...newProducts]);
+      if (newProducts.length < 10) setHasMore(false);
     };
     fetchProductsByCategory();
   }, [selectedCategories, categories]);
-  useEffect(() => {
+
+  const search = () => {
     const fetchProducts = async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham?skip=0&take=50&includeSizes=true&search=${searchQuery}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham?skip=0&take=20&includeSizes=true&search=${searchQuery}`,
         { cache: "no-store" }
       );
       const data = await res.json();
-      setProducts(data.data || []);
+      const newProducts = data.data || [];
+      setProducts((prev) => [...prev, ...newProducts]);
+      if (newProducts.length < 10) setHasMore(false);
     };
     fetchProducts();
-  }, [searchQuery]);
+  };
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Page Header */}
@@ -236,7 +243,10 @@ export default function ProductsPage({
                 placeholder="Tìm kiếm sản phẩm..."
                 className="pl-10"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  if (e.target.value !== "") search();
+                }}
               />
             </div>
 
