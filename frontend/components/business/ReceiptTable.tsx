@@ -9,13 +9,13 @@ import type { ReceiptData, Item } from "@/interfaces/receipt";
 interface ReceiptTableProps {
   receipts?: ReceiptData[];
   statusFilter?: string;
+  onStatusChange?: (s: string) => void;
   onView?: (id?: string) => void;
   onLoadMore?: () => Promise<void> | void;
   hasMore?: boolean;
   loadingMore?: boolean;
-  onReload?: (force?: boolean) => Promise<void> | void;
+  onReload?: () => Promise<void> | void;
 }
-
 
 const ALLOWED_STATUSES = new Set([
   "DANG_CHO",
@@ -79,11 +79,11 @@ export default function ReceiptTable({
   }
 
   const filtered = React.useMemo(() => {
-    if (statusFilterProp === "ALL") return receipts ?? [];
-    return (receipts ?? []).filter(
+    if (statusFilterProp === "ALL") return business;
+    return business.filter(
       (b) => (b.TrangThai ?? "DANG_CHO") === statusFilterProp
     );
-  }, [receipts, statusFilterProp]);
+  }, [business, statusFilterProp]);
 
   function renderBusinessRows(list: ReceiptData[]) {
     if (!list || list.length === 0) {
@@ -172,10 +172,7 @@ export default function ReceiptTable({
           <div className="mt-4 flex justify-center">
             <Button
               variant="outline"
-              onClick={() => {
-                console.log("[ReceiptTable] Xem thêm clicked");
-                onLoadMore?.();
-              }}
+              onClick={onLoadMore}
               disabled={!!loadingMore}
             >
               {loadingMore ? "Đang tải..." : "Xem thêm"}
@@ -185,13 +182,7 @@ export default function ReceiptTable({
         {/* Nút tải lại */}
         {onReload && (
           <div className="mt-2 flex justify-center">
-            <Button
-              variant="ghost"
-              onClick={() => {
-                console.log("[ReceiptTable] Tải lại clicked");
-                onReload?.(true);
-              }}
-            >
+            <Button variant="ghost" onClick={onReload}>
               Tải lại
             </Button>
           </div>

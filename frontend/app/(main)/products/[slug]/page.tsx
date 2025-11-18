@@ -39,14 +39,15 @@ async function getReply(slug: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const slug = await params.slug?.trim();
-  if (!slug) return {};
+  const {slug} = await params;
+  const trimmedSlug = slug?.trim();
+  if (!trimmedSlug) return {};
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${encodeURIComponent(
-        slug
+        trimmedSlug
       )}`,
       {
         cache: "no-store",
