@@ -1,5 +1,13 @@
- 
-import { Controller, Get, Param, Put, Body, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Put,
+  Body,
+  Post,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 import { PhieuNhapHangDto } from './dto/phieunhaphang.dto';
 import { PhieuNhapHangService } from './phieunhaphang.service';
@@ -12,46 +20,47 @@ import { TrangThaiPhieuNhapHang } from '@prisma/client';
 export class PhieuNhapHangController {
   constructor(private readonly phieuNhapHangService: PhieuNhapHangService) {}
   //lấy danh sách phiếu nhập hàng
-  @Get()
-  @ResponseMessage('Lấy danh sách phiếu nhập hàng thành công')
-  getAll() {
-    return this.phieuNhapHangService.findAll();
-  }
   @Get('/ncc/:id')
   @ResponseMessage('Lấy phiếu nhập hàng theo id thành công')
   getByIdNcc(@Param('id') id: string) {
     return this.phieuNhapHangService.findByIdNcc(id);
   }
   //lấy phiếu nhập hàng theo id
+  @Get()
+  @ResponseMessage('Lấy danh sách phiếu nhập hàng thành công')
+  getAll() {
+    return this.phieuNhapHangService.findAll();
+  }
+  @Roles('QLDN')
+  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
+  @Get('/paged')
+  @ResponseMessage('Lấy danh sách phiếu nhập hàng phân trang thành công')
+  async getPaged(
+    @Query('page') page?: string,
+    @Query('pageSize') pageSize?: string,
+    @Query('status') status?: string,
+    @Query('date') date?: string,
+  ) {
+    console.log('Received paged query:', { page, pageSize, status, date });
+    const pageNum = Number(page) || 1;
+    const pageSizeNum = Number(pageSize) || 10;
+    const statusEnum = status
+      ? (status as unknown as TrangThaiPhieuNhapHang)
+      : undefined;
+    return this.phieuNhapHangService.findPaged({
+      page: pageNum,
+      pageSize: pageSizeNum,
+      status: statusEnum,
+      date,
+    });
+  }
   @Get(':id')
   @ResponseMessage('Lấy phiếu nhập hàng theo id thành công')
   getById(@Param('id') id: string) {
     return this.phieuNhapHangService.findById(id);
   }
 
-   // Lấy danh sách phiếu nhập hàng có phân trang, lọc trạng thái và ngày
-  @Roles('QLDN')
-  @UseGuards(JwtAuthGuard, TaiKhoanGuard)
-  @Get('paged')
-  @ResponseMessage('Lấy danh sách phiếu nhập hàng phân trang thành công')
-  async getPaged(
-    @Param('page') page?: string,
-    @Param('pageSize') pageSize?: string,
-    @Param('status') status?: TrangThaiPhieuNhapHang,
-    @Param('date') date?: string,
-  ) {
-    // Lấy query từ request
-    // Nếu dùng @Query thì cần import Query từ @nestjs/common
-    // Sử dụng @Query thay vì @Param cho query string
-    // Sửa lại cho đúng NestJS
-    // ...existing code...
-    return this.phieuNhapHangService.findPaged({
-      page: Number(page) || 1,
-      pageSize: Number(pageSize) || 10,
-      status,
-      date,
-    });
-  }
+  // Lấy danh sách phiếu nhập hàng có phân trang, lọc trạng thái và ngày
 
   //tạo phiếu nhập hàng
   @Roles('QLDN')

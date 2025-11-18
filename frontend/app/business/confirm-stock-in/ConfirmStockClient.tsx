@@ -48,82 +48,96 @@ export default function ConfirmStockClient({
   const [dateFilter, setDateFilter] = React.useState<string | null>(null);
   const [tempDate, setTempDate] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    const iv = setInterval(async () => {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/paged?page=1&pageSize=1&status=${encodeURIComponent(
-            statusFilter
-          )}${dateFilter ? `&date=${encodeURIComponent(dateFilter)}` : ""}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        if (!res.ok) return;
-        const json = await res.json();
-        const newest = (json.data && json.data[0]) ?? null;
-        if (!newest) return;
-        const currentTop = receipts[0]?.MaPNH ?? receipts[0]?.MaPNH;
-        if (currentTop !== (newest.MaPNH ?? newest.maPNH ?? newest.MaPNNH)) {
-          // Nếu có phiếu nhập hàng mới -> tải lại trang đầu và thêm vào đầu danh sách
-          const firstPageRes = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/paged?page=1&pageSize=${pageSize}&status=${encodeURIComponent(
-              statusFilter
-            )}${dateFilter ? `&date=${encodeURIComponent(dateFilter)}` : ""}`,
-            {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-          );
-          if (!firstPageRes.ok) return;
-          const pj = await firstPageRes.json();
-          const newList = pj.data ?? [];
-          setReceipts((prev) => {
-            const seen = new Set(prev.map((p) => p.MaPNH));
-            const toPrepend = newList.filter(
-              (n: { MaPNH: string }) => !seen.has(n.MaPNH)
-            );
-            return [...toPrepend, ...prev];
-          });
-          setTotal(pj.totalCount ?? total);
-        }
-      } catch (e) {
-        console.error("Auto-refresh fetch error", e);
-      }
-    }, 15000);
-    return () => clearInterval(iv);
-  }, [receipts, pageSize, statusFilter, dateFilter, total]);
+  // Build paged URL without adding empty `status` param when status is ALL or empty
+  function buildPagedUrl(
+    pageNum: number,
+    pageSizeNum: number,
+    statusVal?: string,
+    dateVal?: string | null
+  ) {
+    const base = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/paged`;
+    const params = new URLSearchParams();
+    params.set("page", String(pageNum));
+    params.set("pageSize", String(pageSizeNum));
+    if (statusVal && statusVal !== "ALL") params.set("status", statusVal);
+    if (dateVal) params.set("date", dateVal);
+    return `${base}?${params.toString()}`;
+  }
+
+  // React.useEffect(() => {
+  //   try {
+  //     const res = await fetch(
+  //       `${
+  //         process.env.NEXT_PUBLIC_BACKEND_URL
+  //       }/api/phieunhaphang/paged?page=1&pageSize=1&status=${encodeURIComponent(
+  //         statusFilter
+  //       )}${dateFilter ? `&date=${encodeURIComponent(dateFilter)}` : ""}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       }
+  //     );
+  //     if (!res.ok) return;
+  //     const json = await res.json();
+  //     const newest = (json.data && json.data[0]) ?? null;
+  //     if (!newest) return;
+  //     const currentTop = receipts[0]?.MaPNH ?? receipts[0]?.MaPNH;
+  //     if (currentTop !== (newest.MaPNH ?? newest.maPNH ?? newest.MaPNNH)) {
+  //       // Nếu có phiếu nhập hàng mới -> tải lại trang đầu và thêm vào đầu danh sách
+  //       const firstPageRes = await fetch(
+  //         `${
+  //           process.env.NEXT_PUBLIC_BACKEND_URL
+  //         }/api/phieunhaphang/paged?page=1&pageSize=${pageSize}&status=${encodeURIComponent(
+  //           statusFilter
+  //         )}${dateFilter ? `&date=${encodeURIComponent(dateFilter)}` : ""}`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${accessToken}`,
+  //           },
+  //         }
+  //       );
+  //       if (!firstPageRes.ok) return;
+  //       const pj = await firstPageRes.json();
+  //       const newList = pj.data ?? [];
+  //       setReceipts((prev) => {
+  //         const seen = new Set(prev.map((p) => p.MaPNH));
+  //         const toPrepend = newList.filter(
+  //           (n: { MaPNH: string }) => !seen.has(n.MaPNH)
+  //         );
+  //         return [...toPrepend, ...prev];
+  //       });
+  //       setTotal(pj.totalCount ?? total);
+  //     }
+  //   } catch (e) {
+  //     console.error("Auto-refresh fetch error", e);
+  //   }
+  // }, [receipts, pageSize, statusFilter, dateFilter, total]);
 
   async function loadMore() {
     if (loadingMore) return;
     const next = page + 1;
     setLoadingMore(true);
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/paged?page=${next}&pageSize=${pageSize}&status=${encodeURIComponent(
-          statusFilter
-        )}${dateFilter ? `&date=${encodeURIComponent(dateFilter)}` : ""}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const url = buildPagedUrl(next, pageSize, statusFilter, dateFilter);
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       if (!res.ok) throw new Error("Load more failed");
       const json = await res.json();
-      const more = json.data ?? [];
+      const more = json.data?.list ?? [];
       setReceipts((prev) => {
         const seen = new Set(prev.map((p) => p.MaPNH));
         const toAppend = more.filter(
           (m: { MaPNH: string }) => !seen.has(m.MaPNH)
         );
+        console.log("items:", [...prev, ...toAppend]);
         return [...prev, ...toAppend];
       });
       setPage(next);
-      setTotal(json.totalCount ?? total);
+      setTotal(json.data?.total ?? total);
     } catch (e) {
       console.error("Load more error", e);
     } finally {
@@ -135,24 +149,22 @@ export default function ConfirmStockClient({
   async function reload(status?: string, dateArg?: string | null) {
     setLoading(true);
     try {
-      const s = typeof status === "string" ? status : statusFilter;
+      let s = typeof status === "string" ? status : statusFilter;
       const d = typeof dateArg !== "undefined" ? dateArg : dateFilter;
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/paged?page=1&pageSize=${pageSize}&status=${encodeURIComponent(
-          s
-        )}${d ? `&date=${encodeURIComponent(d)}` : ""}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      if (s === "ALL") s = "";
+      const url = buildPagedUrl(1, pageSize, s || undefined, d);
+      console.log(url);
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       if (!res.ok) throw new Error("Reload failed");
       const json = await res.json();
-      const first = json.data ?? [];
+      const first = json.data?.list ?? [];
       setReceipts(first);
       setPage(1);
-      setTotal(json.totalCount ?? total);
+      // setTotal(json.data?.total ?? total);
     } catch (e) {
       console.error("Reload error", e);
     } finally {

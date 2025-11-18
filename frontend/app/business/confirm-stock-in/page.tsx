@@ -22,12 +22,11 @@ export default async function Page() {
       headers["Authorization"] = `Bearer ${session.access_token}`;
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phieunhaphang/paged?page=1&pageSize=${PAGE_SIZE}`, {
       headers,
     });
     const json = await res.json();
-    const list = (json.data || json || []) as PhieuNhapHang[];
-
+    const {list, total} = (json.data || json || []) as {list: PhieuNhapHang[]; total: number};
     // Ngày tạo mới nhất ở trên cùng
     list.sort((a, b) => {
       const da = new Date(a.created_at ?? a.created_at ?? 0).getTime();
@@ -35,7 +34,7 @@ export default async function Page() {
       return db - da;
     });
 
-    totalCount = list.length;
+    totalCount = total;
     const firstSlice = list.slice(0, PAGE_SIZE);
 
     // fetch chi tiết cho mỗi phiếu trong trang đầu tiên và tính tổng tiền
