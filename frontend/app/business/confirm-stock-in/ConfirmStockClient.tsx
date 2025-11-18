@@ -42,7 +42,14 @@ export default function ConfirmStockClient({
   const [loadingMore, setLoadingMore] = React.useState(false);
   const [viewOpen, setViewOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<ReceiptData | null>(null);
-  const [page, setPage] = React.useState(1);
+  const [cursor, setCursor] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (initialReceipts && initialReceipts.length > 0) {
+      const last = initialReceipts[initialReceipts.length - 1];
+      setCursor(toMillisString(last?.created_at ?? null));
+    }
+  }, [initialReceipts]);
   const [total, setTotal] = React.useState<number>(totalCount || 0);
   const [statusFilter, setStatusFilter] = React.useState<string>("ALL");
   const [dateFilter, setDateFilter] = React.useState<string | null>(null);
@@ -116,7 +123,6 @@ export default function ConfirmStockClient({
 
   async function loadMore() {
     if (loadingMore) return;
-    const next = page + 1;
     setLoadingMore(true);
     try {
       const url = buildPagedUrl(next, pageSize, statusFilter, dateFilter);
@@ -146,7 +152,7 @@ export default function ConfirmStockClient({
   }
 
   // Tải lại danh sách với bộ lọc hiện tại
-  async function reload(status?: string, dateArg?: string | null) {
+  async function reload(status?: string, dateArg?: string | null, force?: boolean) {
     setLoading(true);
     try {
       let s = typeof status === "string" ? status : statusFilter;
@@ -317,17 +323,12 @@ export default function ConfirmStockClient({
       <ReceiptTable
         receipts={receipts}
         statusFilter={statusFilter}
-        onStatusChange={(s?: string) => {
-          if (s) {
-            setStatusFilter(s);
-            reload(s);
-          }
-        }}
+        
         onView={(id?: string) => handleView(id)}
         onLoadMore={loadMore}
         hasMore={receipts.length < total}
         loadingMore={loadingMore}
-        onReload={reload}
+        onReload={(force?: boolean) => reload(undefined, undefined, force)}
       />
 
       <ReceiptView
