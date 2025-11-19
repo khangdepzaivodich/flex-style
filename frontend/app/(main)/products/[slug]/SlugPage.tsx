@@ -5,11 +5,9 @@ import { useState } from "react";
 // import { ImagePart, UploadedImage } from "@/lib/types";
 // import { fileToBase64, getMimeTypeFromBase64 } from "@/utils/image-utils";
 import Image from "next/image";
-// import Head from "next/head";
 import Link from "next/link";
 import {
   Star,
-  Share2,
   ShoppingCart,
   Minus,
   Plus,
@@ -30,6 +28,7 @@ import { useCart } from "@/contexts/cart-context";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 // import ImageUploadCard from "@/components/image-load";
 import type { Product, PhanHoi } from "@/lib/types";
+import { FacebookShareButton, FacebookIcon } from "react-share";
 
 export default function SlugPage({
   product,
@@ -185,24 +184,34 @@ export default function SlugPage({
       (prev) => (prev - 1 + product.HinhAnh.length) % product.HinhAnh.length
     );
   };
-  const copyToClipboard = async (text: string) => {
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(text);
-      } else {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.left = "-9999px";
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textarea);
-      }
-      alert("Liên kết đã được sao chép vào bộ nhớ tạm!");
-    } catch {
-      alert("Không thể sao chép liên kết. Vui lòng sao chép thủ công.");
+  // const copyToClipboard = async (text: string) => {
+  //   try {
+  //     if (navigator.clipboard?.writeText) {
+  //       await navigator.clipboard.writeText(text);
+  //     } else {
+  //       const textarea = document.createElement("textarea");
+  //       textarea.value = text;
+  //       textarea.style.position = "fixed";
+  //       textarea.style.left = "-9999px";
+  //       document.body.appendChild(textarea);
+  //       textarea.select();
+  //       document.execCommand("copy");
+  //       document.body.removeChild(textarea);
+  //     }
+  //     alert("Liên kết đã được sao chép vào bộ nhớ tạm!");
+  //   } catch {
+  //     alert("Không thể sao chép liên kết. Vui lòng sao chép thủ công.");
+  //   }
+  // };
+
+  const getPageUrl = () => {
+    const baseUrl =
+      process.env.NEXT_PUBLIC_FRONTEND_URL || "https://flex-style.vercel.app/";
+    console.log(`${baseUrl}/products/${product.slug}`);
+    if (typeof window !== "undefined") {
+      return window.location.href;
     }
+    return `${baseUrl}/products/${product.slug}`;
   };
 
   // Xử lý khi chọn ảnh thử trang phục
@@ -497,15 +506,21 @@ export default function SlugPage({
                 />
                 Yêu thích
               </Button> */}
-                <Button
+                {/* <Button
                   variant="outline"
                   size="lg"
                   className="flex-1 bg-transparent"
-                  onClick={() => copyToClipboard(window.location.href)}
+                > */}
+                <FacebookShareButton
+                  className="flex-1 bg-transparent flex justify-center items-center"
+                  url={getPageUrl()}
+                  // quote={product.TenSP}
+                  hashtag="#EComStore"
                 >
-                  <Share2 className="h-5 w-5 mr-2" />
-                  Chia sẻ
-                </Button>
+                  <FacebookIcon size={28} round />
+                  <span className="ml-2">Chia sẻ</span>
+                </FacebookShareButton>
+                {/* </Button> */}
                 <Button
                   variant="outline"
                   size="lg"
