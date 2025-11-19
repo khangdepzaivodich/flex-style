@@ -30,10 +30,13 @@ async function fetchSukienuudais() {
 }
 
 async function fetchThongBaoVC() {
-  let setVouchers: Voucher[] = [];
-  const res = await fetch("http://localhost:8080/api/thongbao/voucher", {
-    cache: "no-store",
-  });
+  const setVouchers: Voucher[] = [];
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/voucher`,
+    {
+      cache: "no-store",
+    }
+  );
   if (res.status !== 200 && res.status !== 201) {
     console.log("Failed to fetch voucher notifications", res);
     return [];
@@ -60,10 +63,13 @@ async function fetchThongBaoVC() {
 }
 
 async function fetchThongBaoSK() {
-  let setSukienuudai: SuKienUuDai[] = [];
-  const res = await fetch("http://localhost:8080/api/thongbao/sukienuudai", {
-    cache: "no-store",
-  });
+  const setSukienuudai: SuKienUuDai[] = [];
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/thongbao/sukienuudai`,
+    {
+      cache: "no-store",
+    }
+  );
   if (res.status !== 200 && res.status !== 201) {
     console.log("Failed to fetch sự kiện ưu đãi notifications");
     return [];
