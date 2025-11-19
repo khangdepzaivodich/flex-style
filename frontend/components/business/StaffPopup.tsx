@@ -113,7 +113,7 @@ export default function StaffPopup({
       setConfirmPassword("");
       setErrorMsg("");
     }
-  }, [open, initialData]);
+  }, [open, initialData, setErrorMsg]);
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
