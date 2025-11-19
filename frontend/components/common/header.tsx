@@ -24,6 +24,8 @@ type HeaderProps = {
 
 export default function Header({
   titleMap = {},
+  showNotifications = true,
+  notifications,
   onLogout,
   rightContent,
 }: HeaderProps) {
