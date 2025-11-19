@@ -1,5 +1,8 @@
 import { getAccessToken, getGioHang, getUserId } from "@/lib/userInfo";
 import MainPage from "./MainPage";
+import HomeSchema from "@/components/schema/HomeSchema";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 async function getProducts() {
   const res = await fetch(
@@ -80,7 +83,6 @@ async function getProducts() {
 export default async function MainCarousel() {
   const products = await getProducts();
   const userId = await getUserId();
-  console.log("Có load");
   let gioHang = { data: [] };
   // let notificationsVoucher: Voucher[] = [];
   // let notificationsSukienuudai: SuKienUuDai[] = [];
@@ -92,6 +94,7 @@ export default async function MainCarousel() {
   }
   return (
     <div>
+      <HomeSchema initialProducts={products.data} baseUrl={BASE_URL} />
       <MainPage
         key={products}
         initialProducts={products.data}
