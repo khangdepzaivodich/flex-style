@@ -5,11 +5,9 @@ import { useState } from "react";
 // import { ImagePart, UploadedImage } from "@/lib/types";
 // import { fileToBase64, getMimeTypeFromBase64 } from "@/utils/image-utils";
 import Image from "next/image";
-import Head from "next/head";
 import Link from "next/link";
 import {
   Star,
-  Share2,
   ShoppingCart,
   Minus,
   Plus,
