@@ -54,6 +54,7 @@ export async function updateSession(request: NextRequest) {
     "/returns",
     "/privacy",
     "/products",
+    "/sitemap.xml",
     "/unauthorized",
   ];
 
