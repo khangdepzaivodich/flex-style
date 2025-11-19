@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import { useCallback } from "react";
 // import { ImagePart, UploadedImage } from "@/lib/types";
 // import { fileToBase64, getMimeTypeFromBase64 } from "@/utils/image-utils";
@@ -34,14 +34,14 @@ import type { Product, PhanHoi } from "@/lib/types";
 
 export default function SlugPage({
   product,
-  relatedProducts,
-  feedbacks,
-  feedbacksCustomer,
+  relatedProducts: initialRelatedProducts = [],
+  feedbacks: initialFeedbacks = [],
+  feedbacksCustomer: initialFeedbacksCustomer = [],
 }: {
   product: Product;
-  relatedProducts: Product[];
-  feedbacks: PhanHoi[];
-  feedbacksCustomer: string[];
+  relatedProducts?: Product[];
+  feedbacks?: PhanHoi[];
+  feedbacksCustomer?: string[];
 }) {
   const { addItem } = useCart();
   const { suKienUuDais } = useSuKienUuDai();
@@ -53,6 +53,58 @@ export default function SlugPage({
   // const [tryOnPreview, setTryOnPreview] = useState<string | null>(null);
   // const [ apparelImageUrl, setApparelImageUrl ] = useState<string | null>(null); // Sử dụng hook để lấy URL ảnh thử trang phục
   const discountPercentage = suKienUuDais.PhanTramGiam || 0;
+
+  // Move non-critical data loading to client to reduce server HTML size (improves LCP)
+  const [relatedProductsState, setRelatedProductsState] = useState<Product[]>(
+    initialRelatedProducts
+  );
+  const [feedbacksState, setFeedbacksState] =
+    useState<PhanHoi[]>(initialFeedbacks);
+  const [feedbacksCustomerState, setFeedbacksCustomerState] = useState<
+    string[]
+  >(initialFeedbacksCustomer);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const rp = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/related/${product.slug}`
+        );
+        if (rp.ok) {
+          const json = await rp.json();
+          if (mounted && json?.data) setRelatedProductsState(json.data);
+        }
+      } catch (e) {
+        // ignore
+        console.error(e);
+      }
+
+      try {
+        const fb = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phanhoi?slug=${product.slug}`
+        );
+        if (fb.ok) {
+          const json = await fb.json();
+          if (mounted && json?.data) {
+            setFeedbacksState(json.data.feedbacks || []);
+            setFeedbacksCustomerState(json.data.feedbacksCustomer || []);
+          }
+        }
+      } catch (e) {
+        // ignore
+        console.error(e);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [product.slug]);
+
+  // compatibility aliases: keep existing variable names used throughout the file
+  const feedbacks = feedbacksState;
+  const relatedProducts = relatedProductsState;
+  const feedbacksCustomer = feedbacksCustomerState;
 
   // useEffect(() => {
   //   setApparelImageUrl(product.HinhAnh[0] || null);
