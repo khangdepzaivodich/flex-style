@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 // import { useCallback } from "react";
 // import { ImagePart, UploadedImage } from "@/lib/types";
 // import { fileToBase64, getMimeTypeFromBase64 } from "@/utils/image-utils";
