@@ -105,8 +105,90 @@ export default function MainPage({
     }, 10000);
     return () => clearTimeout(timer);
   }, [isValidSuKienUuDai]);
+
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://example.com";
+
+  const jsonLd = useMemo(() => {
+    const siteData = {
+      "@context": "https://schema.org",
+      "@graph": [] as unknown[],
+    };
+
+    // WebSite + Organization
+    siteData["@graph"].push({
+      "@type": "WebSite",
+      url: BASE_URL,
+      name: "FlexStyle",
+      description:
+        "Cửa hàng thời trang trực tuyến FlexStyle - thời trang hiện đại",
+    });
+
+    siteData["@graph"].push({
+      "@type": "Organization",
+      name: "FlexStyle",
+      url: BASE_URL,
+      logo: `${BASE_URL}/logo.png`,
+      sameAs: [
+        "https://facebook.com/your-page",
+        "https://instagram.com/your-page",
+      ],
+    });
+
+    // Product list (limit to first 10 for brevity)
+    const products = Array.isArray(initialProducts)
+      ? initialProducts.slice(0, 10)
+      : [];
+    if (products.length > 0) {
+      const itemList: unknown[] = products.map((p) => {
+        const image =
+          Array.isArray(p.HinhAnh) && p.HinhAnh.length
+            ? (p.HinhAnh[0] as string)
+            : p.HinhAnh ?? `${BASE_URL}/og-default.png`;
+        const absImage =
+          image && String(image).startsWith("http")
+            ? image
+            : `${BASE_URL}${image}`;
+        return {
+          "@type": "Product",
+          name: p.TenSP ?? "",
+          image: [absImage],
+          description: (p.MoTa ?? "").toString().slice(0, 300),
+          sku: p.MaSP ?? "",
+          mpn: p.MaSP ?? "",
+          offers: {
+            "@type": "Offer",
+            url: `${BASE_URL}/products/${encodeURIComponent(
+              String(p.MaSP ?? "")
+            )}`,
+            priceCurrency: "VND",
+            price: (() => {
+              const raw =
+                p.GiaBan * (1 - (suKienUuDais?.PhanTramGiam || 0) / 100);
+              return Number.isFinite(raw) ? raw : "";
+            })(),
+            availability: "https://schema.org/InStock",
+          },
+        };
+      });
+
+      siteData["@graph"].push({
+        "@type": "ItemList",
+        itemListElement: itemList.map((prod, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          item: prod,
+        })),
+      });
+    }
+
+    return JSON.stringify(siteData);
+  }, [initialProducts, BASE_URL, suKienUuDais]);
   return (
     <div className="flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd }}
+      />
       {popup && isValidSuKienUuDai && (
         <PopupUuDai suKienUuDais={suKienUuDais} />
       )}
