@@ -64,25 +64,36 @@ export async function generateMetadata({
       `Xem chi tiết ${title} trên FlexStyle`;
     const images = product.HinhAnh[0].includes("https")
       ? product.HinhAnh[0]
-      : "https:" + product.HinhAnh[0] || ["/placeholder.svg"];
-    return {
+      : "https:" + (product.HinhAnh[0] || ["/placeholder.svg"]);
+    console.log({
       title,
       description,
       openGraph: {
         title,
         description,
         siteName: "FlexStyle",
-        type: "website",
+        // type: "website",
+        url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/products/${product.slug}`,
+        images: images,
+      },
+    });
+    return {
+      title: title,
+      description: description,
+      openGraph: {
+        title: title,
+        description: description,
+        siteName: "FlexStyle",
         url: `${
           process.env.NEXT_PUBLIC_FRONTEND_URL
         }/products/${encodeURIComponent(slug)}`,
-        images: images.map((url: string) => ({ url })),
+        images: images,
       },
       twitter: {
         card: "summary_large_image",
-        title,
-        description,
-        images,
+        title: title,
+        description: description,
+        images: images,
       },
     };
   } catch (error) {
@@ -120,7 +131,6 @@ export default async function Page({
 
     const relatedProducts = await getRelatedProducts(trimmedSlug);
     const feedbacks = await getReply(trimmedSlug);
-    console.log("Product Data:", productData);
     return (
       <>
         <SlugPage

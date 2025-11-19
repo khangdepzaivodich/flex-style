@@ -33,6 +33,7 @@ export default function BusinessLayout({
     "/business/categories": "Danh mục sản phẩm",
     "/business/create-stock-in": "Tạo phiếu nhập hàng",
     "/business/confirm-stock-in": "Xác nhận nhập hàng",
+    "/business/send-email": "Gửi email marketing",
   };
 
   const sidebarItems = [
@@ -55,6 +56,11 @@ export default function BusinessLayout({
       title: "Xác nhận nhập hàng",
       href: "/business/confirm-stock-in",
       icon: CheckSquare,
+    },
+    {
+      title: "Gửi email marketing",
+      href: "/business/send-email",
+      icon: MessageSquare,
     },
   ];
 
