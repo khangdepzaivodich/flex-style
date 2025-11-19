@@ -4,7 +4,7 @@ import { useState } from "react";
 // import { useCallback } from "react";
 // import { ImagePart, UploadedImage } from "@/lib/types";
 // import { fileToBase64, getMimeTypeFromBase64 } from "@/utils/image-utils";
-import Head from "next/head";
+// import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -263,7 +263,7 @@ export default function SlugPage({
 
   return (
     <>
-      <Head>
+      {/* <Head>
         <meta property="og:title" content={product.TenSP} />
         <meta property="og:description" content={product.MoTa || ""} />
         <meta
@@ -279,7 +279,7 @@ export default function SlugPage({
           content={`https://flex-style.vercel.app/products/${product.slug}`}
         />
         <meta property="og:type" content="product" />
-      </Head>
+      </Head> */}
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center space-x-2 text-sm text-muted-foreground mb-8">

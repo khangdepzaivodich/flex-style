@@ -42,16 +42,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const trimmedSlug = slug?.trim();
-  if (!trimmedSlug) return {};
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${encodeURIComponent(
-        trimmedSlug
-      )}`,
-      {
-        cache: "no-store",
-      }
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${slug}`
     );
     if (!res.ok) return {};
     const json = await res.json();
@@ -65,26 +58,15 @@ export async function generateMetadata({
     const images = product.HinhAnh[0].includes("https")
       ? product.HinhAnh[0]
       : "https:" + product.HinhAnh[0];
-    console.log({
+    const url = `https://flex-style.vercel.app/products/${product.slug}`;
+    return {
       title,
       description,
       openGraph: {
         title,
         description,
+        url,
         siteName: "FlexStyle",
-        // type: "website",
-        url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/products/${product.slug}`,
-        images: images,
-      },
-    });
-    return {
-      title: title,
-      description: description,
-      openGraph: {
-        title: title,
-        description: description,
-        siteName: "FlexStyle",
-        url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/products/${product.slug}`,
         images: [{ url: images, width: 800, height: 600 }],
       },
       twitter: {
