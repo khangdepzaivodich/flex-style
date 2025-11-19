@@ -64,7 +64,7 @@ export async function generateMetadata({
       `Xem chi tiết ${title} trên FlexStyle`;
     const images = product.HinhAnh[0].includes("https")
       ? product.HinhAnh[0]
-      : "https:" + (product.HinhAnh[0] || ["/placeholder.svg"]);
+      : "https:" + product.HinhAnh[0];
     console.log({
       title,
       description,
@@ -87,7 +87,12 @@ export async function generateMetadata({
         url: `${
           process.env.NEXT_PUBLIC_FRONTEND_URL
         }/products/${encodeURIComponent(slug)}`,
-        images: images,
+        images:[
+          { url: images,
+            width: 800,
+            height: 600,
+          }
+        ]
       },
       twitter: {
         card: "summary_large_image",
