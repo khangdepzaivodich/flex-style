@@ -1,12 +1,13 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Product } from "@/lib/types";
 import { formatPrice } from "@/lib/help";
 import { useRouter } from "next/navigation";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
+import { useProductDetail } from "@/contexts/productdetail-context";
 
 interface ProductCardProps {
   product: Product;
@@ -15,11 +16,13 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { suKienUuDais } = useSuKienUuDai();
   const router = useRouter();
-
+  const {setValue} = useProductDetail();
   const discountPercentage = product.GiaBan
     ? Math.round(((product.GiaBan - product.GiaBan) / product.GiaBan) * 100)
     : 0;
+
   const handleClick = () => {
+    setValue(product);
     router.push(`/products/${product.slug}`);
   };
 
@@ -30,9 +33,10 @@ export function ProductCard({ product }: ProductCardProps) {
           (acc, item) => acc + item.SoLuong,
           0
         ) ? (
-          <Link href={`/products/${product.slug}`}>
+          <div onClick={handleClick}>
             <Image
               src={
+                
                 product.HinhAnh && product.HinhAnh.length > 0
                   ? product.HinhAnh[0].includes("https")
                     ? product.HinhAnh[0]
@@ -52,7 +56,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 </Badge>
               )}
             </div>
-          </Link>
+          </div>
         ) : (
           <div className="pointer-events-none">
             <Image

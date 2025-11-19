@@ -4,6 +4,12 @@ import { AuthProvider } from "@/contexts/auth-context";
 import { Suspense } from "react";
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/language-context";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap", // Hiển thị văn bản ngay lập tức
+});
 export const metadata: Metadata = {
   title: "FlexStyle - Thời trang hiện đại",
   description:
@@ -22,7 +28,9 @@ export default async function RootLayout({
         <LanguageProvider>
           <AuthProvider>
             <Suspense>
-              <main className="min-h-screen">{children}</main>
+              <main className={`min-h-screen ${inter.className}`}>
+                {children}
+              </main>
             </Suspense>
           </AuthProvider>
         </LanguageProvider>
