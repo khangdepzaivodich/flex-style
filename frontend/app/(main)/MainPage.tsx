@@ -17,9 +17,6 @@ import MailChimp from "@/components/mail-chimp";
 import EventVoucherSlider from "@/components/ui/EventVoucherSlider";
 import { useThongBao } from "@/contexts/thongbao-context";
 import Image from "next/image";
-import HomeSchema from "@/components/schema/HomeSchema";
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
   const startDate = new Date(suKienUuDais.NgayPH);
@@ -110,7 +107,6 @@ export default function MainPage({
   }, [isValidSuKienUuDai]);
   return (
     <div className="flex flex-col">
-      <HomeSchema initialProducts={initialProducts} baseUrl={BASE_URL} />
       {popup && isValidSuKienUuDai && (
         <PopupUuDai suKienUuDais={suKienUuDais} />
       )}
