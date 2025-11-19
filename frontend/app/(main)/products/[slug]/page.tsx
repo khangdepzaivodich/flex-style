@@ -41,7 +41,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const {slug} = await params;
+  const { slug } = await params;
   const trimmedSlug = slug?.trim();
   if (!trimmedSlug) return {};
   try {
@@ -62,20 +62,9 @@ export async function generateMetadata({
     const description =
       (product.MoTa && String(product.MoTa).slice(0, 160)) ||
       `Xem chi tiết ${title} trên FlexStyle`;
-    const images =
-      Array.isArray(product.HinhAnh) && product.HinhAnh.length
-        ? product.HinhAnh.map((src: string) =>
-            src.startsWith("http")
-              ? src
-              : `${process.env.NEXT_PUBLIC_FRONTEND_URL}${src}`
-          )
-        : [
-            `${
-              process.env.NEXT_PUBLIC_FRONTEND_URL
-                ? process.env.NEXT_PUBLIC_FRONTEND_URL
-                : "https://flex-style.vercel.app"
-            }/og-default.png`,
-          ];
+    const images = product.HinhAnh[0].includes("https")
+      ? product.HinhAnh[0]
+      : "https:" + product.HinhAnh[0] || ["/placeholder.svg"];
     return {
       title,
       description,
