@@ -37,7 +37,7 @@ export class SanphamService {
 
   // Lay san pham theo ID
   async sanpham(slug: string): Promise<SANPHAM | null> {
-    return this.prisma.sANPHAM.findFirst({
+    return await this.prisma.sANPHAM.findFirst({
       where: { slug: slug },
       include: {
         CHITIETSANPHAM: {
