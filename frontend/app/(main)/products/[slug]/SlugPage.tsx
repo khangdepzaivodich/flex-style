@@ -30,7 +30,7 @@ import { useCart } from "@/contexts/cart-context";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
 // import ImageUploadCard from "@/components/image-load";
 import type { Product, PhanHoi } from "@/lib/types";
-import { FacebookShareButton, FacebookIcon } from "react-share";
+// import { FacebookShareButton, FacebookIcon } from "react-share";
 
 export default function SlugPage({
   product,
