@@ -89,6 +89,7 @@ async function fetchThongBaoSK() {
       }
     }
   }
+  console.log("setSukienuudai", setSukienuudai);
   return setSukienuudai;
 }
 

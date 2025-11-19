@@ -23,7 +23,6 @@ function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
   const endDate = new Date(suKienUuDais.NgayKT);
 
   return (
-    
     <>
       <div className="fixed top-20 right-4 bg-gradient-to-br from-rose-50 via-pink-50 to-orange-50 border border-rose-200 rounded-xl shadow-2xl p-6 w-72 z-50 animate-in slide-in-from-top-2 duration-300 fade-in-50">
         {/* Header with icon, event name, and vibrant title */}
@@ -38,7 +37,7 @@ function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
             </span>
           </div>
         </div>
-  
+
         {/* Date info with colorful badge */}
         <div className="bg-white/80 rounded-full px-3 py-1 mb-3 inline-block border border-rose-300">
           <span className="text-sm font-medium text-orange-600">
@@ -46,13 +45,13 @@ function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
             {endDate.getDate()}/{endDate.getMonth() + 1}
           </span>
         </div>
-  
+
         {/* Description with subtle gradient text */}
         <p className="text-sm text-gray-700 leading-relaxed mb-4 bg-gradient-to-r from-transparent via-pink-100 to-transparent rounded px-2 py-1">
           Nhận ngay ưu đãi `&quot;`nóng hổi`&quot;` khi mua sắm tại FlexStyle.
           Đừng bỏ lỡ cơ hội vàng này nhé! 🔥
         </p>
-  
+
         {/* Enhanced button with gradient */}
         <Button
           size="sm"
@@ -71,13 +70,9 @@ function PopupUuDai({ suKienUuDais }: { suKienUuDais: SuKienUuDai }) {
 export default function MainPage({
   initialProducts,
   initialCartItems,
-}: // initialNotificationsVoucher,
-// initialNotificationsSukienuudai
-{
+}: {
   initialProducts: Product[];
   initialCartItems: CartItem[];
-  // initialNotificationsVoucher: Voucher[];
-  // initialNotificationsSukienuudai: SuKienUuDai[];
 }) {
   const { suKienUuDais } = useSuKienUuDai();
   const isValidSuKienUuDai =
@@ -110,8 +105,90 @@ export default function MainPage({
     }, 10000);
     return () => clearTimeout(timer);
   }, [isValidSuKienUuDai]);
+
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://example.com";
+
+  const jsonLd = useMemo(() => {
+    const siteData = {
+      "@context": "https://schema.org",
+      "@graph": [] as unknown[],
+    };
+
+    // WebSite + Organization
+    siteData["@graph"].push({
+      "@type": "WebSite",
+      url: BASE_URL,
+      name: "FlexStyle",
+      description:
+        "Cửa hàng thời trang trực tuyến FlexStyle - thời trang hiện đại",
+    });
+
+    siteData["@graph"].push({
+      "@type": "Organization",
+      name: "FlexStyle",
+      url: BASE_URL,
+      logo: `${BASE_URL}/logo.png`,
+      sameAs: [
+        "https://facebook.com/your-page",
+        "https://instagram.com/your-page",
+      ],
+    });
+
+    // Product list (limit to first 10 for brevity)
+    const products = Array.isArray(initialProducts)
+      ? initialProducts.slice(0, 10)
+      : [];
+    if (products.length > 0) {
+      const itemList: unknown[] = products.map((p) => {
+        const image =
+          Array.isArray(p.HinhAnh) && p.HinhAnh.length
+            ? (p.HinhAnh[0] as string)
+            : p.HinhAnh ?? `${BASE_URL}/og-default.png`;
+        const absImage =
+          image && String(image).startsWith("http")
+            ? image
+            : `${BASE_URL}${image}`;
+        return {
+          "@type": "Product",
+          name: p.TenSP ?? "",
+          image: [absImage],
+          description: (p.MoTa ?? "").toString().slice(0, 300),
+          sku: p.MaSP ?? "",
+          mpn: p.MaSP ?? "",
+          offers: {
+            "@type": "Offer",
+            url: `${BASE_URL}/products/${encodeURIComponent(
+              String(p.MaSP ?? "")
+            )}`,
+            priceCurrency: "VND",
+            price: (() => {
+              const raw =
+                p.GiaBan * (1 - (suKienUuDais?.PhanTramGiam || 0) / 100);
+              return Number.isFinite(raw) ? raw : "";
+            })(),
+            availability: "https://schema.org/InStock",
+          },
+        };
+      });
+
+      siteData["@graph"].push({
+        "@type": "ItemList",
+        itemListElement: itemList.map((prod, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          item: prod,
+        })),
+      });
+    }
+
+    return JSON.stringify(siteData);
+  }, [initialProducts, BASE_URL, suKienUuDais]);
   return (
     <div className="flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd }}
+      />
       {popup && isValidSuKienUuDai && (
         <PopupUuDai suKienUuDais={suKienUuDais} />
       )}
@@ -120,9 +197,6 @@ export default function MainPage({
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              {/* <Badge variant="secondary" className="w-fit">
-                Bộ sưu tập mới 2024
-              </Badge> */}
               <h1 className="text-4xl lg:text-6xl font-bold text-balance -translate-y-[1rem]">
                 Thời trang hiện đại cho{" "}
                 <span className="text-primary">phong cách</span> của bạn
