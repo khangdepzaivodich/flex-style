@@ -6,35 +6,35 @@ import SlugPage from "./SlugPage";
 
 // const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-async function getRelatedProducts(slug: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/related/${slug}`,
-    {
-      cache: "no-store",
-    }
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch related products");
-  }
-  const data = await res.json();
-  if (!data || !Array.isArray(data.data)) {
-    throw new Error("Invalid related products data");
-  }
-  return data;
-}
-async function getReply(slug: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phanhoi?slug=${slug}`,
-    {
-      cache: "no-store",
-    }
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch related reply");
-  }
-  const data = await res.json();
-  return data;
-}
+// async function getRelatedProducts(slug: string) {
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/related/${slug}`,
+//     {
+//       cache: "no-store",
+//     }
+//   );
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch related products");
+//   }
+//   const data = await res.json();
+//   if (!data || !Array.isArray(data.data)) {
+//     throw new Error("Invalid related products data");
+//   }
+//   return data;
+// }
+// async function getReply(slug: string) {
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phanhoi?slug=${slug}`,
+//     {
+//       cache: "no-store",
+//     }
+//   );
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch related reply");
+//   }
+//   const data = await res.json();
+//   return data;
+// }
 
 // Dynamic Open Graph / Twitter metadata per product
 export async function generateMetadata({
@@ -52,6 +52,10 @@ export async function generateMetadata({
       (product.MoTa && String(product.MoTa).slice(0, 160)) ||
       `Xem chi tiết ${title} trên FlexStyle`;
 
+    const BASE = (
+      process.env.NEXT_PUBLIC_FRONTEND_URL || "https://flex-style.vercel.app"
+    ).replace(/\/+$/, "");
+
     const images = Array.isArray(product.HinhAnh)
       ? product.HinhAnh[0]
       : product.HinhAnh;
@@ -60,13 +64,8 @@ export async function generateMetadata({
         ? images.includes("https")
           ? images
           : "https:" + images
-        : `${
-            process.env.NEXT_PUBLIC_FRONTEND_URL ||
-            "https://flex-style.vercel.app"
-          }/og-default.png`;
-    const url = `${
-      process.env.NEXT_PUBLIC_FRONTEND_URL || "https://flex-style.vercel.app"
-    }/products/${product.slug}`;
+        : `${BASE}/placeholder.svg`;
+    const url = `${BASE}/products/${product.slug}`;
     return {
       title,
       description,
@@ -112,34 +111,16 @@ export default async function Page({
   const trimmedSlug = slug.trim();
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${trimmedSlug}`,
-      {
-        cache: "no-store",
-      }
-    );
-    if (!res.ok) {
-      if (res.status === 404) {
-        notFound();
-      }
-      throw new Error(`Failed to fetch product: ${res.status}`);
+    // Use cached fetchProduct to avoid duplicate network calls and to let
+    // the client fetch non-critical data (related products / feedbacks)
+    const product = await fetchProduct(trimmedSlug);
+    if (!product) {
+      notFound();
     }
 
-    const productData = await res.json();
-    if (!productData || !productData.data) {
-      throw new Error("Invalid product data");
-    }
-
-    const relatedProducts = await getRelatedProducts(trimmedSlug);
-    const feedbacks = await getReply(trimmedSlug);
     return (
       <>
-        <SlugPage
-          product={productData.data}
-          relatedProducts={relatedProducts.data}
-          feedbacks={feedbacks.data.feedbacks}
-          feedbacksCustomer={feedbacks.data.feedbacksCustomer}
-        />
+        <SlugPage product={product} />
       </>
     );
   } catch (error) {
