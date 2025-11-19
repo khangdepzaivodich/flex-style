@@ -84,15 +84,8 @@ export async function generateMetadata({
         title: title,
         description: description,
         siteName: "FlexStyle",
-        url: `${
-          process.env.NEXT_PUBLIC_FRONTEND_URL
-        }/products/${encodeURIComponent(slug)}`,
-        images:[
-          { url: images,
-            width: 800,
-            height: 600,
-          }
-        ]
+        url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/products/${product.slug}`,
+        images: [{ url: images, width: 800, height: 600 }],
       },
       twitter: {
         card: "summary_large_image",

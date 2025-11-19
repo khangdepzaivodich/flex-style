@@ -1,6 +1,5 @@
 # robots.txt for FlexStyle - update DOMAIN to your production host (no trailing slash)
 User-agent: *
-Disallow: /api/
 Disallow: /admin/
 Disallow: /account/
 Disallow: /cart/
