@@ -4,6 +4,7 @@ import { useState } from "react";
 // import { useCallback } from "react";
 // import { ImagePart, UploadedImage } from "@/lib/types";
 // import { fileToBase64, getMimeTypeFromBase64 } from "@/utils/image-utils";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -16,6 +17,7 @@ import {
   Truck,
   RotateCcw,
   Shield,
+  Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -204,15 +206,15 @@ export default function SlugPage({
   //   }
   // };
 
-  const getPageUrl = () => {
-    const baseUrl =
-      process.env.NEXT_PUBLIC_FRONTEND_URL || "https://flex-style.vercel.app/";
-    console.log(`${baseUrl}/products/${product.slug}`);
-    if (typeof window !== "undefined") {
-      return window.location.href;
-    }
-    return `${baseUrl}/products/${product.slug}`;
-  };
+  // const getPageUrl = () => {
+  //   const baseUrl =
+  //     "https://flex-style.vercel.app";
+  //   console.log(`${baseUrl}/products/${product.slug}`);
+  //   if (typeof window !== "undefined") {
+  //     return window.location.href;
+  //   }
+  //   return `${baseUrl}/products/${product.slug}`;
+  // };
 
   // Xử lý khi chọn ảnh thử trang phục
   // const handleTryOnImageChange = (file: File | null) => {
@@ -261,13 +263,23 @@ export default function SlugPage({
 
   return (
     <>
-      {/* <Head>
+      <Head>
         <meta property="og:title" content={product.TenSP} />
         <meta property="og:description" content={product.MoTa || ""} />
-        <meta property="og:image" content={"https:" + product.HinhAnh[0]} />
-        <meta property="og:url" content={"https://yame.vn"} />
+        <meta
+          property="og:image"
+          content={
+            product.HinhAnh[0].includes("https:")
+              ? product.HinhAnh[0]
+              : "https:" + product.HinhAnh[0]
+          }
+        />
+        <meta
+          property="og:url"
+          content={`https://flex-style.vercel.app/products/${product.slug}`}
+        />
         <meta property="og:type" content="product" />
-      </Head> */}
+      </Head>
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center space-x-2 text-sm text-muted-foreground mb-8">
@@ -511,16 +523,31 @@ export default function SlugPage({
                   size="lg"
                   className="flex-1 bg-transparent"
                 > */}
-                <FacebookShareButton
+                {/* <FacebookShareButton
                   className="flex-1 bg-transparent flex justify-center items-center"
                   url={getPageUrl()}
-                  // quote={product.TenSP}
                   hashtag="#EComStore"
                 >
                   <FacebookIcon size={28} round />
                   <span className="ml-2">Chia sẻ</span>
-                </FacebookShareButton>
+                </FacebookShareButton> */}
                 {/* </Button> */}
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="flex-1 bg-transparent"
+                  onClick={() =>
+                    window.open(
+                      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                        `https://flex-style.vercel.app/products/${product.slug}`
+                      )}`,
+                      "_blank"
+                    )
+                  }
+                >
+                  <Share2 className="h-5 w-5 mr-2" />
+                  Chia sẻ Facebook
+                </Button>
                 <Button
                   variant="outline"
                   size="lg"
