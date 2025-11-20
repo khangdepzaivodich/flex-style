@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "FlexStyle - Thời trang hiện đại",
     description:
       "Cửa hàng thời trang trực tuyến hàng đầu Việt Nam với những sản phẩm chất lượng cao",
-    url: process.env.NEXT_PUBLIC_FRONT_END || "http://localhost:3000",
+    url: process.env.NEXT_PUBLIC_FRONT_END || "https://flex-style.vercel.app",
     siteName: "FlexStyle",
     images: [
       {

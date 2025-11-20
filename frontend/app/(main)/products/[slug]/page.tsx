@@ -72,7 +72,7 @@ export async function generateMetadata({
         siteName: "FlexStyle",
         type: "website",
         url: `${
-          process.env.NEXT_PUBLIC_FRONT_END
+          process.env.NEXT_PUBLIC_FRONT_END || "https://flex-style.vercel.app"
         }/products/${encodeURIComponent(slug)}`,
         images: {
           url: images,
