@@ -2,14 +2,16 @@ import React from "react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import SlugPage from "./SlugPage";
+import Head from "next/head";
 
 // const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
+// Optimize API response time by adding caching headers
 async function getRelatedProducts(slug: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/related/${slug}`,
     {
-      cache: "no-store",
+      cache: "force-cache", // Use cache to reduce API response time
     }
   );
   if (!res.ok) {
@@ -21,11 +23,12 @@ async function getRelatedProducts(slug: string) {
   }
   return data;
 }
+
 async function getReply(slug: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phanhoi?slug=${slug}`,
     {
-      cache: "no-store",
+      cache: "force-cache", // Use cache to reduce API response time
     }
   );
   if (!res.ok) {
@@ -36,6 +39,7 @@ async function getReply(slug: string) {
 }
 
 // Dynamic Open Graph / Twitter metadata per product
+// Optimize Open Graph metadata for Facebook Bot
 export async function generateMetadata({
   params,
 }: {
@@ -49,7 +53,7 @@ export async function generateMetadata({
         slug
       )}`,
       {
-        cache: "no-store",
+        cache: "force-cache",
       }
     );
     if (!res.ok) return {};
@@ -71,7 +75,7 @@ export async function generateMetadata({
         title,
         description,
         siteName: "FlexStyle",
-        type: "website",
+        type: "website", // Changed type back to "website" for compatibility
         url: `https://flex-style.vercel.app/products/${encodeURIComponent(
           slug
         )}`,
@@ -108,7 +112,7 @@ export default async function Page({
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${trimmedSlug}`,
       {
-        cache: "no-store",
+        cache: "force-cache",
       }
     );
     if (!res.ok) {
@@ -125,9 +129,13 @@ export default async function Page({
 
     const relatedProducts = await getRelatedProducts(trimmedSlug);
     const feedbacks = await getReply(trimmedSlug);
-    // console.log("Product Data:", productData);
+    const canonicalUrl = `https://flex-style.vercel.app/products/${trimmedSlug}`;
+
     return (
       <>
+        <Head>
+          <link rel="canonical" href={canonicalUrl} />
+        </Head>
         <SlugPage
           product={productData.data}
           relatedProducts={relatedProducts.data}
