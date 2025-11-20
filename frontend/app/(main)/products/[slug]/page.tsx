@@ -1,10 +1,9 @@
-import React from "react";
-import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import SlugPage from "./SlugPage";
+import React, { lazy, Suspense } from "react";
 import Head from "next/head";
+import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
-// const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+const SlugPage = lazy(() => import("./SlugPage"));
 
 // Optimize API response time by adding caching headers
 async function getRelatedProducts(slug: string) {
@@ -136,12 +135,14 @@ export default async function Page({
         <Head>
           <link rel="canonical" href={canonicalUrl} />
         </Head>
-        <SlugPage
-          product={productData.data}
-          relatedProducts={relatedProducts.data}
-          feedbacks={feedbacks.data.feedbacks}
-          feedbacksCustomer={feedbacks.data.feedbacksCustomer}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <SlugPage
+            product={productData.data}
+            relatedProducts={relatedProducts.data}
+            feedbacks={feedbacks.data.feedbacks}
+            feedbacksCustomer={feedbacks.data.feedbacksCustomer}
+          />
+        </Suspense>
       </>
     );
   } catch (error) {
