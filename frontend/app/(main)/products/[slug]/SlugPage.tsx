@@ -9,7 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Star,
-  Share2,
   ShoppingCart,
   Minus,
   Plus,
