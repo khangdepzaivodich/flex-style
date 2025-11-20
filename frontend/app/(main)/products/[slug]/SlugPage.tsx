@@ -5,7 +5,7 @@ import { useState } from "react";
 // import { ImagePart, UploadedImage } from "@/lib/types";
 // import { fileToBase64, getMimeTypeFromBase64 } from "@/utils/image-utils";
 import Image from "next/image";
-// import Head from "next/head";
+import Head from "next/head";
 import Link from "next/link";
 import {
   Star,
@@ -251,13 +251,21 @@ export default function SlugPage({
 
   return (
     <>
-      {/* <Head>
-        <meta property="og:title" content={product.TenSP} />
-        <meta property="og:description" content={product.MoTa || ""} />
-        <meta property="og:image" content={"https:" + product.HinhAnh[0]} />
-        <meta property="og:url" content={"https://yame.vn"} />
-        <meta property="og:type" content="product" />
-      </Head> */}
+      <Head>\
+        <link
+          rel="preload"
+          as="image"
+          href={product.HinhAnh[0]} // Preload the first product image
+          imageSrcSet="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+        <link
+          rel="preload"
+          as="font"
+          href="/path-to-font.woff2" // Replace with actual font path
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </Head>
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center space-x-2 text-sm text-muted-foreground mb-8">
@@ -283,6 +291,8 @@ export default function SlugPage({
                 fill
                 className="object-cover"
                 priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                quality={85} // Increased quality for better compression
               />
               {discountPercentage > 0 && (
                 <Badge className="absolute top-4 left-4 bg-destructive text-destructive-foreground">
@@ -329,8 +339,11 @@ export default function SlugPage({
                     <Image
                       src={image}
                       alt={`${product.TenSP} ${index + 1}`}
-                      fill
+                      width={80} // Thumbnail width
+                      height={80} // Thumbnail height
                       className="object-cover"
+                      loading="lazy"
+                      quality={50} // Lower quality for thumbnails
                     />
                   </button>
                 ))}
@@ -476,9 +489,8 @@ export default function SlugPage({
               </Button>
 
               <div className="flex space-x-3 mb-4">
-
                 <FacebookShareButton
-                  url={`https://flexstyle.vercel.app/products/${product.slug}`}
+                  url={`https://flex-style.vercel.app/products/${product.slug}`}
                   className="flex justify-center items-center flex-row"
                 >
                   <FacebookIcon size={40} round />

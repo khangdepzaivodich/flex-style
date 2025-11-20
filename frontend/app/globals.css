@@ -139,6 +139,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom font face */
+@font-face {
+  font-display: swap; /* Ensures text is visible while font loads */
+}
+
 /* @layer utilities {
   .outline-ring\/50 {
     outline: 2px solid hsl(var(--ring) / 0.5);
