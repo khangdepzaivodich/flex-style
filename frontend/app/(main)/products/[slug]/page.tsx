@@ -1,40 +1,39 @@
 import React from "react";
-import { cache } from "react";
-// import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import SlugPage from "./SlugPage";
 
 // const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-// async function getRelatedProducts(slug: string) {
-//   const res = await fetch(
-//     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/related/${slug}`,
-//     {
-//       cache: "no-store",
-//     }
-//   );
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch related products");
-//   }
-//   const data = await res.json();
-//   if (!data || !Array.isArray(data.data)) {
-//     throw new Error("Invalid related products data");
-//   }
-//   return data;
-// }
-// async function getReply(slug: string) {
-//   const res = await fetch(
-//     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phanhoi?slug=${slug}`,
-//     {
-//       cache: "no-store",
-//     }
-//   );
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch related reply");
-//   }
-//   const data = await res.json();
-//   return data;
-// }
+async function getRelatedProducts(slug: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/related/${slug}`,
+    {
+      cache: "no-store",
+    }
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch related products");
+  }
+  const data = await res.json();
+  if (!data || !Array.isArray(data.data)) {
+    throw new Error("Invalid related products data");
+  }
+  return data;
+}
+async function getReply(slug: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phanhoi?slug=${slug}`,
+    {
+      cache: "no-store",
+    }
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch related reply");
+  }
+  const data = await res.json();
+  return data;
+}
 
 // Dynamic Open Graph / Twitter metadata per product
 export async function generateMetadata({
@@ -42,43 +41,59 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const product = await fetchProduct(slug);
-  if (!product) {
-    return {};
-  }
-  return {
-    title: product.TenSP,
-    description: product.MoTa,
-    openGraph: {
-      title: product.TenSP,
-      description: product.MoTa,
-      images: [
-        {
-          url: product.HinhAnh[0] || "",
-          alt: product.TenSP,
+  const slug = (await params).slug?.trim();
+  if (!slug) return {};
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${encodeURIComponent(
+        slug
+      )}`,
+      {
+        cache: "no-store",
+      }
+    );
+    if (!res.ok) return {};
+    const json = await res.json();
+    const product = json?.data;
+    if (!product) return {};
+
+    const title = product.TenSP || "Sản phẩm FlexStyle";
+    const description =
+      (product.MoTa && String(product.MoTa).slice(0, 160)) ||
+      `Xem chi tiết ${title} trên FlexStyle`;
+    const images = product.HinhAnh[0];
+
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        siteName: "FlexStyle",
+        type: "website",
+        url: `${
+          process.env.NEXT_PUBLIC_FRONT_END
+        }/products/${encodeURIComponent(slug)}`,
+        images: {
+          url: images,
           width: 1200,
           height: 630,
+          alt: title,
         },
-      ],
-      url: `https://flex-style.vercel.app/products/${slug}`,
-    },
-  };
-}
-
-// Shared cached fetch to avoid duplicate network calls between generateMetadata and Page
-const fetchProduct = cache(async (slug: string) => {
-  const url = `${
-    process.env.NEXT_PUBLIC_BACKEND_URL
-  }/api/sanpham/${encodeURIComponent(slug)}`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
-  console.log("Fetch product URL:", url);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch product ${slug}: ${res.status}`);
+        locale: "vi_VN",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images,
+      },
+    };
+  } catch (error) {
+    console.error("generateMetadata error:", error);
+    return {};
   }
-  const json = await res.json();
-  return json?.data ?? null;
-});
+}
 
 export default async function Page({
   params,
@@ -88,9 +103,40 @@ export default async function Page({
   const { slug } = await params;
   const trimmedSlug = slug.trim();
 
-  return (
-    <>
-      <SlugPage slug={trimmedSlug} />
-    </>
-  );
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${trimmedSlug}`,
+      {
+        cache: "no-store",
+      }
+    );
+    if (!res.ok) {
+      if (res.status === 404) {
+        notFound();
+      }
+      throw new Error(`Failed to fetch product: ${res.status}`);
+    }
+
+    const productData = await res.json();
+    if (!productData || !productData.data) {
+      throw new Error("Invalid product data");
+    }
+
+    const relatedProducts = await getRelatedProducts(trimmedSlug);
+    const feedbacks = await getReply(trimmedSlug);
+    // console.log("Product Data:", productData);
+    return (
+      <>
+        <SlugPage
+          product={productData.data}
+          relatedProducts={relatedProducts.data}
+          feedbacks={feedbacks.data.feedbacks}
+          feedbacksCustomer={feedbacks.data.feedbacksCustomer}
+        />
+      </>
+    );
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    notFound(); // Fallback chung
+  }
 }
