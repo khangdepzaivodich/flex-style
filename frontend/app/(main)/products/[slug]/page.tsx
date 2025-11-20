@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import Head from "next/head";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 const SlugPage = lazy(() => import("./SlugPage"));
 
