@@ -9,7 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Star,
-  Share2,
   ShoppingCart,
   Minus,
   Plus,
@@ -28,7 +27,7 @@ import { ProductCard } from "@/components/product-card";
 import { formatPrice } from "@/lib/help";
 import { useCart } from "@/contexts/cart-context";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
-import { FacebookShareButton } from "react-share";
+import { FacebookIcon, FacebookShareButton } from "react-share";
 import type { Product, PhanHoi } from "@/lib/types";
 
 export default function SlugPage({
@@ -426,7 +425,7 @@ export default function SlugPage({
             {/* Quantity */}
             <div>
               <h3 className="font-semibold mb-3">Số lượng</h3>
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3 mb-4">
                 <Button
                   variant="outline"
                   size="icon"
@@ -476,33 +475,14 @@ export default function SlugPage({
                   : "Chọn kích thước để thêm vào giỏ hàng"}
               </Button>
 
-              <div className="flex space-x-3">
-                {/* <Button
-                variant="outline"
-                size="lg"
-                className="flex-1 bg-transparent"
-                onClick={() => setIsWishlisted(!isWishlisted)}
-              >
-                <Heart
-                  className={`h-5 w-5 mr-2 ${
-                    isWishlisted ? "fill-current text-red-500" : ""
-                  }`}
-                />
-                Yêu thích
-              </Button> */}
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="flex-1 bg-transparent"
+              <div className="flex space-x-3 mb-4">
+
+                <FacebookShareButton
+                  url={`https://flexstyle.vercel.app/products/${product.slug}`}
+                  className="flex justify-center items-center flex-row"
                 >
-                  <FacebookShareButton
-                    url={`https://flexstyle.vercel.app/products/${product.slug}`}
-                    className="flex flex-row"
-                  >
-                    <Share2 className="h-5 w-5 mr-2" />
-                    Chia sẻ Facebook
-                  </FacebookShareButton>
-                </Button>
+                  <FacebookIcon size={40} round />
+                </FacebookShareButton>
                 <Button
                   variant="outline"
                   size="lg"

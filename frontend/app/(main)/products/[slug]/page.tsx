@@ -64,6 +64,7 @@ export async function generateMetadata({
     const images = product.HinhAnh[0];
 
     return {
+      metadataBase: new URL("https://flex-style.vercel.app"),
       title,
       description,
       openGraph: {
@@ -71,9 +72,9 @@ export async function generateMetadata({
         description,
         siteName: "FlexStyle",
         type: "website",
-        url: `${
-          process.env.NEXT_PUBLIC_FRONT_END || "https://flex-style.vercel.app"
-        }/products/${encodeURIComponent(slug)}`,
+        url: `https://flex-style.vercel.app/products/${encodeURIComponent(
+          slug
+        )}`,
         images: {
           url: images,
           width: 1200,
