@@ -28,7 +28,7 @@ import { ProductCard } from "@/components/product-card";
 import { formatPrice } from "@/lib/help";
 import { useCart } from "@/contexts/cart-context";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
-import { FacebookIcon, FacebookShareButton } from "react-share";
+import { FacebookShareButton } from "react-share";
 import type { Product, PhanHoi } from "@/lib/types";
 
 export default function SlugPage({
