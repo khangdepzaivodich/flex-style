@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 // import { useCallback } from "react";
 // import { ImagePart, UploadedImage } from "@/lib/types";
 // import { fileToBase64, getMimeTypeFromBase64 } from "@/utils/image-utils";
-// import Head from "next/head";
 import Image from "next/image";
+import Head from "next/head";
 import Link from "next/link";
 import {
   Star,
@@ -17,7 +17,6 @@ import {
   Truck,
   RotateCcw,
   Shield,
-  Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,9 +27,8 @@ import { ProductCard } from "@/components/product-card";
 import { formatPrice } from "@/lib/help";
 import { useCart } from "@/contexts/cart-context";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
-// import ImageUploadCard from "@/components/image-load";
+import { FacebookIcon, FacebookShareButton } from "react-share";
 import type { Product, PhanHoi } from "@/lib/types";
-// import { FacebookShareButton, FacebookIcon } from "react-share";
 
 export default function SlugPage({
   product,
@@ -206,16 +204,6 @@ export default function SlugPage({
   //   }
   // };
 
-  // const getPageUrl = () => {
-  //   const baseUrl =
-  //     "https://flex-style.vercel.app";
-  //   console.log(`${baseUrl}/products/${product.slug}`);
-  //   if (typeof window !== "undefined") {
-  //     return window.location.href;
-  //   }
-  //   return `${baseUrl}/products/${product.slug}`;
-  // };
-
   // Xử lý khi chọn ảnh thử trang phục
   // const handleTryOnImageChange = (file: File | null) => {
   //   setTryOnImage(file);
@@ -260,96 +248,24 @@ export default function SlugPage({
   //     setApparelImage(null);
   //   }
   // }, [showTryOnPopup, product.HinhAnh]);
-  const inStock = product.CHITIETSANPHAM.some((c) => (c.SoLuong ?? 0) > 0);
-  const price = product.GiaBan * (1 - discountPercentage / 100);
-  const avgRating = useMemo(() => {
-    if (!feedbacks || feedbacks.length === 0) return 0;
-    const sum = feedbacks.reduce((s, f) => s + (Number(f.SoSao) || 0), 0);
-    return Math.round((sum / feedbacks.length) * 10) / 10;
-  }, [feedbacks]);
-  const jsonLd = useMemo(() => {
-    const BASE =
-      typeof window !== "undefined" && window.location
-        ? `${window.location.origin}`
-        : "https://flex-style.vercel.app";
 
-    const images =
-      Array.isArray(product.HinhAnh) && product.HinhAnh.length
-        ? product.HinhAnh.map((img) =>
-            String(img).startsWith("http")
-              ? String(img)
-              : "https:" + String(img)
-          )
-        : [`${BASE}/og-default.png`];
-
-    const productSchema: Record<string, unknown> = {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      name: product.TenSP ?? "",
-      image: images,
-      description: product.MoTa ?? "",
-      sku: product.MaSP ?? "",
-      mpn: product.MaSP ?? "",
-      brand: {
-        "@type": "Brand",
-        name: "FlexStyle",
-      },
-      offers: {
-        "@type": "Offer",
-        url: `${BASE}/products/${encodeURIComponent(
-          String(product.slug ?? product.MaSP ?? "")
-        )}`,
-        priceCurrency: "VND",
-        price: Number(price || product.GiaBan || 0),
-        availability: inStock
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
-      },
-    };
-
-    if (feedbacks && feedbacks.length > 0) {
-      productSchema["aggregateRating"] = {
-        "@type": "AggregateRating",
-        ratingValue: avgRating,
-        reviewCount: feedbacks.length,
-      };
-      productSchema["review"] = feedbacks.slice(0, 5).map((r, i) => ({
-        "@type": "Review",
-        author: feedbacksCustomer[i] ?? "Khách hàng",
-        datePublished: String(r.created_at ?? "").split("T")[0] || undefined,
-        reviewBody: r.BinhLuan ?? "",
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: Number(r.SoSao ?? 0),
-        },
-      }));
-    }
-
-    return JSON.stringify(productSchema);
-  }, [product, feedbacks, feedbacksCustomer, avgRating, price, inStock]);
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLd }}
-      />
-      {/* <Head>
-        <meta property="og:title" content={product.TenSP} />
-        <meta property="og:description" content={product.MoTa || ""} />
-        <meta
-          property="og:image"
-          content={
-            product.HinhAnh[0].includes("https:")
-              ? product.HinhAnh[0]
-              : "https:" + product.HinhAnh[0]
-          }
+      <Head>\
+        <link
+          rel="preload"
+          as="image"
+          href={product.HinhAnh[0]} // Preload the first product image
+          imageSrcSet="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        <meta
-          property="og:url"
-          content={`https://flex-style.vercel.app/products/${product.slug}`}
+        <link
+          rel="preload"
+          as="font"
+          href="/path-to-font.woff2" // Replace with actual font path
+          type="font/woff2"
+          crossOrigin="anonymous"
         />
-        <meta property="og:type" content="product" />
-      </Head> */}
+      </Head>
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center space-x-2 text-sm text-muted-foreground mb-8">
@@ -370,14 +286,13 @@ export default function SlugPage({
             {/* Main Image */}
             <div className="relative aspect-square overflow-hidden rounded-lg bg-muted">
               <Image
-                src={
-                  "https:" +
-                  (product.HinhAnh[selectedImageIndex] || "/placeholder.svg")
-                }
+                src={product.HinhAnh[selectedImageIndex]}
                 alt={product.TenSP}
                 fill
                 className="object-cover"
                 priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                quality={85} // Increased quality for better compression
               />
               {discountPercentage > 0 && (
                 <Badge className="absolute top-4 left-4 bg-destructive text-destructive-foreground">
@@ -422,14 +337,13 @@ export default function SlugPage({
                     onClick={() => setSelectedImageIndex(index)}
                   >
                     <Image
-                      src={
-                        image.includes("https")
-                          ? image
-                          : "https:" + image || "/placeholder.svg"
-                      }
+                      src={image}
                       alt={`${product.TenSP} ${index + 1}`}
-                      fill
+                      width={80} // Thumbnail width
+                      height={80} // Thumbnail height
                       className="object-cover"
+                      loading="lazy"
+                      quality={50} // Lower quality for thumbnails
                     />
                   </button>
                 ))}
@@ -524,7 +438,7 @@ export default function SlugPage({
             {/* Quantity */}
             <div>
               <h3 className="font-semibold mb-3">Số lượng</h3>
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3 mb-4">
                 <Button
                   variant="outline"
                   size="icon"
@@ -574,50 +488,13 @@ export default function SlugPage({
                   : "Chọn kích thước để thêm vào giỏ hàng"}
               </Button>
 
-              <div className="flex space-x-3">
-                {/* <Button
-                variant="outline"
-                size="lg"
-                className="flex-1 bg-transparent"
-                onClick={() => setIsWishlisted(!isWishlisted)}
-              >
-                <Heart
-                  className={`h-5 w-5 mr-2 ${
-                    isWishlisted ? "fill-current text-red-500" : ""
-                  }`}
-                />
-                Yêu thích
-              </Button> */}
-                {/* <Button
-                  variant="outline"
-                  size="lg"
-                  className="flex-1 bg-transparent"
-                > */}
-                {/* <FacebookShareButton
-                  className="flex-1 bg-transparent flex justify-center items-center"
-                  url={getPageUrl()}
-                  hashtag="#EComStore"
+              <div className="flex space-x-3 mb-4">
+                <FacebookShareButton
+                  url={`https://flex-style.vercel.app/products/${product.slug}`}
+                  className="flex justify-center items-center flex-row"
                 >
-                  <FacebookIcon size={28} round />
-                  <span className="ml-2">Chia sẻ</span>
-                </FacebookShareButton> */}
-                {/* </Button> */}
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="flex-1 bg-transparent"
-                  onClick={() =>
-                    window.open(
-                      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                        `https://flex-style.vercel.app/products/${product.slug}`
-                      )}`,
-                      "_blank"
-                    )
-                  }
-                >
-                  <Share2 className="h-5 w-5 mr-2" />
-                  Chia sẻ Facebook
-                </Button>
+                  <FacebookIcon size={40} round />
+                </FacebookShareButton>
                 <Button
                   variant="outline"
                   size="lg"

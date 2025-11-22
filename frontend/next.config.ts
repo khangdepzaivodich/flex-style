@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: allowedDomains,
   },
+  // htmlLimitedBots: /.*/,
   /* config options here */
 };
 
