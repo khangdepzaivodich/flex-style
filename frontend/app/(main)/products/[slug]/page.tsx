@@ -112,26 +112,17 @@ export default async function Page({
   const trimmedSlug = slug.trim();
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${trimmedSlug}`,
-      {
-        cache: "no-store",
-      }
-    );
-    if (!res.ok) {
-      if (res.status === 404) {
-        notFound();
-      }
-      throw new Error(`Failed to fetch product: ${res.status}`);
+    // Parallelize requests
+    const [productData, relatedProducts, feedbacks] = await Promise.all([
+      fetchProduct(trimmedSlug),
+      getRelatedProducts(trimmedSlug),
+      getReply(trimmedSlug),
+    ]);
+
+    if (!productData) {
+      notFound();
     }
 
-    const productData = await res.json();
-    if (!productData || !productData.data) {
-      throw new Error("Invalid product data");
-    }
-
-    const relatedProducts = await getRelatedProducts(trimmedSlug);
-    const feedbacks = await getReply(trimmedSlug);
     return (
       <>
         <SlugPage
