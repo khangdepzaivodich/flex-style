@@ -1,9 +1,7 @@
-import React, { lazy, Suspense } from "react";
-import Head from "next/head";
+import React from "react";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-
-const SlugPage = lazy(() => import("./SlugPage"));
+import SlugPage from "./SlugPage";
 
 // Optimize API response time by adding caching headers
 async function getRelatedProducts(slug: string) {
@@ -65,19 +63,23 @@ export async function generateMetadata({
       (product.MoTa && String(product.MoTa).slice(0, 160)) ||
       `Xem chi tiết ${title} trên FlexStyle`;
     const images = product.HinhAnh[0];
+    const canonicalUrl = `https://flex-style.vercel.app/products/${encodeURIComponent(
+      slug
+    )}`;
 
     return {
       metadataBase: new URL("https://flex-style.vercel.app"),
       title,
       description,
+      alternates: {
+        canonical: canonicalUrl,
+      },
       openGraph: {
         title,
         description,
         siteName: "FlexStyle",
         type: "website", // Changed type back to "website" for compatibility
-        url: `https://flex-style.vercel.app/products/${encodeURIComponent(
-          slug
-        )}`,
+        url: canonicalUrl,
         images: {
           url: images,
           width: 1200,
@@ -108,41 +110,38 @@ export default async function Page({
   const trimmedSlug = slug.trim();
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${trimmedSlug}`,
-      {
-        cache: "force-cache",
-      }
-    );
-    if (!res.ok) {
-      if (res.status === 404) {
+    // Parallelize requests using Promise.all to avoid waterfall
+    const [productRes, relatedProducts, feedbacks] = await Promise.all([
+      fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${trimmedSlug}`,
+        {
+          cache: "force-cache",
+        }
+      ),
+      getRelatedProducts(trimmedSlug),
+      getReply(trimmedSlug),
+    ]);
+
+    if (!productRes.ok) {
+      if (productRes.status === 404) {
         notFound();
       }
-      throw new Error(`Failed to fetch product: ${res.status}`);
+      throw new Error(`Failed to fetch product: ${productRes.status}`);
     }
 
-    const productData = await res.json();
+    const productData = await productRes.json();
     if (!productData || !productData.data) {
       throw new Error("Invalid product data");
     }
 
-    const relatedProducts = await getRelatedProducts(trimmedSlug);
-    const feedbacks = await getReply(trimmedSlug);
-    const canonicalUrl = `https://flex-style.vercel.app/products/${trimmedSlug}`;
-
     return (
       <>
-        <Head>
-          <link rel="canonical" href={canonicalUrl} />
-        </Head>
-        <Suspense fallback={<div>Loading...</div>}>
-          <SlugPage
-            product={productData.data}
-            relatedProducts={relatedProducts.data}
-            feedbacks={feedbacks.data.feedbacks}
-            feedbacksCustomer={feedbacks.data.feedbacksCustomer}
-          />
-        </Suspense>
+        <SlugPage
+          product={productData.data}
+          relatedProducts={relatedProducts.data}
+          feedbacks={feedbacks.data.feedbacks}
+          feedbacksCustomer={feedbacks.data.feedbacksCustomer}
+        />
       </>
     );
   } catch (error) {
