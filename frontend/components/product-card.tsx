@@ -7,45 +7,46 @@ import type { Product } from "@/lib/types";
 import { formatPrice } from "@/lib/help";
 import { useRouter } from "next/navigation";
 import { useSuKienUuDai } from "@/contexts/sukienuudai-context";
+import React, { useCallback } from "react";
 
 interface ProductCardProps {
   product: Product;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export const ProductCard = React.memo(function ProductCard({
+  product,
+}: ProductCardProps) {
   const { suKienUuDais } = useSuKienUuDai();
   const router = useRouter();
+
+  const totalQuantity = product.CHITIETSANPHAM?.reduce(
+    (acc, item) => acc + item.SoLuong,
+    0
+  );
+  const isOutOfStock = totalQuantity === 0;
 
   const discountPercentage = product.GiaBan
     ? Math.round(((product.GiaBan - product.GiaBan) / product.GiaBan) * 100)
     : 0;
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     router.push(`/products/${product.slug}`);
-  };
+  }, [router, product.slug]);
 
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="relative aspect-square overflow-hidden">
-        {product.CHITIETSANPHAM?.reduce(
-          (acc, item) => acc + item.SoLuong,
-          0
-        ) ? (
+        {totalQuantity ? (
           <Link href={`/products/${product.slug}`}>
             <Image
-              src={
-                product.HinhAnh && product.HinhAnh.length > 0
-                  ? product.HinhAnh[0].includes("https")
-                    ? product.HinhAnh[0]
-                    : "https:" + product.HinhAnh[0]
-                  : "/placeholder.svg"
-              }
+              src={product.HinhAnh[0]}
               alt={product.TenSP}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              priority={true}
+              loading="lazy"
+              priority={false}
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
-            <div className="absolute top-0 left-0 right-0  p-4">
+            <div className="absolute top-0 left-0 right-0 p-4">
               {suKienUuDais?.PhanTramGiam > 0 && (
                 <Badge className="bg-destructive text-destructive-foreground">
                   Giảm {suKienUuDais?.PhanTramGiam}%
@@ -56,15 +57,12 @@ export function ProductCard({ product }: ProductCardProps) {
         ) : (
           <div className="pointer-events-none">
             <Image
-              src={
-                product.HinhAnh && product.HinhAnh.length > 0
-                  ? "https:" + product.HinhAnh[0]
-                  : "/placeholder.svg"
-              }
+              src={product.HinhAnh[0]}
               alt={product.TenSP}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              priority={true}
+              loading="lazy"
+              priority={false}
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
           </div>
@@ -75,10 +73,7 @@ export function ProductCard({ product }: ProductCardProps) {
             -{discountPercentage}%
           </Badge>
         )}
-        {!product.CHITIETSANPHAM?.reduce(
-          (acc, item) => acc + item.SoLuong,
-          0
-        ) && (
+        {isOutOfStock && (
           <Badge variant="secondary" className="absolute top-2 right-2">
             Hết hàng
           </Badge>
@@ -106,4 +101,4 @@ export function ProductCard({ product }: ProductCardProps) {
       </CardContent>
     </Card>
   );
-}
+});

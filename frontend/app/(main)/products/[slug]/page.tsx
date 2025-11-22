@@ -1,16 +1,16 @@
-import React from "react";
-import { cache } from "react";
+import React, { lazy, Suspense } from "react";
+import Head from "next/head";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import SlugPage from "./SlugPage";
+import { Metadata } from "next";
 
-// const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+const SlugPage = lazy(() => import("./SlugPage"));
 
+// Optimize API response time by adding caching headers
 async function getRelatedProducts(slug: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/related/${slug}`,
     {
-      cache: "no-store",
+      cache: "force-cache", // Use cache to reduce API response time
     }
   );
   if (!res.ok) {
@@ -22,11 +22,12 @@ async function getRelatedProducts(slug: string) {
   }
   return data;
 }
+
 async function getReply(slug: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phanhoi?slug=${slug}`,
     {
-      cache: "no-store",
+      cache: "force-cache", // Use cache to reduce API response time
     }
   );
   if (!res.ok) {
@@ -37,51 +38,59 @@ async function getReply(slug: string) {
 }
 
 // Dynamic Open Graph / Twitter metadata per product
+// Optimize Open Graph metadata for Facebook Bot
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const slug = (await params).slug?.trim();
+  if (!slug) return {};
   try {
-    const product = await fetchProduct(slug);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sanpham/${encodeURIComponent(
+        slug
+      )}`,
+      {
+        cache: "force-cache",
+      }
+    );
+    if (!res.ok) return {};
+    const json = await res.json();
+    const product = json?.data;
     if (!product) return {};
 
     const title = product.TenSP || "Sản phẩm FlexStyle";
     const description =
       (product.MoTa && String(product.MoTa).slice(0, 160)) ||
       `Xem chi tiết ${title} trên FlexStyle`;
+    const images = product.HinhAnh[0];
 
-    const images = Array.isArray(product.HinhAnh)
-      ? product.HinhAnh[0]
-      : product.HinhAnh;
-    const normalizedImage =
-      images && images.includes
-        ? images.includes("https")
-          ? images
-          : "https:" + images
-        : `${
-            process.env.NEXT_PUBLIC_FRONTEND_URL ||
-            "https://flex-style.vercel.app"
-          }/og-default.png`;
-    const url = `${
-      process.env.NEXT_PUBLIC_FRONTEND_URL || "https://flex-style.vercel.app"
-    }/products/${product.slug}`;
     return {
+      metadataBase: new URL("https://flex-style.vercel.app"),
       title,
       description,
       openGraph: {
         title,
         description,
-        url,
         siteName: "FlexStyle",
-        images: [{ url: normalizedImage, width: 1200, height: 630 }],
+        type: "website", // Changed type back to "website" for compatibility
+        url: `https://flex-style.vercel.app/products/${encodeURIComponent(
+          slug
+        )}`,
+        images: {
+          url: images,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+        locale: "vi_VN",
       },
       twitter: {
         card: "summary_large_image",
-        title: title,
-        description: description,
-        images: [normalizedImage],
+        title,
+        description,
+        images,
       },
     };
   } catch (error) {
@@ -89,19 +98,6 @@ export async function generateMetadata({
     return {};
   }
 }
-
-// Shared cached fetch to avoid duplicate network calls between generateMetadata and Page
-const fetchProduct = cache(async (slug: string) => {
-  const url = `${
-    process.env.NEXT_PUBLIC_BACKEND_URL
-  }/api/sanpham/${encodeURIComponent(slug)}`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
-  if (!res.ok) {
-    throw new Error(`Failed to fetch product ${slug}: ${res.status}`);
-  }
-  const json = await res.json();
-  return json?.data ?? null;
-});
 
 export default async function Page({
   params,
@@ -123,14 +119,23 @@ export default async function Page({
       notFound();
     }
 
+    const relatedProducts = await getRelatedProducts(trimmedSlug);
+    const feedbacks = await getReply(trimmedSlug);
+    const canonicalUrl = `https://flex-style.vercel.app/products/${trimmedSlug}`;
+
     return (
       <>
-        <SlugPage
-          product={productData.data}
-          relatedProducts={relatedProducts.data}
-          feedbacks={feedbacks.data.feedbacks}
-          feedbacksCustomer={feedbacks.data.feedbacksCustomer}
-        />
+        <Head>
+          <link rel="canonical" href={canonicalUrl} />
+        </Head>
+        <Suspense fallback={<div>Loading...</div>}>
+          <SlugPage
+            product={productData.data}
+            relatedProducts={relatedProducts.data}
+            feedbacks={feedbacks.data.feedbacks}
+            feedbacksCustomer={feedbacks.data.feedbacksCustomer}
+          />
+        </Suspense>
       </>
     );
   } catch (error) {
