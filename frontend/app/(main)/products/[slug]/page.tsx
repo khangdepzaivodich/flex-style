@@ -126,7 +126,7 @@ export default async function Page({
     return (
       <>
         <SlugPage
-          product={productData.data}
+          product={productData}
           relatedProducts={relatedProducts.data}
           feedbacks={feedbacks.data.feedbacks}
           feedbacksCustomer={feedbacks.data.feedbacksCustomer}
